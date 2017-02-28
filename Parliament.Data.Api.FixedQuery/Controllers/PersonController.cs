@@ -194,50 +194,49 @@ WHERE {
         [HttpGet]
         public Graph Member()
         {
-            var queryString = @"
-PREFIX parl: <http://id.ukpds.org/schema/>
-
+            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
     ?seatIncumbency
-        a parl:SeatIncumbency ;
-        parl:seatIncumbencyHasMember ?member ;
-        parl:seatIncumbencyHasHouseSeat ?houseSeat .
+        a :SeatIncumbency ;
+        :seatIncumbencyHasMember ?member ;
+        :seatIncumbencyHasHouseSeat ?houseSeat .
     ?member
-        a parl:Person ;
-        parl:personGivenName ?givenName ;
-        parl:personFamilyName ?familyName ;
-        parl:partyMemberHasPartyMembership ?partyMembership .
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        :partyMemberHasPartyMembership ?partyMembership .
     ?partyMembership
-        a parl:PartyMembership ;
-        parl:partyMembershipHasParty ?party .
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party .
     ?party
-        a parl:Party ;
-        parl:partyName ?partyName .
+        a :Party ;
+        :partyName ?partyName .
     ?houseSeat
-        a parl:HouseSeat ;
-        parl:houseSeatHasHouse ?house ;
-        parl:houseSeatHasConstituencyGroup ?constituencyGroup .
+        a :HouseSeat ;
+        :houseSeatHasHouse ?house ;
+        :houseSeatHasConstituencyGroup ?constituencyGroup .
     ?house
-        a parl:House ;
-        parl:houseName ?houseName .
+        a :House ;
+        :houseName ?houseName .
     ?constituencyGroup
-        a parl:ConstituencyGroup ;
-        parl:constituencyGroupName ?constituencyGroupName .
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?constituencyGroupName .
 }
 WHERE {
-    ?seatIncumbency a parl:SeatIncumbency ;
-        parl:seatIncumbencyHasMember ?member ;
-        parl:seatIncumbencyHasHouseSeat ?houseSeat .
-    ?member parl:partyMemberHasPartyMembership ?partyMembership .
-    ?partyMembership parl:partyMembershipHasParty ?party .
-    ?party parl:partyName ?partyName .
+    ?seatIncumbency
+        a :SeatIncumbency ;
+        :seatIncumbencyHasMember ?member ;
+        :seatIncumbencyHasHouseSeat ?houseSeat .
+    ?member :partyMemberHasPartyMembership ?partyMembership .
+    ?partyMembership :partyMembershipHasParty ?party .
+    ?party :partyName ?partyName .
     ?houseSeat
-        parl:houseSeatHasHouse ?house ;
-        parl:houseSeatHasConstituencyGroup ?constituencyGroup .
-    ?constituencyGroup parl:constituencyGroupName ?constituencyGroupName .
-    ?house parl:houseName ?houseName .
-    OPTIONAL { ?member parl:personGivenName ?givenName . }
-    OPTIONAL { ?member parl:personFamilyName ?familyName . }
+        :houseSeatHasHouse ?house ;
+        :houseSeatHasConstituencyGroup ?constituencyGroup .
+    ?constituencyGroup :constituencyGroupName ?constituencyGroupName .
+    ?house :houseName ?houseName .
+    OPTIONAL { ?member :personGivenName ?givenName . }
+    OPTIONAL { ?member :personFamilyName ?familyName . }
 }";
 
             return BaseController.Execute(queryString);
