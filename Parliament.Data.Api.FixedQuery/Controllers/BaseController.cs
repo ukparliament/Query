@@ -7,6 +7,7 @@
     using VDS.RDF.Query;
     using VDS.RDF.Storage;
 
+     
     public abstract class BaseController : ApiController
     {
         protected static readonly Uri instance = new Uri("http://id.ukpds.org/");
