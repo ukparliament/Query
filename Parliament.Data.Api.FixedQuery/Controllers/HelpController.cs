@@ -22,6 +22,7 @@
                 this.Url.Route("MemberCurrent", null),
                 this.Url.Route("MemberByInitial", new { initial = "y" }),
                 this.Url.Route("MemberCurrentByInitial", new { initial = "z" }),
+                this.Url.Route("MemberAToZ", null),
 
                 this.Url.Route("ConstituencyByID", new { id = "dcd95ee4-b11c-4b1a-9b7e-70a724b7daf8" }),
                 this.Url.Route("ConstituencyByInitial", new { initial = "l" }),
