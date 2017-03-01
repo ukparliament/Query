@@ -147,6 +147,7 @@ WHERE {
         }
 
         // Ruby route: get '/constituencies/:letters', to: 'constituencies#lookup_by_letters'
+        // Was this not going to be called ByInitials? - CJA
         [Route("{letters:alpha:minlength(2)}", Name = "ConstituencyByLetters")]
         [HttpGet]
         public Graph ByLetters(string letters)

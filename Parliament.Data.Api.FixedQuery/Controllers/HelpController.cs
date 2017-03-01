@@ -33,6 +33,8 @@
                 this.Url.Route("PartyById", new { id = "dcd95ee4-b11c-4b1a-9b7e-70a724b7daf8" }),
                 this.Url.Route("PartyByInitial", new { initial = "a" }),
                 this.Url.Route("PartyCurrent", null),
+                this.Url.Route("PartyByLetters", new { letters = "lab" }),
+
             };
 
             var response = Request.CreateResponse();

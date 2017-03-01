@@ -108,6 +108,29 @@ WHERE {
 
             return BaseController.Execute(query);
         }
+        // Ruby route: get '/parties/:letters', to: 'parties#lookup_by_letters'
+        [Route("{letters:alpha:minlength(2)}", Name = "PartyByLetters")]
+        [HttpGet]
+        public Graph ByLetters(string letters)
+        {
+            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+CONSTRUCT {
+    ?party 
+        a :Party;
+        :partyName ?partyName .
+}
+WHERE {
+    ?party a :Party.
+    ?party :partyName ?partyName .
 
+    FILTER CONTAINS(LCASE(?partyName), LCASE(@letters))
+}";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetLiteral("letters", letters);
+
+            return BaseController.Execute(query);
+        }
     }
 }
