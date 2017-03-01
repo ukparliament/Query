@@ -30,10 +30,13 @@
                 this.Url.Route("ConstituencyByLetters", new { letters = "heath" }),
                 this.Url.Route("ConstituencyCurrentByInitial", new { initial = "v" }),
 
-                this.Url.Route("PartyById", new { id = "dcd95ee4-b11c-4b1a-9b7e-70a724b7daf8" }),
+                this.Url.Route("PartyById", new { id = "4024c3ba-e2ac-4559-8ff8-77fd89a6711d" }),
                 this.Url.Route("PartyByInitial", new { initial = "a" }),
                 this.Url.Route("PartyCurrent", null),
                 this.Url.Route("PartyByLetters", new { letters = "lab" }),
+
+                this.Url.Route("HouseById", new { id = "c2d41b82-d4df-4f50-b0f9-f52b84a6a788" }),
+
 
             };
 
