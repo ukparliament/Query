@@ -156,11 +156,11 @@ WHERE {
 
 
 
-// Ruby route: match '/people/members/current/:letter', to: 'members#current_letters', letter: /[A-Za-z]/, via: [:get]
-// TODO: {x:alpha}?
-// TODO: {x:regex} with unicode alpha?
-// TODO: accents?
-[Route("current/{initial:maxlength(1)}", Name = "MemberCurrentByInitial")]
+        // Ruby route: match '/people/members/current/:letter', to: 'members#current_letters', letter: /[A-Za-z]/, via: [:get]
+        // TODO: {x:alpha}?
+        // TODO: {x:regex} with unicode alpha?
+        // TODO: accents?
+        [Route("current/{initial:maxlength(1)}", Name = "MemberCurrentByInitial")]
         [HttpGet]
         public Graph CurrentByInitial(string initial)
         {
@@ -220,7 +220,32 @@ WHERE {
 
             return BaseController.Execute(query);
         }
-            
+
+        // Ruby route: get '/people/members/current/a_z_letters', to: 'members#a_z_letters_current'
+        [Route("current/a-z", Name = "MemberCurrentAToZ")]
+        [HttpGet]
+        public Graph CurrentAToZLetters()
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
+CONSTRUCT {
+     _:x :value ?firstLetter.
+}
+WHERE {
+    SELECT DISTINCT ?firstLetter WHERE {
+    ?incumbency :seatIncumbencyHasMember ?member.
+    FILTER NOT EXISTS {?incumbency a :PastSeatIncumbency. }
+    ?member :personFamilyName ?familyName .
+
+    BIND(ucase(SUBSTR(?familyName, 1, 1)) as ?firstLetter)
+    }
+}";
+
+            var query = new SparqlParameterizedString(queryString);
+            return BaseController.Execute(query);
+        }
 
     }
 }
+
