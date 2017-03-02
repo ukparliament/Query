@@ -219,5 +219,28 @@ WHERE {
 
             return BaseController.Execute(query);
         }
+        // Ruby route: get '/constituencies/current/a_z_letters', to: 'constituencies#a_z_letters_current'
+        [Route("current/a-z", Name = "ConstituencyCurrentAToZ")]
+        [HttpGet]
+        public Graph CurrentAToZLetters()
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
+CONSTRUCT {
+     _:x :value ?firstLetter.
+}
+WHERE {
+    SELECT DISTINCT ?firstLetter WHERE {
+    ?constituency :constituencyGroupName ?constituencyName.
+    FILTER NOT EXISTS {?constituency a :PastConstituencyGroup. }
+
+    BIND(ucase(SUBSTR(?constituencyName, 1, 1)) as ?firstLetter)
+    }
+}";
+
+            var query = new SparqlParameterizedString(queryString);
+            return BaseController.Execute(query);
+        }
     }
 }

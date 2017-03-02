@@ -33,6 +33,7 @@
                 this.Url.Route("ConstituencyByLetters", new { letters = "heath" }),
                 this.Url.Route("ConstituencyCurrentByInitial", new { initial = "v" }),
                 this.Url.Route("ConstituencyAToZ", null),
+                this.Url.Route("ConstituencyCurrentAToZ", null),
 
 
                 this.Url.Route("PartyById", new { id = "4024c3ba-e2ac-4559-8ff8-77fd89a6711d" }),
