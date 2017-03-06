@@ -83,6 +83,28 @@ WHERE {
             return BaseController.Execute(querystring);
         }
 
+        // Ruby route: get '/parties/a_z_letters', to: 'parties#a_z_letters_all'
+        [Route("a-z", Name = "PartyAToZ")]
+        [HttpGet]
+        public Graph AToZLetters()
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
+CONSTRUCT {
+     _:x :value ?firstLetter.
+}
+WHERE {
+    SELECT DISTINCT ?firstLetter WHERE {
+    ?party :partyName ?partyName .
+    BIND(ucase(SUBSTR(?partyName, 1, 1)) as ?firstLetter)
+    }
+}";
+
+            var query = new SparqlParameterizedString(queryString);
+            return BaseController.Execute(query);
+        }
+
         // Ruby route: get '/parties/lookup', to: 'parties#lookup'
         [Route("lookup/{source:alpha}/{id}", Name = "PartyLookup")]
         [HttpGet]

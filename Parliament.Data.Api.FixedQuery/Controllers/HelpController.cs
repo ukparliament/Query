@@ -40,6 +40,7 @@
                 this.Url.Route("PartyByInitial", new { initial = "a" }),
                 this.Url.Route("PartyCurrent", null),
                 this.Url.Route("PartyByLetters", new { letters = "lab" }),
+                this.Url.Route("PartyAToZ", null),
 
                 this.Url.Route("HouseById", new { id = "c2d41b82-d4df-4f50-b0f9-f52b84a6a788" }),
 
