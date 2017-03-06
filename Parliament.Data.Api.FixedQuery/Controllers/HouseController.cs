@@ -63,5 +63,30 @@ WHERE {
 
             return BaseController.Execute(query);
         }
+
+        // Ruby route:   get '/houses/:letters', to: 'houses#lookup_by_letters'
+        [Route("{letters:alpha:minlength(2)}", Name = "HouseByLetters")]
+        [HttpGet]
+        public Graph ByLetters(string letters)
+        {
+            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+CONSTRUCT {
+    ?house 
+        a :House;
+        :houseName ?houseName .
+}
+WHERE {
+    ?house a :House.
+    ?house :houseName ?houseName .
+
+    FILTER CONTAINS(LCASE(?houseName), LCASE(@letters))
+}";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetLiteral("letters", letters);
+
+            return BaseController.Execute(query);
+        }
     }
 }

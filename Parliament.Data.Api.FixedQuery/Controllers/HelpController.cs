@@ -46,6 +46,7 @@
 
                 this.Url.Route("HouseById", new { id = "c2d41b82-d4df-4f50-b0f9-f52b84a6a788" }),
                 this.Url.Route("HouseLookup", new { source = "mnisId", id = "1" }),
+                this.Url.Route("HouseByLetters", new { letters = "house" }),
 
 
             };
