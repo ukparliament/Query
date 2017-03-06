@@ -34,5 +34,34 @@ WHERE {
             return BaseController.Execute(query);
 
         }
+
+        // Ruby route: get '/houses/lookup', to: 'houses#lookup'
+        // NOTE: this does not work as we don't have house mnis IDs, as that feels like overkill, and overreliance on MNIS
+        // could potentially just become a lookup by name?
+
+        [Route("lookup/{source:alpha}/{id}", Name = "HouseLookup")]
+        [HttpGet]
+        public Graph Lookup(string source, string id)
+        {
+            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+CONSTRUCT {
+    ?house a :House .
+}
+WHERE {
+    BIND(@id AS ?id)
+    BIND(@source AS ?source)
+
+    ?house
+        a :House ;
+        ?source ?id .
+}";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("source", new Uri(BaseController.schema, source));
+            query.SetLiteral("id", id);
+
+            return BaseController.Execute(query);
+        }
     }
 }
