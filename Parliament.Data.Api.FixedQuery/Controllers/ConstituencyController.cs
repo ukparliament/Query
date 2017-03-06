@@ -242,5 +242,6 @@ WHERE {
             var query = new SparqlParameterizedString(queryString);
             return BaseController.Execute(query);
         }
+
     }
 }
