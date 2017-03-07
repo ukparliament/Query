@@ -276,5 +276,29 @@ WHERE {
 
             return BaseController.Execute(query);
         }
+
+        // Ruby route: get '/people/a_z_letters', to: 'people#a_z_letters'
+        [Route("a-z", Name = "PersonAToZ")]
+        [HttpGet]
+        public Graph AToZLetters()
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
+CONSTRUCT {
+     _:x :value ?firstLetter.
+}
+WHERE {
+    SELECT DISTINCT ?firstLetter WHERE {
+    ?person a :Person.
+    ?person :personFamilyName ?familyName .
+
+    BIND(ucase(SUBSTR(?familyName, 1, 1)) as ?firstLetter)
+    }
+}";
+
+            var query = new SparqlParameterizedString(queryString);
+            return BaseController.Execute(query);
+        }
     }
 }

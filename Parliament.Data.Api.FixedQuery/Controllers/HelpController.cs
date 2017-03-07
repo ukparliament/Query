@@ -17,6 +17,7 @@
                 this.Url.Route("PersonByInitial", new { initial = "ö" }),
                 this.Url.Route("PersonLookup", new { source = "mnisId", id = "3299" }),
                 this.Url.Route("PersonByLetters", new { letters = "ee" }),
+                this.Url.Route("PersonAToZ", null),
 
                 this.Url.Route("Member", null),
                 this.Url.Route("MemberCurrent", null),
