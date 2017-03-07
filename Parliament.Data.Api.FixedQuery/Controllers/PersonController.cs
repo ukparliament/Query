@@ -14,107 +14,107 @@
         public Graph ById(string id)
         {
             var queryString = @"
-PREFIX parl: <http://id.ukpds.org/schema/>
+PREFIX : <http://id.ukpds.org/schema/>
 
 CONSTRUCT {
     ?person
-        a parl:Person ;
-        parl:personDateOfBirth ?dateOfBirth ;
-        parl:personGivenName ?givenName ;
-        parl:personOtherNames ?otherName ;
-        parl:personFamilyName ?familyName ;
-        parl:personHasGenderIdentity ?genderIdentity ;
-        parl:partyMemberHasPartyMembership ?partyMembership ;
-        parl:personHasContactPoint ?contactPoint ;
-        parl:memberHasSeatIncumbency ?seatIncumbency .
+        a :Person ;
+        :personDateOfBirth ?dateOfBirth ;
+        :personGivenName ?givenName ;
+        :personOtherNames ?otherName ;
+        :personFamilyName ?familyName ;
+        :personHasGenderIdentity ?genderIdentity ;
+        :partyMemberHasPartyMembership ?partyMembership ;
+        :personHasContactPoint ?contactPoint ;
+        :memberHasSeatIncumbency ?seatIncumbency .
     ?genderIdentity
-        a parl:GenderIdentity ;
-        parl:genderIdentityHasGender ?gender .
+        a :GenderIdentity ;
+        :genderIdentityHasGender ?gender .
     ?gender
-        a parl:Gender ;
-        parl:genderName ?genderName .
+        a :Gender ;
+        :genderName ?genderName .
     ?contactPoint
-        a parl:ContactPoint ;
-        parl:email ?email ;
-        parl:phoneNumber ?phoneNumber ;
-        parl:faxNumber ?faxNumber ;
-        parl:contactPointHasPostalAddress ?postalAddress .
+        a :ContactPoint ;
+        :email ?email ;
+        :phoneNumber ?phoneNumber ;
+        :faxNumber ?faxNumber ;
+        :contactPointHasPostalAddress ?postalAddress .
     ?postalAddress
-        a parl:PostalAddress ;
-        parl:addressLine1 ?addressLine1 ;
-        parl:addressLine2 ?addressLine2 ;
-        parl:addressLine3 ?addressLine3 ;
-        parl:addressLine4 ?addressLine4 ;
-        parl:addressLine5 ?addressLine5 ;
-        parl:postCode ?postCode .
+        a :PostalAddress ;
+        :addressLine1 ?addressLine1 ;
+        :addressLine2 ?addressLine2 ;
+        :addressLine3 ?addressLine3 ;
+        :addressLine4 ?addressLine4 ;
+        :addressLine5 ?addressLine5 ;
+        :postCode ?postCode .
     ?constituency
-        a parl:ConstituencyGroup ;
-        parl:constituencyGroupName ?constituencyName .
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?constituencyName .
     ?seatIncumbency
-        a parl:SeatIncumbency ;
-        parl:seatIncumbencyEndDate ?seatIncumbencyEndDate ;
-        parl:seatIncumbencyStartDate ?seatIncumbencyStartDate ;
-        parl:seatIncumbencyHasHouseSeat ?seat .
+        a :SeatIncumbency ;
+        :seatIncumbencyEndDate ?seatIncumbencyEndDate ;
+        :seatIncumbencyStartDate ?seatIncumbencyStartDate ;
+        :seatIncumbencyHasHouseSeat ?seat .
     ?seat
-        a parl:HouseSeat ;
-        parl:houseSeatHasConstituencyGroup ?constituency ;
-        parl:houseSeatHasHouse ?house .
+        a :HouseSeat ;
+        :houseSeatHasConstituencyGroup ?constituency ;
+        :houseSeatHasHouse ?house .
     ?party
-        a parl:Party ;
-        parl:partyName ?partyName .
+        a :Party ;
+        :partyName ?partyName .
     ?partyMembership
-        a parl:PartyMembership ;
-        parl:partyMembershipStartDate ?partyMembershipStartDate ;
-        parl:partyMembershipEndDate ?partyMembershipEndDate ;
-        parl:partyMembershipHasParty ?party .
-        ?house a parl:House ;
-        parl:houseName ?houseName .
+        a :PartyMembership ;
+        :partyMembershipStartDate ?partyMembershipStartDate ;
+        :partyMembershipEndDate ?partyMembershipEndDate ;
+        :partyMembershipHasParty ?party .
+        ?house a :House ;
+        :houseName ?houseName .
 }
 WHERE {
     BIND(@id AS ?person)
 
     ?person
-        a parl:Person ;
-        parl:personHasGenderIdentity ?genderIdentity .
-    OPTIONAL { ?person parl:personGivenName ?givenName . }
-    OPTIONAL { ?person parl:personOtherNames ?otherName . }
-    OPTIONAL { ?person parl:personFamilyName ?familyName . }
-    OPTIONAL { ?person parl:personDateOfBirth ?dateOfBirth . }
-    ?genderIdentity parl:genderIdentityHasGender ?gender .
-    OPTIONAL { ?gender parl:genderName ?genderName . }
+        a :Person ;
+        :personHasGenderIdentity ?genderIdentity .
+    OPTIONAL { ?person :personGivenName ?givenName . }
+    OPTIONAL { ?person :personOtherNames ?otherName . }
+    OPTIONAL { ?person :personFamilyName ?familyName . }
+    OPTIONAL { ?person :personDateOfBirth ?dateOfBirth . }
+    ?genderIdentity :genderIdentityHasGender ?gender .
+    OPTIONAL { ?gender :genderName ?genderName . }
     OPTIONAL {
-        ?person parl:memberHasSeatIncumbency ?seatIncumbency .
+        ?person :memberHasSeatIncumbency ?seatIncumbency .
         ?seatIncumbency
-            parl:seatIncumbencyHasHouseSeat ?seat ;
-            parl:seatIncumbencyStartDate ?seatIncumbencyStartDate .
+            :seatIncumbencyHasHouseSeat ?seat ;
+            :seatIncumbencyStartDate ?seatIncumbencyStartDate .
         ?seat
-            parl:houseSeatHasConstituencyGroup ?constituency ;
-            parl:houseSeatHasHouse ?house .
-        OPTIONAL { ?seatIncumbency parl:seatIncumbencyEndDate ?seatIncumbencyEndDate . }
-        ?constituency parl:constituencyGroupName ?constituencyName .
-        ?house parl:houseName ?houseName .
+            :houseSeatHasConstituencyGroup ?constituency ;
+            :houseSeatHasHouse ?house .
+        OPTIONAL { ?seatIncumbency :seatIncumbencyEndDate ?seatIncumbencyEndDate . }
+        ?constituency :constituencyGroupName ?constituencyName .
+        ?house :houseName ?houseName .
     }
     OPTIONAL {
-        ?person parl:partyMemberHasPartyMembership ?partyMembership .
+        ?person :partyMemberHasPartyMembership ?partyMembership .
         ?partyMembership
-            parl:partyMembershipHasParty ?party ;
-            parl:partyMembershipStartDate ?partyMembershipStartDate .
-        OPTIONAL { ?partyMembership parl:partyMembershipEndDate ?partyMembershipEndDate . }
-        ?party parl:partyName ?partyName .
+            :partyMembershipHasParty ?party ;
+            :partyMembershipStartDate ?partyMembershipStartDate .
+        OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+        ?party :partyName ?partyName .
     }
     OPTIONAL {
-        ?person parl:personHasContactPoint ?contactPoint .
-        OPTIONAL { ?contactPoint parl:phoneNumber ?phoneNumber . }
-        OPTIONAL { ?contactPoint parl:email ?email . }
-        OPTIONAL { ?contactPoint parl:faxNumber ?faxNumber . }
+        ?person :personHasContactPoint ?contactPoint .
+        OPTIONAL { ?contactPoint :phoneNumber ?phoneNumber . }
+        OPTIONAL { ?contactPoint :email ?email . }
+        OPTIONAL { ?contactPoint :faxNumber ?faxNumber . }
         OPTIONAL {
-        ?contactPoint parl:contactPointHasPostalAddress ?postalAddress .
-        OPTIONAL { ?postalAddress parl:addressLine1 ?addressLine1 . }
-        OPTIONAL { ?postalAddress parl:addressLine2 ?addressLine2 . }
-        OPTIONAL { ?postalAddress parl:addressLine3 ?addressLine3 . }
-        OPTIONAL { ?postalAddress parl:addressLine4 ?addressLine4 . }
-        OPTIONAL { ?postalAddress parl:addressLine5 ?addressLine5 . }
-        OPTIONAL { ?postalAddress parl:postCode ?postCode . }
+        ?contactPoint :contactPointHasPostalAddress ?postalAddress .
+        OPTIONAL { ?postalAddress :addressLine1 ?addressLine1 . }
+        OPTIONAL { ?postalAddress :addressLine2 ?addressLine2 . }
+        OPTIONAL { ?postalAddress :addressLine3 ?addressLine3 . }
+        OPTIONAL { ?postalAddress :addressLine4 ?addressLine4 . }
+        OPTIONAL { ?postalAddress :addressLine5 ?addressLine5 . }
+        OPTIONAL { ?postalAddress :postCode ?postCode . }
         }
     }
 }";
@@ -134,18 +134,18 @@ WHERE {
         public Graph ByInitial(string initial)
         {
             var queryString = @"
-PREFIX parl: <http://id.ukpds.org/schema/>
+PREFIX : <http://id.ukpds.org/schema/>
     CONSTRUCT {
     ?person
-        a parl:Person ;
-        parl:personGivenName ?givenName ;
-        parl:personFamilyName ?familyName .
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName .
 }
 WHERE {
     ?person
-        a parl:Person ;
-        parl:personFamilyName ?familyName .
-    OPTIONAL { ?person parl:personGivenName ?givenName } .
+        a :Person ;
+        :personFamilyName ?familyName .
+    OPTIONAL { ?person :personGivenName ?givenName } .
 
     FILTER STRSTARTS(LCASE(?familyName), LCASE(@letter))
 }";
@@ -167,17 +167,17 @@ WHERE {
         public Graph ByExternalIdentifier(string source, string id)
         {
             var queryString = @"
-PREFIX parl: <http://id.ukpds.org/schema/>
+PREFIX : <http://id.ukpds.org/schema/>
 
 CONSTRUCT {
-    ?person a parl:Person .
+    ?person a :Person .
 }
 WHERE {
     BIND(@id AS ?id)
     BIND(@source AS ?source)
 
     ?person
-        a parl:Person ;
+        a :Person ;
         ?source ?id .
 }";
 
@@ -254,18 +254,18 @@ WHERE {
         public Graph ByLetters(string letters)
         {
             var queryString = @"
-PREFIX parl: <http://id.ukpds.org/schema/>
+PREFIX : <http://id.ukpds.org/schema/>
 
 CONSTRUCT {
     ?person
-        a parl:Person ;
-        parl:personGivenName ?givenName ;
-        parl:personFamilyName ?familyName .
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName .
 }
 WHERE {
-    ?person a parl:Person .
-    OPTIONAL { ?person parl:personGivenName ?givenName . }
-    OPTIONAL { ?person parl:personFamilyName ?familyName . }
+    ?person a :Person .
+    OPTIONAL { ?person :personGivenName ?givenName . }
+    OPTIONAL { ?person :personFamilyName ?familyName . }
 
     FILTER (REGEX(STR(?familyName), @letters, 'i') || REGEX(STR(?givenName), @letters, 'i'))
 }";
