@@ -63,18 +63,15 @@ WHERE {
         [Route("current", Name = "PartyCurrent")]
         [HttpGet]
         public Graph Current() {
-            var querystring = @"PREFIX : <http://id.ukpds.org/schema/>
+            var querystring = @"
+PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
-    ?party
-        a :Party ;
-        :partyName ?partyName .
+    ?party :partyName ?partyName .
 }
 WHERE {
-    ?seatIncumbency
-        a :SeatIncumbency ;
-        :seatIncumbencyHasMember ?person .
-    FILTER NOT EXISTS { ?seatIncumbency a :PastSeatIncumbency . }
-    ?person :partyMemberHasPartyMembership ?partyMembership .
+    ?incumbency :incumbencyHasMember ?member .
+    FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+    ?member :partyMemberHasPartyMembership ?partyMembership .
     FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
     ?partyMembership :partyMembershipHasParty ?party .
     ?party :partyName ?partyName .
@@ -90,7 +87,6 @@ WHERE {
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
-
 CONSTRUCT {
      _:x :value ?firstLetter.
 }
@@ -106,22 +102,25 @@ WHERE {
         }
 
         // Ruby route: get '/parties/current/a_z_letters', to: 'parties#a_z_letters_current'
-        // NOTE: we don't actually have end dates on parties or past parties at the moment, so this is currently redundant 
+        // NOTE: this returns parties who currently have members in parliament, not parties currently active or seeking election
+        // ALSO NOTE: mnis thinks Bishops are a party
         [Route("current/a-z", Name = "PartyCurrentAToZ")]
         [HttpGet]
         public Graph CurrentAToZParties()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
-
 CONSTRUCT {
      _:x :value ?firstLetter.
 }
 WHERE {
     SELECT DISTINCT ?firstLetter WHERE {
-    ?party :partyName ?partyName.
-    FILTER NOT EXISTS {?party a :PastParty. }
-
+    ?incumbency :incumbencyHasMember ?member .
+    FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+    ?member :partyMemberHasPartyMembership ?partyMembership .
+    FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+    ?partyMembership :partyMembershipHasParty ?party .
+    ?party :partyName ?partyName .
     BIND(ucase(SUBSTR(?partyName, 1, 1)) as ?firstLetter)
     }
 }";
