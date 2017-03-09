@@ -12,13 +12,13 @@
         [Route()]
         public HttpResponseMessage Get()
         {
-            string css = @"tr {border:solid}";
             var links = new string[] {
                 this.Url.Route("PersonById", new { id = "f3b5d9a2-88e6-45ba-96ef-17766b1acdcc" }),
                 this.Url.Route("PersonByInitial", new { initial = "ö" }),
                 this.Url.Route("PersonLookup", new { source = "mnisId", id = "3299" }),
                 this.Url.Route("PersonByLetters", new { letters = "ee" }),
                 this.Url.Route("PersonAToZ", null),
+                this.Url.Route("PersonConstituencies", new { id = "f3b5d9a2-88e6-45ba-96ef-17766b1acdcc" }),
 
                 // Member route exists on person controller
                 this.Url.Route("Member", null),

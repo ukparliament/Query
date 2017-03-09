@@ -328,5 +328,62 @@ WHERE {
             var query = new SparqlParameterizedString(queryString);
             return BaseController.Execute(query);
         }
+
+        // Ruby route: resources :people, only: [:index] do get '/constituencies', to: 'people#constituencies' end
+        [Route("{id:guid}/constituencies", Name = "PersonConstituencies")]
+        [HttpGet]
+        public Graph Constituencies(string id)
+        {
+            var queryString = @"
+       PREFIX parl: <http://id.ukpds.org/schema/>
+
+       CONSTRUCT {
+        ?person a parl:Person ;
+              parl:personGivenName ?givenName ;
+              parl:personFamilyName ?familyName .
+    	 ?constituency
+        	  a parl:ConstituencyGroup ;
+            parl:constituencyGroupName ?constituencyName ;
+        	  parl:constituencyGroupStartDate ?constituencyStartDate ;
+        	  parl:constituencyGroupEndDate ?constituencyEndDate ;
+            parl:constituencyGroupHasHouseSeat ?seat .
+    	  ?seat
+        	  a parl:HouseSeat ;
+        	  parl:houseSeatHasSeatIncumbency ?seatIncumbency .
+    	  ?seatIncumbency
+            a parl:SeatIncumbency ;
+        	  parl:incumbencyEndDate ?seatIncumbencyEndDate ;
+        	  parl:incumbencyStartDate ?seatIncumbencyStartDate .
+      }
+      WHERE {
+        BIND(@personid AS ?person)
+
+        OPTIONAL { ?person parl:personGivenName ?givenName } .
+        OPTIONAL { ?person parl:personFamilyName ?familyName } .
+
+        OPTIONAL {
+    	    ?person parl:memberHasIncumbency ?seatIncumbency .
+        	?seatIncumbency a parl:SeatIncumbency .
+    	    ?seatIncumbency parl:seatIncumbencyHasHouseSeat ?seat .
+    	    ?seat parl:houseSeatHasConstituencyGroup ?constituency .
+          OPTIONAL { ?seatIncumbency parl:incumbencyEndDate ?seatIncumbencyEndDate . }
+          ?seatIncumbency parl:incumbencyStartDate ?seatIncumbencyStartDate .
+          ?constituency parl:constituencyGroupName ?constituencyName .
+          ?constituency parl:constituencyGroupStartDate ?constituencyStartDate .
+		      OPTIONAL { ?constituency parl:constituencyGroupEndDate ?constituencyEndDate . }
+        }
+      }
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("personid", new Uri(BaseController.instance, id));
+
+            return BaseController.Execute(query);
+        }
+
+
+
+
     }
 }
