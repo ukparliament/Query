@@ -19,6 +19,13 @@
                 this.Url.Route("PersonByLetters", new { letters = "ee" }),
                 this.Url.Route("PersonAToZ", null),
                 this.Url.Route("PersonConstituencies", new { id = "f3b5d9a2-88e6-45ba-96ef-17766b1acdcc" }),
+                this.Url.Route("PersonCurrentConstituency", new { id = "f3b5d9a2-88e6-45ba-96ef-17766b1acdcc" }),
+                this.Url.Route("PersonParties", new { id = "a9bd4923-9964-4196-b6b7-e42ada6e5284" }),
+                this.Url.Route("PersonCurrentParty", new { id = "a9bd4923-9964-4196-b6b7-e42ada6e5284" }),
+                this.Url.Route("PersonContactPoints", new { id = "c6c0bfc6-bf28-4958-9cb2-939ea0e86c95" }),
+                this.Url.Route("PersonHouses", new { id = "c6c0bfc6-bf28-4958-9cb2-939ea0e86c95" }),
+                this.Url.Route("PersonCurrentHouse", new { id = "c6c0bfc6-bf28-4958-9cb2-939ea0e86c95" }),
+
 
                 // Member route exists on person controller
                 this.Url.Route("Member", null),
