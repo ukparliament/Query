@@ -70,7 +70,9 @@
 
             if (mediaType == GraphFormatter.mediaTypes["html"])
             {
-                return new HtmlWriter() { UriPrefix = GlobalConfiguration.Configuration.VirtualPathRoot + "resources?uri=" };
+                return new HtmlWriter() {
+                    UriPrefix = GlobalConfiguration.Configuration.VirtualPathRoot + "resources?uri="
+                };
             }
 
             if (mediaType == GraphFormatter.mediaTypes["n3"])

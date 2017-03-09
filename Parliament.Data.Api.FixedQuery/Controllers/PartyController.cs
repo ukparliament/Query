@@ -13,7 +13,9 @@
         [HttpGet]
         public Graph ById(string id)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?party
         a :Party ;
@@ -23,7 +25,8 @@ WHERE {
     BIND(@id AS ?party)
 
     ?party :partyName ?name .
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -38,7 +41,9 @@ WHERE {
         [HttpGet]
         public Graph ByInitial(string initial)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?party
         a :Party ;
@@ -50,7 +55,8 @@ WHERE {
         :partyName ?partyName .
 
     FILTER STRSTARTS(LCASE(?partyName), LCASE(@letter)) .
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -65,8 +71,11 @@ WHERE {
         public Graph Current() {
             var querystring = @"
 PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
-    ?party :partyName ?partyName .
+    ?party 
+        a :Party ;
+        :partyName ?partyName .
 }
 WHERE {
     ?incumbency :incumbencyHasMember ?member .
@@ -75,7 +84,8 @@ WHERE {
     FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
     ?partyMembership :partyMembershipHasParty ?party .
     ?party :partyName ?partyName .
-}";
+}
+";
 
             return BaseController.Execute(querystring);
         }
@@ -87,6 +97,7 @@ WHERE {
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
      _:x :value ?firstLetter.
 }
@@ -95,7 +106,8 @@ WHERE {
     ?party :partyName ?partyName .
     BIND(ucase(SUBSTR(?partyName, 1, 1)) as ?firstLetter)
     }
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
             return BaseController.Execute(query);
@@ -110,6 +122,7 @@ WHERE {
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
      _:x :value ?firstLetter.
 }
@@ -123,7 +136,8 @@ WHERE {
     ?party :partyName ?partyName .
     BIND(ucase(SUBSTR(?partyName, 1, 1)) as ?firstLetter)
     }
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
             return BaseController.Execute(query);
@@ -134,7 +148,9 @@ WHERE {
         [HttpGet]
         public Graph Lookup(string source, string id)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?party a :Party .
 }
@@ -145,7 +161,8 @@ WHERE {
     ?party
         a :Party ;
         ?source ?id .
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -159,7 +176,9 @@ WHERE {
         [HttpGet]
         public Graph ByLetters(string letters)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?party 
         a :Party;
@@ -170,7 +189,8 @@ WHERE {
     ?party :partyName ?partyName .
 
     FILTER CONTAINS(LCASE(?partyName), LCASE(@letters))
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 

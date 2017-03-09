@@ -12,14 +12,17 @@
         [Route()]
         public HttpResponseMessage Get()
         {
+            string css = @"tr {border:solid}";
             var links = new string[] {
-                this.Url.Route("PersonById", new { id = "01679448-ebe8-4263-87de-a749a937239c" }),
+                this.Url.Route("PersonById", new { id = "f3b5d9a2-88e6-45ba-96ef-17766b1acdcc" }),
                 this.Url.Route("PersonByInitial", new { initial = "ö" }),
                 this.Url.Route("PersonLookup", new { source = "mnisId", id = "3299" }),
                 this.Url.Route("PersonByLetters", new { letters = "ee" }),
                 this.Url.Route("PersonAToZ", null),
 
+                // Member route exists on person controller
                 this.Url.Route("Member", null),
+
                 this.Url.Route("MemberCurrent", null),
                 this.Url.Route("MemberByInitial", new { initial = "y" }),
                 this.Url.Route("MemberCurrentByInitial", new { initial = "z" }),
@@ -37,16 +40,17 @@
                 this.Url.Route("ConstituencyCurrentAToZ", null),
 
 
-                this.Url.Route("PartyById", new { id = "4024c3ba-e2ac-4559-8ff8-77fd89a6711d" }),
+                this.Url.Route("PartyById", new { id = "ac265389-9e3d-4d3b-8d98-4d4b8b07bae4" }),
                 this.Url.Route("PartyByInitial", new { initial = "a" }),
                 this.Url.Route("PartyCurrent", null),
-                this.Url.Route("PartyByLetters", new { letters = "lab" }),
+                this.Url.Route("PartyByLetters", new { letters = "zeb" }),
                 this.Url.Route("PartyAToZ", null),
                 this.Url.Route("PartyCurrentAToZ", null),
+                this.Url.Route("PartyLookup", new { source = "mnisId", id = "231" }),
 
 
-                this.Url.Route("HouseById", new { id = "c2d41b82-d4df-4f50-b0f9-f52b84a6a788" }),
-                this.Url.Route("HouseLookup", new { source = "mnisId", id = "1" }),
+                this.Url.Route("HouseById", new { id = "4b77dd58-f6ba-4121-b521-c8ad70465f52" }),
+                this.Url.Route("HouseLookup", new { source = "name", id = "House of Lords" }),
                 this.Url.Route("HouseByLetters", new { letters = "house" }),
 
 
@@ -54,12 +58,14 @@
 
             var response = Request.CreateResponse();
 
-            response.Content = new StringContent($@"<!DOCTYPE html>
+            response.Content = new StringContent($@"
+<!DOCTYPE html>
 <html>
     <body>
         <ul>{string.Join(string.Empty, from link in links select $"<li><a href='{link}'>{HttpUtility.UrlDecode(link).Substring(this.Configuration.VirtualPathRoot.Length)}</a>")}</ul>
-      </body>
-  </html>");
+    </body>
+</html>
+");
 
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
 

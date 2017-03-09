@@ -14,7 +14,9 @@
         [HttpGet]
         public Graph ById(string id)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?house
         a :House ;
@@ -25,7 +27,8 @@ WHERE {
     ?house 
         a :House ;
         :houseName ?houseName .
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -37,13 +40,14 @@ WHERE {
 
         // Ruby route: get '/houses/lookup', to: 'houses#lookup'
         // NOTE: this does not work as we don't have house mnis IDs, as that feels like overkill, and overreliance on MNIS
-        // could potentially just become a lookup by name?
 
         [Route("lookup/{source:alpha}/{id}", Name = "HouseLookup")]
         [HttpGet]
         public Graph Lookup(string source, string id)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?house a :House .
 }
@@ -54,7 +58,8 @@ WHERE {
     ?house
         a :House ;
         ?source ?id .
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -69,7 +74,9 @@ WHERE {
         [HttpGet]
         public Graph ByLetters(string letters)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?house 
         a :House;
@@ -80,7 +87,8 @@ WHERE {
     ?house :houseName ?houseName .
 
     FILTER CONTAINS(LCASE(?houseName), LCASE(@letters))
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 

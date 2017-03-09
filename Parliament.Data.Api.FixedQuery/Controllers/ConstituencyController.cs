@@ -13,7 +13,9 @@
         [HttpGet]
         public Graph ById(string id)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?constituencyGroup
         a :ConstituencyGroup ;
@@ -66,7 +68,8 @@ WHERE {
         OPTIONAL { ?member :personGivenName ?givenName . }
         OPTIONAL { ?member :personFamilyName ?familyName . }
     }
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -80,7 +83,9 @@ WHERE {
         [HttpGet]
         public Graph ByInitial(string initial)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?constituencyGroup
         a :ConstituencyGroup ;
@@ -91,7 +96,8 @@ WHERE {
     OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
 
     FILTER STRSTARTS(LCASE(?name), LCASE(@letter)) 
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -105,7 +111,9 @@ WHERE {
         [HttpGet]
         public Graph Current()
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?constituencyGroup
         a :ConstituencyGroup ;
@@ -115,7 +123,8 @@ WHERE {
     ?constituencyGroup a :ConstituencyGroup .
     FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
     OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
-}";
+}
+";
 
             return BaseController.Execute(queryString);
         }
@@ -125,7 +134,9 @@ WHERE {
         [HttpGet]
         public Graph Lookup(string source, string id)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?constituency a :ConstituencyGroup .
 }
@@ -136,7 +147,8 @@ WHERE {
     ?constituency
         a :ConstituencyGroup ;
         ?source ?id .
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -148,11 +160,14 @@ WHERE {
 
         // Ruby route: get '/constituencies/:letters', to: 'constituencies#lookup_by_letters'
         // Was this not going to be called ByInitials? - CJA
+
         [Route("{letters:alpha:minlength(2)}", Name = "ConstituencyByLetters")]
         [HttpGet]
         public Graph ByLetters(string letters)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?constituency
         a :ConstituencyGroup ;
@@ -164,7 +179,8 @@ WHERE {
         :constituencyGroupName ?constituencyName .
 
     FILTER CONTAINS(LCASE(?constituencyName), LCASE(@letters))
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -189,7 +205,8 @@ WHERE {
     ?constituency :constituencyGroupName ?constituencyName .
     BIND(ucase(SUBSTR(?constituencyName, 1, 1)) as ?firstLetter)
     }
-}";
+}
+";
     
             var query = new SparqlParameterizedString(queryString);
             return BaseController.Execute(query);
@@ -200,7 +217,9 @@ WHERE {
         [HttpGet]
         public Graph CurrentByLetters(string initial)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?constituencyGroup
         a :ConstituencyGroup ;
@@ -211,7 +230,8 @@ WHERE {
     FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
     OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
     FILTER STRSTARTS(LCASE(?name), LCASE(@initial))
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -237,7 +257,8 @@ WHERE {
 
     BIND(ucase(SUBSTR(?constituencyName, 1, 1)) as ?firstLetter)
     }
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
             return BaseController.Execute(query);
