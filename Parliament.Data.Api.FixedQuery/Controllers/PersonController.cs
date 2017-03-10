@@ -175,13 +175,13 @@ WHERE {
         :personFamilyName ?familyName .
     OPTIONAL { ?person :personGivenName ?givenName } .
 
-    FILTER STRSTARTS(LCASE(?familyName), LCASE(@letter))
+    FILTER STRSTARTS(LCASE(?familyName), LCASE(@initial))
 }
 ";
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetLiteral("letter", initial);
+            query.SetLiteral("initial", initial);
 
             return BaseController.Execute(query);
 
@@ -330,7 +330,7 @@ WHERE {
         }
 
         // Ruby route: get '/people/a_z_letters', to: 'people#a_z_letters'
-        [Route("a-z", Name = "PersonAToZ")]
+        [Route("a_z_letters", Name = "PersonAToZ")]
         [HttpGet]
         public Graph AToZLetters()
         {

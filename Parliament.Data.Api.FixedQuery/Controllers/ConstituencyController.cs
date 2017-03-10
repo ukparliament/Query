@@ -190,7 +190,7 @@ WHERE {
         }
 
         // Ruby route: get '/constituencies/a_z_letters', to: 'constituencies#a_z_letters'
-        [Route("a-z", Name = "ConstituencyAToZ")]
+        [Route("a_z_letters", Name = "ConstituencyAToZ")]
         [HttpGet]
         public Graph AToZLetters()
         {
@@ -240,7 +240,7 @@ WHERE {
             return BaseController.Execute(query);
         }
         // Ruby route: get '/constituencies/current/a_z_letters', to: 'constituencies#a_z_letters_current'
-        [Route("current/a-z", Name = "ConstituencyCurrentAToZ")]
+        [Route("current/a_z_letters", Name = "ConstituencyCurrentAToZ")]
         [HttpGet]
         public Graph CurrentAToZLetters()
         {

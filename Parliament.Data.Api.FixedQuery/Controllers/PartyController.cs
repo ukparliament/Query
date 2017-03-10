@@ -8,6 +8,31 @@
     [RoutePrefix("parties")]
     public class PartyController : BaseController
     {
+        // Ruby route: resources :parties, only: [:index] 
+        [Route("", Name = "PartyIndex")]
+        [HttpGet]
+        public Graph Index()
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
+CONSTRUCT {
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+    }
+WHERE {
+    ?party
+        a :Party ;
+        :partyHasPartyMembership ?partyMembership ;
+        :partyName ?partyName .
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            return BaseController.Execute(query);
+        }
         // Ruby route: match '/parties/:party', to: 'parties#show', party: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
         [Route("{id:guid}", Name = "PartyById")]
         [HttpGet]
@@ -91,7 +116,7 @@ WHERE {
         }
 
         // Ruby route: get '/parties/a_z_letters', to: 'parties#a_z_letters_all'
-        [Route("a-z", Name = "PartyAToZ")]
+        [Route("a_z_letters", Name = "PartyAToZ")]
         [HttpGet]
         public Graph AToZLetters()
         {
@@ -116,7 +141,7 @@ WHERE {
         // Ruby route: get '/parties/current/a_z_letters', to: 'parties#a_z_letters_current'
         // NOTE: this returns parties who currently have members in parliament, not parties currently active or seeking election
         // ALSO NOTE: mnis thinks Bishops are a party
-        [Route("current/a-z", Name = "PartyCurrentAToZ")]
+        [Route("current/a_z_letters", Name = "PartyCurrentAToZ")]
         [HttpGet]
         public Graph CurrentAToZParties()
         {
@@ -195,6 +220,246 @@ WHERE {
             var query = new SparqlParameterizedString(queryString);
 
             query.SetLiteral("letters", letters);
+
+            return BaseController.Execute(query);
+        }
+
+        // Ruby route: resources :parties, only: [:index] do get '/members', to: 'parties#members' end
+        [Route("{id:guid}/members", Name = "PartyMembers")]
+        [HttpGet]
+        public Graph Members(string id)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+      
+CONSTRUCT {
+    ?party 
+        a :Party ;
+        :partyName ?partyName .
+    ?person 
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    ?partyMembership a :PartyMembership ;
+        :partyMembershipStartDate ?startDate ;
+        :partyMembershipEndDate ?endDate .
+    }
+WHERE {
+    BIND(@partyid AS ?party)
+   	?party :partyName ?partyName .
+    OPTIONAL {
+        ?party :partyHasPartyMembership ?partyMembership .
+        ?partyMembership :partyMembershipHasPartyMember ?person .
+        ?partyMembership :partyMembershipStartDate ?startDate .
+        OPTIONAL { ?partyMembership :partyMembershipEndDate ?endDate . }
+        OPTIONAL { ?person :personGivenName ?givenName . }
+        OPTIONAL { ?person :personFamilyName ?familyName . }
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("partyid", new Uri(BaseController.instance, id));
+
+            return BaseController.Execute(query);
+        }
+
+        // Ruby route: resources :parties, only: [:index] do get '/members/current', to: 'parties#current_members' end
+        [Route("{id:guid}/members/current", Name = "PartyCurrentMembers")]
+        [HttpGet]
+        public Graph CurrentMembers(string id)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
+CONSTRUCT {
+    ?party 
+        a :Party ;
+        :partyName ?partyName .
+    ?person 
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    ?partyMembership 
+        a :PartyMembership ;
+        :partyMembershipStartDate ?startDate .
+    }
+WHERE {
+    BIND(@partyid AS ?party)
+   	?party :partyName ?partyName .
+    OPTIONAL {
+        ?party :partyHasPartyMembership ?partyMembership .
+        FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+        ?partyMembership :partyMembershipHasPartyMember ?person .
+        ?person :memberHasIncumbency ?incumbency .
+        FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+        ?partyMembership :partyMembershipStartDate ?startDate .
+        OPTIONAL { ?person :personGivenName ?givenName . }
+        OPTIONAL { ?person :personFamilyName ?familyName . }
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("partyid", new Uri(BaseController.instance, id));
+
+            return BaseController.Execute(query);
+        }
+        // Ruby route: resources :parties, only: [:index] do match '/members/:letter', to: 'parties#members_letters', letter: /[A-Za-z]/, via: [:get] end
+        [Route("{id:guid}/members/{initial:alpha:maxlength(1)}", Name = "PartyMembersByInitial")]
+        [HttpGet]
+        public Graph MembersByInitial(string id, string initial)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
+CONSTRUCT {
+    ?party 
+        a :Party ;
+        :partyName ?partyName .
+    ?person 
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    ?partyMembership a :PartyMembership ;
+        :partyMembershipStartDate ?startDate ;
+        :partyMembershipEndDate ?endDate .
+    }
+WHERE {
+    BIND(@partyid AS ?party)
+   	?party :partyName ?partyName .
+    OPTIONAL {
+        ?party :partyHasPartyMembership ?partyMembership .
+        ?partyMembership :partyMembershipHasPartyMember ?person .
+        ?partyMembership :partyMembershipStartDate ?startDate .
+        OPTIONAL { ?partyMembership :partyMembershipEndDate ?endDate . }
+        OPTIONAL { ?person :personGivenName ?givenName . }
+        OPTIONAL { ?person :personFamilyName ?familyName . }
+        FILTER STRSTARTS(LCASE(?familyName), LCASE(@initial))
+        }
+    }
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("partyid", new Uri(BaseController.instance, id));
+            query.SetLiteral("initial", initial);
+
+            return BaseController.Execute(query);
+        }
+
+        // Ruby route: resources :parties, only: [:index] do get '/members/a_z_letters', to: 'parties#a_z_letters_members' end
+        [Route("{id:guid}/members/a_z_letters", Name = "PartyMembersAToZ")]
+        [HttpGet]
+        public Graph MembersAToZLetters(string id)
+        {
+            var queryString = @"
+      PREFIX : <http://id.ukpds.org/schema/>
+      CONSTRUCT {
+         _:x :value ?firstLetter .
+      }
+      WHERE {
+        SELECT DISTINCT ?firstLetter WHERE {
+          BIND(@partyid AS ?party)
+
+	        ?party :partyHasPartyMembership ?partyMembership .
+          FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+          ?partyMembership :partyMembershipHasPartyMember ?person .
+          ?person :memberHasIncumbency ?incumbency .
+          FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+          ?person :personFamilyName ?familyName .
+
+          BIND(ucase(SUBSTR(?familyName, 1, 1)) as ?firstLetter)
+        }
+      }
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("partyid", new Uri(BaseController.instance, id));
+
+            return BaseController.Execute(query);
+        }
+
+
+        // Ruby route: resources :parties, only: [:index] do match '/members/current/:letter', to: 'parties#current_members_letters', letter: /[A-Za-z]/, via: [:get] end
+        [Route("{id:guid}/members/current/{initial:alpha:maxlength(1)}", Name = "PartyCurrentMembersByInitial")]
+        [HttpGet]
+        public Graph CurrentMembersByInitial(string id, string initial)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
+CONSTRUCT {
+   ?party
+        a :Party ;
+        :partyName ?partyName .
+    ?person 
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    ?partyMembership 
+        a :PartyMembership ;
+        :partyMembershipStartDate ?startDate .
+    }
+WHERE {
+    BIND(@partyid AS ?party)
+   	?party :partyName ?partyName .
+    OPTIONAL {
+        ?party :partyHasPartyMembership ?partyMembership .
+        FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+        ?partyMembership :partyMembershipHasPartyMember ?person .
+        ?person :memberHasIncumbency ?incumbency .
+        FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+        ?partyMembership :partyMembershipStartDate ?startDate .
+        OPTIONAL { ?person :personGivenName ?givenName . }
+        OPTIONAL { ?person :personFamilyName ?familyName . }
+        }
+    FILTER STRSTARTS(LCASE(?familyName), LCASE(@initial))
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("partyid", new Uri(BaseController.instance, id));
+            query.SetLiteral("initial", initial);
+
+            return BaseController.Execute(query);
+        }
+        // Ruby route: resources :parties, only: [:index] do get '/members/current/a_z_letters', to: 'parties#a_z_letters_members_current' end
+        [Route("{id:guid}/members/current/a_z_letters", Name = "PartyCurrentMembersAToZ")]
+        [HttpGet]
+        public Graph CurrentMembersAToZLetters(string id)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
+CONSTRUCT {
+    _:x :value ?firstLetter .
+    }
+WHERE {
+    SELECT DISTINCT ?firstLetter WHERE {
+        BIND(@partyid AS ?party)
+        ?party :partyHasPartyMembership ?partyMembership .
+        FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+        ?partyMembership :partyMembershipHasPartyMember ?person .
+        ?person :memberHasIncumbency ?incumbency .
+        FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+        ?person :personFamilyName ?familyName .
+        BIND(ucase(SUBSTR(?familyName, 1, 1)) as ?firstLetter)
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("partyid", new Uri(BaseController.instance, id));
 
             return BaseController.Execute(query);
         }

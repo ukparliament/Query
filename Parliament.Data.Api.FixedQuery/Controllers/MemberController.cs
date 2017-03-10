@@ -169,7 +169,7 @@ WHERE {
         }
 
         // Ruby route: get '/people/members/a_z_letters', to: 'members#a_z_letters'
-        [Route("a-z", Name = "MemberAToZ")]
+        [Route("a_z_letters", Name = "MemberAToZ")]
         [HttpGet]
         public Graph AToZLetters()
         {
@@ -283,7 +283,7 @@ WHERE {
         }
 
         // Ruby route: get '/people/members/current/a_z_letters', to: 'members#a_z_letters_current'
-        [Route("current/a-z", Name = "MemberCurrentAToZ")]
+        [Route("current/a_z_letters", Name = "MemberCurrentAToZ")]
         [HttpGet]
         public Graph CurrentAToZLetters()
         {

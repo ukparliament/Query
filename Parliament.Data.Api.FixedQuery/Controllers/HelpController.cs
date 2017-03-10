@@ -48,6 +48,7 @@
                 this.Url.Route("ConstituencyCurrentAToZ", null),
 
 
+                this.Url.Route("PartyIndex", null),
                 this.Url.Route("PartyById", new { id = "ac265389-9e3d-4d3b-8d98-4d4b8b07bae4" }),
                 this.Url.Route("PartyByInitial", new { initial = "a" }),
                 this.Url.Route("PartyCurrent", null),
@@ -55,6 +56,13 @@
                 this.Url.Route("PartyAToZ", null),
                 this.Url.Route("PartyCurrentAToZ", null),
                 this.Url.Route("PartyLookup", new { source = "mnisId", id = "231" }),
+                this.Url.Route("PartyMembers", new { id = "c5858995-6d25-4eb5-b92e-fba3fbd8ba47"}),
+                this.Url.Route("PartyCurrentMembers", new { id = "c5858995-6d25-4eb5-b92e-fba3fbd8ba47"}),
+                this.Url.Route("PartyMembersByInitial", new { id = "c5858995-6d25-4eb5-b92e-fba3fbd8ba47", initial = "f"}),
+                this.Url.Route("PartyMembersAToZ", new { id = "c5858995-6d25-4eb5-b92e-fba3fbd8ba47" }),
+                this.Url.Route("PartyCurrentMembersByInitial", new { id = "c5858995-6d25-4eb5-b92e-fba3fbd8ba47", initial = "z"}),
+                this.Url.Route("PartyCurrentMembersAToZ", new { id = "c5858995-6d25-4eb5-b92e-fba3fbd8ba47" }),
+
 
 
                 this.Url.Route("HouseById", new { id = "4b77dd58-f6ba-4121-b521-c8ad70465f52" }),
