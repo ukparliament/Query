@@ -712,32 +712,12 @@ WHERE {
         }
       }
 ";
-
             var query = new SparqlParameterizedString(queryString);
 
             query.SetUri("personid", new Uri(BaseController.instance, id));
 
             return BaseController.Execute(query);
         }
-
-        // Ruby route: resources :people, only: [:index] do get '/sittings', to: 'people#sittings' end
-        [Route("{id:guid}/sittings", Name = "PersonSittings")]
-        [HttpGet]
-        public Graph Sittings(string id)
-        {
-            var queryString = @"
-        select * where {@personid a ?whatOnEarthIsThisSittingsQueryAbout}
-
-";
-
-            var query = new SparqlParameterizedString(queryString);
-
-            query.SetUri("personid", new Uri(BaseController.instance, id));
-
-            return BaseController.Execute(query);
-        }
-
-
 
     }
 }
