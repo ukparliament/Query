@@ -2,6 +2,7 @@
 {
     using System;
     using System.Configuration;
+    using System.IO;
     using System.Web.Http;
     using VDS.RDF;
     using VDS.RDF.Query;

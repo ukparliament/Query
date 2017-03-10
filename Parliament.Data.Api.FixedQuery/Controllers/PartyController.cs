@@ -13,7 +13,9 @@
         [HttpGet]
         public Graph ById(string id)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?party
         a :Party ;
@@ -23,7 +25,8 @@ WHERE {
     BIND(@id AS ?party)
 
     ?party :partyName ?name .
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -38,7 +41,9 @@ WHERE {
         [HttpGet]
         public Graph ByInitial(string initial)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?party
         a :Party ;
@@ -50,7 +55,8 @@ WHERE {
         :partyName ?partyName .
 
     FILTER STRSTARTS(LCASE(?partyName), LCASE(@letter)) .
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -63,24 +69,78 @@ WHERE {
         [Route("current", Name = "PartyCurrent")]
         [HttpGet]
         public Graph Current() {
-            var querystring = @"PREFIX : <http://id.ukpds.org/schema/>
+            var querystring = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
-    ?party
+    ?party 
         a :Party ;
         :partyName ?partyName .
 }
 WHERE {
-    ?seatIncumbency
-        a :SeatIncumbency ;
-        :seatIncumbencyHasMember ?person .
-    FILTER NOT EXISTS { ?seatIncumbency a :PastSeatIncumbency . }
-    ?person :partyMemberHasPartyMembership ?partyMembership .
+    ?incumbency :incumbencyHasMember ?member .
+    FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+    ?member :partyMemberHasPartyMembership ?partyMembership .
     FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
     ?partyMembership :partyMembershipHasParty ?party .
     ?party :partyName ?partyName .
-}";
+}
+";
 
             return BaseController.Execute(querystring);
+        }
+
+        // Ruby route: get '/parties/a_z_letters', to: 'parties#a_z_letters_all'
+        [Route("a-z", Name = "PartyAToZ")]
+        [HttpGet]
+        public Graph AToZLetters()
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
+CONSTRUCT {
+     _:x :value ?firstLetter.
+}
+WHERE {
+    SELECT DISTINCT ?firstLetter WHERE {
+    ?party :partyName ?partyName .
+    BIND(ucase(SUBSTR(?partyName, 1, 1)) as ?firstLetter)
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+            return BaseController.Execute(query);
+        }
+
+        // Ruby route: get '/parties/current/a_z_letters', to: 'parties#a_z_letters_current'
+        // NOTE: this returns parties who currently have members in parliament, not parties currently active or seeking election
+        // ALSO NOTE: mnis thinks Bishops are a party
+        [Route("current/a-z", Name = "PartyCurrentAToZ")]
+        [HttpGet]
+        public Graph CurrentAToZParties()
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
+CONSTRUCT {
+     _:x :value ?firstLetter.
+}
+WHERE {
+    SELECT DISTINCT ?firstLetter WHERE {
+    ?incumbency :incumbencyHasMember ?member .
+    FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+    ?member :partyMemberHasPartyMembership ?partyMembership .
+    FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+    ?partyMembership :partyMembershipHasParty ?party .
+    ?party :partyName ?partyName .
+    BIND(ucase(SUBSTR(?partyName, 1, 1)) as ?firstLetter)
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+            return BaseController.Execute(query);
         }
 
         // Ruby route: get '/parties/lookup', to: 'parties#lookup'
@@ -88,7 +148,9 @@ WHERE {
         [HttpGet]
         public Graph Lookup(string source, string id)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?party a :Party .
 }
@@ -99,7 +161,8 @@ WHERE {
     ?party
         a :Party ;
         ?source ?id .
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -113,7 +176,9 @@ WHERE {
         [HttpGet]
         public Graph ByLetters(string letters)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?party 
         a :Party;
@@ -124,7 +189,8 @@ WHERE {
     ?party :partyName ?partyName .
 
     FILTER CONTAINS(LCASE(?partyName), LCASE(@letters))
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 

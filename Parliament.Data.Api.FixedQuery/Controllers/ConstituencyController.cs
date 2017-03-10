@@ -8,12 +8,14 @@
     [RoutePrefix("constituencies")]
     public class ConstituencyController : BaseController
     {
-        // Ruby route: '/constituencies/:constituency', to: 'constituencies#show', constituency: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
+        // Ruby route: match '/constituencies/:constituency', to: 'constituencies#show', constituency: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
         [Route("{id:guid}", Name = "ConstituencyByID")]
         [HttpGet]
         public Graph ById(string id)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?constituencyGroup
         a :ConstituencyGroup ;
@@ -33,9 +35,9 @@ CONSTRUCT {
         :houseSeatHasSeatIncumbency ?seatIncumbency .
     ?seatIncumbency
         a :SeatIncumbency ;
-        :seatIncumbencyHasMember ?member ;
-        :seatIncumbencyEndDate ?seatIncumbencyEndDate ;
-        :seatIncumbencyStartDate ?seatIncumbencyStartDate .
+        :incumbencyHasMember ?member ;
+        :incumbencyEndDate ?incumbencyEndDate ;
+        :incumbencyStartDate ?incumbencyStartDate .
     ?member
         a :Person ;
         :personGivenName ?givenName ;
@@ -60,13 +62,14 @@ WHERE {
         ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
         ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
         ?seatIncumbency a :SeatIncumbency .
-        OPTIONAL { ?seatIncumbency :seatIncumbencyHasMember ?member . }
-        OPTIONAL { ?seatIncumbency :seatIncumbencyEndDate ?seatIncumbencyEndDate . }
-        OPTIONAL { ?seatIncumbency :seatIncumbencyStartDate ?seatIncumbencyStartDate . }
+        OPTIONAL { ?seatIncumbency :incumbencyHasMember ?member . }
+        OPTIONAL { ?seatIncumbency :incumbencyEndDate ?incumbencyEndDate . }
+        OPTIONAL { ?seatIncumbency :incumbencyStartDate ?incumbencyStartDate . }
         OPTIONAL { ?member :personGivenName ?givenName . }
         OPTIONAL { ?member :personFamilyName ?familyName . }
     }
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -80,7 +83,9 @@ WHERE {
         [HttpGet]
         public Graph ByInitial(string initial)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?constituencyGroup
         a :ConstituencyGroup ;
@@ -91,7 +96,8 @@ WHERE {
     OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
 
     FILTER STRSTARTS(LCASE(?name), LCASE(@letter)) 
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -105,7 +111,9 @@ WHERE {
         [HttpGet]
         public Graph Current()
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?constituencyGroup
         a :ConstituencyGroup ;
@@ -115,7 +123,8 @@ WHERE {
     ?constituencyGroup a :ConstituencyGroup .
     FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
     OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
-}";
+}
+";
 
             return BaseController.Execute(queryString);
         }
@@ -125,7 +134,9 @@ WHERE {
         [HttpGet]
         public Graph Lookup(string source, string id)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?constituency a :ConstituencyGroup .
 }
@@ -136,7 +147,8 @@ WHERE {
     ?constituency
         a :ConstituencyGroup ;
         ?source ?id .
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -148,11 +160,14 @@ WHERE {
 
         // Ruby route: get '/constituencies/:letters', to: 'constituencies#lookup_by_letters'
         // Was this not going to be called ByInitials? - CJA
+
         [Route("{letters:alpha:minlength(2)}", Name = "ConstituencyByLetters")]
         [HttpGet]
         public Graph ByLetters(string letters)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?constituency
         a :ConstituencyGroup ;
@@ -164,7 +179,8 @@ WHERE {
         :constituencyGroupName ?constituencyName .
 
     FILTER CONTAINS(LCASE(?constituencyName), LCASE(@letters))
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -173,12 +189,37 @@ WHERE {
             return BaseController.Execute(query);
         }
 
+        // Ruby route: get '/constituencies/a_z_letters', to: 'constituencies#a_z_letters'
+        [Route("a-z", Name = "ConstituencyAToZ")]
+        [HttpGet]
+        public Graph AToZLetters()
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
+CONSTRUCT {
+     _:x :value ?firstLetter.
+}
+WHERE {
+    SELECT DISTINCT ?firstLetter WHERE {
+    ?constituency :constituencyGroupName ?constituencyName .
+    BIND(ucase(SUBSTR(?constituencyName, 1, 1)) as ?firstLetter)
+    }
+}
+";
+    
+            var query = new SparqlParameterizedString(queryString);
+            return BaseController.Execute(query);
+        }
+
         // Ruby route: match '/constituencies/current/:letter', to: 'constituencies#current_letters', letter: /[A-Za-z]/, via: [:get]
         [Route("current/{initial:maxlength(1)}", Name = "ConstituencyCurrentByInitial")]
         [HttpGet]
         public Graph CurrentByLetters(string initial)
         {
-            var queryString = @"PREFIX : <http://id.ukpds.org/schema/>
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?constituencyGroup
         a :ConstituencyGroup ;
@@ -189,7 +230,8 @@ WHERE {
     FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
     OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
     FILTER STRSTARTS(LCASE(?name), LCASE(@initial))
-}";
+}
+";
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -197,5 +239,30 @@ WHERE {
 
             return BaseController.Execute(query);
         }
+        // Ruby route: get '/constituencies/current/a_z_letters', to: 'constituencies#a_z_letters_current'
+        [Route("current/a-z", Name = "ConstituencyCurrentAToZ")]
+        [HttpGet]
+        public Graph CurrentAToZLetters()
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
+CONSTRUCT {
+     _:x :value ?firstLetter.
+}
+WHERE {
+    SELECT DISTINCT ?firstLetter WHERE {
+    ?constituency :constituencyGroupName ?constituencyName.
+    FILTER NOT EXISTS {?constituency a :PastConstituencyGroup. }
+
+    BIND(ucase(SUBSTR(?constituencyName, 1, 1)) as ?firstLetter)
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+            return BaseController.Execute(query);
+        }
+
     }
 }
