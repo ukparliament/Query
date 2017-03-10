@@ -13,6 +13,7 @@
         public HttpResponseMessage Get()
         {
             var links = new string[] {
+                this.Url.Route("Index", null),
                 this.Url.Route("PersonById", new { id = "f3b5d9a2-88e6-45ba-96ef-17766b1acdcc" }),
                 this.Url.Route("PersonByInitial", new { initial = "ö" }),
                 this.Url.Route("PersonLookup", new { source = "mnisId", id = "3299" }),

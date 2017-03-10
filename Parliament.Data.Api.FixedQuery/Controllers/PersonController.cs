@@ -8,6 +8,31 @@
     [RoutePrefix("people")]
     public class PersonController : BaseController
     {
+        // Ruby route: resources :people, only: [:index]
+        [Route("", Name = "index")]
+        [HttpGet]
+        public Graph Index()
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
+CONSTRUCT {
+    ?person
+      	a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName .
+    }
+WHERE {
+    ?person a :Person .
+    OPTIONAL { ?person :personGivenName ?givenName } .
+    OPTIONAL { ?person :personFamilyName ?familyName } .
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            return BaseController.Execute(query);
+        }
         // Ruby route: match '/people/:person', to: 'people#show', person: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
         [Route("{id:guid}", Name = "PersonById")]
         [HttpGet]
