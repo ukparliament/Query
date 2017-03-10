@@ -13,7 +13,7 @@
         public HttpResponseMessage Get()
         {
             var links = new string[] {
-                this.Url.Route("Index", null),
+                this.Url.Route("PersonIndex", null),
                 this.Url.Route("PersonById", new { id = "f3b5d9a2-88e6-45ba-96ef-17766b1acdcc" }),
                 this.Url.Route("PersonByInitial", new { initial = "ö" }),
                 this.Url.Route("PersonLookup", new { source = "mnisId", id = "3299" }),
@@ -60,6 +60,9 @@
                 this.Url.Route("HouseById", new { id = "4b77dd58-f6ba-4121-b521-c8ad70465f52" }),
                 this.Url.Route("HouseLookup", new { source = "name", id = "House of Lords" }),
                 this.Url.Route("HouseByLetters", new { letters = "house" }),
+
+                this.Url.Route("ContactPointIndex", null),
+                this.Url.Route("ContactPointById", new { id = "71cb6459-363d-4278-b6f1-04c497be95a1" }),
 
 
             };

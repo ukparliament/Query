@@ -168,6 +168,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ContactPointsController.cs" />
     <Compile Include="Controllers\HouseController.cs" />
     <Compile Include="Controllers\PartyController.cs" />
     <Compile Include="Controllers\HelpController.cs" />

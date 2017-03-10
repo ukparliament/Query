@@ -9,7 +9,7 @@
     public class PersonController : BaseController
     {
         // Ruby route: resources :people, only: [:index]
-        [Route("", Name = "index")]
+        [Route("", Name = "PersonIndex")]
         [HttpGet]
         public Graph Index()
         {
