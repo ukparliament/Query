@@ -522,7 +522,6 @@ WHERE {
 
         // Ruby route: resources :people, only: [:index] do get '/contact_points',to: 'people#contact_points' end
         // note: query currently only really returns parliamentary contact point, not "contact points"
-        // query currently massively distended to test whether queries really need to be under 100 lines or not
        
         [Route("{id:guid}/contact_points", Name = "PersonContactPoints")]
         [HttpGet]
