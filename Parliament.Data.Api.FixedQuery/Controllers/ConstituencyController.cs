@@ -296,41 +296,161 @@ WHERE {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
 
-      CONSTRUCT{
-    	   	?constituencyGroup
-            a :ConstituencyGroup ;
-         		:constituencyGroupName ?name ;
-         		:constituencyGroupHasHouseSeat ?houseSeat ;
-            :constituencyGroupStartDate ?constituencyGroupStartDate ;
-            :constituencyGroupEndDate ?constituencyGroupEndDate .
-         	?houseSeat a :HouseSeat ;
-            :houseSeatHasSeatIncumbency ?seatIncumbency .
-    	  	?seatIncumbency a :SeatIncumbency ;
-                          :incumbencyHasMember ?member ;
-          					      :incumbencyEndDate ?seatIncumbencyEndDate ;
-        					        :incumbencyStartDate ?seatIncumbencyStartDate .
-        	?member a :Person ;
-                  :personGivenName ?givenName ;
-        			    :personFamilyName ?familyName .
+CONSTRUCT{
+   	?constituencyGroup
+        a :ConstituencyGroup ;
+   		:constituencyGroupName ?name ;
+   		:constituencyGroupHasHouseSeat ?houseSeat ;
+        :constituencyGroupStartDate ?constituencyGroupStartDate ;
+        :constituencyGroupEndDate ?constituencyGroupEndDate .
+   	?houseSeat 
+        a :HouseSeat ;
+        :houseSeatHasSeatIncumbency ?seatIncumbency .
+    ?seatIncumbency 
+        a :SeatIncumbency ;
+        :incumbencyHasMember ?member ;
+        :incumbencyEndDate ?seatIncumbencyEndDate ;
+        :incumbencyStartDate ?seatIncumbencyStartDate .
+    ?member 
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName .
+    }
+WHERE {
+    BIND( @constituencyid AS ?constituencyGroup )
+    ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?constituencyGroupEndDate . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?constituencyGroupStartDate . }
+    OPTIONAL {
+        ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
+        OPTIONAL {
+            ?seatIncumbency :incumbencyHasMember ?member .
+            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+        	OPTIONAL { ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate . }
+        	OPTIONAL { ?member :personGivenName ?givenName . }
+        	OPTIONAL { ?member :personFamilyName ?familyName . }
+        }
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("constituencyid", new Uri(BaseController.instance, id));
+
+            return BaseController.Execute(query);
+        }
+
+        // Ruby route: resources :constituencies, only: [:index] do get '/members/current', to: 'constituencies#current_member' end
+        [Route("{id:guid}/members/current", Name = "ConstituencyCurrentMembers")]
+        [HttpGet]
+        public Graph CurrentMembers(string id)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+     
+CONSTRUCT{
+   	?constituencyGroup
+       	a :ConstituencyGroup ;
+		:constituencyGroupName ?name ;
+        :constituencyGroupStartDate ?constituencyGroupStartDate ;
+        :constituencyGroupHasHouseSeat ?houseSeat .
+    ?houseSeat 
+        a :HouseSeat ;
+        :houseSeatHasSeatIncumbency ?seatIncumbency .
+    ?seatIncumbency 
+        a :SeatIncumbency ;
+        :incumbencyHasMember ?member ;
+        :incumbencyEndDate ?seatIncumbencyEndDate ;
+        :incumbencyStartDate ?seatIncumbencyStartDate .
+    ?member 
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName .
+    }
+WHERE {
+    BIND( @constituencyid AS ?constituencyGroup )
+  	?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?constituencyGroupStartDate . }
+    OPTIONAL {
+        ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
+        FILTER NOT EXISTS { ?seatIncumbency a :PastIncumbency . }
+        OPTIONAL {
+    	    ?seatIncumbency :incumbencyHasMember ?member .
+            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+        	OPTIONAL { ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate . }
+        	OPTIONAL { ?member :personGivenName ?givenName . }
+        	OPTIONAL { ?member :personFamilyName ?familyName . }
+        }
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("constituencyid", new Uri(BaseController.instance, id));
+
+            return BaseController.Execute(query);
+        }
+
+        // Ruby route: resources :constituencies, only: [:index] do get '/contact_point', to: 'constituencies#contact_point' end
+        // why is this singular?
+        [Route("{id:guid}/contact_point", Name = "ConstituencyContactPoint")]
+        [HttpGet]
+        public Graph ContactPoint(string id)
+        {
+            var queryString = @"
+PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
+      	?constituencyGroup a parl:ConstituencyGroup ;
+        				parl:constituencyGroupHasHouseSeat ?houseSeat ;
+        				parl:constituencyGroupName ?name .
+        ?houseSeat a parl:HouseSeat ;
+                parl:houseSeatHasSeatIncumbency ?incumbency .
+    	  ?incumbency a parl:SeatIncumbency ;
+                parl:incumbencyHasContactPoint ?contactPoint .
+        ?contactPoint a parl:ContactPoint ;
+        			  parl:email ?email ;
+                parl:phoneNumber ?phoneNumber ;
+        			  parl:faxNumber ?faxNumber ;
+    			      parl:contactForm ?contactForm ;
+    	          parl:contactPointHasPostalAddress ?postalAddress .
+        ?postalAddress a parl:PostalAddress ;
+        			 parl:postCode ?postCode ;
+       				 parl:addressLine1 ?addressLine1 ;
+    				   parl:addressLine2 ?addressLine2 ;
+    				   parl:addressLine3 ?addressLine3 ;
+    				   parl:addressLine4 ?addressLine4 ;
+    				   parl:addressLine5 ?addressLine5 .
       }
       WHERE {
-        BIND( @constituencyid AS ?constituencyGroup )
-    	  ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
-    	  OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
-        OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?constituencyGroupEndDate . }
-        OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?constituencyGroupStartDate . }
-    	  OPTIONAL {
-          ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
-          OPTIONAL {
-    	      ?seatIncumbency :incumbencyHasMember ?member .
-              OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
-        	    OPTIONAL { ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate . }
-        	    OPTIONAL { ?member :personGivenName ?givenName . }
-        	    OPTIONAL { ?member :personFamilyName ?familyName . }
-          }
-        }
+    	BIND( @constituencyid AS ?constituencyGroup )
+      	 OPTIONAL {
+        	?constituencyGroup parl:constituencyGroupHasHouseSeat ?houseSeat .
+        	OPTIONAL {
+        		?houseSeat parl:houseSeatHasSeatIncumbency ?incumbency .
+        		FILTER NOT EXISTS { ?incumbency a parl:PastIncumbency . }
+        		OPTIONAL {
+            		?incumbency parl:incumbencyHasContactPoint ?contactPoint .
+                    OPTIONAL{ ?contactPoint parl:email ?email . }
+                    OPTIONAL{ ?contactPoint parl:phoneNumber ?phoneNumber . }
+                    OPTIONAL{ ?contactPoint parl:faxNumber ?faxNumber . }
+                    OPTIONAL{ ?contactPoint parl:contactForm ?contactForm . }
+                    OPTIONAL{ ?contactPoint parl:contactPointHasPostalAddress ?postalAddress .
+                        OPTIONAL{ ?postalAddress parl:postCode ?postCode . }
+                        OPTIONAL{ ?postalAddress parl:addressLine1 ?addressLine1 . }
+                        OPTIONAL{ ?postalAddress parl:addressLine2 ?addressLine2 . }
+                        OPTIONAL{ ?postalAddress parl:addressLine3 ?addressLine3 . }
+                        OPTIONAL{ ?postalAddress parl:addressLine4 ?addressLine4 . }
+                        OPTIONAL{ ?postalAddress parl:addressLine5 ?addressLine5 . }
+                    }
+                }
+        		}
+    		}
+        OPTIONAL { ?constituencyGroup parl:constituencyGroupName ?name . }
       }
-
 ";
 
             var query = new SparqlParameterizedString(queryString);
