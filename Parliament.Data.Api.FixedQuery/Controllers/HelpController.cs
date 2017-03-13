@@ -37,7 +37,8 @@
                 this.Url.Route("MemberAToZ", null),
                 this.Url.Route("MemberCurrentAToZ", null),
 
-
+                
+                this.Url.Route("ConstituencyIndex", null),
                 this.Url.Route("ConstituencyByID", new { id = "c6a51660-83a4-41eb-82c4-353b5b188caa" }),
                 this.Url.Route("ConstituencyByInitial", new { initial = "l" }),
                 this.Url.Route("ConstituencyCurrent", null),
@@ -46,6 +47,7 @@
                 this.Url.Route("ConstituencyCurrentByInitial", new { initial = "v" }),
                 this.Url.Route("ConstituencyAToZ", null),
                 this.Url.Route("ConstituencyCurrentAToZ", null),
+                this.Url.Route("ConstituencyMembers", new { id = "0dc99b0c-63a1-4c47-949b-cf836d557708" }),
 
 
                 this.Url.Route("PartyIndex", null),

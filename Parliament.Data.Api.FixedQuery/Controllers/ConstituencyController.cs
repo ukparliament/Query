@@ -264,5 +264,81 @@ WHERE {
             return BaseController.Execute(query);
         }
 
+        // Ruby route: resources :constituencies, only: [:index]
+        [Route("", Name = "ConstituencyIndex")]
+        [HttpGet]
+        public Graph Index()
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
+CONSTRUCT{
+    ?constituencyGroup
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?name .
+    }
+WHERE {
+ 	?constituencyGroup a :ConstituencyGroup .
+    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            return BaseController.Execute(query);
+        }
+
+        // Ruby route: resources :constituencies, only: [:index] do get '/members', to: 'constituencies#members' end
+        [Route("{id:guid}/members", Name = "ConstituencyMembers")]
+        [HttpGet]
+        public Graph Members(string id)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
+      CONSTRUCT{
+    	   	?constituencyGroup
+            a :ConstituencyGroup ;
+         		:constituencyGroupName ?name ;
+         		:constituencyGroupHasHouseSeat ?houseSeat ;
+            :constituencyGroupStartDate ?constituencyGroupStartDate ;
+            :constituencyGroupEndDate ?constituencyGroupEndDate .
+         	?houseSeat a :HouseSeat ;
+            :houseSeatHasSeatIncumbency ?seatIncumbency .
+    	  	?seatIncumbency a :SeatIncumbency ;
+                          :incumbencyHasMember ?member ;
+          					      :incumbencyEndDate ?seatIncumbencyEndDate ;
+        					        :incumbencyStartDate ?seatIncumbencyStartDate .
+        	?member a :Person ;
+                  :personGivenName ?givenName ;
+        			    :personFamilyName ?familyName .
+      }
+      WHERE {
+        BIND( @constituencyid AS ?constituencyGroup )
+    	  ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+    	  OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+        OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?constituencyGroupEndDate . }
+        OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?constituencyGroupStartDate . }
+    	  OPTIONAL {
+          ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
+          OPTIONAL {
+    	      ?seatIncumbency :incumbencyHasMember ?member .
+              OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+        	    OPTIONAL { ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate . }
+        	    OPTIONAL { ?member :personGivenName ?givenName . }
+        	    OPTIONAL { ?member :personFamilyName ?familyName . }
+          }
+        }
+      }
+
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("constituencyid", new Uri(BaseController.instance, id));
+
+            return BaseController.Execute(query);
+        }
+
     }
 }
