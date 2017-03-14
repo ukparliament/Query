@@ -78,6 +78,15 @@
                 this.Url.Route("HouseCurrentParties", new { id = "4b77dd58-f6ba-4121-b521-c8ad70465f52"}),
                 this.Url.Route("HousePartyById", new { houseid = "4b77dd58-f6ba-4121-b521-c8ad70465f52", partyid = "61080972-c215-42a9-a04a-10e0002e1c18"}),
                 this.Url.Route("HouseMembersByInitial", new { houseid = "4b77dd58-f6ba-4121-b521-c8ad70465f52", initial = "m"}),
+                this.Url.Route("HouseMembersAToZ", new { id = "4b77dd58-f6ba-4121-b521-c8ad70465f52" }),
+                this.Url.Route("HouseCurrentMembersByInitial", new { houseid = "4b77dd58-f6ba-4121-b521-c8ad70465f52", initial = "m"}),
+                this.Url.Route("HouseCurrentMembersAToZ", new { id = "4b77dd58-f6ba-4121-b521-c8ad70465f52" }),
+                this.Url.Route("HousePartyMembers", new { houseid = "4b77dd58-f6ba-4121-b521-c8ad70465f52", partyid = "61080972-c215-42a9-a04a-10e0002e1c18"}),
+                this.Url.Route("HousePartyMembersByInitial", new { houseid = "4b77dd58-f6ba-4121-b521-c8ad70465f52", partyid = "61080972-c215-42a9-a04a-10e0002e1c18", initial = "c"}),
+                this.Url.Route("HousePartyMembersAToZ", new { houseid = "4b77dd58-f6ba-4121-b521-c8ad70465f52", partyid = "61080972-c215-42a9-a04a-10e0002e1c18"}),
+                this.Url.Route("HousePartyCurrentMembers", new { houseid = "4b77dd58-f6ba-4121-b521-c8ad70465f52", partyid = "61080972-c215-42a9-a04a-10e0002e1c18"}),
+                this.Url.Route("HousePartyCurrentMembersByInitial", new { houseid = "4b77dd58-f6ba-4121-b521-c8ad70465f52", partyid = "61080972-c215-42a9-a04a-10e0002e1c18", initial = "f"}),
+                this.Url.Route("HousePartyCurrentMembersAToZ", new { houseid = "4b77dd58-f6ba-4121-b521-c8ad70465f52", partyid = "61080972-c215-42a9-a04a-10e0002e1c18"}),
 
 
                 this.Url.Route("ContactPointIndex", null),

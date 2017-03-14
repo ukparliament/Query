@@ -427,7 +427,498 @@ WHERE {
             return BaseController.Execute(query);
         }
 
+        // Ruby route: resources :houses, only: [:index] do get '/members/a_z_letters', to: 'houses#a_z_letters_members' end
+        [Route("{id:guid}/members/a_z_letters", Name = "HouseMembersAToZ")]
+        [HttpGet]
+        public Graph MembersAToZLetters(string id)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+     
+CONSTRUCT {
+    _:x :value ?firstLetter .
+    }
+WHERE {
+    SELECT DISTINCT ?firstLetter WHERE {
+        BIND(@houseid AS ?house)
+        ?house :houseName ?houseName .
+    	?person
+            a :Member;
+         	:personFamilyName ?familyName .
+    	?incumbency :incumbencyHasMember ?person .
+   	    { ?incumbency :houseIncumbencyHasHouse ?house . }
+    	UNION {
+            ?incumbency :seatIncumbencyHasHouseSeat ?seat .
+          	?seat :houseSeatHasHouse ?house .
+    	}
+    BIND(ucase(SUBSTR(?familyName, 1, 1)) as ?firstLetter)
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("houseid", new Uri(BaseController.instance, id));
+
+            return BaseController.Execute(query);
+        }
+        // Ruby route: resources :houses, only: [:index] do match '/members/current/:letter', to: 'houses#current_members_letters', letter: /[A-Za-z]/, via: [:get] end
+        [Route("{houseid:guid}/members/current/{initial:maxlength(1)}", Name = "HouseCurrentMembersByInitial")]
+        [HttpGet]
+        public Graph CurrentMembersByInitial(string houseid, string initial)
+        {
+            var queryString = @"
+
+PREFIX : <http://id.ukpds.org/schema/>
+     
+CONSTRUCT {
+    ?person
+    	a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        :partyMemberHasPartyMembership ?partyMembership ;
+        :memberHasIncumbency ?incumbency .
+    ?house
+        a :House ;
+        :houseName ?houseName .
+    ?seatIncumbency
+        a :SeatIncumbency ;
+        :incumbencyStartDate ?incumbencyStartDate ;
+        :seatIncumbencyHasHouseSeat ?seat .
+    ?houseIncumbency
+        a :HouseIncumbency ;
+        :incumbencyStartDate ?incumbencyStartDate ;
+        :houseIncumbencyHasHouse ?house .
+    ?seat
+        a :HouseSeat ;
+        :houseSeatHasConstituencyGroup ?constituency .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+    ?constituency
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?constituencyName .
+    }
+WHERE {
+    BIND(@houseid AS ?house)
+    ?house :houseName ?houseName .
+    ?person 
+        a :Member ;
+       	:personFamilyName ?familyName ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    	FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+    	?partyMembership :partyMembershipHasParty ?party .
+    	?party :partyName ?partyName .
+    	?incumbency :incumbencyHasMember ?person ;
+       	    :incumbencyStartDate ?incumbencyStartDate .
+    	FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+   	    {
+    	    ?incumbency :houseIncumbencyHasHouse ?house .
+            BIND(?incumbency AS ?houseIncumbency)
+    	}
+  	UNION {
+      	?incumbency :seatIncumbencyHasHouseSeat ?seat .
+      	?seat :houseSeatHasHouse ?house .
+       	?seat :houseSeatHasConstituencyGroup ?constituency .
+       	?constituency :constituencyGroupName ?constituencyName .
+        BIND(?incumbency AS ?seatIncumbency)
+        }
+    OPTIONAL { ?person :personGivenName ?givenName . }
+    OPTIONAL { ?person :personFamilyName ?familyName . }
+    FILTER STRSTARTS(LCASE(?familyName), LCASE(@initial))
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
+            query.SetLiteral("initial", initial);
+
+            return BaseController.Execute(query);
+        }
+        // Ruby route: resources :houses, only: [:index] do get '/members/current/a_z_letters', to: 'houses#a_z_letters_members' end
+        [Route("{id:guid}/members/current/a_z_letters", Name = "HouseCurrentMembersAToZ")]
+        [HttpGet]
+        public Graph CurrentMembersAToZLetters(string id)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+     
+CONSTRUCT {
+    _:x :value ?firstLetter .
+    }
+WHERE {
+    SELECT DISTINCT ?firstLetter WHERE {
+    BIND(@houseid AS ?house)
+    ?house :houseName ?houseName .
+    ?person 
+        a :Member;
+       	:personFamilyName ?familyName .
+    ?incumbency :incumbencyHasMember ?person .
+    FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+ 	{ ?incumbency :houseIncumbencyHasHouse ?house . }
+    UNION {
+       	?incumbency :seatIncumbencyHasHouseSeat ?seat .
+       	?seat :houseSeatHasHouse ?house .
+        }
+    BIND(ucase(SUBSTR(?familyName, 1, 1)) as ?firstLetter)
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("houseid", new Uri(BaseController.instance, id));
+
+            return BaseController.Execute(query);
+        }
+
+        // Ruby route: resources :houses, only: [:index] do get '/parties/:party_id/members', to: 'houses#party_members' end
+        [Route("{houseid:guid}/parties/{partyid:guid}/members", Name = "HousePartyMembers")]
+        [HttpGet]
+        public Graph PartyMembers(string houseid, string partyid)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+     
+CONSTRUCT {
+  	?person
+      	a :Person ;
+      	:personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+      	:partyMemberHasPartyMembership ?partyMembership ;
+       	:memberHasIncumbency ?incumbency .
+   	?house
+       	a :House ;
+       	:houseName ?houseName .
+   	?party
+       	a :Party ;
+       	:partyName ?partyName .
+   	?partyMembership
+       	a :PartyMembership ;
+       	:partyMembershipStartDate ?partyMembershipStartDate ;
+       	:partyMembershipEndDate ?partyMembershipEndDate .
+   	?incumbency
+       	a :Incumbency ;
+       	:incumbencyStartDate ?incumbencyStartDate ;
+       	:incumbencyEndDate ?incumbencyEndDate .
+    }
+WHERE {
+   	BIND(@houseid AS ?house)
+    ?house :houseName ?houseName .
+    OPTIONAL {
+        BIND(@partyid AS ?party)
+        ?person 
+            a :Member ;
+    	    :partyMemberHasPartyMembership ?partyMembership .
+    	?partyMembership :partyMembershipHasParty ?party .
+        ?party :partyName ?partyName .
+        ?partyMembership :partyMembershipStartDate ?partyMembershipStartDate .
+    	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+  		?incumbency 
+            :incumbencyHasMember ?person ;
+            :incumbencyStartDate ?startDate .
+        OPTIONAL { ?incumbency :incumbencyEndDate ?incumbencyEndDate . }
+        OPTIONAL { ?person :personGivenName ?givenName . }
+  	    OPTIONAL { ?person :personFamilyName ?familyName . }
+		{ ?incumbency :houseIncumbencyHasHouse ?house .	}
+		UNION {
+        	?incumbency :seatIncumbencyHasHouseSeat ?seat .
+            ?seat :houseSeatHasHouse ?house .
+    	}
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
+            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+
+            return BaseController.Execute(query);
+        }
+
+        // Ruby route: resources :houses, only: [:index] do match '/parties/:party_id/members/:letter', to: 'houses#party_members_letters', letter: /[A-Za-z]/, via: [:get] end
+        [Route("{houseid:guid}/parties/{partyid:guid}/members/{initial:alpha:maxlength(1)}", Name = "HousePartyMembersByInitial")]
+        [HttpGet]
+        public Graph PartyMembers(string houseid, string partyid, string initial)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+      
+CONSTRUCT {
+    ?person
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        :partyMemberHasPartyMembership ?partyMembership ;
+        :memberHasIncumbency ?incumbency .
+    ?house
+       	a :House ;
+       	:houseName ?houseName .
+    ?party
+       	a :Party ;
+       	:partyName ?partyName .
+    ?partyMembership
+       	a :PartyMembership ;
+       	:partyMembershipStartDate ?partyMembershipStartDate ;
+       	:partyMembershipEndDate ?partyMembershipEndDate .
+    ?incumbency
+       	a :Incumbency ;
+       	:incumbencyStartDate ?incumbencyStartDate ;
+       	:incumbencyEndDate ?incumbencyEndDate .
+    }
+WHERE {
+   	BIND(@houseid AS ?house)
+    ?house :houseName ?houseName .
+    OPTIONAL {
+        BIND(@partyid AS ?party)
+        ?person 
+            a :Member ;
+  		    :partyMemberHasPartyMembership ?partyMembership .
+        ?partyMembership :partyMembershipHasParty ?party .
+    	?party :partyName ?partyName .
+        ?partyMembership :partyMembershipStartDate ?partyMembershipStartDate .
+    	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+   		?incumbency 
+            :incumbencyHasMember ?person ;
+            :incumbencyStartDate ?startDate .
+        OPTIONAL { ?incumbency :incumbencyEndDate ?incumbencyEndDate . }
+        OPTIONAL { ?person :personGivenName ?givenName . }
+  	    OPTIONAL { ?person :personFamilyName ?familyName . }
+		{ ?incumbency :houseIncumbencyHasHouse ?house . }
+		UNION {
+   			?incumbency :seatIncumbencyHasHouseSeat ?seat .
+   			?seat :houseSeatHasHouse ?house .
+		}
+        FILTER STRSTARTS(LCASE(?familyName), LCASE(@initial))
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
+            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetLiteral("initial", initial);
 
 
+            return BaseController.Execute(query);
+        }
+
+        // Ruby route: resources :houses, only: [:index] do get 'parties/:party_id/members/a_z_letters', to: 'houses#a_z_letters_party_members' end
+        [Route("{houseid:guid}/parties/{partyid:guid}/members/a_z_letters", Name = "HousePartyMembersAToZ")]
+        [HttpGet]
+        public Graph PartyMembersAToZLetters(string houseid, string partyid)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+     
+CONSTRUCT {
+    _:x :value ?firstLetter .
+    }
+WHERE {
+    SELECT DISTINCT ?firstLetter WHERE {
+        BIND(@houseid AS ?house)
+        BIND(@partyid AS ?party)
+   	    ?person 
+            a :Member ;
+            :personFamilyName ?familyName ;
+    	    :partyMemberHasPartyMembership ?partyMembership .
+    	?partyMembership :partyMembershipHasParty ?party .
+    	?incumbency :incumbencyHasMember ?person .
+   	    { ?incumbency :houseIncumbencyHasHouse ?house . }
+   	    UNION {
+            ?incumbency :seatIncumbencyHasHouseSeat ?seat .
+            ?seat :houseSeatHasHouse ?house .
+    	}
+    BIND(ucase(SUBSTR(?familyName, 1, 1)) as ?firstLetter)
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
+            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+
+            return BaseController.Execute(query);
+        }
+
+        // Ruby route: resources :houses, only: [:index] do get '/parties/:party_id/members/current', to: 'houses#current_party_members' end
+        [Route("{houseid:guid}/parties/{partyid:guid}/members/current", Name = "HousePartyCurrentMembers")]
+        [HttpGet]
+        public Graph PartyCurrentMembers(string houseid, string partyid)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+     
+CONSTRUCT {
+  	?person
+       	a :Person ;
+       	:personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+       	:partyMemberHasPartyMembership ?partyMembership ;
+       	:memberHasIncumbency ?incumbency .
+   	?house
+       	a :House ;
+       	:houseName ?houseName .
+   	?party
+       	a :Party ;
+       	:partyName ?partyName .
+   	?partyMembership
+       	a :PartyMembership ;
+       	:partyMembershipStartDate ?partyMembershipStartDate .
+   	?incumbency
+       	a :Incumbency ;
+       	:incumbencyStartDate ?incumbencyStartDate .
+    }
+WHERE {
+   	BIND(@houseid AS ?house)
+    ?house :houseName ?houseName .
+    OPTIONAL {
+        BIND(@partyid AS ?party)
+        ?person 
+            a :Member ;
+    		:partyMemberHasPartyMembership ?partyMembership .
+        FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+    	?partyMembership 
+            :partyMembershipHasParty ?party ;
+            :partyMembershipStartDate ?partyMembershipStartDate .
+    	?party :partyName ?partyName .
+	    ?incumbency 
+            :incumbencyHasMember ?person ;
+            :incumbencyStartDate ?startDate .
+        FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+        OPTIONAL { ?person :personGivenName ?givenName . }
+   	    OPTIONAL { ?person :personFamilyName ?familyName . }
+		{ ?incumbency :houseIncumbencyHasHouse ?house . }
+		UNION {
+   			?incumbency :seatIncumbencyHasHouseSeat ?seat .
+   			?seat :houseSeatHasHouse ?house .
+		}
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
+            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+
+            return BaseController.Execute(query);
+        }
+
+        // Ruby route: resources :houses, only: [:index] do match '/parties/:party_id/members/current/:letter', to: 'houses#current_party_members_letters', letter: /[A-Za-z]/, via: [:get] end
+        [Route("{houseid:guid}/parties/{partyid:guid}/members/current/{initial:alpha:maxlength(1)}", Name = "HousePartyCurrentMembersByInitial")]
+        [HttpGet]
+        public Graph PartyCurrentMembersByInitial(string houseid, string partyid, string initial)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+      
+CONSTRUCT {
+  	?person
+      	a :Person ;
+       	:personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+       	:partyMemberHasPartyMembership ?partyMembership ;
+       	:memberHasIncumbency ?incumbency .
+   	?house
+       	a :House ;
+       	:houseName ?houseName .
+   	?party
+       	a :Party ;
+       	:partyName ?partyName .
+   	?partyMembership
+       	a :PartyMembership ;
+       	:partyMembershipStartDate ?partyMembershipStartDate .
+   	?incumbency
+       	a :Incumbency ;
+       	:incumbencyStartDate ?incumbencyStartDate .
+    }
+WHERE {
+   	BIND(@houseid AS ?house)
+    ?house :houseName ?houseName .
+    OPTIONAL {
+        BIND(@partyid AS ?party)
+        ?person 
+            a :Member ;
+    		:partyMemberHasPartyMembership ?partyMembership .
+        FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+    	?partyMembership 
+            :partyMembershipHasParty ?party ;
+            :partyMembershipStartDate ?partyMembershipStartDate .
+    	?party :partyName ?partyName .
+    	?incumbency 
+            :incumbencyHasMember ?person ;
+            :incumbencyStartDate ?startDate .
+        FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+        OPTIONAL { ?person :personGivenName ?givenName . }
+    	OPTIONAL { ?person :personFamilyName ?familyName . }
+		{ ?incumbency :houseIncumbencyHasHouse ?house . }
+		UNION {
+   			?incumbency :seatIncumbencyHasHouseSeat ?seat .
+   			?seat :houseSeatHasHouse ?house .
+		}
+    }
+    FILTER STRSTARTS(LCASE(?familyName), LCASE(@initial))
+}
+
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
+            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetLiteral("initial", initial);
+
+
+            return BaseController.Execute(query);
+        }
+
+        // Ruby route: resources :houses, only: [:index] do get 'parties/:party_id/members/current/a_z_letters', to: 'houses#a_z_letters_party_members_current' end
+        [Route("{houseid:guid}/parties/{partyid:guid}/members/current/a_z_letters", Name = "HousePartyCurrentMembersAToZ")]
+        [HttpGet]
+        public Graph PartyCurrentMembersAToZLetters(string houseid, string partyid)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+     
+CONSTRUCT {
+    _:x :value ?firstLetter .
+    }
+WHERE {
+    SELECT DISTINCT ?firstLetter WHERE {
+        BIND(@houseid AS ?house)
+        BIND(@partyid AS ?party)
+  	    ?person a :Member .
+        ?person :personFamilyName ?familyName .
+   	    ?person :partyMemberHasPartyMembership ?partyMembership .
+        FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+  	    ?partyMembership :partyMembershipHasParty ?party .
+   	    ?incumbency :incumbencyHasMember ?person .
+        FILTER NOT EXISTS { ?incumbency a :PastIncumbency . 
+            }
+        { ?incumbency :houseIncumbencyHasHouse ?house . }
+        UNION {
+           	?incumbency :seatIncumbencyHasHouseSeat ?seat .
+       	    ?seat :houseSeatHasHouse ?house .
+        }
+    BIND(ucase(SUBSTR(?familyName, 1, 1)) as ?firstLetter)
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
+            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+
+            return BaseController.Execute(query);
+        }
     }
 }
