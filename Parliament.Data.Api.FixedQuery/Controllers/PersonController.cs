@@ -220,7 +220,7 @@ WHERE {
         }
 
         // Ruby: get '/people/members', to: 'members#index'
-        [Route("members", Name = "Member")]
+        [Route("members", Name = "MemberIndex")]
         [HttpGet]
         public Graph Member()
         {

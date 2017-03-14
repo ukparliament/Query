@@ -402,55 +402,61 @@ WHERE {
         public Graph ContactPoint(string id)
         {
             var queryString = @"
-PREFIX parl: <http://id.ukpds.org/schema/>
-     CONSTRUCT {
-      	?constituencyGroup a parl:ConstituencyGroup ;
-        				parl:constituencyGroupHasHouseSeat ?houseSeat ;
-        				parl:constituencyGroupName ?name .
-        ?houseSeat a parl:HouseSeat ;
-                parl:houseSeatHasSeatIncumbency ?incumbency .
-    	  ?incumbency a parl:SeatIncumbency ;
-                parl:incumbencyHasContactPoint ?contactPoint .
-        ?contactPoint a parl:ContactPoint ;
-        			  parl:email ?email ;
-                parl:phoneNumber ?phoneNumber ;
-        			  parl:faxNumber ?faxNumber ;
-    			      parl:contactForm ?contactForm ;
-    	          parl:contactPointHasPostalAddress ?postalAddress .
-        ?postalAddress a parl:PostalAddress ;
-        			 parl:postCode ?postCode ;
-       				 parl:addressLine1 ?addressLine1 ;
-    				   parl:addressLine2 ?addressLine2 ;
-    				   parl:addressLine3 ?addressLine3 ;
-    				   parl:addressLine4 ?addressLine4 ;
-    				   parl:addressLine5 ?addressLine5 .
-      }
-      WHERE {
-    	BIND( @constituencyid AS ?constituencyGroup )
-      	 OPTIONAL {
-        	?constituencyGroup parl:constituencyGroupHasHouseSeat ?houseSeat .
+PREFIX : <http://id.ukpds.org/schema/>
+     
+CONSTRUCT {
+   	?constituencyGroup 
+        a :ConstituencyGroup ;
+        :constituencyGroupHasHouseSeat ?houseSeat ;
+        :constituencyGroupName ?name .
+    ?houseSeat 
+        a :HouseSeat ;
+        :houseSeatHasSeatIncumbency ?incumbency .
+    ?incumbency 
+        a :SeatIncumbency ;
+        :incumbencyHasContactPoint ?contactPoint .
+    ?contactPoint 
+        a :ContactPoint ;
+        :email ?email ;
+        :phoneNumber ?phoneNumber ;
+        :faxNumber ?faxNumber ;
+    	:contactForm ?contactForm ;
+    	:contactPointHasPostalAddress ?postalAddress .
+    ?postalAddress 
+        a :PostalAddress ;
+        :postCode ?postCode ;
+       	:addressLine1 ?addressLine1 ;
+    	:addressLine2 ?addressLine2 ;
+    	:addressLine3 ?addressLine3 ;
+    	:addressLine4 ?addressLine4 ;
+    	:addressLine5 ?addressLine5 .
+    }
+WHERE {
+    BIND( @constituencyid AS ?constituencyGroup )
+    OPTIONAL {
+       	    ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
         	OPTIONAL {
-        		?houseSeat parl:houseSeatHasSeatIncumbency ?incumbency .
-        		FILTER NOT EXISTS { ?incumbency a parl:PastIncumbency . }
+        		?houseSeat :houseSeatHasSeatIncumbency ?incumbency .
+        		FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
         		OPTIONAL {
-            		?incumbency parl:incumbencyHasContactPoint ?contactPoint .
-                    OPTIONAL{ ?contactPoint parl:email ?email . }
-                    OPTIONAL{ ?contactPoint parl:phoneNumber ?phoneNumber . }
-                    OPTIONAL{ ?contactPoint parl:faxNumber ?faxNumber . }
-                    OPTIONAL{ ?contactPoint parl:contactForm ?contactForm . }
-                    OPTIONAL{ ?contactPoint parl:contactPointHasPostalAddress ?postalAddress .
-                        OPTIONAL{ ?postalAddress parl:postCode ?postCode . }
-                        OPTIONAL{ ?postalAddress parl:addressLine1 ?addressLine1 . }
-                        OPTIONAL{ ?postalAddress parl:addressLine2 ?addressLine2 . }
-                        OPTIONAL{ ?postalAddress parl:addressLine3 ?addressLine3 . }
-                        OPTIONAL{ ?postalAddress parl:addressLine4 ?addressLine4 . }
-                        OPTIONAL{ ?postalAddress parl:addressLine5 ?addressLine5 . }
+            		?incumbency :incumbencyHasContactPoint ?contactPoint .
+                    OPTIONAL{ ?contactPoint :email ?email . }
+                    OPTIONAL{ ?contactPoint :phoneNumber ?phoneNumber . }
+                    OPTIONAL{ ?contactPoint :faxNumber ?faxNumber . }
+                    OPTIONAL{ ?contactPoint :contactForm ?contactForm . }
+                    OPTIONAL{ ?contactPoint :contactPointHasPostalAddress ?postalAddress .
+                        OPTIONAL{ ?postalAddress :postCode ?postCode . }
+                        OPTIONAL{ ?postalAddress :addressLine1 ?addressLine1 . }
+                        OPTIONAL{ ?postalAddress :addressLine2 ?addressLine2 . }
+                        OPTIONAL{ ?postalAddress :addressLine3 ?addressLine3 . }
+                        OPTIONAL{ ?postalAddress :addressLine4 ?addressLine4 . }
+                        OPTIONAL{ ?postalAddress :addressLine5 ?addressLine5 . }
                     }
                 }
-        		}
-    		}
-        OPTIONAL { ?constituencyGroup parl:constituencyGroupName ?name . }
-      }
+        	}
+    	}
+    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+}
 ";
 
             var query = new SparqlParameterizedString(queryString);

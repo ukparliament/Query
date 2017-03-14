@@ -28,8 +28,8 @@
                 this.Url.Route("PersonCurrentHouse", new { id = "c6c0bfc6-bf28-4958-9cb2-939ea0e86c95" }),
 
 
-                // Member route exists on person controller
-                this.Url.Route("Member", null),
+                // MemberIndex route exists on person controller
+                this.Url.Route("MemberIndex", null),
 
                 this.Url.Route("MemberCurrent", null),
                 this.Url.Route("MemberByInitial", new { initial = "y" }),
@@ -68,13 +68,20 @@
                 this.Url.Route("PartyCurrentMembersAToZ", new { id = "c5858995-6d25-4eb5-b92e-fba3fbd8ba47" }),
 
 
-
+                this.Url.Route("HouseIndex", null),
                 this.Url.Route("HouseById", new { id = "4b77dd58-f6ba-4121-b521-c8ad70465f52" }),
                 this.Url.Route("HouseLookup", new { source = "name", id = "House of Lords" }),
                 this.Url.Route("HouseByLetters", new { letters = "house" }),
+                this.Url.Route("HouseMembers", new { id = "4b77dd58-f6ba-4121-b521-c8ad70465f52"}),
+                this.Url.Route("HouseCurrentMembers", new { id = "4b77dd58-f6ba-4121-b521-c8ad70465f52"}),
+                this.Url.Route("HouseParties", new { id = "4b77dd58-f6ba-4121-b521-c8ad70465f52"}),
+                this.Url.Route("HouseCurrentParties", new { id = "4b77dd58-f6ba-4121-b521-c8ad70465f52"}),
+                this.Url.Route("HousePartyById", new { houseid = "4b77dd58-f6ba-4121-b521-c8ad70465f52", partyid = "61080972-c215-42a9-a04a-10e0002e1c18"}),
+                this.Url.Route("HouseMembersByInitial", new { houseid = "4b77dd58-f6ba-4121-b521-c8ad70465f52", initial = "m"}),
+
 
                 this.Url.Route("ContactPointIndex", null),
-                this.Url.Route("ContactPointById", new { id = "71cb6459-363d-4278-b6f1-04c497be95a1" }),
+                this.Url.Route("ContactPointById", new { id = "71cb6459-363d-4278-b6f1-04c497be95a1" })
 
 
             };
