@@ -190,7 +190,7 @@ WHERE {
         }
 
         // Ruby route: get '/constituencies/a_z_letters', to: 'constituencies#a_z_letters'
-        [Route("a-z", Name = "ConstituencyAToZ")]
+        [Route("a_z_letters", Name = "ConstituencyAToZ")]
         [HttpGet]
         public Graph AToZLetters()
         {
@@ -240,7 +240,7 @@ WHERE {
             return BaseController.Execute(query);
         }
         // Ruby route: get '/constituencies/current/a_z_letters', to: 'constituencies#a_z_letters_current'
-        [Route("current/a-z", Name = "ConstituencyCurrentAToZ")]
+        [Route("current/a_z_letters", Name = "ConstituencyCurrentAToZ")]
         [HttpGet]
         public Graph CurrentAToZLetters()
         {
@@ -261,6 +261,208 @@ WHERE {
 ";
 
             var query = new SparqlParameterizedString(queryString);
+            return BaseController.Execute(query);
+        }
+
+        // Ruby route: resources :constituencies, only: [:index]
+        [Route("", Name = "ConstituencyIndex")]
+        [HttpGet]
+        public Graph Index()
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
+CONSTRUCT{
+    ?constituencyGroup
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?name .
+    }
+WHERE {
+ 	?constituencyGroup a :ConstituencyGroup .
+    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            return BaseController.Execute(query);
+        }
+
+        // Ruby route: resources :constituencies, only: [:index] do get '/members', to: 'constituencies#members' end
+        [Route("{id:guid}/members", Name = "ConstituencyMembers")]
+        [HttpGet]
+        public Graph Members(string id)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+
+CONSTRUCT{
+   	?constituencyGroup
+        a :ConstituencyGroup ;
+   		:constituencyGroupName ?name ;
+   		:constituencyGroupHasHouseSeat ?houseSeat ;
+        :constituencyGroupStartDate ?constituencyGroupStartDate ;
+        :constituencyGroupEndDate ?constituencyGroupEndDate .
+   	?houseSeat 
+        a :HouseSeat ;
+        :houseSeatHasSeatIncumbency ?seatIncumbency .
+    ?seatIncumbency 
+        a :SeatIncumbency ;
+        :incumbencyHasMember ?member ;
+        :incumbencyEndDate ?seatIncumbencyEndDate ;
+        :incumbencyStartDate ?seatIncumbencyStartDate .
+    ?member 
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName .
+    }
+WHERE {
+    BIND( @constituencyid AS ?constituencyGroup )
+    ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?constituencyGroupEndDate . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?constituencyGroupStartDate . }
+    OPTIONAL {
+        ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
+        OPTIONAL {
+            ?seatIncumbency :incumbencyHasMember ?member .
+            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+        	OPTIONAL { ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate . }
+        	OPTIONAL { ?member :personGivenName ?givenName . }
+        	OPTIONAL { ?member :personFamilyName ?familyName . }
+        }
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("constituencyid", new Uri(BaseController.instance, id));
+
+            return BaseController.Execute(query);
+        }
+
+        // Ruby route: resources :constituencies, only: [:index] do get '/members/current', to: 'constituencies#current_member' end
+        [Route("{id:guid}/members/current", Name = "ConstituencyCurrentMembers")]
+        [HttpGet]
+        public Graph CurrentMembers(string id)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+     
+CONSTRUCT{
+   	?constituencyGroup
+       	a :ConstituencyGroup ;
+		:constituencyGroupName ?name ;
+        :constituencyGroupStartDate ?constituencyGroupStartDate ;
+        :constituencyGroupHasHouseSeat ?houseSeat .
+    ?houseSeat 
+        a :HouseSeat ;
+        :houseSeatHasSeatIncumbency ?seatIncumbency .
+    ?seatIncumbency 
+        a :SeatIncumbency ;
+        :incumbencyHasMember ?member ;
+        :incumbencyEndDate ?seatIncumbencyEndDate ;
+        :incumbencyStartDate ?seatIncumbencyStartDate .
+    ?member 
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName .
+    }
+WHERE {
+    BIND( @constituencyid AS ?constituencyGroup )
+  	?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?constituencyGroupStartDate . }
+    OPTIONAL {
+        ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
+        FILTER NOT EXISTS { ?seatIncumbency a :PastIncumbency . }
+        OPTIONAL {
+    	    ?seatIncumbency :incumbencyHasMember ?member .
+            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+        	OPTIONAL { ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate . }
+        	OPTIONAL { ?member :personGivenName ?givenName . }
+        	OPTIONAL { ?member :personFamilyName ?familyName . }
+        }
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("constituencyid", new Uri(BaseController.instance, id));
+
+            return BaseController.Execute(query);
+        }
+
+        // Ruby route: resources :constituencies, only: [:index] do get '/contact_point', to: 'constituencies#contact_point' end
+        // why is this singular?
+        [Route("{id:guid}/contact_point", Name = "ConstituencyContactPoint")]
+        [HttpGet]
+        public Graph ContactPoint(string id)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+     
+CONSTRUCT {
+   	?constituencyGroup 
+        a :ConstituencyGroup ;
+        :constituencyGroupHasHouseSeat ?houseSeat ;
+        :constituencyGroupName ?name .
+    ?houseSeat 
+        a :HouseSeat ;
+        :houseSeatHasSeatIncumbency ?incumbency .
+    ?incumbency 
+        a :SeatIncumbency ;
+        :incumbencyHasContactPoint ?contactPoint .
+    ?contactPoint 
+        a :ContactPoint ;
+        :email ?email ;
+        :phoneNumber ?phoneNumber ;
+        :faxNumber ?faxNumber ;
+    	:contactForm ?contactForm ;
+    	:contactPointHasPostalAddress ?postalAddress .
+    ?postalAddress 
+        a :PostalAddress ;
+        :postCode ?postCode ;
+       	:addressLine1 ?addressLine1 ;
+    	:addressLine2 ?addressLine2 ;
+    	:addressLine3 ?addressLine3 ;
+    	:addressLine4 ?addressLine4 ;
+    	:addressLine5 ?addressLine5 .
+    }
+WHERE {
+    BIND( @constituencyid AS ?constituencyGroup )
+    OPTIONAL {
+       	    ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+        	OPTIONAL {
+        		?houseSeat :houseSeatHasSeatIncumbency ?incumbency .
+        		FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+        		OPTIONAL {
+            		?incumbency :incumbencyHasContactPoint ?contactPoint .
+                    OPTIONAL{ ?contactPoint :email ?email . }
+                    OPTIONAL{ ?contactPoint :phoneNumber ?phoneNumber . }
+                    OPTIONAL{ ?contactPoint :faxNumber ?faxNumber . }
+                    OPTIONAL{ ?contactPoint :contactForm ?contactForm . }
+                    OPTIONAL{ ?contactPoint :contactPointHasPostalAddress ?postalAddress .
+                        OPTIONAL{ ?postalAddress :postCode ?postCode . }
+                        OPTIONAL{ ?postalAddress :addressLine1 ?addressLine1 . }
+                        OPTIONAL{ ?postalAddress :addressLine2 ?addressLine2 . }
+                        OPTIONAL{ ?postalAddress :addressLine3 ?addressLine3 . }
+                        OPTIONAL{ ?postalAddress :addressLine4 ?addressLine4 . }
+                        OPTIONAL{ ?postalAddress :addressLine5 ?addressLine5 . }
+                    }
+                }
+        	}
+    	}
+    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("constituencyid", new Uri(BaseController.instance, id));
+
             return BaseController.Execute(query);
         }
 
