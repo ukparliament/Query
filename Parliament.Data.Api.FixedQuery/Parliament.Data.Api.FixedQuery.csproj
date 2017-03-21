@@ -164,7 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="StyleSheet1.css" />
+    <Content Include="resourceStyle.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
