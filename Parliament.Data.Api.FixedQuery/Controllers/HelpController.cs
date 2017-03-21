@@ -101,7 +101,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset='utf - 8'>
+        <meta charset='utf-8'>
     </head>
     <body>
         <ul>{string.Join(string.Empty, from link in links select $"<li><a href='{link}'>{HttpUtility.UrlDecode(link).Substring(this.Configuration.VirtualPathRoot.Length)}</a>")}</ul>
