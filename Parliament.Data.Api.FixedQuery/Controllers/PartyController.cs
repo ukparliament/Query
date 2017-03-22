@@ -62,7 +62,7 @@ WHERE {
         }
 
         // Ruby route: get '/parties/:letter', to: 'parties#letters', letter: /[A-Za-z]/, via: [:get]
-        [Route("{initial:alpha:maxlength(1)}", Name = "PartyByInitial")]
+        [Route(@"{initial:regex(^\p{L}+$):maxlength(1)}", Name = "PartyByInitial")]
         [HttpGet]
         public Graph ByInitial(string initial)
         {
@@ -169,7 +169,7 @@ WHERE {
         }
 
         // Ruby route: get '/parties/lookup', to: 'parties#lookup'
-        [Route("lookup/{source:alpha}/{id}", Name = "PartyLookup")]
+        [Route(@"lookup/{source:regex(^\p{L}+$)}/{id}", Name = "PartyLookup")]
         [HttpGet]
         public Graph Lookup(string source, string id)
         {
@@ -197,7 +197,7 @@ WHERE {
             return BaseController.Execute(query);
         }
         // Ruby route: get '/parties/:letters', to: 'parties#lookup_by_letters'
-        [Route("{letters:alpha:minlength(2)}", Name = "PartyByLetters")]
+        [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "PartyByLetters")]
         [HttpGet]
         public Graph ByLetters(string letters)
         {
@@ -310,7 +310,7 @@ WHERE {
             return BaseController.Execute(query);
         }
         // Ruby route: resources :parties, only: [:index] do match '/members/:letter', to: 'parties#members_letters', letter: /[A-Za-z]/, via: [:get] end
-        [Route("{id:guid}/members/{initial:alpha:maxlength(1)}", Name = "PartyMembersByInitial")]
+        [Route(@"{id:guid}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "PartyMembersByInitial")]
         [HttpGet]
         public Graph MembersByInitial(string id, string initial)
         {
@@ -388,7 +388,7 @@ WHERE {
 
 
         // Ruby route: resources :parties, only: [:index] do match '/members/current/:letter', to: 'parties#current_members_letters', letter: /[A-Za-z]/, via: [:get] end
-        [Route("{id:guid}/members/current/{initial:alpha:maxlength(1)}", Name = "PartyCurrentMembersByInitial")]
+        [Route(@"{id:guid}/members/current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "PartyCurrentMembersByInitial")]
         [HttpGet]
         public Graph CurrentMembersByInitial(string id, string initial)
         {

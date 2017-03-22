@@ -41,7 +41,7 @@ WHERE {
         // Ruby route: get '/houses/lookup', to: 'houses#lookup'
         // NOTE: this does not work as we don't have house mnis IDs, as that feels like overkill, and overreliance on MNIS
 
-        [Route("lookup/{source:alpha}/{id}", Name = "HouseLookup")]
+        [Route(@"lookup/{source:regex(^\p{L}+$)}/{id}", Name = "HouseLookup")]
         [HttpGet]
         public Graph Lookup(string source, string id)
         {
@@ -70,7 +70,7 @@ WHERE {
         }
 
         // Ruby route:   get '/houses/:letters', to: 'houses#lookup_by_letters'
-        [Route("{letters:alpha:minlength(2)}", Name = "HouseByLetters")]
+        [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "HouseByLetters")]
         [HttpGet]
         public Graph ByLetters(string letters)
         {
@@ -642,7 +642,7 @@ WHERE {
         }
 
         // Ruby route: resources :houses, only: [:index] do match '/parties/:party_id/members/:letter', to: 'houses#party_members_letters', letter: /[A-Za-z]/, via: [:get] end
-        [Route("{houseid:guid}/parties/{partyid:guid}/members/{initial:alpha:maxlength(1)}", Name = "HousePartyMembersByInitial")]
+        [Route(@"{houseid:guid}/parties/{partyid:guid}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HousePartyMembersByInitial")]
         [HttpGet]
         public Graph PartyMembers(string houseid, string partyid, string initial)
         {
@@ -813,7 +813,7 @@ WHERE {
         }
 
         // Ruby route: resources :houses, only: [:index] do match '/parties/:party_id/members/current/:letter', to: 'houses#current_party_members_letters', letter: /[A-Za-z]/, via: [:get] end
-        [Route("{houseid:guid}/parties/{partyid:guid}/members/current/{initial:alpha:maxlength(1)}", Name = "HousePartyCurrentMembersByInitial")]
+        [Route(@"{houseid:guid}/parties/{partyid:guid}/members/current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HousePartyCurrentMembersByInitial")]
         [HttpGet]
         public Graph PartyCurrentMembersByInitial(string houseid, string partyid, string initial)
         {

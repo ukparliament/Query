@@ -15,17 +15,22 @@
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
-
+     
 CONSTRUCT {
     ?person
       	a :Person ;
-        :personGivenName ?givenName ;
-        :personFamilyName ?familyName .
+       	:personGivenName ?givenName ;
+       	:personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
     }
 WHERE {
-    ?person a :Person .
-    OPTIONAL { ?person :personGivenName ?givenName } .
-    OPTIONAL { ?person :personFamilyName ?familyName } .
+    ?person 
+        a :Person .
+        OPTIONAL { ?person :personGivenName ?givenName } .
+        OPTIONAL { ?person :personFamilyName ?familyName } .
+        OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+        ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 }
 ";
 
@@ -191,7 +196,7 @@ WHERE {
         // TODO: validate source against actual properties?
         // TODO: validate cource and id combnation?
         // TODO: source could have numbers?
-        [Route("lookup/{source:alpha}/{id}", Name = "PersonLookup")]
+        [Route(@"lookup/{source:regex(^\p{L}+$)}/{id}", Name = "PersonLookup")]
         [HttpGet]
         public Graph ByExternalIdentifier(string source, string id)
         {
@@ -295,12 +300,11 @@ WHERE {
 
         // Ruby route: get '/people/:letters', to: 'people#lookup_by_letters'
         // TODO: letters length?
-        // TODO: letters should be in query string?
         // TODO: STR required because OPTIONAL?
         // TODO: accents?
         // TODO: could be CONTAINS?
         // TODO: letters go in STR?
-        [Route("{letters:alpha:minlength(2)}", Name = "PersonByLetters")]
+        [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "PersonByLetters")]
         [HttpGet]
         public Graph ByLetters(string letters)
         {
