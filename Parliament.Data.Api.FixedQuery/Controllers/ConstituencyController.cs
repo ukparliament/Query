@@ -110,38 +110,18 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         public Graph Current()
         {
             var queryString = @"
-PREFIX parl: <http://id.ukpds.org/schema/>
-     CONSTRUCT{
-          ?constituencyGroup
-              a parl:ConstituencyGroup ;
-              parl:constituencyGroupName ?name ;
-        	    parl:constituencyGroupHasHouseSeat ?seat .
-    	  ?seat
-        	a parl:HouseSeat ;
-        	parl:houseSeatHasSeatIncumbency ?seatIncumbency .
-    	  ?seatIncumbency
-        	a parl:SeatIncumbency ;
-        	parl:incumbencyHasMember ?member .
-    	  ?member
-        	a parl:Person ;
-        	parl:personGivenName ?givenName ;
-        	parl:personFamilyName ?familyName ;
-          <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs .
-      }
-      WHERE {
-          ?constituencyGroup a parl:ConstituencyGroup .
-          FILTER NOT EXISTS { ?constituencyGroup a parl:PastConstituencyGroup . }
-          OPTIONAL { ?constituencyGroup parl:constituencyGroupName ?name . }
-          OPTIONAL {
-    	      ?constituencyGroup parl:constituencyGroupHasHouseSeat ?seat .
-    	      ?seat parl:houseSeatHasSeatIncumbency ?seatIncumbency .
-    	      FILTER NOT EXISTS { ?seatIncumbency a parl:PastIncumbency . }
-    	      ?seatIncumbency parl:incumbencyHasMember ?member .
-    	      OPTIONAL { ?member parl:personGivenName ?givenName . }
-            OPTIONAL { ?member parl:personFamilyName ?familyName . }
-            OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
-          }
-      }
+PREFIX : <http://id.ukpds.org/schema/>
+
+CONSTRUCT {
+    ?constituencyGroup
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?name .
+}
+WHERE {
+    ?constituencyGroup a :ConstituencyGroup .
+    FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+}
 ";
 
             return BaseController.Execute(queryString);
@@ -153,19 +133,19 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         public Graph Lookup(string source, string id)
         {
             var queryString = @"
-PREFIX : <http://id.ukpds.org/schema/>
+PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
+        ?constituency
+           a parl:ConstituencyGroup .
+      }
+      WHERE {
+        BIND(@id AS ?id)
+        BIND(@source AS ?source)
 
-CONSTRUCT {
-    ?constituency a :ConstituencyGroup .
-}
-WHERE {
-    BIND(@id AS ?id)
-    BIND(@source AS ?source)
 
-    ?constituency
-        a :ConstituencyGroup ;
-        ?source ?id .
-}
+          ?constituency a parl:ConstituencyGroup.
+        ?constituency ?source ?id.
+      }
 ";
 
             var query = new SparqlParameterizedString(queryString);
@@ -184,17 +164,17 @@ WHERE {
         public Graph ByLetters(string letters)
         {
             var queryString = @"
-PREFIX : <http://id.ukpds.org/schema/>
-
-CONSTRUCT {
-    ?constituency
-        a :ConstituencyGroup ;
-        :constituencyGroupName ?constituencyName .
-}
-WHERE {
-    ?constituency
-        a :ConstituencyGroup ;
-        :constituencyGroupName ?constituencyName .
+PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
+        ?constituency
+        	a parl:ConstituencyGroup ;
+         	parl:constituencyGroupName ?constituencyName ;
+          parl:constituencyGroupEndDate ?endDate .
+      }
+      WHERE {
+        ?constituency a parl:ConstituencyGroup .
+        ?constituency parl:constituencyGroupName ?constituencyName .
+        OPTIONAL { ?constituency parl:constituencyGroupEndDate ?endDate . }
 
     FILTER CONTAINS(LCASE(?constituencyName), LCASE(@letters))
 }
