@@ -3,6 +3,7 @@
     using System;
     using System.Configuration;
     using System.IO;
+    using System.Net.Http;
     using System.Web.Http;
     using VDS.RDF;
     using VDS.RDF.Query;
@@ -13,12 +14,12 @@
         protected static readonly Uri instance = new Uri("http://id.ukpds.org/");
         protected static readonly Uri schema = new Uri(instance, "schema/");
 
-        protected static Graph Execute(SparqlParameterizedString query)
+        protected HttpResponseMessage Execute(SparqlParameterizedString query)
         {
-            return BaseController.Execute(query.ToString());
+            return Execute(query.ToString());
         }
 
-        protected static Graph Execute(string query)
+        protected HttpResponseMessage Execute(string query)
         {
             Graph graph;
             var endpoint = new Uri(ConfigurationManager.AppSettings["SparqlEndpoint"]);
@@ -30,7 +31,7 @@
             graph.NamespaceMap.AddNamespace("id", ConstituencyController.instance);
             graph.NamespaceMap.AddNamespace("schema", ConstituencyController.schema);
 
-            return graph;
+            return this.Request.CreateResponse(graph.IsEmpty ? System.Net.HttpStatusCode.NoContent : System.Net.HttpStatusCode.OK, graph);
         }
     }
 }

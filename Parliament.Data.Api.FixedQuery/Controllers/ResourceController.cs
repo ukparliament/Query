@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Net.Http;
     using System.Web.Http;
     using VDS.RDF;
     using VDS.RDF.Query;
@@ -11,7 +12,7 @@
     {
         [Route(Name = "ResourceById")]
         [HttpGet]
-        public Graph ById(string uri)
+        public HttpResponseMessage ById(string uri)
         {
             var queryString = @"DESCRIBE @uri";
 
@@ -19,7 +20,7 @@
 
             query.SetUri("uri", new Uri(uri));
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
     }
 }

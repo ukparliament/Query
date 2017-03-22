@@ -1,6 +1,7 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
     using System;
+    using System.Net.Http;
     using System.Web.Http;
     using VDS.RDF;
     using VDS.RDF.Query;
@@ -11,7 +12,7 @@
         // Ruby route: resources :people, only: [:index]
         [Route("", Name = "PersonIndex")]
         [HttpGet]
-        public Graph Index()
+        public HttpResponseMessage Index()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -36,12 +37,12 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
         // Ruby route: match '/people/:person', to: 'people#show', person: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
         [Route("{id:guid}", Name = "PersonById")]
         [HttpGet]
-        public Graph ById(string id)
+        public HttpResponseMessage ById(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -155,7 +156,7 @@ OPTIONAL {
 
             query.SetUri("id", new Uri(instance, id));
             
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby route: get '/people/:letter', to: 'people#letters', letter: /[A-Za-z]/, via: [:get]
@@ -163,7 +164,7 @@ OPTIONAL {
         // TODO: REGEX ignore case?
         [Route("{initial:maxlength(1)}", Name = "PersonByInitial")]
         [HttpGet]
-        public Graph ByInitial(string initial)
+        public HttpResponseMessage ByInitial(string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -188,7 +189,7 @@ WHERE {
 
             query.SetLiteral("initial", initial);
 
-            return BaseController.Execute(query);
+            return Execute(query);
 
         }
 
@@ -198,7 +199,7 @@ WHERE {
         // TODO: source could have numbers?
         [Route(@"lookup/{source:regex(^\p{L}+$)}/{id}", Name = "PersonLookup")]
         [HttpGet]
-        public Graph ByExternalIdentifier(string source, string id)
+        public HttpResponseMessage ByExternalIdentifier(string source, string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -221,13 +222,13 @@ WHERE {
             query.SetUri("source", new Uri(BaseController.schema, source));
             query.SetLiteral("id", id);
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby: get '/people/members', to: 'members#index'
         [Route("members", Name = "MemberIndex")]
         [HttpGet]
-        public Graph Member()
+        public HttpResponseMessage Member()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -295,7 +296,7 @@ WHERE {
 }
 ";
 
-            return BaseController.Execute(queryString);
+            return Execute(queryString);
         }
 
         // Ruby route: get '/people/:letters', to: 'people#lookup_by_letters'
@@ -306,7 +307,7 @@ WHERE {
         // TODO: letters go in STR?
         [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "PersonByLetters")]
         [HttpGet]
-        public Graph ByLetters(string letters)
+        public HttpResponseMessage ByLetters(string letters)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -329,14 +330,13 @@ WHERE {
             var query = new SparqlParameterizedString(queryString);
 
             query.SetLiteral("letters", letters);
-
-            return BaseController.Execute(query);
+            return Execute(query);            
         }
 
         // Ruby route: get '/people/a_z_letters', to: 'people#a_z_letters'
         [Route("a_z_letters", Name = "PersonAToZ")]
         [HttpGet]
-        public Graph AToZLetters()
+        public HttpResponseMessage AToZLetters()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -355,13 +355,13 @@ WHERE {
 ";
 
             var query = new SparqlParameterizedString(queryString);
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby route: resources :people, only: [:index] do get '/constituencies', to: 'people#constituencies' end
         [Route("{id:guid}/constituencies", Name = "PersonConstituencies")]
         [HttpGet]
-        public Graph Constituencies(string id)
+        public HttpResponseMessage Constituencies(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -405,13 +405,13 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
             query.SetUri("personid", new Uri(BaseController.instance, id));
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby route: resources :people, only: [:index] doget '/constituencies/current', to: 'people#current_constituency' end
         [Route("{id:guid}/constituencies/current", Name = "PersonCurrentConstituency")]
         [HttpGet]
-        public Graph CurrentConstituency(string id)
+        public HttpResponseMessage CurrentConstituency(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -452,13 +452,13 @@ WHERE {
             var query = new SparqlParameterizedString(queryString);
             query.SetUri("personid", new Uri(BaseController.instance, id));
         
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby route: resources :people, only: [:index] do get '/parties', to: 'people#parties' end
         [Route("{id:guid}/parties", Name = "PersonParties")]
         [HttpGet]
-        public Graph Parties(string id)
+        public HttpResponseMessage Parties(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -495,13 +495,13 @@ WHERE {
 
             query.SetUri("personid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby route: resources :people, only: [:index] do get '/parties/current', to: 'people#current_party' end
         [Route("{id:guid}/parties/current", Name = "PersonCurrentParty")]
         [HttpGet]
-        public Graph CurrentParty(string id)
+        public HttpResponseMessage CurrentParty(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -537,7 +537,7 @@ WHERE {
 
             query.SetUri("personid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby route: resources :people, only: [:index] do get '/contact_points',to: 'people#contact_points' end
@@ -545,7 +545,7 @@ WHERE {
        
         [Route("{id:guid}/contact_points", Name = "PersonContactPoints")]
         [HttpGet]
-        public Graph ContactPoints(string id)
+        public HttpResponseMessage ContactPoints(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -602,13 +602,13 @@ WHERE {
 
             query.SetUri("personid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby route: resources :people, only: [:index] do get '/houses',to: 'people#houses' end
         [Route("{id:guid}/houses", Name = "PersonHouses")]
         [HttpGet]
-        public Graph Houses(string id)
+        public HttpResponseMessage Houses(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -667,13 +667,13 @@ WHERE {
 
             query.SetUri("personid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby route: resources :people, only: [:index] do get '/houses/current', to: 'people#current_house' end
         [Route("{id:guid}/houses/current", Name = "PersonCurrentHouse")]
         [HttpGet]
-        public Graph CurrentHouse(string id)
+        public HttpResponseMessage CurrentHouse(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -729,7 +729,7 @@ WHERE {
 
             query.SetUri("personid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
     using System;
+    using System.Net.Http;
     using System.Web.Http;
     using VDS.RDF;
     using VDS.RDF.Query;
@@ -11,7 +12,7 @@
         // Ruby route: resources :contact_points, only: [:index]
         [Route("", Name = "ContactPointIndex")]
         [HttpGet]
-        public Graph Index()
+        public HttpResponseMessage Index()
         {
             var queryString = @"
 PREFIX parl: <http://id.ukpds.org/schema/>
@@ -49,13 +50,13 @@ PREFIX parl: <http://id.ukpds.org/schema/>
 
             var query = new SparqlParameterizedString(queryString);
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby route: resources :contact_points, only: [:show]
         [Route("{id:guid}", Name = "ContactPointById")]
         [HttpGet]
-        public Graph ById(string id)
+        public HttpResponseMessage ById(string id)
         {
             var queryString = @"
 PREFIX parl: <http://id.ukpds.org/schema/>
@@ -113,7 +114,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
 
             query.SetUri("id", new Uri(instance, id));
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
     }
 }

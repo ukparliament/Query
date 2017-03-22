@@ -1,6 +1,7 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
     using System;
+    using System.Net.Http;
     using System.Web.Http;
     using VDS.RDF;
     using VDS.RDF.Query;
@@ -11,7 +12,7 @@
         // Ruby route: match '/constituencies/:constituency', to: 'constituencies#show', constituency: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
         [Route("{id:guid}", Name = "ConstituencyByID")]
         [HttpGet]
-        public Graph ById(string id)
+        public HttpResponseMessage ById(string id)
         {
             var queryString = @"
 PREFIX parl: <http://id.ukpds.org/schema/>
@@ -72,13 +73,13 @@ PREFIX parl: <http://id.ukpds.org/schema/>
 
             query.SetUri("id", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby route: match '/constituencies/:letter', to: 'constituencies#letters', letter: /[A-Za-z]/, via: [:get]
         [Route(@"{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ConstituencyByInitial")]
         [HttpGet]
-        public Graph ByInitial(string initial)
+        public HttpResponseMessage ByInitial(string initial)
         {
             var queryString = @"
 PREFIX parl: <http://id.ukpds.org/schema/>
@@ -101,13 +102,13 @@ PREFIX parl: <http://id.ukpds.org/schema/>
 
             query.SetLiteral("letter", initial);
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby route: get '/constituencies/current', to: 'constituencies#current'
         [Route("current", Name = "ConstituencyCurrent")]
         [HttpGet]
-        public Graph Current()
+        public HttpResponseMessage Current()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -124,13 +125,13 @@ WHERE {
 }
 ";
 
-            return BaseController.Execute(queryString);
+            return Execute(queryString);
         }
 
         // Ruby route: get '/constituencies/lookup', to: 'constituencies#lookup'
         [Route(@"lookup/{source:regex(^\p{L}+$)}/{id}", Name = "ConstituencyLookup")]
         [HttpGet]
-        public Graph Lookup(string source, string id)
+        public HttpResponseMessage Lookup(string source, string id)
         {
             var queryString = @"
 PREFIX parl: <http://id.ukpds.org/schema/>
@@ -153,7 +154,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
             query.SetUri("source", new Uri(BaseController.schema, source));
             query.SetLiteral("id", id);
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby route: get '/constituencies/:letters', to: 'constituencies#lookup_by_letters'
@@ -161,7 +162,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
 
         [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "ConstituencyByLetters")]
         [HttpGet]
-        public Graph ByLetters(string letters)
+        public HttpResponseMessage ByLetters(string letters)
         {
             var queryString = @"
 PREFIX parl: <http://id.ukpds.org/schema/>
@@ -184,13 +185,13 @@ PREFIX parl: <http://id.ukpds.org/schema/>
 
             query.SetLiteral("letters", letters);
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby route: get '/constituencies/a_z_letters', to: 'constituencies#a_z_letters'
         [Route("a_z_letters", Name = "ConstituencyAToZ")]
         [HttpGet]
-        public Graph AToZLetters()
+        public HttpResponseMessage AToZLetters()
         {
             var queryString = @"
 
@@ -209,13 +210,13 @@ PREFIX parl: <http://id.ukpds.org/schema/>
 ";
     
             var query = new SparqlParameterizedString(queryString);
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby route: match '/constituencies/current/:letter', to: 'constituencies#current_letters', letter: /[A-Za-z]/, via: [:get]
         [Route("current/{initial:maxlength(1)}", Name = "ConstituencyCurrentByInitial")]
         [HttpGet]
-        public Graph CurrentByLetters(string initial)
+        public HttpResponseMessage CurrentByLetters(string initial)
         {
             var queryString = @"
 PREFIX parl: <http://id.ukpds.org/schema/>
@@ -259,12 +260,12 @@ PREFIX parl: <http://id.ukpds.org/schema/>
 
             query.SetLiteral("initial", initial);
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
         // Ruby route: get '/constituencies/current/a_z_letters', to: 'constituencies#a_z_letters_current'
         [Route("current/a_z_letters", Name = "ConstituencyCurrentAToZ")]
         [HttpGet]
-        public Graph CurrentAToZLetters()
+        public HttpResponseMessage CurrentAToZLetters()
         {
             var queryString = @"
 
@@ -285,13 +286,13 @@ PREFIX parl: <http://id.ukpds.org/schema/>
 ";
 
             var query = new SparqlParameterizedString(queryString);
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby route: resources :constituencies, only: [:index]
         [Route("", Name = "ConstituencyIndex")]
         [HttpGet]
-        public Graph Index()
+        public HttpResponseMessage Index()
         {
             var queryString = @"
 
@@ -313,13 +314,13 @@ PREFIX parl: <http://id.ukpds.org/schema/>
 
             var query = new SparqlParameterizedString(queryString);
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby route: resources :constituencies, only: [:index] do get '/members', to: 'constituencies#members' end
         [Route("{id:guid}/members", Name = "ConstituencyMembers")]
         [HttpGet]
-        public Graph Members(string id)
+        public HttpResponseMessage Members(string id)
         {
             var queryString = @"
 
@@ -370,13 +371,13 @@ PREFIX parl: <http://id.ukpds.org/schema/>
 
             query.SetUri("constituencyid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby route: resources :constituencies, only: [:index] do get '/members/current', to: 'constituencies#current_member' end
         [Route("{id:guid}/members/current", Name = "ConstituencyCurrentMember")]
         [HttpGet]
-        public Graph CurrentMembers(string id)
+        public HttpResponseMessage CurrentMembers(string id)
         {
             var queryString = @"
 PREFIX parl: <http://id.ukpds.org/schema/>
@@ -425,14 +426,14 @@ PREFIX parl: <http://id.ukpds.org/schema/>
 
             query.SetUri("constituencyid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
         // Ruby route: resources :constituencies, only: [:index] do get '/contact_point', to: 'constituencies#contact_point' end
         // why is this singular?
         [Route("{id:guid}/contact_point", Name = "ConstituencyContactPoint")]
         [HttpGet]
-        public Graph ContactPoint(string id)
+        public HttpResponseMessage ContactPoint(string id)
         {
             var queryString = @"
 PREFIX parl: <http://id.ukpds.org/schema/>
@@ -492,7 +493,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
 
             query.SetUri("constituencyid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return Execute(query);
         }
 
     }
