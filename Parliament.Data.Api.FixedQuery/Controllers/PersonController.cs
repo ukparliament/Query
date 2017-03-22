@@ -196,7 +196,7 @@ WHERE {
         // TODO: validate source against actual properties?
         // TODO: validate cource and id combnation?
         // TODO: source could have numbers?
-        [Route("lookup/{source:alpha}/{id}", Name = "PersonLookup")]
+        [Route(@"lookup/{source:regex(^\p{L}+$)}/{id}", Name = "PersonLookup")]
         [HttpGet]
         public Graph ByExternalIdentifier(string source, string id)
         {
@@ -300,12 +300,11 @@ WHERE {
 
         // Ruby route: get '/people/:letters', to: 'people#lookup_by_letters'
         // TODO: letters length?
-        // TODO: letters should be in query string?
         // TODO: STR required because OPTIONAL?
         // TODO: accents?
         // TODO: could be CONTAINS?
         // TODO: letters go in STR?
-        [Route("{letters:alpha:minlength(2)}", Name = "PersonByLetters")]
+        [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "PersonByLetters")]
         [HttpGet]
         public Graph ByLetters(string letters)
         {

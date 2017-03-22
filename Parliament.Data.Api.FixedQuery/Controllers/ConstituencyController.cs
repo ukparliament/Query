@@ -79,7 +79,7 @@ WHERE {
         }
 
         // Ruby route: match '/constituencies/:letter', to: 'constituencies#letters', letter: /[A-Za-z]/, via: [:get]
-        [Route("{initial:alpha:maxlength(1)}", Name = "ConstituencyByInitial")]
+        [Route(@"{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ConstituencyByInitial")]
         [HttpGet]
         public Graph ByInitial(string initial)
         {
@@ -130,7 +130,7 @@ WHERE {
         }
 
         // Ruby route: get '/constituencies/lookup', to: 'constituencies#lookup'
-        [Route("lookup/{source:alpha}/{id}", Name = "ConstituencyLookup")]
+        [Route(@"lookup/{source:regex(^\p{L}+$)}/{id}", Name = "ConstituencyLookup")]
         [HttpGet]
         public Graph Lookup(string source, string id)
         {
@@ -161,7 +161,7 @@ WHERE {
         // Ruby route: get '/constituencies/:letters', to: 'constituencies#lookup_by_letters'
         // Was this not going to be called ByInitials? - CJA
 
-        [Route("{letters:alpha:minlength(2)}", Name = "ConstituencyByLetters")]
+        [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "ConstituencyByLetters")]
         [HttpGet]
         public Graph ByLetters(string letters)
         {

@@ -86,7 +86,7 @@ UNION {
         }
 
         // Ruby route: match '/people/members/:letter', to: 'members#letters', letter: /[A-Za-z]/, via: [:get]
-        // TODO: {x:alpha}?
+        // TODO: {x:regex(^\p{L}+$)}?
         // TODO: {x:regex} with unicode alpha?
         // TODO: accents?
         [Route("{initial:maxlength(1)}", Name = "MemberByInitial")]
@@ -198,7 +198,7 @@ WHERE {
 
 
         // Ruby route: match '/people/members/current/:letter', to: 'members#current_letters', letter: /[A-Za-z]/, via: [:get]
-        // TODO: {x:alpha}?
+        // TODO: {x:regex(^\p{L}+$)}?
         // TODO: {x:regex} with unicode alpha?
         // TODO: accents?
         [Route("current/{initial:maxlength(1)}", Name = "MemberCurrentByInitial")]
