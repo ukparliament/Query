@@ -48,7 +48,7 @@
                 this.Url.Route("ConstituencyAToZ", null),
                 this.Url.Route("ConstituencyCurrentAToZ", null),
                 this.Url.Route("ConstituencyMembers", new { id = "0dc99b0c-63a1-4c47-949b-cf836d557708" }),
-                this.Url.Route("ConstituencyCurrentMembers", new { id = "0dc99b0c-63a1-4c47-949b-cf836d557708" }),
+                this.Url.Route("ConstituencyCurrentMember", new { id = "0dc99b0c-63a1-4c47-949b-cf836d557708" }),
                 this.Url.Route("ConstituencyContactPoint", new { id = "0dc99b0c-63a1-4c47-949b-cf836d557708" }),
 
 
