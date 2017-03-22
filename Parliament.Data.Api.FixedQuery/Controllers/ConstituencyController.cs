@@ -14,61 +14,58 @@
         public Graph ById(string id)
         {
             var queryString = @"
-PREFIX : <http://id.ukpds.org/schema/>
-
-CONSTRUCT {
-    ?constituencyGroup
-        a :ConstituencyGroup ;
-        :constituencyGroupEndDate ?endDate ;
-        :constituencyGroupStartDate ?startDate ;
-        :constituencyGroupName ?name ;
-        :constituencyGroupOnsCode ?onsCode ;
-        :constituencyGroupHasConstituencyArea ?constituencyArea ;
-        :constituencyGroupHasHouseSeat ?houseSeat .
-    ?constituencyArea
-        a :ConstituencyArea ;
-        :constituencyAreaLatitude ?latitude ;
-        :constituencyAreaLongitude ?longitude ;
-        :constituencyAreaExtent ?polygon .
-    ?houseSeat
-        a :HouseSeat ;
-        :houseSeatHasSeatIncumbency ?seatIncumbency .
-    ?seatIncumbency
-        a :SeatIncumbency ;
-        :incumbencyHasMember ?member ;
-        :incumbencyEndDate ?incumbencyEndDate ;
-        :incumbencyStartDate ?incumbencyStartDate .
-    ?member
-        a :Person ;
-        :personGivenName ?givenName ;
-        :personFamilyName ?familyName .
-}
-WHERE {
-    BIND (@id AS ?constituencyGroup)
-
-    ?constituencyGroup a :ConstituencyGroup .
-    OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?endDate . }
-    OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?startDate . }
-    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
-    OPTIONAL { ?constituencyGroup :constituencyGroupOnsCode ?onsCode . }
-    OPTIONAL {
-        ?constituencyGroup :constituencyGroupHasConstituencyArea ?constituencyArea .
-        ?constituencyArea a :ConstituencyArea .
-        OPTIONAL { ?constituencyArea :constituencyAreaLatitude ?latitude . }
-        OPTIONAL { ?constituencyArea :constituencyAreaLongitude ?longitude . }
-        OPTIONAL { ?constituencyArea :constituencyAreaExtent ?polygon . }
-    }
-    OPTIONAL {
-        ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
-        ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
-        ?seatIncumbency a :SeatIncumbency .
-        OPTIONAL { ?seatIncumbency :incumbencyHasMember ?member . }
-        OPTIONAL { ?seatIncumbency :incumbencyEndDate ?incumbencyEndDate . }
-        OPTIONAL { ?seatIncumbency :incumbencyStartDate ?incumbencyStartDate . }
-        OPTIONAL { ?member :personGivenName ?givenName . }
-        OPTIONAL { ?member :personFamilyName ?familyName . }
-    }
-}
+PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT{
+          ?constituencyGroup
+            a parl:ConstituencyGroup ;
+            parl:constituencyGroupEndDate ?endDate ;
+            parl:constituencyGroupStartDate ?startDate ;
+         		parl:constituencyGroupName ?name ;
+        	  parl:constituencyGroupOnsCode ?onsCode ;
+            parl:constituencyGroupHasConstituencyArea ?constituencyArea .
+         	?constituencyArea
+            a parl:ConstituencyArea ;
+            parl:constituencyAreaLatitude ?latitude ;
+         		parl:constituencyAreaLongitude ?longitude ;
+        	  parl:constituencyAreaExtent ?polygon .
+            ?constituencyGroup parl:constituencyGroupHasHouseSeat ?houseSeat .
+          ?houseSeat a parl:HouseSeat ;
+                    parl:houseSeatHasSeatIncumbency ?seatIncumbency .
+          ?seatIncumbency a parl:SeatIncumbency ;
+                            parl:incumbencyHasMember ?member ;
+                            parl:incumbencyEndDate ?seatIncumbencyEndDate ;
+                            parl:incumbencyStartDate ?seatIncumbencyStartDate .
+          ?member a parl:Person ;
+                    parl:personGivenName ?givenName ;
+                    parl:personFamilyName ?familyName ;
+                    <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs .
+      }
+      WHERE {
+          BIND( @id AS ?constituencyGroup )
+          ?constituencyGroup a parl:ConstituencyGroup .
+          OPTIONAL { ?constituencyGroup parl:constituencyGroupEndDate ?endDate . }
+          OPTIONAL { ?constituencyGroup parl:constituencyGroupStartDate ?startDate . }
+          OPTIONAL { ?constituencyGroup parl:constituencyGroupName ?name . }
+    	    OPTIONAL { ?constituencyGroup parl:constituencyGroupOnsCode ?onsCode . }
+          OPTIONAL {
+            ?constituencyGroup parl:constituencyGroupHasConstituencyArea ?constituencyArea .
+            ?constituencyArea a parl:ConstituencyArea .
+            OPTIONAL { ?constituencyArea parl:constituencyAreaLatitude ?latitude . }
+            OPTIONAL { ?constituencyArea parl:constituencyAreaLongitude ?longitude . }
+            OPTIONAL { ?constituencyArea parl:constituencyAreaExtent ?polygon . }
+          }
+          OPTIONAL {
+            ?constituencyGroup parl:constituencyGroupHasHouseSeat ?houseSeat .
+            ?houseSeat parl:houseSeatHasSeatIncumbency ?seatIncumbency .
+      	    ?seatIncumbency a parl:SeatIncumbency ;
+            OPTIONAL { ?seatIncumbency parl:incumbencyHasMember ?member . }
+            OPTIONAL { ?seatIncumbency parl:incumbencyEndDate ?seatIncumbencyEndDate . }
+            OPTIONAL { ?seatIncumbency parl:incumbencyStartDate ?seatIncumbencyStartDate . }
+            OPTIONAL { ?member parl:personGivenName ?givenName . }
+            OPTIONAL { ?member parl:personFamilyName ?familyName . }
+            OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+          }
+      }
 ";
 
             var query = new SparqlParameterizedString(queryString);
@@ -84,18 +81,19 @@ WHERE {
         public Graph ByInitial(string initial)
         {
             var queryString = @"
-PREFIX : <http://id.ukpds.org/schema/>
+PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT{
+          ?constituencyGroup
+              a parl:ConstituencyGroup ;
+              parl:constituencyGroupName ?name ;
+              parl:constituencyGroupEndDate ?endDate .
+      }
+      WHERE {
+          ?constituencyGroup a parl:ConstituencyGroup .
+          OPTIONAL { ?constituencyGroup parl:constituencyGroupName ?name . }
+          OPTIONAL { ?constituencyGroup parl:constituencyGroupEndDate ?endDate . }
 
-CONSTRUCT {
-    ?constituencyGroup
-        a :ConstituencyGroup ;
-        :constituencyGroupName ?name .
-}
-WHERE {
-    ?constituencyGroup a :ConstituencyGroup .
-    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
-
-    FILTER STRSTARTS(LCASE(?name), LCASE(@letter)) 
+        FILTER STRSTARTS(LCASE(?name), LCASE(@letter)) 
 }
 ";
 
@@ -112,18 +110,38 @@ WHERE {
         public Graph Current()
         {
             var queryString = @"
-PREFIX : <http://id.ukpds.org/schema/>
-
-CONSTRUCT {
-    ?constituencyGroup
-        a :ConstituencyGroup ;
-        :constituencyGroupName ?name .
-}
-WHERE {
-    ?constituencyGroup a :ConstituencyGroup .
-    FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
-    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
-}
+PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT{
+          ?constituencyGroup
+              a parl:ConstituencyGroup ;
+              parl:constituencyGroupName ?name ;
+        	    parl:constituencyGroupHasHouseSeat ?seat .
+    	  ?seat
+        	a parl:HouseSeat ;
+        	parl:houseSeatHasSeatIncumbency ?seatIncumbency .
+    	  ?seatIncumbency
+        	a parl:SeatIncumbency ;
+        	parl:incumbencyHasMember ?member .
+    	  ?member
+        	a parl:Person ;
+        	parl:personGivenName ?givenName ;
+        	parl:personFamilyName ?familyName ;
+          <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs .
+      }
+      WHERE {
+          ?constituencyGroup a parl:ConstituencyGroup .
+          FILTER NOT EXISTS { ?constituencyGroup a parl:PastConstituencyGroup . }
+          OPTIONAL { ?constituencyGroup parl:constituencyGroupName ?name . }
+          OPTIONAL {
+    	      ?constituencyGroup parl:constituencyGroupHasHouseSeat ?seat .
+    	      ?seat parl:houseSeatHasSeatIncumbency ?seatIncumbency .
+    	      FILTER NOT EXISTS { ?seatIncumbency a parl:PastIncumbency . }
+    	      ?seatIncumbency parl:incumbencyHasMember ?member .
+    	      OPTIONAL { ?member parl:personGivenName ?givenName . }
+            OPTIONAL { ?member parl:personFamilyName ?familyName . }
+            OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+          }
+      }
 ";
 
             return BaseController.Execute(queryString);
