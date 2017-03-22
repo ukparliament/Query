@@ -372,7 +372,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
           ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
 
-    FILTER STRSTARTS(LCASE(?familyName), LCASE(@initial))
+    FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))
         }
     }
 ";
@@ -456,7 +456,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
           ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
         }
         
-        FILTER STRSTARTS(LCASE(?familyName), LCASE(@initial))
+        FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))
 }
 ";
 

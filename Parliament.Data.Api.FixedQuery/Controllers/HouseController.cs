@@ -512,7 +512,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
           	?seat parl:houseSeatHasHouse ?house .
     	  }
 
-        FILTER STRSTARTS(LCASE(?familyName), LCASE(@initial))
+        FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))
 }
 
 ";
@@ -638,7 +638,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
-        FILTER STRSTARTS(LCASE(?familyName), LCASE(@initial))
+        FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))
 }
 ";
 
@@ -835,7 +835,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
     			}
       
     
-    FILTER STRSTARTS(LCASE(?familyName), LCASE(@initial))
+    FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))
     }
 }
 ";
@@ -1037,7 +1037,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
     			}
         }
 
-    FILTER STRSTARTS(LCASE(?familyName), LCASE(@initial))
+    FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))
 }
 
 ";

@@ -177,7 +177,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
          ?party parl:partyName ?partyName .
 
 
-        FILTER STRSTARTS(LCASE(?familyName), LCASE(@letter))
+        FILTER STRSTARTS(LCASE(?listAs), LCASE(@letter))
 }
 ";
 
