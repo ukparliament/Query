@@ -111,18 +111,38 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         public HttpResponseMessage Current()
         {
             var queryString = @"
-PREFIX : <http://id.ukpds.org/schema/>
-
-CONSTRUCT {
-    ?constituencyGroup
-        a :ConstituencyGroup ;
-        :constituencyGroupName ?name .
-}
-WHERE {
-    ?constituencyGroup a :ConstituencyGroup .
-    FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
-    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
-}
+PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT{
+          ?constituencyGroup
+              a parl:ConstituencyGroup ;
+              parl:constituencyGroupName ?name ;
+        	    parl:constituencyGroupHasHouseSeat ?seat .
+    	  ?seat
+        	a parl:HouseSeat ;
+        	parl:houseSeatHasSeatIncumbency ?seatIncumbency .
+    	  ?seatIncumbency
+        	a parl:SeatIncumbency ;
+        	parl:incumbencyHasMember ?member .
+    	  ?member
+        	a parl:Person ;
+        	parl:personGivenName ?givenName ;
+        	parl:personFamilyName ?familyName ;
+          <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs .
+      }
+      WHERE {
+          ?constituencyGroup a parl:ConstituencyGroup .
+          FILTER NOT EXISTS { ?constituencyGroup a parl:PastConstituencyGroup . }
+          OPTIONAL { ?constituencyGroup parl:constituencyGroupName ?name . }
+          OPTIONAL {
+    	      ?constituencyGroup parl:constituencyGroupHasHouseSeat ?seat .
+    	      ?seat parl:houseSeatHasSeatIncumbency ?seatIncumbency .
+    	      FILTER NOT EXISTS { ?seatIncumbency a parl:PastIncumbency . }
+    	      ?seatIncumbency parl:incumbencyHasMember ?member .
+    	      OPTIONAL { ?member parl:personGivenName ?givenName . }
+            OPTIONAL { ?member parl:personFamilyName ?familyName . }
+            OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+          }
+      }
 ";
 
             return Execute(queryString);
