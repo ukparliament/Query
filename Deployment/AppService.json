@@ -7,6 +7,18 @@
             "metadata": {
                 "description": "Name of the API app."
             }
+        },
+        "environment": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the environment that is being deployed to."
+            }
+        },
+        "releaseId": {
+            "type": "int",
+            "metadata": {
+                "description": "The identifier of the current release record."
+            }
         }
     },
     "variables": {},
@@ -21,6 +33,8 @@
             "tags": {
                 "Department": "Data & Search",
                 "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c",
+                "Environment": "[parameters('environment')]",
+                "ReleaseId": "[parameters('releaseId')]",
                 "Type": "Application Insights"
             },
             "properties":{
@@ -44,7 +58,11 @@
             "apiVersion": "2015-08-01",
             "location": "[resourceGroup().location]",
             "tags": {
-                "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c"
+                "Department": "Data & Search",
+                "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c",
+                "Environment": "[parameters('environment')]",
+                "ReleaseId": "[parameters('releaseId')]",
+                "Type": "API app"
             },
             "dependsOn": []
         },
@@ -59,6 +77,28 @@
                 "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c"
             },
             "properties": {
+                "name": "[parameters('fixedQueryAPIName')]",
+                "hostNames": [
+                    "[concat(parameters('fixedQueryAPIName'),'.azurewebsites.net')]"
+                ],
+                "enabledHostNames": [
+                    "[concat(parameters('fixedQueryAPIName'),'.azurewebsites.net')]",
+                    "[concat(parameters('fixedQueryAPIName'),'.scm.azurewebsites.net')]"
+                ],
+                "hostNameSslStates": [
+                    {
+                        "name": "[concat(parameters('fixedQueryAPIName'),'.azurewebsites.net')]",
+                        "sslState": 0,
+                        "thumbprint": null,
+                        "ipBasedSslState": 0
+                    },
+                    {
+                        "name": "[concat(parameters('fixedQueryAPIName'),'.scm.azurewebsites.net')]",
+                        "sslState": 0,
+                        "thumbprint": null,
+                        "ipBasedSslState": 0
+                    }
+                ],
                 "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', concat(parameters('fixedQueryAPIName'),'plan'))]"
             },
             "dependsOn": [
