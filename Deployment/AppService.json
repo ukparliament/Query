@@ -1,0 +1,69 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "fixedQueryAPIName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the API app."
+            }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Application Insights for App Service",
+            "type": "microsoft.insights/components",
+            "kind": "web",
+            "name": "[concat(parameters('fixedQueryAPIName'),'insights')]",
+            "apiVersion": "2015-05-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "Department": "Data & Search",
+                "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c",
+                "Type": "Application Insights"
+            },
+            "properties":{
+                "ApplicationId": "[concat(parameters('fixedQueryAPIName'),'insights')]"
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "App plan",
+            "type": "Microsoft.Web/serverfarms",
+            "sku": {
+                "name": "B1",
+                "tier": "Basic",
+                "size": "B1",
+                "family": "B",
+                "capacity": 1
+            },
+            "kind": "app",
+            "name": "[concat(parameters('fixedQueryAPIName'),'plan')]",
+            "apiVersion": "2015-08-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c"
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Web API app",
+            "type": "Microsoft.Web/sites",
+            "kind": "api",
+            "name": "[parameters('fixedQueryAPIName')]",
+            "apiVersion": "2015-08-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c"
+            },
+            "properties": {
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', concat(parameters('fixedQueryAPIName'),'plan'))]"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', concat(parameters('fixedQueryAPIName'),'plan'))]"
+            ]
+        }
+    ]
+}
