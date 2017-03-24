@@ -6,7 +6,6 @@
     using System.Web;
     using System.Web.Http;
 
-    []
     [RoutePrefix("")]
     public class IndexController : ApiController
     {
