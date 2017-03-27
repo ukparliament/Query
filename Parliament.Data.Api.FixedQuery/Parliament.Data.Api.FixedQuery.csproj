@@ -154,6 +154,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    
     <None Include="Secrets.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -184,6 +185,7 @@
     </Compile>
     <Compile Include="GraphFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="GraphDBConnector.cs" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

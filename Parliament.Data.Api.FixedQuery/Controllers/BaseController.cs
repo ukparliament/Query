@@ -2,12 +2,11 @@
 {
     using System;
     using System.Configuration;
-    using System.IO;
     using System.Net.Http;
     using System.Web.Http;
     using VDS.RDF;
+    using VDS.RDF.Parsing.Handlers;
     using VDS.RDF.Query;
-    using VDS.RDF.Storage;
 
     public abstract class BaseController : ApiController
     {
@@ -38,16 +37,17 @@
 
         private Graph runQuery(string query)
         {
-            Graph graph;
-            var endpoint = new Uri(ConfigurationManager.AppSettings["SparqlEndpoint"]);
-            using (var connector = new SparqlConnector(endpoint))
-            {
-                graph = connector.Query(query.ToString()) as Graph;
-            }
+            IGraph graph = new Graph();
+            var endpointUri = ConfigurationManager.AppSettings["SparqlEndpoint"];
 
             graph.NamespaceMap.AddNamespace("id", ConstituencyController.instance);
             graph.NamespaceMap.AddNamespace("schema", ConstituencyController.schema);
-            return graph;
+            using (GraphDBConnector connector = new GraphDBConnector(endpointUri))
+            {
+                GraphHandler rdfHandler = new GraphHandler(graph);
+                connector.Query(rdfHandler, null, query);
+            }
+            return graph as Graph;
         }
     }
 }
