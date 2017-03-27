@@ -10,7 +10,7 @@
     public class ConstituencyController : BaseController
     {
         // Ruby route: match '/constituencies/:constituency', to: 'constituencies#show', constituency: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
-        [Route("{id:guid}", Name = "ConstituencyByID")]
+        [Route(@"{id:regex(^\w{8}$)}", Name = "ConstituencyByID")]
         [HttpGet]
         public HttpResponseMessage ById(string id)
         {
@@ -180,7 +180,7 @@ WHERE {
         // Ruby route: get '/constituencies/:letters', to: 'constituencies#lookup_by_letters'
         // Was this not going to be called ByInitials? - CJA
 
-        [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "ConstituencyByLetters")]
+        [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "ConstituencyByLetters", Order = 999)]
         [HttpGet]
         public HttpResponseMessage ByLetters(string letters)
         {
@@ -338,7 +338,7 @@ WHERE {
         }
 
         // Ruby route: resources :constituencies, only: [:index] do get '/members', to: 'constituencies#members' end
-        [Route("{id:guid}/members", Name = "ConstituencyMembers")]
+        [Route(@"{id:regex(^\w{8}$)}/members", Name = "ConstituencyMembers")]
         [HttpGet]
         public HttpResponseMessage Members(string id)
         {
@@ -395,7 +395,7 @@ WHERE {
         }
 
         // Ruby route: resources :constituencies, only: [:index] do get '/members/current', to: 'constituencies#current_member' end
-        [Route("{id:guid}/members/current", Name = "ConstituencyCurrentMember")]
+        [Route(@"{id:regex(^\w{8}$)}/members/current", Name = "ConstituencyCurrentMember")]
         [HttpGet]
         public HttpResponseMessage CurrentMembers(string id)
         {
@@ -451,7 +451,7 @@ WHERE {
 
         // Ruby route: resources :constituencies, only: [:index] do get '/contact_point', to: 'constituencies#contact_point' end
         // why is this singular?
-        [Route("{id:guid}/contact_point", Name = "ConstituencyContactPoint")]
+        [Route(@"{id:regex(^\w{8}$)}/contact_point", Name = "ConstituencyContactPoint")]
         [HttpGet]
         public HttpResponseMessage ContactPoint(string id)
         {

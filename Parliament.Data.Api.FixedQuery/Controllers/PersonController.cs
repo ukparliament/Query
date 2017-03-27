@@ -38,7 +38,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
             return Execute(query);
         }
         // Ruby route: match '/people/:person', to: 'people#show', person: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
-        [Route("{id:guid}", Name = "PersonById")]
+        [Route(@"{id:regex(^\w{8}$)}", Name = "PersonById")]
         [HttpGet]
         public HttpResponseMessage ById(string id)
         {
@@ -301,7 +301,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         // TODO: accents?
         // TODO: could be CONTAINS?
         // TODO: letters go in STR?
-        [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "PersonByLetters")]
+        [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "PersonByLetters", Order = 999)]
         [HttpGet]
         public HttpResponseMessage ByLetters(string letters)
         {
@@ -357,7 +357,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :people, only: [:index] do get '/constituencies', to: 'people#constituencies' end
-        [Route("{id:guid}/constituencies", Name = "PersonConstituencies")]
+        [Route(@"{id:regex(^\w{8}$)}/constituencies", Name = "PersonConstituencies")]
         [HttpGet]
         public HttpResponseMessage Constituencies(string id)
         {
@@ -410,7 +410,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :people, only: [:index] doget '/constituencies/current', to: 'people#current_constituency' end
-        [Route("{id:guid}/constituencies/current", Name = "PersonCurrentConstituency")]
+        [Route(@"{id:regex(^\w{8}$)}/constituencies/current", Name = "PersonCurrentConstituency")]
         [HttpGet]
         public HttpResponseMessage CurrentConstituency(string id)
         {
@@ -461,7 +461,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :people, only: [:index] do get '/parties', to: 'people#parties' end
-        [Route("{id:guid}/parties", Name = "PersonParties")]
+        [Route(@"{id:regex(^\w{8}$)}/parties", Name = "PersonParties")]
         [HttpGet]
         public HttpResponseMessage Parties(string id)
         {
@@ -507,7 +507,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :people, only: [:index] do get '/parties/current', to: 'people#current_party' end
-        [Route("{id:guid}/parties/current", Name = "PersonCurrentParty")]
+        [Route(@"{id:regex(^\w{8}$)}/parties/current", Name = "PersonCurrentParty")]
         [HttpGet]
         public HttpResponseMessage CurrentParty(string id)
         {
@@ -554,7 +554,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         // Ruby route: resources :people, only: [:index] do get '/contact_points',to: 'people#contact_points' end
         // note: query currently only really returns parliamentary contact point, not "contact points"
        
-        [Route("{id:guid}/contact_points", Name = "PersonContactPoints")]
+        [Route(@"{id:regex(^\w{8}$)}/contact_points", Name = "PersonContactPoints")]
         [HttpGet]
         public HttpResponseMessage ContactPoints(string id)
         {
@@ -622,7 +622,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :people, only: [:index] do get '/houses',to: 'people#houses' end
-        [Route("{id:guid}/houses", Name = "PersonHouses")]
+        [Route(@"{id:regex(^\w{8}$)}/houses", Name = "PersonHouses")]
         [HttpGet]
         public HttpResponseMessage Houses(string id)
         {
@@ -694,7 +694,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :people, only: [:index] do get '/houses/current', to: 'people#current_house' end
-        [Route("{id:guid}/houses/current", Name = "PersonCurrentHouse")]
+        [Route(@"{id:regex(^\w{8}$)}/houses/current", Name = "PersonCurrentHouse")]
         [HttpGet]
         public HttpResponseMessage CurrentHouse(string id)
         {

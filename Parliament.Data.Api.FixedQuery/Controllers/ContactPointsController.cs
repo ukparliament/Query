@@ -54,7 +54,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :contact_points, only: [:show]
-        [Route("{id:guid}", Name = "ContactPointById")]
+        [Route(@"{id:regex(^\w{8}$)}", Name = "ContactPointById")]
         [HttpGet]
         public HttpResponseMessage ById(string id)
         {

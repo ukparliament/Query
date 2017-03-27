@@ -11,7 +11,7 @@
     {
         // Ruby route: match '/houses/:house', to: 'houses#show', house: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
 
-        [Route("{id:guid}", Name = "HouseById")]
+        [Route(@"{id:regex(^\w{8}$)}", Name = "HouseById")]
         [HttpGet]
         public HttpResponseMessage ById(string id)
         {
@@ -71,7 +71,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route:   get '/houses/:letters', to: 'houses#lookup_by_letters'
-        [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "HouseByLetters")]
+        [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "HouseByLetters", Order = 999)]
         [HttpGet]
         public HttpResponseMessage ByLetters(string letters)
         {
@@ -122,7 +122,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :houses, only: [:index] do get '/members', to: 'houses#members' end
-        [Route("{id:guid}/members", Name = "HouseMembers")]
+        [Route(@"{id:regex(^\w{8}$)}/members", Name = "HouseMembers")]
         [HttpGet]
         public HttpResponseMessage Members(string id)
         {
@@ -177,7 +177,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :houses, only: [:index] do get '/members/current', to: 'houses#current_members' end
-        [Route("{id:guid}/members/current", Name = "HouseCurrentMembers")]
+        [Route(@"{id:regex(^\w{8}$)}/members/current", Name = "HouseCurrentMembers")]
         [HttpGet]
         public HttpResponseMessage CurrentMembers(string id)
         {
@@ -258,7 +258,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :houses, only: [:index] do get '/parties', to: 'houses#parties' end
-        [Route("{id:guid}/parties", Name = "HouseParties")]
+        [Route(@"{id:regex(^\w{8}$)}/parties", Name = "HouseParties")]
         [HttpGet]
         public HttpResponseMessage Parties(string id)
         {
@@ -316,7 +316,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :houses, only: [:index] do get '/parties/current', to: 'houses#current_parties' end
-        [Route("{id:guid}/parties/current", Name = "HouseCurrentParties")]
+        [Route(@"{id:regex(^\w{8}$)}/parties/current", Name = "HouseCurrentParties")]
         [HttpGet]
         public HttpResponseMessage CurrentParties(string id)
         {
@@ -370,7 +370,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         // Ruby route: resources :houses, only: [:index] do get '/parties/:party_id', to: 'houses#party' end
         // this route doesn't seem particularly useful? should it not return the party's members?
         // DOUBLE QUERY
-        [Route("{houseid:guid}/parties/{partyid:guid}", Name = "HousePartyById")]
+        [Route(@"{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}", Name = "HousePartyById")]
         [HttpGet]
         public HttpResponseMessage PartyById(string houseid, string partyid)
         {
@@ -466,7 +466,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :houses, only: [:index] do match '/members/:letter', to: 'houses#members_letters', letter: /[A-Za-z]/, via: [:get] end
-        [Route("{houseid:guid}/members/{initial:maxlength(1)}", Name = "HouseMembersByInitial")]
+        [Route(@"{houseid:regex(^\w{8}$)}/members/{initial:maxlength(1)}", Name = "HouseMembersByInitial")]
         [HttpGet]
         public HttpResponseMessage MembersByInitial(string houseid, string initial)
         {
@@ -526,7 +526,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :houses, only: [:index] do get '/members/a_z_letters', to: 'houses#a_z_letters_members' end
-        [Route("{id:guid}/members/a_z_letters", Name = "HouseMembersAToZ")]
+        [Route(@"{id:regex(^\w{8}$)}/members/a_z_letters", Name = "HouseMembersAToZ")]
         [HttpGet]
         public HttpResponseMessage MembersAToZLetters(string id)
         {
@@ -566,7 +566,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
             return Execute(query);
         }
         // Ruby route: resources :houses, only: [:index] do match '/members/current/:letter', to: 'houses#current_members_letters', letter: /[A-Za-z]/, via: [:get] end
-        [Route("{houseid:guid}/members/current/{initial:maxlength(1)}", Name = "HouseCurrentMembersByInitial")]
+        [Route(@"{houseid:regex(^\w{8}$)}/members/current/{initial:maxlength(1)}", Name = "HouseCurrentMembersByInitial")]
         [HttpGet]
         public HttpResponseMessage CurrentMembersByInitial(string houseid, string initial)
         {
@@ -650,7 +650,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
             return Execute(query);
         }
         // Ruby route: resources :houses, only: [:index] do get '/members/current/a_z_letters', to: 'houses#a_z_letters_members' end
-        [Route("{id:guid}/members/current/a_z_letters", Name = "HouseCurrentMembersAToZ")]
+        [Route(@"{id:regex(^\w{8}$)}/members/current/a_z_letters", Name = "HouseCurrentMembersAToZ")]
         [HttpGet]
         public HttpResponseMessage CurrentMembersAToZLetters(string id)
         {
@@ -692,7 +692,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :houses, only: [:index] do get '/parties/:party_id/members', to: 'houses#party_members' end
-        [Route("{houseid:guid}/parties/{partyid:guid}/members", Name = "HousePartyMembers")]
+        [Route(@"{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members", Name = "HousePartyMembers")]
         [HttpGet]
         public HttpResponseMessage PartyMembers(string houseid, string partyid)
         {
@@ -769,7 +769,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :houses, only: [:index] do match '/parties/:party_id/members/:letter', to: 'houses#party_members_letters', letter: /[A-Za-z]/, via: [:get] end
-        [Route(@"{houseid:guid}/parties/{partyid:guid}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HousePartyMembersByInitial")]
+        [Route(@"{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HousePartyMembersByInitial")]
         [HttpGet]
         public HttpResponseMessage PartyMembers(string houseid, string partyid, string initial)
         {
@@ -851,7 +851,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :houses, only: [:index] do get 'parties/:party_id/members/a_z_letters', to: 'houses#a_z_letters_party_members' end
-        [Route("{houseid:guid}/parties/{partyid:guid}/members/a_z_letters", Name = "HousePartyMembersAToZ")]
+        [Route(@"{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/a_z_letters", Name = "HousePartyMembersAToZ")]
         [HttpGet]
         public HttpResponseMessage PartyMembersAToZLetters(string houseid, string partyid)
         {
@@ -896,7 +896,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :houses, only: [:index] do get '/parties/:party_id/members/current', to: 'houses#current_party_members' end
-        [Route("{houseid:guid}/parties/{partyid:guid}/members/current", Name = "HousePartyCurrentMembers")]
+        [Route(@"{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/current", Name = "HousePartyCurrentMembers")]
         [HttpGet]
         public HttpResponseMessage PartyCurrentMembers(string houseid, string partyid)
         {
@@ -972,7 +972,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :houses, only: [:index] do match '/parties/:party_id/members/current/:letter', to: 'houses#current_party_members_letters', letter: /[A-Za-z]/, via: [:get] end
-        [Route(@"{houseid:guid}/parties/{partyid:guid}/members/current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HousePartyCurrentMembersByInitial")]
+        [Route(@"{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HousePartyCurrentMembersByInitial")]
         [HttpGet]
         public HttpResponseMessage PartyCurrentMembersByInitial(string houseid, string partyid, string initial)
         {
@@ -1053,7 +1053,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         }
 
         // Ruby route: resources :houses, only: [:index] do get 'parties/:party_id/members/current/a_z_letters', to: 'houses#a_z_letters_party_members_current' end
-        [Route("{houseid:guid}/parties/{partyid:guid}/members/current/a_z_letters", Name = "HousePartyCurrentMembersAToZ")]
+        [Route(@"{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/current/a_z_letters", Name = "HousePartyCurrentMembersAToZ")]
         [HttpGet]
         public HttpResponseMessage PartyCurrentMembersAToZLetters(string houseid, string partyid)
         {
