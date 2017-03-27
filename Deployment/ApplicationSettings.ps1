@@ -20,7 +20,8 @@ Param(
     [Parameter(Mandatory=$true)] [string] $APIResourceGroupName,
     [Parameter(Mandatory=$true)] [string] $FixedQueryAPIName,
     [Parameter(Mandatory=$true)] [string] $ApplicationInsightsName,
-    [Parameter(Mandatory=$true)] [string] $SparqlEndpoint
+    [Parameter(Mandatory=$true)] [string] $SparqlEndpoint,
+    [Parameter(Mandatory=$true)] [string] $SubscriptionKey
 )
 $ErrorActionPreference = "Stop"
 
@@ -42,6 +43,7 @@ foreach($set in $webAppSettings){
 Log "Sets new settings values"
 $settings["ApplicationInsightsInstrumentationKey"]=$properties.InstrumentationKey
 $settings["SparqlEndpoint"]=$SparqlEndpoint
+$settings["SubscriptionKey"]=$SubscriptionKey
 Set-AzureRmWebApp -ResourceGroupName $APIResourceGroupName -Name $FixedQueryAPIName -AppSettings $settings
 
 Log "Job wel done!"
