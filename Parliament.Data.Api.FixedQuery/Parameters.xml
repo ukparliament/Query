@@ -1,0 +1,3 @@
+<parameters>
+  <parameter name="WhiteIP" kind="XmlFile" scope="web.config" match="/configuration/system.webServer/security/ipSecurity/add/@ipAddress" /></parameter>
+</parameters>
