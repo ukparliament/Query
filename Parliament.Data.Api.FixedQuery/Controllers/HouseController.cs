@@ -374,93 +374,74 @@ PREFIX parl: <http://id.ukpds.org/schema/>
         [HttpGet]
         public HttpResponseMessage PartyById(string houseid, string partyid)
         {
-            var queryString1 = @"
+            var queryString = @"
 
 PREFIX parl: <http://id.ukpds.org/schema/>
-     CONSTRUCT {
-          ?house
-            a parl:House ;
-            parl:houseName ?houseName .
-          ?party
-            a parl:Party ;
-            parl:partyName ?partyName .
-      }
-      WHERE {
-          BIND(@houseid AS ?house)
-
-          ?house a parl:House ;
-                 parl:houseName ?houseName .
-
-          OPTIONAL {
+CONSTRUCT {
+    ?house
+        a parl:House ;
+        parl:houseName ?houseName .
+    ?party
+        a parl:Party ;
+        parl:partyName ?partyName .
+    ?party parl:count ?currentMemberCount .
+}
+WHERE { 
+    {select * where {
+            BIND(@houseid AS ?house)
+            ?house parl:houseName ?houseName .
+            OPTIONAL {
+                BIND(@partyid AS ?party)
+                ?person a parl:Member .
+                ?person parl:partyMemberHasPartyMembership ?partyMembership .
+                ?partyMembership parl:partyMembershipHasParty ?party .
+                ?party parl:partyName ?partyName .
+                ?incumbency parl:incumbencyHasMember ?person .
+                {
+                    ?incumbency parl:houseIncumbencyHasHouse ?house .
+                }
+                UNION 
+                {
+                    ?incumbency parl:seatIncumbencyHasHouseSeat ?seat .
+                    ?seat parl:houseSeatHasHouse ?house .
+                }
+            }
+        }
+    }
+    UNION
+    {
+        SELECT ?party (COUNT(?currentMember) AS ?currentMemberCount) WHERE {
+            BIND(@houseid AS ?house)
             BIND(@partyid AS ?party)
-
+            ?house a parl:House .
             ?party a parl:Party .
-    		    ?person a parl:Member .
-    		    ?person parl:partyMemberHasPartyMembership ?partyMembership .
-    		    ?partyMembership parl:partyMembershipHasParty ?party .
-    		    ?party parl:partyName ?partyName .
-    		    ?incumbency parl:incumbencyHasMember ?person .
-
-    	      {
-    	          ?incumbency parl:houseIncumbencyHasHouse ?house .
-    	      }
-
-    	      UNION {
-              	?incumbency parl:seatIncumbencyHasHouseSeat ?seat .
-              	?seat parl:houseSeatHasHouse ?house .
-    	      }
-          }
-      }
-
-";
-
-            var query1 = new SparqlParameterizedString(queryString1);
-
-            query1.SetUri("houseid", new Uri(BaseController.instance, houseid));
-            query1.SetUri("partyid", new Uri(BaseController.instance, partyid));
-
-            var queryString2 = @"
-
-PREFIX parl: <http://id.ukpds.org/schema/>
-     CONSTRUCT {
-         ?party parl:count ?currentMemberCount .
-      }
-      WHERE {
-    	SELECT ?party (COUNT(?currentMember) AS ?currentMemberCount) WHERE {
-          BIND(@houseid AS ?house)
-          BIND(@partyid AS ?party)
-
-          ?house a parl:House .
-          ?party a parl:Party .
-
-          OPTIONAL {
-    	      ?party parl:partyHasPartyMembership ?partyMembership .
-    	      FILTER NOT EXISTS { ?partyMembership a parl:PastPartyMembership . }
-    	      ?partyMembership parl:partyMembershipHasPartyMember ?currentMember .
-    	      ?currentMember parl:memberHasIncumbency ?incumbency .
-    	      FILTER NOT EXISTS { ?incumbency a parl:PastIncumbency . }
-
-            {
-    	          ?incumbency parl:houseIncumbencyHasHouse ?house .
-    	      }
-
-    	      UNION {
-              	?incumbency parl:seatIncumbencyHasHouseSeat ?seat .
-              	?seat parl:houseSeatHasHouse ?house .
-    	      }
-          }
+            OPTIONAL {
+                ?party parl:partyHasPartyMembership ?partyMembership .
+                FILTER NOT EXISTS { ?partyMembership a parl:PastPartyMembership . }
+                ?partyMembership parl:partyMembershipHasPartyMember ?currentMember .
+                ?currentMember parl:memberHasIncumbency ?incumbency .
+                FILTER NOT EXISTS { ?incumbency a parl:PastIncumbency . }
+                {
+                    ?incumbency parl:houseIncumbencyHasHouse ?house .
+                }
+                UNION {
+                    ?incumbency parl:seatIncumbencyHasHouseSeat ?seat .
+                    ?seat parl:houseSeatHasHouse ?house .
+                }
+            }
         }
         GROUP BY ?party
-      }
-
+    }
+}
 ";
 
-            var query2 = new SparqlParameterizedString(queryString2);
+            var query = new SparqlParameterizedString(queryString);
 
-            query2.SetUri("houseid", new Uri(BaseController.instance, houseid));
-            query2.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
+            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
 
-            return Execute(query1.ToString(), query2.ToString());
+
+            return Execute(query);
 
 
         }
