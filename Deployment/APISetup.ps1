@@ -34,12 +34,12 @@ function Log([Parameter(Mandatory=$true)][string]$LogText){
 Log "Retrives API Management"
 $apiManagement=Get-AzureRmApiManagement -ResourceGroupName $ClusterResourceGroupName
 
+Log "Get API Management context"
+$management=New-AzureRmApiManagementContext -ResourceGroupName $ClusterResourceGroupName -ServiceName $apiManagement.Name
+
 Log "Check if product already installed"
 $productFixedQuery=(Get-AzureRmApiManagementProduct -Context $management | Where-Object Title -Match $productTitle)
-if ($productFixedQuery -eq $null){
-    Log "Get API Management context"
-    $management=New-AzureRmApiManagementContext -ResourceGroupName $ClusterResourceGroupName -ServiceName $apiManagement.Name
-
+if ($productFixedQuery -eq $null){    
     Log "Access for Fixed Query API"
     $productFixedQuery=New-AzureRmApiManagementProduct -Context $management -Title "Parliament - Fixed Query API" -Description "For parliament use only." -ApprovalRequired $true -SubscriptionsLimit 1
     $api=New-AzureRmApiManagementApi -Context $management -Name "Fixed Query" -Description "All routes on Fixed Query API" -ServiceUrl "https://$FixedQueryAPIName.azurewebsites.net/" -Protocols @("https") -Path "/fixedquery"
