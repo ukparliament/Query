@@ -55,9 +55,7 @@ PREFIX : <http://id.ukpds.org/schema/>
       WHERE {
         BIND(@id AS ?id)
         BIND(@source AS ?source)
-
-
-          ?house a :House.
+        ?house a :House.
         ?house ?source ?id.
       }
 ";
@@ -85,7 +83,6 @@ PREFIX : <http://id.ukpds.org/schema/>
       WHERE {
         ?house a :House .
         ?house :houseName ?houseName .
-
 
         FILTER CONTAINS(LCASE(?houseName), LCASE(@letters))
 }
