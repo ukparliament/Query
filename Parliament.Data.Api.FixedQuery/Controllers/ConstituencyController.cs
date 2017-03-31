@@ -30,32 +30,35 @@ CONSTRUCT{
         :constituencyAreaLongitude ?longitude ;
         :constituencyAreaExtent ?polygon .
     ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
-    ?houseSeat a :HouseSeat ;
+    ?houseSeat 
+        a :HouseSeat ;
         :houseSeatHasSeatIncumbency ?seatIncumbency .
-    ?seatIncumbency a :SeatIncumbency ;
+    ?seatIncumbency 
+        a :SeatIncumbency ;
         :incumbencyHasMember ?member ;
         :incumbencyEndDate ?seatIncumbencyEndDate ;
         :incumbencyStartDate ?seatIncumbencyStartDate .
-    ?member a :Person ;
+    ?member 
+        a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs .
 }
 WHERE {
     BIND( @id AS ?constituencyGroup )
-        ?constituencyGroup a :ConstituencyGroup .
-        OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?endDate . }
-        OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?startDate . }
-        OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
-        OPTIONAL { ?constituencyGroup :constituencyGroupOnsCode ?onsCode . }
-        OPTIONAL {
+    ?constituencyGroup a :ConstituencyGroup .
+    OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?endDate . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?startDate . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupOnsCode ?onsCode . }
+    OPTIONAL {
         ?constituencyGroup :constituencyGroupHasConstituencyArea ?constituencyArea .
         ?constituencyArea a :ConstituencyArea .
         OPTIONAL { ?constituencyArea :constituencyAreaLatitude ?latitude . }
         OPTIONAL { ?constituencyArea :constituencyAreaLongitude ?longitude . }
         OPTIONAL { ?constituencyArea :constituencyAreaExtent ?polygon . }
-}
-        OPTIONAL {
+    }
+    OPTIONAL {
         ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
         ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
         ?seatIncumbency a :SeatIncumbency ;
@@ -65,7 +68,7 @@ WHERE {
         OPTIONAL { ?member :personGivenName ?givenName . }
         OPTIONAL { ?member :personFamilyName ?familyName . }
         OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
-}
+    }
 }
 ";
 
@@ -93,7 +96,6 @@ WHERE {
     ?constituencyGroup a :ConstituencyGroup .
     OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
     OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?endDate . }
-
     FILTER STRSTARTS(LCASE(?name), LCASE(@letter)) 
 }
 ";
@@ -156,16 +158,14 @@ WHERE {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
-    ?constituency
-        a :ConstituencyGroup .
+    ?constituency a :ConstituencyGroup .
 }
 WHERE {
     BIND(@id AS ?id)
-        BIND(@source AS ?source)
-
-
-        ?constituency a :ConstituencyGroup.
-        ?constituency ?source ?id.
+    BIND(@source AS ?source)
+    ?constituency 
+        a :ConstituencyGroup ;
+        ?source ?id.
 }
 ";
 
@@ -196,7 +196,6 @@ WHERE {
     ?constituency a :ConstituencyGroup .
     ?constituency :constituencyGroupName ?constituencyName .
     OPTIONAL { ?constituency :constituencyGroupEndDate ?endDate . }
-
     FILTER CONTAINS(LCASE(?constituencyName), LCASE(@letters))
 }
 ";
@@ -214,16 +213,16 @@ WHERE {
         public HttpResponseMessage AToZLetters()
         {
             var queryString = @"
-
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
     [ :value ?firstLetter ]
 }
 WHERE {
-    SELECT DISTINCT ?firstLetter WHERE {
-        ?s a :ConstituencyGroup .
-        ?s :constituencyGroupName ?constituencyName .
-
+    SELECT DISTINCT ?firstLetter 
+    WHERE {
+        ?s 
+            a :ConstituencyGroup ;
+            :constituencyGroupName ?constituencyName .
         BIND(ucase(SUBSTR(?constituencyName, 1, 1)) as ?firstLetter)
     }
 }
@@ -270,9 +269,7 @@ WHERE {
         OPTIONAL { ?member :personFamilyName ?familyName . }
         OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
     }
-
     FILTER STRSTARTS(LCASE(?name), LCASE(@initial))
-
 }
 ";
 
@@ -288,18 +285,16 @@ WHERE {
         public HttpResponseMessage CurrentAToZLetters()
         {
             var queryString = @"
-
-
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
     [ :value ?firstLetter ]
 }
 WHERE {
-    SELECT DISTINCT ?firstLetter WHERE {
+    SELECT DISTINCT ?firstLetter 
+    WHERE {
         ?s a :ConstituencyGroup .
         FILTER NOT EXISTS { ?s a :PastConstituencyGroup . }
         ?s :constituencyGroupName ?constituencyName .
-
         BIND(ucase(SUBSTR(?constituencyName, 1, 1)) as ?firstLetter)
     }
 }
@@ -315,8 +310,6 @@ WHERE {
         public HttpResponseMessage Index()
         {
             var queryString = @"
-
-
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT{
     ?constituencyGroup
@@ -328,7 +321,6 @@ WHERE {
     ?constituencyGroup a :ConstituencyGroup .
     OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
     OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?endDate . }
-
 }
 ";
 
@@ -343,9 +335,6 @@ WHERE {
         public HttpResponseMessage Members(string id)
         {
             var queryString = @"
-
-
-
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT{
     ?constituencyGroup
@@ -367,23 +356,23 @@ CONSTRUCT{
 }
 WHERE {
     BIND( @constituencyid AS ?constituencyGroup )
-
-        ?constituencyGroup a :ConstituencyGroup ;
+    ?constituencyGroup 
+        a :ConstituencyGroup ;
         :constituencyGroupHasHouseSeat ?houseSeat .
-        OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
-        OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?constituencyGroupEndDate . }
-        OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?constituencyGroupStartDate . }
-        OPTIONAL {
+    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?constituencyGroupEndDate . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?constituencyGroupStartDate . }
+    OPTIONAL {
         ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
         OPTIONAL {
-        ?seatIncumbency :incumbencyHasMember ?member .
-        OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
-        OPTIONAL { ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate . }
-        OPTIONAL { ?member :personGivenName ?givenName . }
-        OPTIONAL { ?member :personFamilyName ?familyName . }
-        OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
-}
-}
+            ?seatIncumbency :incumbencyHasMember ?member .
+            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+            OPTIONAL { ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate . }
+            OPTIONAL { ?member :personGivenName ?givenName . }
+            OPTIONAL { ?member :personFamilyName ?familyName . }
+            OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+        }
+    }
 }
 ";
 
@@ -408,37 +397,40 @@ CONSTRUCT{
         :constituencyGroupStartDate ?constituencyGroupStartDate ;
         :constituencyGroupEndDate ?constituencyGroupEndDate ;
         :constituencyGroupHasHouseSeat ?houseSeat .
-    ?houseSeat a :HouseSeat ;
+    ?houseSeat 
+        a :HouseSeat ;
         :houseSeatHasSeatIncumbency ?seatIncumbency .
-    ?seatIncumbency a :SeatIncumbency ;
+    ?seatIncumbency 
+        a :SeatIncumbency ;
         :incumbencyHasMember ?member ;
         :incumbencyEndDate ?seatIncumbencyEndDate ;
         :incumbencyStartDate ?seatIncumbencyStartDate .
-    ?member a :Person ;
+    ?member 
+        a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs .
 }
 WHERE {
     BIND(@constituencyid AS ?constituencyGroup )
-
-        ?constituencyGroup a :ConstituencyGroup ;
+    ?constituencyGroup 
+        a :ConstituencyGroup ;
         :constituencyGroupHasHouseSeat ?houseSeat .
-        OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
-        OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?constituencyGroupStartDate . }
-        OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?constituencyGroupEndDate . }
-        OPTIONAL {
+    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?constituencyGroupStartDate . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?constituencyGroupEndDate . }
+    OPTIONAL {
         ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
         FILTER NOT EXISTS { ?seatIncumbency a :PastIncumbency . }
         OPTIONAL {
-        ?seatIncumbency :incumbencyHasMember ?member .
-        OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
-        OPTIONAL { ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate . }
-        OPTIONAL { ?member :personGivenName ?givenName . }
-        OPTIONAL { ?member :personFamilyName ?familyName . }
-        OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
-}
-}
+            ?seatIncumbency :incumbencyHasMember ?member .
+            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+            OPTIONAL { ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate . }
+            OPTIONAL { ?member :personGivenName ?givenName . }
+            OPTIONAL { ?member :personFamilyName ?familyName . }
+            OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+        }
+    }
 }
 ";
 
@@ -458,20 +450,25 @@ WHERE {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
-    ?constituencyGroup a :ConstituencyGroup ;
+    ?constituencyGroup 
+        a :ConstituencyGroup ;
         :constituencyGroupHasHouseSeat ?houseSeat ;
         :constituencyGroupName ?name .
-    ?houseSeat a :HouseSeat ;
+    ?houseSeat 
+        a :HouseSeat ;
         :houseSeatHasSeatIncumbency ?incumbency .
-    ?incumbency a :SeatIncumbency ;
+    ?incumbency 
+        a :SeatIncumbency ;
         :incumbencyHasContactPoint ?contactPoint .
-    ?contactPoint a :ContactPoint ;
+    ?contactPoint 
+        a :ContactPoint ;
         :email ?email ;
         :phoneNumber ?phoneNumber ;
         :faxNumber ?faxNumber ;
         :contactForm ?contactForm ;
         :contactPointHasPostalAddress ?postalAddress .
-    ?postalAddress a :PostalAddress ;
+    ?postalAddress 
+        a :PostalAddress ;
         :postCode ?postCode ;
         :addressLine1 ?addressLine1 ;
         :addressLine2 ?addressLine2 ;
@@ -481,31 +478,31 @@ CONSTRUCT {
 }
 WHERE {
     BIND(@constituencyid AS ?constituencyGroup )
-
-        ?constituencyGroup a :ConstituencyGroup .
-        OPTIONAL {
+    ?constituencyGroup a :ConstituencyGroup .
+    OPTIONAL {
         ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
         OPTIONAL {
-        ?houseSeat :houseSeatHasSeatIncumbency ?incumbency .
-        FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
-        OPTIONAL {
-        ?incumbency :incumbencyHasContactPoint ?contactPoint .
-        OPTIONAL{ ?contactPoint :email ?email . }
-        OPTIONAL{ ?contactPoint :phoneNumber ?phoneNumber . }
-        OPTIONAL{ ?contactPoint :faxNumber ?faxNumber . }
-        OPTIONAL{ ?contactPoint :contactForm ?contactForm . }
-        OPTIONAL{ ?contactPoint :contactPointHasPostalAddress ?postalAddress .
-        OPTIONAL{ ?postalAddress :postCode ?postCode . }
-        OPTIONAL{ ?postalAddress :addressLine1 ?addressLine1 . }
-        OPTIONAL{ ?postalAddress :addressLine2 ?addressLine2 . }
-        OPTIONAL{ ?postalAddress :addressLine3 ?addressLine3 . }
-        OPTIONAL{ ?postalAddress :addressLine4 ?addressLine4 . }
-        OPTIONAL{ ?postalAddress :addressLine5 ?addressLine5 . }
-}
-}
-}
-}
-        OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+            ?houseSeat :houseSeatHasSeatIncumbency ?incumbency .
+            FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+            OPTIONAL {
+                ?incumbency :incumbencyHasContactPoint ?contactPoint .
+                OPTIONAL{ ?contactPoint :email ?email . }
+                OPTIONAL{ ?contactPoint :phoneNumber ?phoneNumber . }
+                OPTIONAL{ ?contactPoint :faxNumber ?faxNumber . }
+                OPTIONAL{ ?contactPoint :contactForm ?contactForm . }
+                OPTIONAL{ 
+        			?contactPoint :contactPointHasPostalAddress ?postalAddress .
+                    OPTIONAL{ ?postalAddress :postCode ?postCode . }
+                    OPTIONAL{ ?postalAddress :addressLine1 ?addressLine1 . }
+                    OPTIONAL{ ?postalAddress :addressLine2 ?addressLine2 . }
+                    OPTIONAL{ ?postalAddress :addressLine3 ?addressLine3 . }
+                    OPTIONAL{ ?postalAddress :addressLine4 ?addressLine4 . }
+                    OPTIONAL{ ?postalAddress :addressLine5 ?addressLine5 . }
+            	}
+        	}
+    	}
+	}
+    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
 }
 ";
 
