@@ -217,7 +217,7 @@ WHERE {
 
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
-    _:x :value ?firstLetter .
+    [ :value ?firstLetter ]
 }
 WHERE {
     SELECT DISTINCT ?firstLetter WHERE {
@@ -292,7 +292,7 @@ WHERE {
 
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
-    _:x :value ?firstLetter .
+    [ :value ?firstLetter ]
 }
 WHERE {
     SELECT DISTINCT ?firstLetter WHERE {

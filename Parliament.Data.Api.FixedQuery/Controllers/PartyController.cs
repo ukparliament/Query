@@ -135,7 +135,7 @@ PREFIX : <http://id.ukpds.org/schema/>
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
      CONSTRUCT {
-         _:x :value ?firstLetter .
+         [ :value ?firstLetter ]
       }
       WHERE {
         SELECT DISTINCT ?firstLetter WHERE {
@@ -162,7 +162,7 @@ PREFIX : <http://id.ukpds.org/schema/>
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
      CONSTRUCT {
-         _:x :value ?firstLetter .
+         [ :value ?firstLetter ]
       }
       WHERE {
         SELECT DISTINCT ?firstLetter WHERE {
@@ -393,7 +393,7 @@ PREFIX : <http://id.ukpds.org/schema/>
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
      CONSTRUCT {
-         _:x :value ?firstLetter .
+         [ :value ?firstLetter ]
       }
       WHERE {
         SELECT DISTINCT ?firstLetter WHERE {
@@ -475,7 +475,7 @@ PREFIX : <http://id.ukpds.org/schema/>
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
      CONSTRUCT {
-         _:x :value ?firstLetter .
+         [ :value ?firstLetter ]
       }
       WHERE {
         SELECT DISTINCT ?firstLetter WHERE {
