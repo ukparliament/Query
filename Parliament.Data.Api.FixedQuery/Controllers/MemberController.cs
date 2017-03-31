@@ -171,7 +171,8 @@ WHERE {
         ?house :houseName ?houseName .
         OPTIONAL { 
             ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
-            ?constituencyGroup :constituencyGroupName ?constituencyName . }
+            ?constituencyGroup :constituencyGroupName ?constituencyName . 
+        }
   	}
     ?person :partyMemberHasPartyMembership ?partyMembership .
     ?partyMembership 
