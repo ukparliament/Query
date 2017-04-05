@@ -12,7 +12,7 @@
     {
         [Route(Name = "ResourceById")]
         [HttpGet]
-        public HttpResponseMessage ById(string uri)
+        public Graph ById(string uri)
         {
             var queryString = @"DESCRIBE @uri";
 
@@ -20,7 +20,7 @@
 
             query.SetUri("uri", new Uri(uri));
 
-            return Execute(query);
+            return BaseController.Execute(query);
         }
     }
 }

@@ -12,7 +12,7 @@
         // Ruby route: resources :contact_points, only: [:index]
         [Route("", Name = "ContactPointIndex")]
         [HttpGet]
-        public HttpResponseMessage Index()
+        public Graph Index()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -51,13 +51,13 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            return Execute(query);
+            return BaseController.Execute(query);
         }
 
         // Ruby route: resources :contact_points, only: [:show]
         [Route(@"{id:regex(^\w{8}$)}", Name = "ContactPointById")]
         [HttpGet]
-        public HttpResponseMessage ById(string id)
+        public Graph ById(string id)
         {
             var queryString = @"
 PREFIX :<http://id.ukpds.org/schema/>
@@ -115,7 +115,7 @@ WHERE {
 
             query.SetUri("id", new Uri(instance, id));
 
-            return Execute(query);
+            return BaseController.Execute(query);
         }
     }
 }

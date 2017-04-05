@@ -12,7 +12,7 @@
         // Ruby route: resources :parties, only: [:index] 
         [Route("", Name = "PartyIndex")]
         [HttpGet]
-        public HttpResponseMessage Index()
+        public Graph Index()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -31,12 +31,12 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            return Execute(query);
+            return BaseController.Execute(query);
         }
         // Ruby route: match '/parties/:party', to: 'parties#show', party: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
         [Route(@"{id:regex(^\w{8}$)}", Name = "PartyById")]
         [HttpGet]
-        public HttpResponseMessage ById(string id)
+        public Graph ById(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -69,14 +69,14 @@ WHERE {
 
             query.SetUri("id", new Uri(BaseController.instance, id));
 
-            return Execute(query);
+            return BaseController.Execute(query);
 
         }
 
         // Ruby route: get '/parties/:letter', to: 'parties#letters', letter: /[A-Za-z]/, via: [:get]
         [Route(@"{initial:regex(^\p{L}+$):maxlength(1)}", Name = "PartyByInitial")]
         [HttpGet]
-        public HttpResponseMessage ByInitial(string initial)
+        public Graph ByInitial(string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -98,14 +98,14 @@ WHERE {
 
             query.SetLiteral("letter", initial);
 
-            return Execute(query);
+            return BaseController.Execute(query);
         }
 
         // Ruby route: get '/parties/current', to: 'parties#current'
         [Route("current", Name = "PartyCurrent")]
         [HttpGet]
-        public HttpResponseMessage Current() {
-            var querystring = @"
+        public Graph Current() {
+            var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
     ?party
@@ -122,14 +122,15 @@ WHERE {
     ?party :partyName ?partyName .
 }
 ";
+            var query = new SparqlParameterizedString(queryString);
 
-            return Execute(querystring);
+            return BaseController.Execute(query);
         }
 
         // Ruby route: get '/parties/a_z_letters', to: 'parties#a_z_letters_all'
         [Route("a_z_letters", Name = "PartyAToZ")]
         [HttpGet]
-        public HttpResponseMessage AToZLetters()
+        public Graph AToZLetters()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -149,7 +150,7 @@ WHERE {
 ";
 
             var query = new SparqlParameterizedString(queryString);
-            return Execute(query);
+            return BaseController.Execute(query);
         }
 
         // Ruby route: get '/parties/current/a_z_letters', to: 'parties#a_z_letters_current'
@@ -157,7 +158,7 @@ WHERE {
         // ALSO NOTE: mnis thinks Bishops are a party
         [Route("current/a_z_letters", Name = "PartyCurrentAToZ")]
         [HttpGet]
-        public HttpResponseMessage CurrentAToZParties()
+        public Graph CurrentAToZParties()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -180,13 +181,13 @@ WHERE {
 ";
 
             var query = new SparqlParameterizedString(queryString);
-            return Execute(query);
+            return BaseController.Execute(query);
         }
 
         // Ruby route: get '/parties/lookup', to: 'parties#lookup'
         [Route(@"lookup/{source:regex(^\p{L}+$)}/{id}", Name = "PartyLookup")]
         [HttpGet]
-        public HttpResponseMessage Lookup(string source, string id)
+        public Graph Lookup(string source, string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -207,12 +208,12 @@ WHERE {
             query.SetUri("source", new Uri(BaseController.schema, source));
             query.SetLiteral("id", id);
 
-            return Execute(query);
+            return BaseController.Execute(query);
         }
         // Ruby route: get '/parties/:letters', to: 'parties#lookup_by_letters'
         [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "PartyByLetters", Order = 999)]
         [HttpGet]
-        public HttpResponseMessage ByLetters(string letters)
+        public Graph ByLetters(string letters)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -232,13 +233,13 @@ WHERE {
 
             query.SetLiteral("letters", letters);
 
-            return Execute(query);
+            return BaseController.Execute(query);
         }
 
         // Ruby route: resources :parties, only: [:index] do get '/members', to: 'parties#members' end
         [Route(@"{id:regex(^\w{8}$)}/members", Name = "PartyMembers")]
         [HttpGet]
-        public HttpResponseMessage Members(string id)
+        public Graph Members(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -280,13 +281,13 @@ WHERE {
 
             query.SetUri("partyid", new Uri(BaseController.instance, id));
 
-            return Execute(query);
+            return BaseController.Execute(query);
         }
 
         // Ruby route: resources :parties, only: [:index] do get '/members/current', to: 'parties#current_members' end
         [Route(@"{id:regex(^\w{8}$)}/members/current", Name = "PartyCurrentMembers")]
         [HttpGet]
-        public HttpResponseMessage CurrentMembers(string id)
+        public Graph CurrentMembers(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -329,12 +330,12 @@ WHERE {
 
             query.SetUri("partyid", new Uri(BaseController.instance, id));
 
-            return Execute(query);
+            return BaseController.Execute(query);
         }
         // Ruby route: resources :parties, only: [:index] do match '/members/:letter', to: 'parties#members_letters', letter: /[A-Za-z]/, via: [:get] end
         [Route(@"{id:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "PartyMembersByInitial")]
         [HttpGet]
-        public HttpResponseMessage MembersByInitial(string id, string initial)
+        public Graph MembersByInitial(string id, string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -379,13 +380,13 @@ WHERE {
             query.SetUri("partyid", new Uri(BaseController.instance, id));
             query.SetLiteral("initial", initial);
 
-            return Execute(query);
+            return BaseController.Execute(query);
         }
 
         // Ruby route: resources :parties, only: [:index] do get '/members/a_z_letters', to: 'parties#a_z_letters_members' end
         [Route(@"{id:regex(^\w{8}$)}/members/a_z_letters", Name = "PartyMembersAToZ")]
         [HttpGet]
-        public HttpResponseMessage MembersAToZLetters(string id)
+        public Graph MembersAToZLetters(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -410,14 +411,14 @@ WHERE {
 
             query.SetUri("partyid", new Uri(BaseController.instance, id));
 
-            return Execute(query);
+            return BaseController.Execute(query);
         }
 
 
         // Ruby route: resources :parties, only: [:index] do match '/members/current/:letter', to: 'parties#current_members_letters', letter: /[A-Za-z]/, via: [:get] end
         [Route(@"{id:regex(^\w{8}$)}/members/current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "PartyCurrentMembersByInitial")]
         [HttpGet]
-        public HttpResponseMessage CurrentMembersByInitial(string id, string initial)
+        public Graph CurrentMembersByInitial(string id, string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -462,12 +463,12 @@ WHERE {
             query.SetUri("partyid", new Uri(BaseController.instance, id));
             query.SetLiteral("initial", initial);
 
-            return Execute(query);
+            return BaseController.Execute(query);
         }
         // Ruby route: resources :parties, only: [:index] do get '/members/current/a_z_letters', to: 'parties#a_z_letters_members_current' end
         [Route(@"{id:regex(^\w{8}$)}/members/current/a_z_letters", Name = "PartyCurrentMembersAToZ")]
         [HttpGet]
-        public HttpResponseMessage CurrentMembersAToZLetters(string id)
+        public Graph CurrentMembersAToZLetters(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -495,7 +496,7 @@ WHERE {
 
             query.SetUri("partyid", new Uri(BaseController.instance, id));
 
-            return Execute(query);
+            return BaseController.Execute(query);
         }
     }
 }

@@ -11,7 +11,7 @@
         // Ruby route: get '/people/members/current', to: 'members#current'
         [Route("current", Name = "MemberCurrent")]
         [HttpGet]
-        public HttpResponseMessage Current()
+        public Graph Current()
         {
             var queryString = @"
 PREFIX :<http://id.ukpds.org/schema/>
@@ -94,7 +94,7 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            return Execute(query);
+            return BaseController.Execute(query);
         }
 
         // Ruby route: match '/people/members/:letter', to: 'members#letters', letter: /[A-Za-z]/, via: [:get]
@@ -103,7 +103,7 @@ WHERE {
         // TODO: accents?
         [Route("{initial:maxlength(1)}", Name = "MemberByInitial")]
         [HttpGet]
-        public HttpResponseMessage ByInitial(string initial)
+        public Graph ByInitial(string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -188,13 +188,14 @@ WHERE {
 
             query.SetLiteral("letter", initial);
 
-            return Execute(query);
+            return BaseController.Execute(query);
+        
         }
 
         // Ruby route: get '/people/members/a_z_letters', to: 'members#a_z_letters'
         [Route("a_z_letters", Name = "MemberAToZ")]
         [HttpGet]
-        public HttpResponseMessage AToZLetters()
+        public Graph AToZLetters()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -214,7 +215,7 @@ WHERE {
 ";
 
             var query = new SparqlParameterizedString(queryString);
-            return Execute(query);
+            return BaseController.Execute(query);
         }
     
         // Ruby route: match '/people/members/current/:letter', to: 'members#current_letters', letter: /[A-Za-z]/, via: [:get]
@@ -223,7 +224,7 @@ WHERE {
         // TODO: accents?
         [Route("current/{initial:maxlength(1)}", Name = "MemberCurrentByInitial")]
         [HttpGet]
-        public HttpResponseMessage CurrentByInitial(string initial)
+        public Graph CurrentByInitial(string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -308,13 +309,13 @@ WHERE {
 
             query.SetLiteral("letter", initial);
 
-            return Execute(query);
+            return BaseController.Execute(query);
         }
 
         // Ruby route: get '/people/members/current/a_z_letters', to: 'members#a_z_letters_current'
         [Route("current/a_z_letters", Name = "MemberCurrentAToZ")]
         [HttpGet]
-        public HttpResponseMessage CurrentAToZLetters()
+        public Graph CurrentAToZLetters()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -334,7 +335,7 @@ WHERE {
 ";
 
             var query = new SparqlParameterizedString(queryString);
-            return Execute(query);
+            return BaseController.Execute(query);
         }
 
     }
