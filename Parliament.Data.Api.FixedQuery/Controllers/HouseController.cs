@@ -39,8 +39,7 @@ WHERE {
         }
 
         // Ruby route: get '/houses/lookup', to: 'houses#lookup'
-
-        [Route(@"lookup/{source:regex(^\p{L}+$)}/{id}", Name = "HouseLookup")]
+        [Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "HouseLookup")]
         [HttpGet]
         public Graph Lookup(string source, string id)
         {
@@ -355,7 +354,6 @@ WHERE {
         }
 
         // Ruby route: resources :houses, only: [:index] do get '/parties/:party_id', to: 'houses#party' end
-
         [Route(@"{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}", Name = "HousePartyById")]
         [HttpGet]
         public Graph PartyById(string houseid, string partyid)
@@ -430,12 +428,10 @@ WHERE {
 
 
             return BaseController.Execute(query);
-
-
         }
 
         // Ruby route: resources :houses, only: [:index] do match '/members/:letter', to: 'houses#members_letters', letter: /[A-Za-z]/, via: [:get] end
-        [Route(@"{houseid:regex(^\w{8}$)}/members/{initial:maxlength(1)}", Name = "HouseMembersByInitial")]
+        [Route(@"{houseid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HouseMembersByInitial")]
         [HttpGet]
         public Graph MembersByInitial(string houseid, string initial)
         {
@@ -530,7 +526,7 @@ WHERE {
             return BaseController.Execute(query);
         }
         // Ruby route: resources :houses, only: [:index] do match '/members/current/:letter', to: 'houses#current_members_letters', letter: /[A-Za-z]/, via: [:get] end
-        [Route(@"{houseid:regex(^\w{8}$)}/members/current/{initial:maxlength(1)}", Name = "HouseCurrentMembersByInitial")]
+        [Route(@"{houseid:regex(^\w{8}$)}/members/current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HouseCurrentMembersByInitial")]
         [HttpGet]
         public Graph CurrentMembersByInitial(string houseid, string initial)
         {

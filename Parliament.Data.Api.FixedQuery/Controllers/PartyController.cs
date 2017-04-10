@@ -183,7 +183,7 @@ WHERE {
         }
 
         // Ruby route: get '/parties/lookup', to: 'parties#lookup'
-        [Route(@"lookup/{source:regex(^\p{L}+$)}/{id}", Name = "PartyLookup")]
+        [Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "PartyLookup")]
         [HttpGet]
         public Graph Lookup(string source, string id)
         {

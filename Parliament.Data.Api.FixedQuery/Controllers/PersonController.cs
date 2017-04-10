@@ -167,8 +167,7 @@ WHERE {
         }
 
         // Ruby route: get '/people/:letter', to: 'people#letters', letter: /[A-Za-z]/, via: [:get]
-        // TODO: accents ({x:regex} with unicode alpha)?
-        [Route("{initial:maxlength(1)}", Name = "PersonByInitial")]
+        [Route(@"{initial:regex(^\p{L}+$):maxlength(1)}", Name = "PersonByInitial")]
         [HttpGet]
         public Graph ByInitial(string initial)
         {
@@ -201,10 +200,7 @@ WHERE {
         }
 
         // Ruby route: get '/people/lookup', to: 'people#lookup'
-        // TODO: validate source against actual properties?
-        // TODO: validate cource and id combnation?
-        // TODO: source could have numbers?
-        [Route(@"lookup/{source:regex(^\p{L}+$)}/{id}", Name = "PersonLookup")]
+        [Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "PersonLookup")]
         [HttpGet]
         public Graph ByExternalIdentifier(string source, string id)
         {
@@ -302,11 +298,6 @@ WHERE {
         }
 
         // Ruby route: get '/people/:letters', to: 'people#lookup_by_letters'
-        // TODO: letters length?
-        // TODO: STR required because OPTIONAL?
-        // TODO: accents?
-        // TODO: could be CONTAINS?
-        // TODO: letters go in STR?
         [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "PersonByLetters", Order = 999)]
         [HttpGet]
         public Graph ByLetters(string letters)
@@ -548,7 +539,6 @@ WHERE {
 
         // Ruby route: resources :people, only: [:index] do get '/contact_points',to: 'people#contact_points' end
         // note: query currently only really returns parliamentary contact point, not "contact points"
-       
         [Route(@"{id:regex(^\w{8}$)}/contact_points", Name = "PersonContactPoints")]
         [HttpGet]
         public Graph ContactPoints(string id)

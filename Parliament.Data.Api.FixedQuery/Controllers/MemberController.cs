@@ -98,10 +98,7 @@ WHERE {
         }
 
         // Ruby route: match '/people/members/:letter', to: 'members#letters', letter: /[A-Za-z]/, via: [:get]
-        // TODO: {x:regex(^\p{L}+$)}?
-        // TODO: {x:regex} with unicode alpha?
-        // TODO: accents?
-        [Route("{initial:maxlength(1)}", Name = "MemberByInitial")]
+        [Route(@"{initial:regex(^\p{L}+$):maxlength(1)}", Name = "MemberByInitial")]
         [HttpGet]
         public Graph ByInitial(string initial)
         {
@@ -219,10 +216,7 @@ WHERE {
         }
     
         // Ruby route: match '/people/members/current/:letter', to: 'members#current_letters', letter: /[A-Za-z]/, via: [:get]
-        // TODO: {x:regex(^\p{L}+$)}?
-        // TODO: {x:regex} with unicode alpha?
-        // TODO: accents?
-        [Route("current/{initial:maxlength(1)}", Name = "MemberCurrentByInitial")]
+        [Route(@"current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "MemberCurrentByInitial")]
         [HttpGet]
         public Graph CurrentByInitial(string initial)
         {

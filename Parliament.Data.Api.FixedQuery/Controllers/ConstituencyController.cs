@@ -154,7 +154,7 @@ WHERE {
         }
 
         // Ruby route: get '/constituencies/lookup', to: 'constituencies#lookup'
-        [Route(@"lookup/{source:regex(^\p{L}+$)}/{id}", Name = "ConstituencyLookup")]
+        [Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "ConstituencyLookup")]
         [HttpGet]
         public Graph Lookup(string source, string id)
         {
@@ -181,7 +181,6 @@ WHERE {
         }
 
         // Ruby route: get '/constituencies/:letters', to: 'constituencies#lookup_by_letters'
-
         [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "ConstituencyByLetters", Order = 999)]
         [HttpGet]
         public Graph ByLetters(string letters)
@@ -235,7 +234,7 @@ WHERE {
         }
 
         // Ruby route: match '/constituencies/current/:letter', to: 'constituencies#current_letters', letter: /[A-Za-z]/, via: [:get]
-        [Route("current/{initial:maxlength(1)}", Name = "ConstituencyCurrentByInitial")]
+        [Route(@"current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ConstituencyCurrentByInitial")]
         [HttpGet]
         public Graph CurrentByLetters(string initial)
         {
@@ -445,7 +444,6 @@ WHERE {
 
         // Ruby route: resources :constituencies, only: [:index] do get '/contact_point', to: 'constituencies#contact_point' end
         // why is this singular? - still not completely solved here
-
         [Route(@"{id:regex(^\w{8}$)}/contact_point", Name = "ConstituencyContactPoint")]
         [HttpGet]
         public Graph ContactPoint(string id)
