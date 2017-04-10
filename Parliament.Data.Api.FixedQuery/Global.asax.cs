@@ -5,6 +5,9 @@
     using System.Configuration;
     using System.Web;
     using System.Web.Http;
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     public class Global : HttpApplication
     {
@@ -17,6 +20,9 @@
             config.Formatters.Add(new GraphFormatter());
 
             config.MapHttpAttributeRoutes();
+
+            config.Routes.MapHttpRoute("BadRequest", "{*any}", new { controller = "BadRequest", action = "Get" });
+
 
             config.EnsureInitialized();
         }

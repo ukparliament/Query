@@ -181,7 +181,6 @@ WHERE {
         }
 
         // Ruby route: get '/constituencies/:letters', to: 'constituencies#lookup_by_letters'
-        // Was this not going to be called ByInitials? - CJA
 
         [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "ConstituencyByLetters", Order = 999)]
         [HttpGet]
@@ -445,7 +444,8 @@ WHERE {
         }
 
         // Ruby route: resources :constituencies, only: [:index] do get '/contact_point', to: 'constituencies#contact_point' end
-        // why is this singular?
+        // why is this singular? - still not completely solved here
+
         [Route(@"{id:regex(^\w{8}$)}/contact_point", Name = "ConstituencyContactPoint")]
         [HttpGet]
         public Graph ContactPoint(string id)

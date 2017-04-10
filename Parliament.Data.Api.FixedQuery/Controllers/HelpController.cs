@@ -27,7 +27,6 @@
                 this.Url.Route("PersonHouses", new { id = "jYuUOvWN" }),
                 this.Url.Route("PersonCurrentHouse", new { id = "jYuUOvWN" }),
 
-
                 // MemberIndex route exists on person controller
                 this.Url.Route("MemberIndex", null),
 

@@ -39,7 +39,6 @@ WHERE {
         }
 
         // Ruby route: get '/houses/lookup', to: 'houses#lookup'
-        // NOTE: this does not work as we don't have house mnis IDs, as that feels like overkill, and overreliance on MNIS
 
         [Route(@"lookup/{source:regex(^\p{L}+$)}/{id}", Name = "HouseLookup")]
         [HttpGet]
@@ -356,7 +355,7 @@ WHERE {
         }
 
         // Ruby route: resources :houses, only: [:index] do get '/parties/:party_id', to: 'houses#party' end
-        // this route doesn't seem particularly useful? should it not return the party's members?
+
         [Route(@"{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}", Name = "HousePartyById")]
         [HttpGet]
         public Graph PartyById(string houseid, string partyid)

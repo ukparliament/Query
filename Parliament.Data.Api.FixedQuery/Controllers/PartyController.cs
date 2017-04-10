@@ -154,8 +154,6 @@ WHERE {
         }
 
         // Ruby route: get '/parties/current/a_z_letters', to: 'parties#a_z_letters_current'
-        // NOTE: this returns parties who currently have members in parliament, not parties currently active or seeking election
-        // ALSO NOTE: mnis thinks Bishops are a party
         [Route("current/a_z_letters", Name = "PartyCurrentAToZ")]
         [HttpGet]
         public Graph CurrentAToZParties()

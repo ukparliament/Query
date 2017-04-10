@@ -7,18 +7,32 @@
     using VDS.RDF.Query;
     using VDS.RDF.Storage;
     using VDS.RDF.Parsing.Handlers;
- 
+
     public abstract class BaseController : ApiController
     {
         protected static readonly Uri instance = new Uri("http://id.ukpds.org/");
         protected static readonly Uri schema = new Uri(instance, "schema/");
 
-        protected static Graph Execute(SparqlParameterizedString query)
+        // TODO: Implement single vs list throughout
+        protected static Graph ExecuteSingle(SparqlParameterizedString query)
         {
-            return BaseController.Execute(query.ToString());
+            var result = BaseController.Execute(query);
+            if (result.IsEmpty)
+            {
+                throw new HttpResponseException(System.Net.HttpStatusCode.NotFound);
+            }
+
+            return result;
         }
 
-        private static Graph Execute(string query)
+        // TODO: rename to list
+        protected static Graph Execute(SparqlParameterizedString query)
+        {
+            return BaseController.ExecuteList(query.ToString());
+        }
+
+        // TODO: rename to list
+        protected static Graph ExecuteList(string query)
         {
             IGraph graph = new Graph();
             var endpointUri = ConfigurationManager.AppSettings["SparqlEndpoint"];
@@ -30,6 +44,7 @@
                 GraphHandler rdfHandler = new GraphHandler(graph);
                 connector.Query(rdfHandler, null, query);
             }
+
             return graph as Graph;
         }
     }

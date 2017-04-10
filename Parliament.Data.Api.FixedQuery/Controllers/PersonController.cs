@@ -37,6 +37,7 @@ WHERE {
 
             return BaseController.Execute(query);
         }
+
         // Ruby route: match '/people/:person', to: 'people#show', person: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
         [Route(@"{id:regex(^\w{8}$)}", Name = "PersonById")]
         [HttpGet]
@@ -157,7 +158,7 @@ WHERE {
     }
 }
 ";
-
+            
             var query = new SparqlParameterizedString(queryString);
 
             query.SetUri("id", new Uri(instance, id));
@@ -167,7 +168,6 @@ WHERE {
 
         // Ruby route: get '/people/:letter', to: 'people#letters', letter: /[A-Za-z]/, via: [:get]
         // TODO: accents ({x:regex} with unicode alpha)?
-        // TODO: REGEX ignore case?
         [Route("{initial:maxlength(1)}", Name = "PersonByInitial")]
         [HttpGet]
         public Graph ByInitial(string initial)
