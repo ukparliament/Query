@@ -538,9 +538,6 @@ WHERE {
             var formattedPostcode = postcode.ToUpper().Replace(" ", String.Empty);
             externalQuery.SetUri("postcode", new Uri(new Uri ("http://data.ordnancesurvey.co.uk/id/postcodeunit/"), formattedPostcode));
 
-            return BaseController.ExecuteExternal(externalQuery, new Uri("http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql"));
-
-
             var externalResults = BaseController.ExecuteExternal(externalQuery, new Uri ("http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql?"));
             return externalResults;
             //TO DO: make this work
