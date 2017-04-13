@@ -35,7 +35,7 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: match '/people/:person', to: 'people#show', person: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
@@ -163,7 +163,7 @@ WHERE {
 
             query.SetUri("id", new Uri(instance, id));
             
-            return BaseController.Execute(query);
+            return BaseController.ExecuteSingle(query);
         }
 
         // Ruby route: get '/people/:letter', to: 'people#letters', letter: /[A-Za-z]/, via: [:get]
@@ -195,7 +195,7 @@ WHERE {
 
             query.SetLiteral("initial", initial);
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
 
         }
 
@@ -221,7 +221,7 @@ WHERE {
             var query = new SparqlParameterizedString(queryString);
             query.SetUri("source", new Uri(BaseController.schema, source));
             query.SetLiteral("id", id);
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby: get '/people/members', to: 'members#index'
@@ -294,7 +294,7 @@ WHERE {
             var query = new SparqlParameterizedString(queryString);
 
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: get '/people/:letters', to: 'people#lookup_by_letters'
@@ -323,7 +323,7 @@ WHERE {
             var query = new SparqlParameterizedString(queryString);
 
             query.SetLiteral("letters", letters);
-            return BaseController.Execute(query);            
+            return BaseController.ExecuteList(query);            
         }
 
         // Ruby route: get '/people/a_z_letters', to: 'people#a_z_letters'
@@ -346,7 +346,7 @@ WHERE {
 ";
 
             var query = new SparqlParameterizedString(queryString);
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: resources :people, only: [:index] do get '/constituencies', to: 'people#constituencies' end
@@ -398,7 +398,7 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
             query.SetUri("personid", new Uri(BaseController.instance, id));
-            return BaseController.Execute(query);
+            return BaseController.ExecuteSingle(query);
         }
 
         // Ruby route: resources :people, only: [:index] doget '/constituencies/current', to: 'people#current_constituency' end
@@ -447,7 +447,7 @@ WHERE {
             var query = new SparqlParameterizedString(queryString);
             query.SetUri("personid", new Uri(BaseController.instance, id));
         
-            return BaseController.Execute(query);
+            return BaseController.ExecuteSingle(query);
         }
 
         // Ruby route: resources :people, only: [:index] do get '/parties', to: 'people#parties' end
@@ -491,7 +491,7 @@ WHERE {
 
             query.SetUri("personid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteSingle(query);
         }
 
         // Ruby route: resources :people, only: [:index] do get '/parties/current', to: 'people#current_party' end
@@ -534,7 +534,7 @@ WHERE {
 
             query.SetUri("personid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteSingle(query);
         }
 
         // Ruby route: resources :people, only: [:index] do get '/contact_points',to: 'people#contact_points' end
@@ -600,7 +600,7 @@ WHERE {
 
             query.SetUri("personid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteSingle(query);
         }
 
         // Ruby route: resources :people, only: [:index] do get '/houses',to: 'people#houses' end
@@ -669,7 +669,7 @@ WHERE {
 
             query.SetUri("personid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteSingle(query);
         }
 
         // Ruby route: resources :people, only: [:index] do get '/houses/current', to: 'people#current_house' end
@@ -733,7 +733,7 @@ WHERE {
 
             query.SetUri("personid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteSingle(query);
         }
     }
 }

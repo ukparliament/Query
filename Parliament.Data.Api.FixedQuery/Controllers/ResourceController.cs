@@ -20,7 +20,7 @@
 
             query.SetUri("uri", new Uri(uri));
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteSingle(query);
         }
     }
 }

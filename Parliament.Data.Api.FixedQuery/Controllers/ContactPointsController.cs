@@ -51,7 +51,7 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: resources :contact_points, only: [:show]
@@ -115,7 +115,7 @@ WHERE {
 
             query.SetUri("id", new Uri(instance, id));
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteSingle(query);
         }
     }
 }

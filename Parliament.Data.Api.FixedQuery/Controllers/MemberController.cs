@@ -94,7 +94,7 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: match '/people/members/:letter', to: 'members#letters', letter: /[A-Za-z]/, via: [:get]
@@ -185,7 +185,7 @@ WHERE {
 
             query.SetLiteral("letter", initial);
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         
         }
 
@@ -212,7 +212,7 @@ WHERE {
 ";
 
             var query = new SparqlParameterizedString(queryString);
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
     
         // Ruby route: match '/people/members/current/:letter', to: 'members#current_letters', letter: /[A-Za-z]/, via: [:get]
@@ -303,7 +303,7 @@ WHERE {
 
             query.SetLiteral("letter", initial);
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: get '/people/members/current/a_z_letters', to: 'members#a_z_letters_current'
@@ -329,7 +329,7 @@ WHERE {
 ";
 
             var query = new SparqlParameterizedString(queryString);
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
     }

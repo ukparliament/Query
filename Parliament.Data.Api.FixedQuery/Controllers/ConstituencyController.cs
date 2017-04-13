@@ -76,7 +76,7 @@ WHERE {
 
             query.SetUri("id", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteSingle(query);
         }
 
         // Ruby route: match '/constituencies/:letter', to: 'constituencies#letters', letter: /[A-Za-z]/, via: [:get]
@@ -104,7 +104,7 @@ WHERE {
 
             query.SetLiteral("letter", initial);
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: get '/constituencies/current', to: 'constituencies#current'
@@ -150,7 +150,7 @@ WHERE {
             var query = new SparqlParameterizedString(queryString);
 
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: get '/constituencies/lookup', to: 'constituencies#lookup'
@@ -177,7 +177,7 @@ WHERE {
             query.SetUri("source", new Uri(BaseController.schema, source));
             query.SetLiteral("id", id);
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: get '/constituencies/:letters', to: 'constituencies#lookup_by_letters'
@@ -205,7 +205,7 @@ WHERE {
 
             query.SetLiteral("letters", letters);
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: get '/constituencies/a_z_letters', to: 'constituencies#a_z_letters'
@@ -230,7 +230,7 @@ WHERE {
 ";
     
             var query = new SparqlParameterizedString(queryString);
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: match '/constituencies/current/:letter', to: 'constituencies#current_letters', letter: /[A-Za-z]/, via: [:get]
@@ -278,7 +278,7 @@ WHERE {
 
             query.SetLiteral("initial", initial);
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
         // Ruby route: get '/constituencies/current/a_z_letters', to: 'constituencies#a_z_letters_current'
         [Route("current/a_z_letters", Name = "ConstituencyCurrentAToZ")]
@@ -302,7 +302,7 @@ WHERE {
 ";
 
             var query = new SparqlParameterizedString(queryString);
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: resources :constituencies, only: [:index]
@@ -327,7 +327,7 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: resources :constituencies, only: [:index] do get '/members', to: 'constituencies#members' end
@@ -381,7 +381,7 @@ WHERE {
 
             query.SetUri("constituencyid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: resources :constituencies, only: [:index] do get '/members/current', to: 'constituencies#current_member' end
@@ -439,7 +439,7 @@ WHERE {
 
             query.SetUri("constituencyid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: resources :constituencies, only: [:index] do get '/contact_point', to: 'constituencies#contact_point' end
@@ -511,7 +511,42 @@ WHERE {
 
             query.SetUri("constituencyid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteSingle(query);
+        }
+
+
+        [Route(@"postcode_lookup/{postcode}", Name = "ConstituencyLookupByPostcode")]
+        [HttpGet]
+        public Graph LookupByPostcode(string postcode)
+        {
+            var externalQueryString = @"
+PREFIX unit: <http://data.ordnancesurvey.co.uk/id/postcodeunit/>
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+CONSTRUCT {
+    ?postcode 
+        geo:long ?long ;
+        geo:lat ?lat .
+} 
+WHERE {
+    BIND(@postcode as ?postcode) 
+    ?postcode geo:long ?long ;
+        geo:lat ?lat .
+}
+";
+
+            var externalQuery = new SparqlParameterizedString(externalQueryString);
+            var formattedPostcode = postcode.ToUpper().Replace(" ", String.Empty);
+            externalQuery.SetUri("postcode", new Uri(new Uri ("http://data.ordnancesurvey.co.uk/id/postcodeunit/"), formattedPostcode));
+
+            return BaseController.ExecuteExternal(externalQuery, new Uri("http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql"));
+
+
+            var externalResults = BaseController.ExecuteExternal(externalQuery, new Uri ("http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql?"));
+            return externalResults;
+            //TO DO: make this work
+            //TO DO: get coordinates from externalResults
+            //TO DO: reformat coordinates into form needed in sparql query on our database
+            //TO DO: write query that hits our database
         }
 
     }

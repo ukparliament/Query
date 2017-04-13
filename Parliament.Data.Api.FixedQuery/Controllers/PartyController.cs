@@ -31,7 +31,7 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
         // Ruby route: match '/parties/:party', to: 'parties#show', party: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
         [Route(@"{id:regex(^\w{8}$)}", Name = "PartyById")]
@@ -69,7 +69,7 @@ WHERE {
 
             query.SetUri("id", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteSingle(query);
 
         }
 
@@ -98,7 +98,7 @@ WHERE {
 
             query.SetLiteral("letter", initial);
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: get '/parties/current', to: 'parties#current'
@@ -124,7 +124,7 @@ WHERE {
 ";
             var query = new SparqlParameterizedString(queryString);
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: get '/parties/a_z_letters', to: 'parties#a_z_letters_all'
@@ -150,7 +150,7 @@ WHERE {
 ";
 
             var query = new SparqlParameterizedString(queryString);
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: get '/parties/current/a_z_letters', to: 'parties#a_z_letters_current'
@@ -179,7 +179,7 @@ WHERE {
 ";
 
             var query = new SparqlParameterizedString(queryString);
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: get '/parties/lookup', to: 'parties#lookup'
@@ -206,7 +206,7 @@ WHERE {
             query.SetUri("source", new Uri(BaseController.schema, source));
             query.SetLiteral("id", id);
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
         // Ruby route: get '/parties/:letters', to: 'parties#lookup_by_letters'
         [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "PartyByLetters", Order = 999)]
@@ -231,7 +231,7 @@ WHERE {
 
             query.SetLiteral("letters", letters);
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: resources :parties, only: [:index] do get '/members', to: 'parties#members' end
@@ -279,7 +279,7 @@ WHERE {
 
             query.SetUri("partyid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: resources :parties, only: [:index] do get '/members/current', to: 'parties#current_members' end
@@ -328,7 +328,7 @@ WHERE {
 
             query.SetUri("partyid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
         // Ruby route: resources :parties, only: [:index] do match '/members/:letter', to: 'parties#members_letters', letter: /[A-Za-z]/, via: [:get] end
         [Route(@"{id:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "PartyMembersByInitial")]
@@ -378,7 +378,7 @@ WHERE {
             query.SetUri("partyid", new Uri(BaseController.instance, id));
             query.SetLiteral("initial", initial);
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
         // Ruby route: resources :parties, only: [:index] do get '/members/a_z_letters', to: 'parties#a_z_letters_members' end
@@ -409,7 +409,7 @@ WHERE {
 
             query.SetUri("partyid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
 
 
@@ -461,7 +461,7 @@ WHERE {
             query.SetUri("partyid", new Uri(BaseController.instance, id));
             query.SetLiteral("initial", initial);
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
         // Ruby route: resources :parties, only: [:index] do get '/members/current/a_z_letters', to: 'parties#a_z_letters_members_current' end
         [Route(@"{id:regex(^\w{8}$)}/members/current/a_z_letters", Name = "PartyCurrentMembersAToZ")]
@@ -494,7 +494,7 @@ WHERE {
 
             query.SetUri("partyid", new Uri(BaseController.instance, id));
 
-            return BaseController.Execute(query);
+            return BaseController.ExecuteList(query);
         }
     }
 }
