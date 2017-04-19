@@ -1,6 +1,7 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
     using System;
+    using System.Linq;
     using System.Net.Http;
     using System.Web.Http;
     using VDS.RDF;
@@ -520,7 +521,6 @@ WHERE {
         public Graph LookupByPostcode(string postcode)
         {
             var externalQueryString = @"
-PREFIX unit: <http://data.ordnancesurvey.co.uk/id/postcodeunit/>
 PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
 CONSTRUCT {
     ?postcode 
@@ -533,17 +533,34 @@ WHERE {
         geo:lat ?lat .
 }
 ";
-
+            var queryString= @"
+PREFIX parl: <http://id.ukpds.org/schema/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+construct {
+    ?constituencyGroup parl:constituencyGroupName ?constituencyGroupName.
+}
+where {
+    ?constituencyArea a parl:ConstituencyArea;
+        parl:constituencyAreaExtent ?constituencyAreaExtent;
+        parl:constituencyAreaHasConstituencyGroup ?constituencyGroup.
+    ?constituencyGroup parl:constituencyGroupName ?constituencyGroupName.    
+    bind(strdt(concat(""Point("",@longitude,"" "",@latitude,"")""),geo:wktLiteral) as ?point)
+    filter(geof:sfWithin(?point,?constituencyAreaExtent))
+}
+";
             var externalQuery = new SparqlParameterizedString(externalQueryString);
             var formattedPostcode = postcode.ToUpper().Replace(" ", String.Empty);
             externalQuery.SetUri("postcode", new Uri(new Uri ("http://data.ordnancesurvey.co.uk/id/postcodeunit/"), formattedPostcode));
+            var externalResults = BaseController.ExecuteSingle(externalQuery, new Uri("http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql"));
 
-            var externalResults = BaseController.ExecuteExternal(externalQuery, new Uri ("http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql?"));
-            return externalResults;
-            //TO DO: make this work
-            //TO DO: get coordinates from externalResults
-            //TO DO: reformat coordinates into form needed in sparql query on our database
-            //TO DO: write query that hits our database
+            var query = new SparqlParameterizedString(queryString);
+            var longitude = (LiteralNode)externalResults.GetTriplesWithPredicate(new Uri("http://www.w3.org/2003/01/geo/wgs84_pos#long")).SingleOrDefault().Object;
+            var latitude = (LiteralNode)externalResults.GetTriplesWithPredicate(new Uri("http://www.w3.org/2003/01/geo/wgs84_pos#lat")).SingleOrDefault().Object;
+            query.SetLiteral("longitude", longitude.Value);
+            query.SetLiteral("latitude", latitude.Value);
+
+            return BaseController.ExecuteSingle(query);
         }
 
     }

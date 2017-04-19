@@ -25,6 +25,22 @@
             return result;
         }
 
+        protected static Graph ExecuteSingle(SparqlParameterizedString query, Uri externalSparqlEndpoint)
+        {
+            IGraph graph = new Graph();
+            using (SparqlConnector connector = new SparqlConnector(externalSparqlEndpoint))
+            {
+                GraphHandler rdfHandler = new GraphHandler(graph);
+                connector.Query(rdfHandler, null, query.ToString());
+            }
+            if (graph.IsEmpty)
+            {
+                throw new HttpResponseException(System.Net.HttpStatusCode.NotFound);
+            }
+
+            return graph as Graph;
+        }
+
 
         // TODO: rename to list
         protected static Graph ExecuteList(SparqlParameterizedString query)
@@ -47,22 +63,6 @@
             }
 
             return graph as Graph;
-        }
-
-
-        protected static Graph ExecuteExternal(SparqlParameterizedString query, Uri externalEndpointUri)
-        {
-            IGraph graph = new Graph();
-            var endpointUri = externalEndpointUri;
-
-            using (GraphDBConnector connector = new GraphDBConnector(endpointUri.ToString()))
-            {
-                GraphHandler rdfHandler = new GraphHandler(graph);
-                connector.Query(rdfHandler, null, query.ToString());
-            }
-
-            return graph as Graph;
-
         }
 
     }
