@@ -8,6 +8,18 @@
                 "description": "Name of the API app."
             }
         },
+        "applicationInsightsName":{
+            "type": "string",
+            "metadata": {
+                "description": "Name of the Application Insights."
+            }
+        },
+        "applicationPlanName":{
+            "type": "string",
+            "metadata": {
+                "description": "Name of the Application Insights."
+            }
+        },
         "environment": {
             "type": "string",
             "metadata": {
@@ -27,7 +39,7 @@
             "comments": "Application Insights for App Service",
             "type": "microsoft.insights/components",
             "kind": "web",
-            "name": "[concat(parameters('fixedQueryAPIName'),'insights')]",
+            "name": "[parameters('applicationInsightsName')]",
             "apiVersion": "2015-05-01",
             "location": "[resourceGroup().location]",
             "tags": {
@@ -38,7 +50,7 @@
                 "Type": "Application Insights"
             },
             "properties":{
-                "ApplicationId": "[concat(parameters('fixedQueryAPIName'),'insights')]"
+                "ApplicationId": "[parameters('applicationInsightsName')]"
             },
             "resources": [],
             "dependsOn": []
@@ -54,7 +66,7 @@
                 "capacity": 1
             },
             "kind": "app",
-            "name": "[concat(parameters('fixedQueryAPIName'),'plan')]",
+            "name": "[parameters('applicationPlanName')]",
             "apiVersion": "2015-08-01",
             "location": "[resourceGroup().location]",
             "tags": {
@@ -99,10 +111,10 @@
                         "ipBasedSslState": 0
                     }
                 ],
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', concat(parameters('fixedQueryAPIName'),'plan'))]"
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('applicationPlanName'))]"
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', concat(parameters('fixedQueryAPIName'),'plan'))]"
+                "[resourceId('Microsoft.Web/serverfarms', parameters('applicationPlanName'))]"
             ]
         }
     ]
