@@ -565,7 +565,7 @@ where {
     optional {
         ?constituencyGroup parl:constituencyGroupHasHouseSeat ?houseSeat .
         ?houseSeat parl:houseSeatHasSeatIncumbency ?seatIncumbency .
-      	?seatIncumbency a parl:SeatIncumbency ;
+        filter not exists { ?seatIncumbency a parl:PastIncumbency . }
         optional { ?seatIncumbency parl:incumbencyHasMember ?member . }
         optional { ?member parl:personGivenName ?givenName . }
         optional { ?member parl:personFamilyName ?familyName . }
