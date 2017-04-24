@@ -538,7 +538,21 @@ PREFIX parl: <http://id.ukpds.org/schema/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
 construct {
-    ?constituencyGroup parl:constituencyGroupName ?constituencyGroupName.
+    ?constituencyGroup 
+        a parl:ConstituencyGroup ;
+        parl:constituencyGroupName ?constituencyGroupName ;
+        parl:constituencyGroupHasHouseSeat ?houseSeat .
+    ?houseSeat
+        a parl:HouseSeat ;
+        parl:houseSeatHasSeatIncumbency ?seatIncumbency .
+    ?seatIncumbency
+        a parl:SeatIncumbency ;
+        parl:incumbencyHasMember ?member .
+    ?member
+        a parl:Person ;
+        parl:personGivenName ?givenName ;
+        parl:personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs .
 }
 where {
     ?constituencyArea a parl:ConstituencyArea;
@@ -547,6 +561,16 @@ where {
     ?constituencyGroup parl:constituencyGroupName ?constituencyGroupName.    
     bind(strdt(concat(""Point("",@longitude,"" "",@latitude,"")""),geo:wktLiteral) as ?point)
     filter(geof:sfWithin(?point,?constituencyAreaExtent))
+
+    optional {
+        ?constituencyGroup parl:constituencyGroupHasHouseSeat ?houseSeat .
+        ?houseSeat parl:houseSeatHasSeatIncumbency ?seatIncumbency .
+      	?seatIncumbency a parl:SeatIncumbency ;
+        optional { ?seatIncumbency parl:incumbencyHasMember ?member . }
+        optional { ?member parl:personGivenName ?givenName . }
+        optional { ?member parl:personFamilyName ?familyName . }
+        optional { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+   }
 }
 ";
             var externalQuery = new SparqlParameterizedString(externalQueryString);
