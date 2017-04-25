@@ -25,7 +25,7 @@ Param(
 
 $ErrorActionPreference = "Stop"
 
-$productTitle="Parliament -Fixed Query"
+$productTitle="Parliament -Fixed Query API"
 
 function Log([Parameter(Mandatory=$true)][string]$LogText){
     Write-Host ("{0} - {1}" -f (Get-Date -Format "HH:mm:ss.fff"), $LogText)
