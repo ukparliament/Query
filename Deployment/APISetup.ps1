@@ -42,16 +42,13 @@ $productFixedQuery=(Get-AzureRmApiManagementProduct -Context $management | Where
 if ($productFixedQuery -eq $null) {
     Log "Access for Fixed Query API"
     $productFixedQuery=New-AzureRmApiManagementProduct -Context $management -Title $productTitle -Description "For parliament use only." -ApprovalRequired $true -SubscriptionsLimit 1
-    $productWeb=New-AzureRmApiManagementProduct -Context $management -Title "Parliament - website" -Description "For parliament use only." -ApprovalRequired $true -SubscriptionsLimit 1
-
+    
     $api=New-AzureRmApiManagementApi -Context $management -Name "Fixed Query" -Description "All routes on Fixed Query API" -ServiceUrl "https://$FixedQueryAPIName.azurewebsites.net/" -Protocols @("https") -Path "/fixedquery"
     New-AzureRmApiManagementOperation -Context $management -ApiId $api.ApiId -Name "Fixed Query (catch all)" -Method "GET" -UrlTemplate "/*"
     Add-AzureRmApiManagementApiToProduct -Context $management -ProductId $productFixedQuery.ProductId -ApiId $api.ApiId
-    Add-AzureRmApiManagementApiToProduct -Context $management -ProductId $productWeb.ProductId -ApiId $api.ApiId
     Log "Add sparql endpoint api to Product ($productTitle)"
     $api=Get-AzureRmApiManagementApi -Context $management | Where-Object Path -EQ "data"
     Add-AzureRmApiManagementApiToProduct -Context $management -ProductId $productFixedQuery.ProductId -ApiId $api.ApiId
-    Add-AzureRmApiManagementApiToProduct -Context $management -ProductId $productWeb.ProductId -ApiId $api.ApiId
 }
 
 Log "Retrives subscription"
