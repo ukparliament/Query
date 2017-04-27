@@ -5,11 +5,8 @@ Generates API.
 .DESCRIPTION
 Creates endpoints to access GraphDB.
 
-.PARAMETER ClusterResourceGroupName
-Name of the Resource Group where the cluster is.
-
-.PARAMETER APIManagementName
-Name of the API Management.
+.PARAMETER APIResourceGroupName
+Name of the Resource Group where the API Management is.
 
 .PARAMETER FixedQueryAPIName
 Name of the Fixed Query API.
@@ -19,7 +16,7 @@ This script is for use as a part of deployment in VSTS only.
 #>
 
 Param(
-    [Parameter(Mandatory=$true)] [string] $ClusterResourceGroupName,
+    [Parameter(Mandatory=$true)] [string] $APIResourceGroupName,
     [Parameter(Mandatory=$true)] [string] $FixedQueryAPIName
 )
 
@@ -32,10 +29,10 @@ function Log([Parameter(Mandatory=$true)][string]$LogText){
 }
 
 Log "Retrives API Management"
-$apiManagement=Get-AzureRmApiManagement -ResourceGroupName $ClusterResourceGroupName
+$apiManagement=Get-AzureRmApiManagement -ResourceGroupName $APIResourceGroupName
 
 Log "Get API Management context"
-$management=New-AzureRmApiManagementContext -ResourceGroupName $ClusterResourceGroupName -ServiceName $apiManagement.Name
+$management=New-AzureRmApiManagementContext -ResourceGroupName $APIResourceGroupName -ServiceName $apiManagement.Name
 
 Log "Check if product already installed"
 $productFixedQuery=(Get-AzureRmApiManagementProduct -Context $management | Where-Object Title -Match $productTitle)
