@@ -10,7 +10,7 @@
     [RoutePrefix("constituencies")]
     public class ConstituencyController : BaseController
     {
-        // Ruby route: match '/constituencies/:constituency', to: 'constituencies#show', constituency: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
+        // Ruby route: match '/constituencies/:constituency', to: 'constituencies#show', constituency: /\w{8}$/, via: [:get]
         [Route(@"{id:regex(^\w{8}$)}", Name = "ConstituencyByID")]
         [HttpGet]
         public Graph ById(string id)
@@ -48,7 +48,8 @@ CONSTRUCT{
     ?partyMembership
         a :PartyMembership ;
         :partyMembershipHasParty ?party .
-    ?party a :Party ;
+    ?party
+        a :Party ;
         :partyName ?partyName .
 }
 WHERE {
@@ -107,7 +108,8 @@ CONSTRUCT{
                    :houseSeatHasSeatIncumbency ?seatIncumbency .
              ?seatIncumbency
                  a :SeatIncumbency ;
-                 :incumbencyHasMember ?member .
+                 :incumbencyHasMember ?member ;
+                 :incumbencyHasEndDate ?seatIncumbencyEndDate .
              ?member
                a :Person;
                :personGivenName ?givenName ;
@@ -115,20 +117,21 @@ CONSTRUCT{
                <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
                :partyMemberHasPartyMembership ?partyMembership .
              ?partyMembership
-               :PartyMembership ;
+               a :PartyMembership ;
                :partyMembershipHasParty ?party .
              ?party
-               :Party ;
+               a :Party ;
                :partyName ?partyName .
 }
 WHERE {
-           ?constituencyGroup :ConstituencyGroup .
+           ?constituencyGroup a :ConstituencyGroup .
                 OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
                 OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?endDate . }
              OPTIONAL {
                ?constituencyGroup :constituencyGroupHasHouseSeat ?seat .
                ?seat :houseSeatHasSeatIncumbency ?seatIncumbency .
-               OPTIONAL {?seatIncumbency a :PastIncumbency . }
+               OPTIONAL { ?seatIncumbency :incumbencyHasEndDate ?seatIncumbencyEndDate . }
+               FILTER NOT EXISTS {?seatIncumbency a :PastIncumbency . }
                ?seatIncumbency :incumbencyHasMember ?member .
                OPTIONAL { ?member :personGivenName ?givenName . }
                OPTIONAL { ?member :personFamilyName ?familyName . }
@@ -385,7 +388,8 @@ PREFIX : <http://id.ukpds.org/schema/>
       :houseSeatHasSeatIncumbency ?seatIncumbency .
       ?seatIncumbency
       a :SeatIncumbency ;
-      :incumbencyHasMember ?member .
+      :incumbencyHasMember ?member ;
+      :incumbencyHasEndDate ?seatIncumbencyEndDate .
       ?member
       a :Person;
       :personGivenName ?givenName ;
@@ -407,6 +411,8 @@ PREFIX : <http://id.ukpds.org/schema/>
     OPTIONAL {
             ?constituencyGroup :constituencyGroupHasHouseSeat ?seat .
             ?seat :houseSeatHasSeatIncumbency ?seatIncumbency .
+            OPTIONAL { ?seatIncumbency :incumbencyHasEndDate ?seatIncumbencyEndDate . }
+            FILTER NOT EXISTS {?seatIncumbency a :PastIncumbency . }
             ?seatIncumbency :incumbencyHasMember ?member .
             OPTIONAL { ?member :personGivenName ?givenName . }
             OPTIONAL { ?member :personFamilyName ?familyName . }
