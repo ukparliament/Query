@@ -103,7 +103,7 @@
                         "ipBasedSslState": 0
                     }
                 ],
-                "serverFarmId": "[resourceId('Microsoft.Web/sites', parameters('fixedQueryAPIName'))]"
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('applicationPlanName'))]"
             },
             "resources": [
                 {
@@ -112,7 +112,7 @@
                     "name": "appsettings",
                     "type": "config",
                     "dependsOn": [
-                        "[resourceId('Microsoft.Web/serverfarms', parameters('applicationPlanName'))]"
+                        "[resourceId('Microsoft.Web/sites', parameters('fixedQueryAPIName'))]"
                     ],
                     "properties": {
                         "WEBSITE_NODE_DEFAULT_VERSION": "6.9.1",
