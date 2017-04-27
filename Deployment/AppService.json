@@ -8,16 +8,28 @@
                 "description": "Name of the API app."
             }
         },
-        "applicationInsightsName":{
+        "applicationPlanName":{
             "type": "string",
             "metadata": {
                 "description": "Name of the Application Insights."
             }
         },
-        "applicationPlanName":{
+        "applicationInsightsInstrumentationKey":{
             "type": "string",
             "metadata": {
-                "description": "Name of the Application Insights."
+                "description": "Value of the Application Insights instrumentation key."
+            }
+        },
+        "sparqlEndpoint":{
+            "type": "string",
+            "metadata": {
+                "description": "Value of the Application Insights instrumentation key."
+            }
+        },
+        "subscriptionKey":{
+            "type": "string",
+            "metadata": {
+                "description": "Value of the Application Insights instrumentation key."
             }
         },
         "environment": {
@@ -35,26 +47,6 @@
     },
     "variables": {},
     "resources": [
-        {
-            "comments": "Application Insights for App Service",
-            "type": "microsoft.insights/components",
-            "kind": "web",
-            "name": "[parameters('applicationInsightsName')]",
-            "apiVersion": "2015-05-01",
-            "location": "[resourceGroup().location]",
-            "tags": {
-                "Department": "Data & Search",
-                "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c",
-                "Environment": "[parameters('environment')]",
-                "ReleaseId": "[parameters('releaseId')]",
-                "Type": "Application Insights"
-            },
-            "properties":{
-                "ApplicationId": "[parameters('applicationInsightsName')]"
-            },
-            "resources": [],
-            "dependsOn": []
-        },
         {
             "comments": "App plan",
             "type": "Microsoft.Web/serverfarms",
@@ -113,6 +105,22 @@
                 ],
                 "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('applicationPlanName'))]"
             },
+            "resources": [
+                {
+                    "comments": "Application settings to be used by the App",
+                    "apiVersion": "2015-08-01",
+                    "name": "appsettings",
+                    "type": "config",
+                    "dependsOn": [
+                    ],
+                    "properties": {
+                        "WEBSITE_NODE_DEFAULT_VERSION": "6.9.1",
+                        "ApplicationInsightsInstrumentationKey": "[parameters('applicationInsightsInstrumentationKey')]",
+                        "SparqlEndpoint": "[parameters('sparqlEndpoint')]",
+                        "SubscriptionKey": "[parameters('subscriptionKey')]"
+                    }
+                }
+            ],
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', parameters('applicationPlanName'))]"
             ]
