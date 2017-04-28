@@ -10,7 +10,7 @@
     [RoutePrefix("constituencies")]
     public class ConstituencyController : BaseController
     {
-        // Ruby route: match '/constituencies/:constituency', to: 'constituencies#show', constituency: /\w{8}$/, via: [:get]
+        // Ruby route: match '/constituencies/:constituency', to: 'constituencies#show', constituency: /\w{8}$, via: [:get]
         [Route(@"{id:regex(^\w{8}$)}", Name = "ConstituencyByID")]
         [HttpGet]
         public Graph ById(string id)
