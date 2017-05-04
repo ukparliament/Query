@@ -142,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <None Include="Parameters.xml" />
     <Content Include="resourceStyle.css" />
     <Content Include="Web.config" />
   </ItemGroup>
