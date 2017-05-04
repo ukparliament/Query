@@ -304,13 +304,13 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :houses, only: [:index] do get '/parties/current', to: 'houses#current_parties' end
         [Route(@"{id:regex(^\w{8}$)}/parties/current", Name = "HouseCurrentParties")]
         [HttpGet]
         public Graph CurrentParties(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?house
         a :House ;
@@ -321,28 +321,41 @@ CONSTRUCT {
         :count ?memberCount .
 }
 WHERE {
-    SELECT ?party ?house ?houseName ?partyName (COUNT(?person) AS ?memberCount) 
-    WHERE {
-    	BIND(@houseid AS ?house)
-        ?house 
-            a :House ;
-            :houseName ?houseName .
-        ?person a :Member .
-        ?incumbency :incumbencyHasMember ?person .
-        FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
-        ?person :partyMemberHasPartyMembership ?partyMembership .
-        FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
-        ?partyMembership :partyMembershipHasParty ?party .
-        ?party :partyName ?partyName .
-        {
-            ?incumbency :houseIncumbencyHasHouse ?house .
-    	}
-        UNION {
-            ?incumbency :seatIncumbencyHasHouseSeat ?seat .
-            ?seat :houseSeatHasHouse ?house .
-    	}
+    BIND(@houseid AS ?house) # Route parameter
+
+    ?house :houseName ?houseName .
+
+    OPTIONAL
+    {
+        SELECT ?party ?partyName (COUNT(?membership) AS ?memberCount)
+        WHERE {
+            BIND(@houseid AS ?house) # Route parameter
+
+            # The relatioship between a house and an incumbency is either via a seat or direct (""lords bypass"")
+            {
+                # Commons
+                ?house :houseHasHouseSeat/:houseSeatHasSeatIncumbency ?incumbency .
+            }
+            UNION
+            {
+                # Lords
+                ?house :houseHasHouseIncumbency ?incumbency .
+            }
+
+            MINUS {
+                ?incumbency a :PastIncumbency .
+            }
+
+            ?incumbency :incumbencyHasMember/:partyMemberHasPartyMembership ?membership .
+            ?membership :partyMembershipHasParty ?party .
+            ?party :partyName ?partyName .
+
+            MINUS {
+                ?membership a :PastPartyMembership .
+            }
+        }
+        GROUP BY ?party ?partyName
     }
-    GROUP BY ?party ?house ?houseName ?partyName
 }
 ";
 
