@@ -886,15 +886,17 @@ WHERE {
     ?house 
         a :House ;
         :houseName ?houseName .
+
+    BIND(@partyid AS ?party)
+    ?party 
+        a :Party ;
+        :partyName ?partyName .
     OPTIONAL {
-        BIND(@partyid AS ?party)
-        ?party a :Party .
         ?person 
         	a :Member ;
 			:partyMemberHasPartyMembership ?partyMembership .
         FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
         ?partyMembership :partyMembershipHasParty ?party .
-        ?party :partyName ?partyName .
         ?partyMembership :partyMembershipStartDate ?partyMembershipStartDate .
         ?incumbency 
         	:incumbencyHasMember ?person ;
