@@ -1,3 +1,13 @@
 <parameters>
   <parameter name="WhiteIP" kind="XmlFile" scope="web.config" match="/configuration/system.webServer/security/ipSecurity/add/@ipAddress" />
 </parameters>
+<!--
+This is to set dynamically IP address (WhiteIP) during deployment. This will only allow for communication from that IP.
+Some more overview on setting parameter during deployment can be found on:
+https://docs.microsoft.com/en-us/aspnet/web-forms/overview/deployment/web-deployment-in-the-enterprise/configuring-parameters-for-web-package-deployment
+
+Build and deploy on local machine:
+1. Execute C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\msbuild.exe "C:\PDS\Git\Data.Api.FixedQuery\Parliament.Data.Api.FixedQuery.sln" /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="C:\PDS\Git\Data.Api.FixedQuery\Parliament.Data.Api.FixedQuery\bin\Release\PublishOutput\" /p:platform="any cpu" /p:configuration="release" /p:VisualStudioVersion="15.0"
+2. Edit C:\PDS\Git\Data.Api.FixedQuery\Parliament.Data.Api.FixedQuery\bin\Release\PublishOutput\Parliament.Data.Api.FixedQuery.SetParameters.xml: add value (IP address of API Management)
+3. Use msdeploy.exe to deploy it
+-->
