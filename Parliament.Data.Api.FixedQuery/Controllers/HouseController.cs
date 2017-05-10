@@ -255,7 +255,6 @@ WHERE {
         public Graph Parties(string id)
         {
             var queryString = @"
-
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
     ?house
@@ -310,7 +309,6 @@ WHERE {
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
-
 CONSTRUCT {
     ?house
         a :House ;
@@ -322,15 +320,12 @@ CONSTRUCT {
 }
 WHERE {
     BIND(@houseid AS ?house) # Route parameter
-
     ?house :houseName ?houseName .
-
     OPTIONAL
     {
         SELECT ?party ?partyName (COUNT(?membership) AS ?memberCount)
         WHERE {
             BIND(@houseid AS ?house) # Route parameter
-
             # The relatioship between a house and an incumbency is either via a seat or direct (""lords bypass"")
             {
                 # Commons
@@ -341,15 +336,12 @@ WHERE {
                 # Lords
                 ?house :houseHasHouseIncumbency ?incumbency .
             }
-
             MINUS {
                 ?incumbency a :PastIncumbency .
             }
-
             ?incumbency :incumbencyHasMember/:partyMemberHasPartyMembership ?membership .
             ?membership :partyMembershipHasParty ?party .
             ?party :partyName ?partyName .
-
             MINUS {
                 ?membership a :PastPartyMembership .
             }
@@ -372,7 +364,6 @@ WHERE {
         public Graph PartyById(string houseid, string partyid)
         {
             var queryString = @"
-
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
     ?house
@@ -544,7 +535,6 @@ WHERE {
         public Graph CurrentMembersByInitial(string houseid, string initial)
         {
             var queryString = @"
-
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
     ?person
@@ -886,15 +876,16 @@ WHERE {
     ?house 
         a :House ;
         :houseName ?houseName .
+    BIND(@partyid AS ?party)
+    ?party 
+        a :Party ;
+        :partyName ?partyName .
     OPTIONAL {
-        BIND(@partyid AS ?party)
-        ?party a :Party .
         ?person 
         	a :Member ;
 			:partyMemberHasPartyMembership ?partyMembership .
         FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
         ?partyMembership :partyMembershipHasParty ?party .
-        ?party :partyName ?partyName .
         ?partyMembership :partyMembershipStartDate ?partyMembershipStartDate .
         ?incumbency 
         	:incumbencyHasMember ?person ;

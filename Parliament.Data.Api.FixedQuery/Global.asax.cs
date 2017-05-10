@@ -5,9 +5,7 @@
     using System.Configuration;
     using System.Web;
     using System.Web.Http;
-    using System.Net.Http;
-    using System.Threading;
-    using System.Threading.Tasks;
+    using System.Web.Http.ExceptionHandling;
 
     public class Global : HttpApplication
     {
@@ -23,6 +21,7 @@
 
             config.Routes.MapHttpRoute("BadRequest", "{*any}", new { controller = "BadRequest", action = "Get" });
 
+            config.Services.Add(typeof(IExceptionLogger), new AIExceptionLogger());
 
             config.EnsureInitialized();
         }
