@@ -194,7 +194,7 @@ CONSTRUCT {
     ?incumbency
         a :Incumbency ;
         :incumbencyHasMember ?person ;
-        :incumbencyStateDate ?startDate .
+        :incumbencyStartDate ?startDate .
 
     ?constituency
         a :ConstituencyGroup ;
@@ -242,7 +242,7 @@ WHERE {
     ?house :houseHasHouseIncumbency ?houseIncumbency .
     ?houseIncumbency
          a :Incumbency ;
-         :incumbencyStartDate ?stateDate .
+         :incumbencyStartDate ?startDate .
     ?houseIncumbency :incumbencyHasMember ?person .
     BIND(?houseIncumbency AS ?incumbency)
     }
@@ -254,7 +254,7 @@ WHERE {
     OPTIONAL {?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
     ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
     ?person :partyMemberHasPartyMembership ?partyMembership .
-    OPTIONAL {?partyMembership :partyMembershipStateDate ?membershipStateDate . }
+    OPTIONAL {?partyMembership :partyMembershipStartDate ?membershipStartDate . }
     OPTIONAL {?partyMembership :partyMembershipEndDate ?membershipEndDate . }
     ?partyMembership :partyMembershipHasParty ?party .
     ?party :partyName ?partyName .
@@ -587,7 +587,7 @@ CONSTRUCT {
     ?incumbency
         a :Incumbency ;
         :incumbencyHasMember ?person ;
-        :incumbencyStateDate ?startDate .
+        :incumbencyStartDate ?startDate .
 
     ?constituency
         a :ConstituencyGroup ;
@@ -635,7 +635,7 @@ WHERE {
     ?house :houseHasHouseIncumbency ?houseIncumbency .
     ?houseIncumbency
          a :Incumbency ;
-         :incumbencyStartDate ?stateDate .
+         :incumbencyStartDate ?startDate .
     ?houseIncumbency :incumbencyHasMember ?person .
     BIND(?houseIncumbency AS ?incumbency)
     }
@@ -647,7 +647,7 @@ WHERE {
     OPTIONAL {?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
     ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
     ?person :partyMemberHasPartyMembership ?partyMembership .
-    OPTIONAL {?partyMembership :partyMembershipStateDate ?membershipStateDate . }
+    OPTIONAL {?partyMembership :partyMembershipStartDate ?membershipStartDate . }
     OPTIONAL {?partyMembership :partyMembershipEndDate ?membershipEndDate . }
     ?partyMembership :partyMembershipHasParty ?party .
     ?party :partyName ?partyName .
