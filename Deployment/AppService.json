@@ -66,7 +66,7 @@
                 "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c",
                 "Environment": "[parameters('environment')]",
                 "ReleaseId": "[parameters('releaseId')]",
-                "Type": "API app"
+                "Type": "App plan"
             },
             "dependsOn": []
         },
@@ -78,7 +78,11 @@
             "apiVersion": "2015-08-01",
             "location": "[resourceGroup().location]",
             "tags": {
-                "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c"
+                "Department": "Data & Search",
+                "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c",
+                "Environment": "[parameters('environment')]",
+                "ReleaseId": "[parameters('releaseId')]",
+                "Type": "API app"
             },
             "properties": {
                 "name": "[parameters('fixedQueryAPIName')]",
