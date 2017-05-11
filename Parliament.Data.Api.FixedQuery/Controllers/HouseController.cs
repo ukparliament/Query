@@ -214,31 +214,33 @@ WHERE {
   	?house 
         a :House ;
         :houseName ?houseName .
-    ?person 
-        a :Member ;
-        :partyMemberHasPartyMembership ?partyMembership .
-    FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
-    ?partyMembership :partyMembershipHasParty ?party .
-    ?party :partyName ?partyName .
-    ?incumbency :incumbencyHasMember ?person ;
-        :incumbencyStartDate ?incumbencyStartDate .
-    FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
-    {
-        ?incumbency :houseIncumbencyHasHouse ?house .
-        BIND(?incumbency AS ?houseIncumbency)
-	}
-    UNION {
-        ?incumbency :seatIncumbencyHasHouseSeat ?seat .
-        ?seat 
-        	:houseSeatHasHouse ?house ;
-        	:houseSeatHasConstituencyGroup ?constituency .
-        ?constituency :constituencyGroupName ?constituencyName .
-        BIND(?incumbency AS ?seatIncumbency)
-	}
-    OPTIONAL { ?person :personGivenName ?givenName . }
-    OPTIONAL { ?person :personFamilyName ?familyName . }
-    OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
-    ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+    OPTIONAL {
+        ?person 
+            a :Member ;
+            :partyMemberHasPartyMembership ?partyMembership .
+        FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+        ?partyMembership :partyMembershipHasParty ?party .
+        ?party :partyName ?partyName .
+        ?incumbency :incumbencyHasMember ?person ;
+            :incumbencyStartDate ?incumbencyStartDate .
+        FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+        {
+            ?incumbency :houseIncumbencyHasHouse ?house .
+            BIND(?incumbency AS ?houseIncumbency)
+	    }
+        UNION {
+            ?incumbency :seatIncumbencyHasHouseSeat ?seat .
+            ?seat 
+        	    :houseSeatHasHouse ?house ;
+        	    :houseSeatHasConstituencyGroup ?constituency .
+            ?constituency :constituencyGroupName ?constituencyName .
+            BIND(?incumbency AS ?seatIncumbency)
+	    }
+        OPTIONAL { ?person :personGivenName ?givenName . }
+        OPTIONAL { ?person :personFamilyName ?familyName . }
+        OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+        ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+    }
 }
 ";
 
@@ -584,32 +586,34 @@ WHERE {
     ?house 
         a :House ;
         :houseName ?houseName .
-    ?person 
-        a :Member ;
-        :partyMemberHasPartyMembership ?partyMembership .
-    FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
-    ?partyMembership :partyMembershipHasParty ?party .
-    ?party :partyName ?partyName .
-    ?incumbency 
-        :incumbencyHasMember ?person ;
-        :incumbencyStartDate ?incumbencyStartDate .
-    FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
-    {
-        ?incumbency :houseIncumbencyHasHouse ?house .
-        BIND(?incumbency AS ?houseIncumbency)
-	}
-    UNION {
-        ?incumbency :seatIncumbencyHasHouseSeat ?seat .
-        ?seat :houseSeatHasHouse ?house .
-        ?seat :houseSeatHasConstituencyGroup ?constituency .
-        ?constituency :constituencyGroupName ?constituencyName .
-        BIND(?incumbency AS ?seatIncumbency)
-	}
-    OPTIONAL { ?person :personGivenName ?givenName . }
-    OPTIONAL { ?person :personFamilyName ?familyName . }
-    OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
-    ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
-    FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))
+    OPTIONAL {
+        ?person 
+            a :Member ;
+            :partyMemberHasPartyMembership ?partyMembership .
+        FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+        ?partyMembership :partyMembershipHasParty ?party .
+        ?party :partyName ?partyName .
+        ?incumbency 
+            :incumbencyHasMember ?person ;
+            :incumbencyStartDate ?incumbencyStartDate .
+        FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+        {
+            ?incumbency :houseIncumbencyHasHouse ?house .
+            BIND(?incumbency AS ?houseIncumbency)
+	    }
+        UNION {
+            ?incumbency :seatIncumbencyHasHouseSeat ?seat .
+            ?seat :houseSeatHasHouse ?house .
+            ?seat :houseSeatHasConstituencyGroup ?constituency .
+            ?constituency :constituencyGroupName ?constituencyName .
+            BIND(?incumbency AS ?seatIncumbency)
+	    }
+        OPTIONAL { ?person :personGivenName ?givenName . }
+        OPTIONAL { ?person :personFamilyName ?familyName . }
+        OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+        ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+        FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))
+    }
 }
 ";
 
