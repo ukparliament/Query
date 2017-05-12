@@ -880,10 +880,6 @@ WHERE {
     ?house 
         a :House ;
         :houseName ?houseName .
-<<<<<<< HEAD
-=======
-
->>>>>>> 4456cdf4c3c8cb56286849d09924eccece87ce0e
     BIND(@partyid AS ?party)
     ?party 
         a :Party ;
