@@ -5,7 +5,8 @@
     using Parliament.Data.Api.FixedQueryTests;
 
     [TestClass()]
-    public class ConstituencyControllerSparql : SparqlValidator
+    [TestCategory("Sparql")]
+    public class ConstituencySparql : SparqlValidator
     {
         private ConstituencyController controller;
 
@@ -16,79 +17,79 @@
         }
 
         [TestMethod()]
-        public void ById()
+        public void ConstituencyByIdSparql()
         {
             ValidateSparql(() => controller.ById(null));
         }
 
         [TestMethod()]
-        public void ByInitial()
+        public void ConstituencyByInitialSparql()
         {
             ValidateSparql(() => controller.ByInitial(null));
         }
 
         [TestMethod()]
-        public void Current()
+        public void ConstituencyCurrentSparql()
         {
             ValidateSparql(() => controller.Current());
         }
 
         [TestMethod()]
-        public void Lookup()
+        public void ConstituencyLookupSparql()
         {
             ValidateSparql(() => controller.Lookup(null, null));
         }
 
         [TestMethod()]
-        public void ByLetters()
+        public void ConstituencyByLettersSparql()
         {
             ValidateSparql(() => controller.ByLetters(null));
         }
 
         [TestMethod()]
-        public void AToZLetters()
+        public void ConstituencyAToZLettersSparql()
         {
             ValidateSparql(() => controller.AToZLetters());
         }
 
         [TestMethod()]
-        public void CurrentByLetters()
+        public void ConstituencyCurrentByLettersSparql()
         {
             ValidateSparql(() => controller.CurrentByLetters(null));
         }
 
         [TestMethod()]
-        public void CurrentAToZLetters()
+        public void ConstituencyCurrentAToZLettersSparql()
         {
             ValidateSparql(() => controller.CurrentAToZLetters());
         }
 
         [TestMethod()]
-        public void Index()
+        public void ConstituencyIndexSparql()
         {
             ValidateSparql(() => controller.Index());
         }
 
         [TestMethod()]
-        public void Members()
+        public void ConstituencyMembersSparql()
         {
             ValidateSparql(() => controller.Members(null));
         }
 
         [TestMethod()]
-        public void CurrentMembers()
+        public void ConstituencyCurrentMembersSparql()
         {
             ValidateSparql(() => controller.CurrentMembers(null));
         }
 
         [TestMethod()]
-        public void ContactPoint()
+        public void ConstituencyContactPointSparql()
         {
             ValidateSparql(() => controller.ContactPoint(null));
         }
 
         [TestMethod()]
-        public void LookupByPostcode()
+        public void ConstituencyLookupByPostcodeSparql()
         {
             ValidateSparql(() => controller.LookupByPostcode(null));
         }

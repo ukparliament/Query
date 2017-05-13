@@ -78,7 +78,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Controllers\ConstituencyControllerSparql.cs" />
+    <Compile Include="ConstituencySparql.cs" />
+    <Compile Include="HouseSparql.cs" />
+    <Compile Include="ContactPointsSparql.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SparqlValidator.cs" />
   </ItemGroup>
