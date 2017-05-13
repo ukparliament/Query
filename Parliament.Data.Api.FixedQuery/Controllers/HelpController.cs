@@ -36,7 +36,6 @@
                 this.Url.Route("MemberAToZ", null),
                 this.Url.Route("MemberCurrentAToZ", null),
 
-                
                 this.Url.Route("ConstituencyIndex", null),
                 this.Url.Route("ConstituencyByID", new { id = "jDWN9S5g" }),
                 this.Url.Route("ConstituencyByInitial", new { initial = "l" }),
@@ -50,7 +49,6 @@
                 this.Url.Route("ConstituencyCurrentMember", new { id = "h6RPrGWq" }),
                 this.Url.Route("ConstituencyContactPoint", new { id = "h6RPrGWq" }),
                 this.Url.Route("ConstituencyLookupByPostcode", new { postcode = "sw1p 3ja"}),
-
 
                 this.Url.Route("PartyIndex", null),
                 this.Url.Route("PartyById", new { id = "1H0bLjgL" }),
@@ -67,7 +65,6 @@
                 this.Url.Route("PartyCurrentMembersByInitial", new { id = "hdP5hB37", initial = "z"}),
                 this.Url.Route("PartyCurrentMembersAToZ", new { id = "hdP5hB37" }),
 
-
                 this.Url.Route("HouseIndex", null),
                 this.Url.Route("HouseById", new { id = "u5dbuRBD" }),
                 this.Url.Route("HouseLookup", new { source = "name", id = "House of Lords" }),
@@ -76,23 +73,20 @@
                 this.Url.Route("HouseCurrentMembers", new { id = "u5dbuRBD"}),
                 this.Url.Route("HouseParties", new { id = "u5dbuRBD"}),
                 this.Url.Route("HouseCurrentParties", new { id = "u5dbuRBD"}),
-                this.Url.Route("HousePartyById", new { houseid = "u5dbuRBD", partyid = "jMNf7IDk"}),
-                this.Url.Route("HouseMembersByInitial", new { houseid = "u5dbuRBD", initial = "m"}),
+                this.Url.Route("HousePartyById", new { houseId = "u5dbuRBD", partyId = "jMNf7IDk"}),
+                this.Url.Route("HouseMembersByInitial", new { houseId = "u5dbuRBD", initial = "m"}),
                 this.Url.Route("HouseMembersAToZ", new { id = "u5dbuRBD" }),
-                this.Url.Route("HouseCurrentMembersByInitial", new { houseid = "u5dbuRBD", initial = "m"}),
+                this.Url.Route("HouseCurrentMembersByInitial", new { houseId = "u5dbuRBD", initial = "m"}),
                 this.Url.Route("HouseCurrentMembersAToZ", new { id = "u5dbuRBD" }),
-                this.Url.Route("HousePartyMembers", new { houseid = "u5dbuRBD", partyid = "jMNf7IDk"}),
-                this.Url.Route("HousePartyMembersByInitial", new { houseid = "u5dbuRBD", partyid = "jMNf7IDk", initial = "c"}),
-                this.Url.Route("HousePartyMembersAToZ", new { houseid = "u5dbuRBD", partyid = "jMNf7IDk"}),
-                this.Url.Route("HousePartyCurrentMembers", new { houseid = "u5dbuRBD", partyid = "jMNf7IDk"}),
-                this.Url.Route("HousePartyCurrentMembersByInitial", new { houseid = "u5dbuRBD", partyid = "jMNf7IDk", initial = "f"}),
-                this.Url.Route("HousePartyCurrentMembersAToZ", new { houseid = "u5dbuRBD", partyid = "jMNf7IDk"}),
-
+                this.Url.Route("HousePartyMembers", new { houseId = "u5dbuRBD", partyId = "jMNf7IDk"}),
+                this.Url.Route("HousePartyMembersByInitial", new { houseId = "u5dbuRBD", partyId = "jMNf7IDk", initial = "c"}),
+                this.Url.Route("HousePartyMembersAToZ", new { houseId = "u5dbuRBD", partyId = "jMNf7IDk"}),
+                this.Url.Route("HousePartyCurrentMembers", new { houseId = "u5dbuRBD", partyId = "jMNf7IDk"}),
+                this.Url.Route("HousePartyCurrentMembersByInitial", new { houseId = "u5dbuRBD", partyId = "jMNf7IDk", initial = "f"}),
+                this.Url.Route("HousePartyCurrentMembersAToZ", new { houseId = "u5dbuRBD", partyId = "jMNf7IDk"}),
 
                 this.Url.Route("ContactPointIndex", null),
                 this.Url.Route("ContactPointById", new { id = "Ne6xySIb" })
-
-
             };
 
             var response = Request.CreateResponse();

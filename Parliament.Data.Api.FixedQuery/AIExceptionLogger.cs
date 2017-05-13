@@ -1,8 +1,8 @@
-﻿using Microsoft.ApplicationInsights;
-using System.Web.Http.ExceptionHandling;
-
-namespace Parliament.Data.Api.FixedQuery
+﻿namespace Parliament.Data.Api.FixedQuery
 {
+    using Microsoft.ApplicationInsights;
+    using System.Web.Http.ExceptionHandling;
+
     public class AIExceptionLogger : ExceptionLogger
     {
         public override void Log(ExceptionLoggerContext context)

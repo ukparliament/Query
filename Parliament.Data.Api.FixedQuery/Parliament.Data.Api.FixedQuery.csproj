@@ -164,6 +164,7 @@
     <Compile Include="GraphFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GraphDBConnector.cs" />
+    <Compile Include="SparqlInvalidException.cs" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

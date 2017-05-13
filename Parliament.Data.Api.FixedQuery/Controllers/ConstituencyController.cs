@@ -2,7 +2,6 @@
 {
     using System;
     using System.Linq;
-    using System.Net.Http;
     using System.Web.Http;
     using VDS.RDF;
     using VDS.RDF.Query;
@@ -10,7 +9,6 @@
     [RoutePrefix("constituencies")]
     public class ConstituencyController : BaseController
     {
-        // Ruby route: match '/constituencies/:constituency', to: 'constituencies#show', constituency: /\w{8}$/, via: [:get]
         [Route(@"{id:regex(^\w{8}$)}", Name = "ConstituencyByID")]
         [HttpGet]
         public Graph ById(string id)
@@ -90,7 +88,6 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        // Ruby route: match '/constituencies/:letter', to: 'constituencies#letters', letter: /[A-Za-z]/, via: [:get]
         [Route(@"{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ConstituencyByInitial")]
         [HttpGet]
         public Graph ByInitial(string initial)
@@ -151,7 +148,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: get '/constituencies/current', to: 'constituencies#current'
         [Route("current", Name = "ConstituencyCurrent")]
         [HttpGet]
         public Graph Current()
@@ -207,7 +203,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: get '/constituencies/lookup', to: 'constituencies#lookup'
         [Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "ConstituencyLookup")]
         [HttpGet]
         public Graph Lookup(string source, string id)
@@ -234,7 +229,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: get '/constituencies/:letters', to: 'constituencies#lookup_by_letters'
         [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "ConstituencyByLetters", Order = 999)]
         [HttpGet]
         public Graph ByLetters(string letters)
@@ -262,7 +256,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: get '/constituencies/a_z_letters', to: 'constituencies#a_z_letters'
         [Route("a_z_letters", Name = "ConstituencyAToZ")]
         [HttpGet]
         public Graph AToZLetters()
@@ -282,12 +275,11 @@ WHERE {
     }
 }
 ";
-    
+
             var query = new SparqlParameterizedString(queryString);
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: match '/constituencies/current/:letter', to: 'constituencies#current_letters', letter: /[A-Za-z]/, via: [:get]
         [Route(@"current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ConstituencyCurrentByInitial")]
         [HttpGet]
         public Graph CurrentByLetters(string initial)
@@ -344,7 +336,7 @@ WHERE {
 
             return BaseController.ExecuteList(query);
         }
-        // Ruby route: get '/constituencies/current/a_z_letters', to: 'constituencies#a_z_letters_current'
+
         [Route("current/a_z_letters", Name = "ConstituencyCurrentAToZ")]
         [HttpGet]
         public Graph CurrentAToZLetters()
@@ -369,7 +361,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :constituencies, only: [:index]
         [Route("", Name = "ConstituencyIndex")]
         [HttpGet]
         public Graph Index()
@@ -431,7 +422,6 @@ PREFIX : <http://id.ukpds.org/schema/>
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :constituencies, only: [:index] do get '/members', to: 'constituencies#members' end
         [Route(@"{id:regex(^\w{8}$)}/members", Name = "ConstituencyMembers")]
         [HttpGet]
         public Graph Members(string id)
@@ -485,7 +475,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :constituencies, only: [:index] do get '/members/current', to: 'constituencies#current_member' end
         [Route(@"{id:regex(^\w{8}$)}/members/current", Name = "ConstituencyCurrentMember")]
         [HttpGet]
         public Graph CurrentMembers(string id)
@@ -543,8 +532,7 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :constituencies, only: [:index] do get '/contact_point', to: 'constituencies#contact_point' end
-        // why is this singular? - still not completely solved here
+        // TODO: Why is this singular? - still not completely solved here
         [Route(@"{id:regex(^\w{8}$)}/contact_point", Name = "ConstituencyContactPoint")]
         [HttpGet]
         public Graph ContactPoint(string id)
@@ -615,7 +603,6 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-
         [Route(@"postcode_lookup/{postcode}", Name = "ConstituencyLookupByPostcode")]
         [HttpGet]
         public Graph LookupByPostcode(string postcode)
@@ -633,7 +620,7 @@ WHERE {
         geo:lat ?lat .
 }
 ";
-            var queryString= @"
+            var queryString = @"
 PREFIX parl: <http://id.ukpds.org/schema/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
@@ -688,9 +675,9 @@ where {
 }
 ";
             var externalQuery = new SparqlParameterizedString(externalQueryString);
-            var formattedPostcode = postcode.ToUpper().Replace(" ", String.Empty);
-            externalQuery.SetUri("postcode", new Uri(new Uri ("http://data.ordnancesurvey.co.uk/id/postcodeunit/"), formattedPostcode));
-            var externalResults = BaseController.ExecuteSingle(externalQuery, new Uri("http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql"));
+            var formattedPostcode = postcode.ToUpperInvariant().Replace(" ", string.Empty);
+            externalQuery.SetUri("postcode", new Uri(new Uri("http://data.ordnancesurvey.co.uk/id/postcodeunit/"), formattedPostcode));
+            var externalResults = BaseController.ExecuteSingle(externalQuery, "http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql");
 
             var query = new SparqlParameterizedString(queryString);
             var longitude = (LiteralNode)externalResults.GetTriplesWithPredicate(new Uri("http://www.w3.org/2003/01/geo/wgs84_pos#long")).SingleOrDefault().Object;
@@ -700,6 +687,5 @@ where {
 
             return BaseController.ExecuteSingle(query);
         }
-
     }
 }

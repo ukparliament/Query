@@ -1,6 +1,5 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
-    using System.Net.Http;
     using System.Web.Http;
     using VDS.RDF;
     using VDS.RDF.Query;
@@ -8,7 +7,6 @@
     [RoutePrefix("people/members")]
     public class MemberController : BaseController
     {
-        // Ruby route: get '/people/members/current', to: 'members#current'
         [Route("current", Name = "MemberCurrent")]
         [HttpGet]
         public Graph Current()
@@ -97,7 +95,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: match '/people/members/:letter', to: 'members#letters', letter: /[A-Za-z]/, via: [:get]
         [Route(@"{initial:regex(^\p{L}+$):maxlength(1)}", Name = "MemberByInitial")]
         [HttpGet]
         public Graph ByInitial(string initial)
@@ -186,10 +183,9 @@ WHERE {
             query.SetLiteral("letter", initial);
 
             return BaseController.ExecuteList(query);
-        
+
         }
 
-        // Ruby route: get '/people/members/a_z_letters', to: 'members#a_z_letters'
         [Route("a_z_letters", Name = "MemberAToZ")]
         [HttpGet]
         public Graph AToZLetters()
@@ -214,8 +210,7 @@ WHERE {
             var query = new SparqlParameterizedString(queryString);
             return BaseController.ExecuteList(query);
         }
-    
-        // Ruby route: match '/people/members/current/:letter', to: 'members#current_letters', letter: /[A-Za-z]/, via: [:get]
+
         [Route(@"current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "MemberCurrentByInitial")]
         [HttpGet]
         public Graph CurrentByInitial(string initial)
@@ -306,7 +301,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: get '/people/members/current/a_z_letters', to: 'members#a_z_letters_current'
         [Route("current/a_z_letters", Name = "MemberCurrentAToZ")]
         [HttpGet]
         public Graph CurrentAToZLetters()
@@ -331,7 +325,6 @@ WHERE {
             var query = new SparqlParameterizedString(queryString);
             return BaseController.ExecuteList(query);
         }
-
     }
 }
 

@@ -1,7 +1,6 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
     using System;
-    using System.Net.Http;
     using System.Web.Http;
     using VDS.RDF;
     using VDS.RDF.Query;
@@ -9,7 +8,6 @@
     [RoutePrefix("contact_points")]
     public class ContactPointsController : BaseController
     {
-        // Ruby route: resources :contact_points, only: [:index]
         [Route("", Name = "ContactPointIndex")]
         [HttpGet]
         public Graph Index()
@@ -54,7 +52,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :contact_points, only: [:show]
         [Route(@"{id:regex(^\w{8}$)}", Name = "ContactPointById")]
         [HttpGet]
         public Graph ById(string id)
