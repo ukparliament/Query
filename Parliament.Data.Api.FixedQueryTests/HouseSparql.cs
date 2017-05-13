@@ -5,6 +5,7 @@
     using Parliament.Data.Api.FixedQueryTests;
 
     [TestClass()]
+    [TestCategory("House")]
     [TestCategory("Sparql")]
     public class HouseSparql : SparqlValidator
     {
