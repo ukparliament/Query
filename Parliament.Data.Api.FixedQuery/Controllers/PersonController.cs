@@ -197,7 +197,7 @@ WHERE {
 
         [Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "PersonLookup")]
         [HttpGet]
-        public Graph ByExternalIdentifier(string source, string id)
+        public Graph Lookup(string source, string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -221,7 +221,7 @@ WHERE {
 
         [Route("members", Name = "MemberIndex")]
         [HttpGet]
-        public Graph Member()
+        public Graph MemberIndex()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -286,7 +286,6 @@ WHERE {
 ";
 
             var query = new SparqlParameterizedString(queryString);
-
 
             return BaseController.ExecuteList(query);
         }
