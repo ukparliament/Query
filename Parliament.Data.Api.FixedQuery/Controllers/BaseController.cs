@@ -8,16 +8,19 @@
     using VDS.RDF.Parsing.Handlers;
     using VDS.RDF.Parsing.Validation;
     using VDS.RDF.Query;
+    using VDS.RDF.Storage;
 
     public abstract class BaseController : ApiController
     {
+        private static readonly string sparqlEndpoint = ConfigurationManager.AppSettings["SparqlEndpoint"];
+        private static readonly string subscriptionKey = ConfigurationManager.AppSettings["SubscriptionKey"];
+        private static readonly string endpointUri = $"{sparqlEndpoint}?subscription-key={subscriptionKey}";
+        // TODO: Extract to config or elsewhere
         protected static readonly Uri instance = new Uri("http://id.ukpds.org/");
         protected static readonly Uri schema = new Uri(instance, "schema/");
 
         protected static Graph ExecuteSingle(SparqlParameterizedString query)
         {
-            var endpointUri = ConfigurationManager.AppSettings["SparqlEndpoint"];
-
             return ExecuteSingle(query, endpointUri);
         }
 
@@ -33,9 +36,8 @@
             return result;
         }
 
-        protected static Graph ExecuteList(SparqlParameterizedString query) {
-            var endpointUri = ConfigurationManager.AppSettings["SparqlEndpoint"];
-
+        protected static Graph ExecuteList(SparqlParameterizedString query)
+        {
             return ExecuteList(query, endpointUri);
         }
 
@@ -50,13 +52,16 @@
             graph.NamespaceMap.AddNamespace("id", ConstituencyController.instance);
             graph.NamespaceMap.AddNamespace("schema", ConstituencyController.schema);
 
-            using (var connector = new GraphDBConnector(endpointUri))
+            var graphHandler = new GraphHandler(graph);
+
+            using (var connector = new SparqlConnector(new Uri(endpointUri)) )
             {
-                GraphHandler rdfHandler = new GraphHandler(graph);
-                connector.Query(rdfHandler, null, queryString);
+                connector.SkipLocalParsing = true; // This was already done above
+
+                connector.Query(graphHandler, null, queryString);
             }
 
-            return graph as Graph;
+            return graph;
         }
 
         private static void ValidateSparql(string query)

@@ -11,13 +11,7 @@
             {
                 action.Invoke();
             }
-            catch (Exception e)
-            {
-                if (e is SparqlInvalidException)
-                {
-                    throw;
-                }
-            }
+            catch (Exception e) when (!(e is SparqlInvalidException)) { }
         }
     }
 }
