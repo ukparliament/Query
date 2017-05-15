@@ -6,3 +6,4 @@ obj
 Secrets.config
 *.csproj.user
 .idea/*
+Properties/PublishProfiles
