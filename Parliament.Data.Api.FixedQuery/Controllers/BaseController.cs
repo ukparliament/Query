@@ -49,6 +49,8 @@
 
             var graph = new Graph();
 
+            graph.NamespaceMap.AddNamespace("owl", new Uri("http://www.w3.org/2002/07/owl#"));
+            graph.NamespaceMap.AddNamespace("rdf", new Uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));
             graph.NamespaceMap.AddNamespace("id", ConstituencyController.instance);
             graph.NamespaceMap.AddNamespace("schema", ConstituencyController.schema);
 
