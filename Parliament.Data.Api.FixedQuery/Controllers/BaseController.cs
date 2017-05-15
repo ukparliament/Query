@@ -54,7 +54,8 @@
 
             var graphHandler = new GraphHandler(graph);
 
-            using (var connector = new SparqlConnector(new Uri(endpointUri)) )
+            var endpoint = new ConstructOnlyRemoteEndpoint(new Uri(endpointUri));
+            using (var connector = new SparqlConnector(endpoint))
             {
                 connector.SkipLocalParsing = true; // This was already done above
 
