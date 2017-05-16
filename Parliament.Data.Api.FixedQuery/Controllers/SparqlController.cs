@@ -7,24 +7,30 @@
     using VDS.RDF;
     using VDS.RDF.Query;
 
-    [RoutePrefix("a2a84c18-75f6-460e-b690-eb6cbd358312")]
+    [RoutePrefix("sparql")]
     public class SparqlController : BaseController
     {
-        [Route()]
+        [Route]
         public Graph Post(QueryWrapper wrapper)
         {
-            var queryString = wrapper.Query;
-
-            if (!ModelState.IsValid)
+            if (wrapper == null || string.IsNullOrWhiteSpace(wrapper.Query))
             {
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent("query missing") });
             }
 
-            return BaseController.ExecuteList(new SparqlParameterizedString(queryString));
+            var queryString = wrapper.Query;
+            try
+            {
+                return BaseController.ExecuteList(new SparqlParameterizedString(queryString));
+            }
+            catch (SparqlInvalidException e)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent(e.Message) });
+            }
         }
 
-        [Route()]
-        public HttpResponseMessage Get(string query = "")
+        [Route]
+        public HttpResponseMessage Get()
         {
             var response = Request.CreateResponse();
 
@@ -66,7 +72,6 @@ LIMIT 1</textarea>
 
     public class QueryWrapper
     {
-        [HttpBindRequired]
         public string Query { get; set; }
     }
 }
