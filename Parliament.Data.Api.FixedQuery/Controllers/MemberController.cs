@@ -210,7 +210,7 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetLiteral("letter", initial);
+            query.SetLiteral("initial", initial);
 
             return BaseController.ExecuteList(query);
         
@@ -343,7 +343,7 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetLiteral("letter", initial);
+            query.SetLiteral("initial", initial);
 
             return BaseController.ExecuteList(query);
         }
