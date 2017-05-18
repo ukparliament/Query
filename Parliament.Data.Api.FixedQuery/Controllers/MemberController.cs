@@ -192,7 +192,7 @@ WHERE {
             :partyMembershipStartDate ?partyMembershipStartDate .
         OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
         ?party :partyName ?partyName .
-        FILTER STRSTARTS(LCASE(?listAs), LCASE(@letter))
+        FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))
         }
     }
     UNION {
@@ -324,14 +324,14 @@ WHERE {
         ?partyMembership :partyMembershipStartDate ?partyMembershipStartDate .
         OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
         FILTER NOT EXISTS {?incumbency a :PastIncumbency}
-        FILTER STRSTARTS(LCASE(?listAs), LCASE(@letter)) .
+        FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial)) .
         }
     }
     UNION {
         SELECT DISTINCT ?firstLetter WHERE {
 
             ?incumbency a :Incumbency ;
-            FILTER NOT EXISTS { ? incumbency a :PastIncumbency.   }
+            FILTER NOT EXISTS { ?incumbency a :PastIncumbency.   }
             ?incumbency :incumbencyHasMember ?person.
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 

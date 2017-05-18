@@ -289,7 +289,7 @@ WHERE {
             ?partyMembership :partyMembershipHasParty ?party .
             ?party :partyName ?partyName .
         }
-        FILTER STRSTARTS(LCASE(?listAs), LCASE(@letter))
+        FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))
       }
     }
     UNION {
