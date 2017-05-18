@@ -146,7 +146,7 @@ WHERE {
                   		    :incumbencyHasMember ?lord .
             }
         }
-        FILTER STRSTARTS(LCASE(?partyName), LCASE(@letter)) .
+        FILTER STRSTARTS(LCASE(?partyName), LCASE(@initial)) .
      }
      GROUP BY ?party ?partyName
     }
@@ -448,7 +448,7 @@ CONSTRUCT {
 }
 WHERE {
     { SELECT * WHERE {
-        BIND(<@partyid> AS ?party)
+        BIND(@partyid AS ?party)
         ?party
             a :Party ;
             :partyName ?partyName .
@@ -483,7 +483,7 @@ WHERE {
     }
     UNION {
         SELECT DISTINCT ?firstLetter WHERE {
-            BIND(<@partyid> AS ?party)
+            BIND(@partyid AS ?party)
 
             ?party a :Party ;
                    :partyHasPartyMembership ?partyMembership .
@@ -574,20 +574,19 @@ WHERE {
                 }
           }
           FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))
-
         }
     }
 }
 UNION {
-        SELECT DISTINCT ? firstLetter WHERE {
+        SELECT DISTINCT ?firstLetter WHERE {
             BIND(@partyid AS ?party)
 
             ?party a :Party ;
-                   :partyHasPartyMembership? partyMembership.
-            ?partyMembership :partyMembershipHasPartyMember? person .
-            ?person<http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+                   :partyHasPartyMembership ?partyMembership.
+            ?partyMembership :partyMembershipHasPartyMember ?person .
+            ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
-            BIND(ucase(SUBSTR(?listAs, 1, 1)) as ? firstLetter)
+            BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
         }
     }
 }
@@ -708,19 +707,19 @@ WHERE {
     }
 }
 UNION {
-        SELECT DISTINCT ? firstLetter WHERE {
+        SELECT DISTINCT ?firstLetter WHERE {
             BIND(@partyid AS ?party)
 
             ?party a :Party ;
-                   :partyHasPartyMembership? partyMembership.
+                   :partyHasPartyMembership ?partyMembership.
             FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership. }
-            ? partyMembership :partyMembershipHasPartyMember? person.
-             ?person :memberHasIncumbency? incumbency .
+            ?partyMembership :partyMembershipHasPartyMember ?person.
+            ?person :memberHasIncumbency ?incumbency .
 
              FILTER NOT EXISTS { ?incumbency a :PastIncumbency. }
-            ? person<http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+            ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
-            BIND(ucase(SUBSTR(?listAs, 1, 1)) as ? firstLetter)
+            BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
         }
     }
 }
