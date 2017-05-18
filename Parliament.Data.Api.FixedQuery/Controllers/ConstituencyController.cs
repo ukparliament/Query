@@ -97,7 +97,6 @@ WHERE {
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
-PREFIX parl: <http://id.ukpds.org/schema/>
 CONSTRUCT{
     ?constituencyGroup
         a :ConstituencyGroup ;
@@ -144,7 +143,7 @@ WHERE {
             ?partyMembership :partyMembershipHasParty ?party .
             ?party :partyName ?partyName .
         }
-        FILTER STRSTARTS(LCASE(?name), LCASE(@letter)) 
+        FILTER STRSTARTS(LCASE(?name), LCASE(@initial)) 
        }
     }
     UNION {
@@ -224,8 +223,7 @@ WHERE {
 
           	BIND(ucase(SUBSTR(?constituencyName, 1, 1)) as ?firstLetter)
         }
-      }
-            
+    }          
 }
 ";
 
@@ -364,7 +362,7 @@ WHERE {
             ?partyMembership :partyMembershipHasParty ?party .
             ?party :partyName ?partyName .
         }
-        FILTER STRSTARTS(LCASE(?name), LCASE(@letter))
+        FILTER STRSTARTS(LCASE(?name), LCASE(@initial))
       }
     }
     UNION {
@@ -421,7 +419,6 @@ CONSTRUCT {
     ?constituencyGroup
         a :ConstituencyGroup ;
         :constituencyGroupName ?name ;
-        :constituencyGroupStartDate ?startDate ;
         :constituencyGroupEndDate ?endDate ;
         :constituencyGroupHasHouseSeat ?seat .
     ?seat
@@ -439,7 +436,8 @@ CONSTRUCT {
         :partyMemberHasPartyMembership ?partyMembership .
     ?partyMembership
         a :PartyMembership ;
-        :partyMembershipHasParty ?party .
+        :partyMembershipHasParty ?party ;
+        :partyMembershipEndDate ?partyMembershipEndDate .
     ?party
         a :Party ;
         :partyName ?partyName .
@@ -449,8 +447,7 @@ CONSTRUCT {
     WHERE {
     	{ SELECT * WHERE {
             ?constituencyGroup a :ConstituencyGroup ;
-                                :constituencyGroupName ?name ;
-                                :constituencyGroupStartDate ?startDate .
+                                :constituencyGroupName ?name .
             OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?endDate . }
             OPTIONAL {
                 ?constituencyGroup :constituencyGroupHasHouseSeat ?seat .
@@ -462,6 +459,8 @@ CONSTRUCT {
                 OPTIONAL { ?member :personFamilyName ?familyName . }
                 OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
                 ?member :partyMemberHasPartyMembership ?partyMembership .
+                FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+                OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
                 ?partyMembership :partyMembershipHasParty ?party .
                 ?party :partyName ?partyName .
            }
