@@ -1,7 +1,6 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
     using System;
-    using System.Net.Http;
     using System.Web.Http;
     using VDS.RDF;
     using VDS.RDF.Query;
@@ -9,7 +8,6 @@
     [RoutePrefix("houses")]
     public class HouseController : BaseController
     {
-        // Ruby route: match '/houses/:house', to: 'houses#show', house: /\w{8}/, via: [:get]
 
         [Route(@"{id:regex(^\w{8}$)}", Name = "HouseById")]
         [HttpGet]
@@ -38,7 +36,6 @@ WHERE {
 
         }
 
-        // Ruby route: get '/houses/lookup', to: 'houses#lookup'
         [Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "HouseLookup")]
         [HttpGet]
         public Graph Lookup(string source, string id)
@@ -65,7 +62,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route:   get '/houses/:letters', to: 'houses#lookup_by_letters'
         [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "HouseByLetters", Order = 999)]
         [HttpGet]
         public Graph ByLetters(string letters)
@@ -91,7 +87,7 @@ WHERE {
 
             return BaseController.ExecuteList(query);
         }
-        // Ruby route: resources :houses, only: [:index] 
+
         [Route("", Name = "HouseIndex")]
         [HttpGet]
         public Graph Index()
@@ -115,7 +111,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :houses, only: [:index] do get '/members', to: 'houses#members' end
         [Route(@"{id:regex(^\w{8}$)}/members", Name = "HouseMembers")]
         [HttpGet]
         public Graph Members(string id)
@@ -224,7 +219,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :houses, only: [:index] do get '/members/current', to: 'houses#current_members' end
         [Route(@"{id:regex(^\w{8}$)}/members/current", Name = "HouseCurrentMembers")]
         [HttpGet]
         public Graph CurrentMembers(string id)
@@ -331,7 +325,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :houses, only: [:index] do get '/parties', to: 'houses#parties' end
         [Route(@"{id:regex(^\w{8}$)}/parties", Name = "HouseParties")]
         [HttpGet]
         public Graph Parties(string id)
@@ -440,10 +433,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :houses, only: [:index] do get '/parties/:party_id', to: 'houses#party' end
-        [Route(@"{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}", Name = "HousePartyById")]
+        [Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}", Name = "HousePartyById")]
         [HttpGet]
-        public Graph PartyById(string houseid, string partyid)
+        public Graph PartyById(string houseId, string partyId)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -509,17 +501,16 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetUri("houseid", new Uri(BaseController.instance, houseId));
+            query.SetUri("partyid", new Uri(BaseController.instance, partyId));
 
 
             return BaseController.ExecuteSingle(query);
         }
 
-        // Ruby route: resources :houses, only: [:index] do match '/members/:letter', to: 'houses#members_letters', letter: /[A-Za-z]/, via: [:get] end
-        [Route(@"{houseid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HouseMembersByInitial")]
+        [Route(@"{houseId:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HouseMembersByInitial")]
         [HttpGet]
-        public Graph MembersByInitial(string houseid, string initial)
+        public Graph MembersByInitial(string houseId, string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -621,13 +612,12 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
+            query.SetUri("houseid", new Uri(BaseController.instance, houseId));
             query.SetLiteral("initial", initial);
 
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :houses, only: [:index] do get '/members/a_z_letters', to: 'houses#a_z_letters_members' end
         [Route(@"{id:regex(^\w{8}$)}/members/a_z_letters", Name = "HouseMembersAToZ")]
         [HttpGet]
         public Graph MembersAToZLetters(string id)
@@ -666,10 +656,10 @@ WHERE {
 
             return BaseController.ExecuteList(query);
         }
-        // Ruby route: resources :houses, only: [:index] do match '/members/current/:letter', to: 'houses#current_members_letters', letter: /[A-Za-z]/, via: [:get] end
-        [Route(@"{houseid:regex(^\w{8}$)}/members/current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HouseCurrentMembersByInitial")]
+
+        [Route(@"{houseId:regex(^\w{8}$)}/members/current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HouseCurrentMembersByInitial")]
         [HttpGet]
-        public Graph CurrentMembersByInitial(string houseid, string initial)
+        public Graph CurrentMembersByInitial(string houseId, string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -772,12 +762,12 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
+            query.SetUri("houseid", new Uri(BaseController.instance, houseId));
             query.SetLiteral("initial", initial);
 
             return BaseController.ExecuteList(query);
         }
-        // Ruby route: resources :houses, only: [:index] do get '/members/current/a_z_letters', to: 'houses#a_z_letters_members' end
+
         [Route(@"{id:regex(^\w{8}$)}/members/current/a_z_letters", Name = "HouseCurrentMembersAToZ")]
         [HttpGet]
         public Graph CurrentMembersAToZLetters(string id)
@@ -818,10 +808,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :houses, only: [:index] do get '/parties/:party_id/members', to: 'houses#party_members' end
-        [Route(@"{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members", Name = "HousePartyMembers")]
+        [Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members", Name = "HousePartyMembers")]
         [HttpGet]
-        public Graph PartyMembers(string houseid, string partyid)
+        public Graph PartyMembers(string houseId, string partyId)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -929,16 +918,15 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetUri("houseid", new Uri(BaseController.instance, houseId));
+            query.SetUri("partyid", new Uri(BaseController.instance, partyId));
 
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :houses, only: [:index] do match '/parties/:party_id/members/:letter', to: 'houses#party_members_letters', letter: /[A-Za-z]/, via: [:get] end
-        [Route(@"{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HousePartyMembersByInitial")]
+        [Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HousePartyMembersByInitial")]
         [HttpGet]
-        public Graph PartyMembers(string houseid, string partyid, string initial)
+        public Graph PartyMembers(string houseId, string partyId, string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -1046,18 +1034,17 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetUri("houseid", new Uri(BaseController.instance, houseId));
+            query.SetUri("partyid", new Uri(BaseController.instance, partyId));
             query.SetLiteral("initial", initial);
 
 
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :houses, only: [:index] do get 'parties/:party_id/members/a_z_letters', to: 'houses#a_z_letters_party_members' end
-        [Route(@"{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/a_z_letters", Name = "HousePartyMembersAToZ")]
+        [Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/a_z_letters", Name = "HousePartyMembersAToZ")]
         [HttpGet]
-        public Graph PartyMembersAToZLetters(string houseid, string partyid)
+        public Graph PartyMembersAToZLetters(string houseId, string partyId)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -1091,16 +1078,15 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetUri("houseid", new Uri(BaseController.instance, houseId));
+            query.SetUri("partyid", new Uri(BaseController.instance, partyId));
 
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :houses, only: [:index] do get '/parties/:party_id/members/current', to: 'houses#current_party_members' end
-        [Route(@"{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/current", Name = "HousePartyCurrentMembers")]
+        [Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/current", Name = "HousePartyCurrentMembers")]
         [HttpGet]
-        public Graph PartyCurrentMembers(string houseid, string partyid)
+        public Graph PartyCurrentMembers(string houseId, string partyId)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -1202,16 +1188,15 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetUri("houseid", new Uri(BaseController.instance, houseId));
+            query.SetUri("partyid", new Uri(BaseController.instance, partyId));
 
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :houses, only: [:index] do match '/parties/:party_id/members/current/:letter', to: 'houses#current_party_members_letters', letter: /[A-Za-z]/, via: [:get] end
-        [Route(@"{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HousePartyCurrentMembersByInitial")]
+        [Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HousePartyCurrentMembersByInitial")]
         [HttpGet]
-        public Graph PartyCurrentMembersByInitial(string houseid, string partyid, string initial)
+        public Graph PartyCurrentMembersByInitial(string houseId, string partyId, string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -1315,18 +1300,17 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetUri("houseid", new Uri(BaseController.instance, houseId));
+            query.SetUri("partyid", new Uri(BaseController.instance, partyId));
             query.SetLiteral("initial", initial);
 
 
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :houses, only: [:index] do get 'parties/:party_id/members/current/a_z_letters', to: 'houses#a_z_letters_party_members_current' end
-        [Route(@"{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/current/a_z_letters", Name = "HousePartyCurrentMembersAToZ")]
+        [Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/current/a_z_letters", Name = "HousePartyCurrentMembersAToZ")]
         [HttpGet]
-        public Graph PartyCurrentMembersAToZLetters(string houseid, string partyid)
+        public Graph PartyCurrentMembersAToZLetters(string houseId, string partyId)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -1358,8 +1342,8 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetUri("houseid", new Uri(BaseController.instance, houseId));
+            query.SetUri("partyid", new Uri(BaseController.instance, partyId));
 
             return BaseController.ExecuteList(query);
         }

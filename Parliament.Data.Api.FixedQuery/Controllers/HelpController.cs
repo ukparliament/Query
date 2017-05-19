@@ -36,7 +36,6 @@
                 this.Url.Route("MemberAToZ", null),
                 this.Url.Route("MemberCurrentAToZ", null),
 
-                
                 this.Url.Route("ConstituencyIndex", null),
                 this.Url.Route("ConstituencyByID", new { id = "EiwoTrI2" }),
                 this.Url.Route("ConstituencyByInitial", new { initial = "l" }),
@@ -50,7 +49,6 @@
                 this.Url.Route("ConstituencyCurrentMember", new { id = "EiwoTrI2" }),
                 this.Url.Route("ConstituencyContactPoint", new { id = "EiwoTrI2" }),
                 this.Url.Route("ConstituencyLookupByPostcode", new { postcode = "sw1p 3ja"}),
-
 
                 this.Url.Route("PartyIndex", null),
                 this.Url.Route("PartyById", new { id = "P6LNyUn4" }),
@@ -66,7 +64,6 @@
                 this.Url.Route("PartyMembersAToZ", new { id = "P6LNyUn4" }),
                 this.Url.Route("PartyCurrentMembersByInitial", new { id = "P6LNyUn4", initial = "z"}),
                 this.Url.Route("PartyCurrentMembersAToZ", new { id = "P6LNyUn4" }),
-
 
                 this.Url.Route("HouseIndex", null),
                 this.Url.Route("HouseById", new { id = "KL2k1BGP" }),
@@ -88,11 +85,8 @@
                 this.Url.Route("HousePartyCurrentMembersByInitial", new { houseid = "KL2k1BGP", partyid = "P6LNyUn4", initial = "f"}),
                 this.Url.Route("HousePartyCurrentMembersAToZ", new { houseid = "KL2k1BGP", partyid = "P6LNyUn4"}),
 
-
                 this.Url.Route("ContactPointIndex", null),
                 this.Url.Route("ContactPointById", new { id = "Ne6xySIb" })
-
-
             };
 
             var response = Request.CreateResponse();

@@ -2,68 +2,78 @@
 {
     using System;
     using System.Configuration;
+    using System.Net;
     using System.Web.Http;
     using VDS.RDF;
+    using VDS.RDF.Parsing.Handlers;
+    using VDS.RDF.Parsing.Validation;
     using VDS.RDF.Query;
     using VDS.RDF.Storage;
-    using VDS.RDF.Parsing.Handlers;
 
     public abstract class BaseController : ApiController
     {
+        private static readonly string sparqlEndpoint = ConfigurationManager.AppSettings["SparqlEndpoint"];
+        private static readonly string subscriptionKey = ConfigurationManager.AppSettings["SubscriptionKey"];
+        private static readonly string endpointUri = $"{sparqlEndpoint}?subscription-key={subscriptionKey}";
+        // TODO: Extract to config or elsewhere
         protected static readonly Uri instance = new Uri("http://id.ukpds.org/");
         protected static readonly Uri schema = new Uri(instance, "schema/");
 
-        // TODO: Implement single vs list throughout
         protected static Graph ExecuteSingle(SparqlParameterizedString query)
         {
-            var result = BaseController.ExecuteList(query);
+            return ExecuteSingle(query, endpointUri);
+        }
+
+        protected static Graph ExecuteSingle(SparqlParameterizedString query, string endpointUri)
+        {
+            var result = ExecuteList(query, endpointUri);
+
             if (result.IsEmpty)
             {
-                throw new HttpResponseException(System.Net.HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
             return result;
         }
 
-        protected static Graph ExecuteSingle(SparqlParameterizedString query, Uri externalSparqlEndpoint)
-        {
-            IGraph graph = new Graph();
-            using (SparqlConnector connector = new SparqlConnector(externalSparqlEndpoint))
-            {
-                GraphHandler rdfHandler = new GraphHandler(graph);
-                connector.Query(rdfHandler, null, query.ToString());
-            }
-            if (graph.IsEmpty)
-            {
-                throw new HttpResponseException(System.Net.HttpStatusCode.NotFound);
-            }
-
-            return graph as Graph;
-        }
-
-
-        // TODO: rename to list
         protected static Graph ExecuteList(SparqlParameterizedString query)
         {
-            return BaseController.ExecuteList(query.ToString());
+            return ExecuteList(query, endpointUri);
         }
 
-        // TODO: rename to list
-        protected static Graph ExecuteList(string query)
+        protected static Graph ExecuteList(SparqlParameterizedString query, string endpointUri)
         {
-            IGraph graph = new Graph();
-            var endpointUri = ConfigurationManager.AppSettings["SparqlEndpoint"];
+            var queryString = query.ToString();
+
+            ValidateSparql(queryString);
+
+            var graph = new Graph();
 
             graph.NamespaceMap.AddNamespace("id", ConstituencyController.instance);
             graph.NamespaceMap.AddNamespace("schema", ConstituencyController.schema);
-            using (GraphDBConnector connector = new GraphDBConnector(endpointUri))
+
+            var graphHandler = new GraphHandler(graph);
+
+            var endpoint = new ConstructOnlyRemoteEndpoint(new Uri(endpointUri));
+            using (var connector = new SparqlConnector(endpoint))
             {
-                GraphHandler rdfHandler = new GraphHandler(graph);
-                connector.Query(rdfHandler, null, query);
+                connector.SkipLocalParsing = true; // This was already done above
+
+                connector.Query(graphHandler, null, queryString);
             }
 
-            return graph as Graph;
+            return graph;
         }
 
+        private static void ValidateSparql(string query)
+        {
+            var validator = new SparqlQueryValidator();
+            var result = validator.Validate(query);
+
+            if (!result.IsValid)
+            {
+                throw new SparqlInvalidException(result.Message);
+            }
+        }
     }
 }

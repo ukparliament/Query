@@ -1,8 +1,6 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Net.Http;
     using System.Web.Http;
     using VDS.RDF;
     using VDS.RDF.Query;

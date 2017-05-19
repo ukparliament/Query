@@ -1,7 +1,6 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
     using System;
-    using System.Net.Http;
     using System.Web.Http;
     using VDS.RDF;
     using VDS.RDF.Query;
@@ -9,7 +8,6 @@
     [RoutePrefix("parties")]
     public class PartyController : BaseController
     {
-        // Ruby route: resources :parties, only: [:index] 
         [Route("", Name = "PartyIndex")]
         [HttpGet]
         public Graph Index()
@@ -63,7 +61,7 @@ WHERE {
 
             return BaseController.ExecuteList(query);
         }
-        // Ruby route: match '/parties/:party', to: 'parties#show', party: /\w{8}/, via: [:get]
+
         [Route(@"{id:regex(^\w{8}$)}", Name = "PartyById")]
         [HttpGet]
         public Graph ById(string id)
@@ -111,7 +109,6 @@ WHERE {
 
         }
 
-        // Ruby route: get '/parties/:letter', to: 'parties#letters', letter: /[A-Za-z]/, via: [:get]
         [Route(@"{initial:regex(^\p{L}+$):maxlength(1)}", Name = "PartyByInitial")]
         [HttpGet]
         public Graph ByInitial(string initial)
@@ -169,10 +166,10 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: get '/parties/current', to: 'parties#current'
         [Route("current", Name = "PartyCurrent")]
         [HttpGet]
-        public Graph Current() {
+        public Graph Current()
+        {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
@@ -208,7 +205,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: get '/parties/a_z_letters', to: 'parties#a_z_letters_all'
         [Route("a_z_letters", Name = "PartyAToZ")]
         [HttpGet]
         public Graph AToZLetters()
@@ -234,7 +230,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: get '/parties/current/a_z_letters', to: 'parties#a_z_letters_current'
         [Route("current/a_z_letters", Name = "PartyCurrentAToZ")]
         [HttpGet]
         public Graph CurrentAToZParties()
@@ -263,7 +258,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: get '/parties/lookup', to: 'parties#lookup'
         [Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "PartyLookup")]
         [HttpGet]
         public Graph Lookup(string source, string id)
@@ -289,7 +283,7 @@ WHERE {
 
             return BaseController.ExecuteList(query);
         }
-        // Ruby route: get '/parties/:letters', to: 'parties#lookup_by_letters'
+
         [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "PartyByLetters", Order = 999)]
         [HttpGet]
         public Graph ByLetters(string letters)
@@ -315,7 +309,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :parties, only: [:index] do get '/members', to: 'parties#members' end
         [Route(@"{id:regex(^\w{8}$)}/members", Name = "PartyMembers")]
         [HttpGet]
         public Graph Members(string id)
@@ -408,7 +401,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :parties, only: [:index] do get '/members/current', to: 'parties#current_members' end
         [Route(@"{id:regex(^\w{8}$)}/members/current", Name = "PartyCurrentMembers")]
         [HttpGet]
         public Graph CurrentMembers(string id)
@@ -505,7 +497,7 @@ WHERE {
 
             return BaseController.ExecuteList(query);
         }
-        // Ruby route: resources :parties, only: [:index] do match '/members/:letter', to: 'parties#members_letters', letter: /[A-Za-z]/, via: [:get] end
+
         [Route(@"{id:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "PartyMembersByInitial")]
         [HttpGet]
         public Graph MembersByInitial(string id, string initial)
@@ -600,7 +592,6 @@ UNION {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :parties, only: [:index] do get '/members/a_z_letters', to: 'parties#a_z_letters_members' end
         [Route(@"{id:regex(^\w{8}$)}/members/a_z_letters", Name = "PartyMembersAToZ")]
         [HttpGet]
         public Graph MembersAToZLetters(string id)
@@ -631,8 +622,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-
-        // Ruby route: resources :parties, only: [:index] do match '/members/current/:letter', to: 'parties#current_members_letters', letter: /[A-Za-z]/, via: [:get] end
         [Route(@"{id:regex(^\w{8}$)}/members/current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "PartyCurrentMembersByInitial")]
         [HttpGet]
         public Graph CurrentMembersByInitial(string id, string initial)
@@ -732,7 +721,7 @@ UNION {
 
             return BaseController.ExecuteList(query);
         }
-        // Ruby route: resources :parties, only: [:index] do get '/members/current/a_z_letters', to: 'parties#a_z_letters_members_current' end
+
         [Route(@"{id:regex(^\w{8}$)}/members/current/a_z_letters", Name = "PartyCurrentMembersAToZ")]
         [HttpGet]
         public Graph CurrentMembersAToZLetters(string id)

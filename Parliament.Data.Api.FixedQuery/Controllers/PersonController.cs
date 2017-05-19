@@ -1,7 +1,6 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
     using System;
-    using System.Net.Http;
     using System.Web.Http;
     using VDS.RDF;
     using VDS.RDF.Query;
@@ -9,7 +8,6 @@
     [RoutePrefix("people")]
     public class PersonController : BaseController
     {
-        // Ruby route: resources :people, only: [:index]
         [Route("", Name = "PersonIndex")]
         [HttpGet]
         public Graph Index()
@@ -94,7 +92,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: match '/people/:person', to: 'people#show', person: /\w{8}/, via: [:get]
         [Route(@"{id:regex(^\w{8}$)}", Name = "PersonById")]
         [HttpGet]
         public Graph ById(string id)
@@ -214,15 +211,14 @@ WHERE {
     }
 }
 ";
-            
+
             var query = new SparqlParameterizedString(queryString);
 
             query.SetUri("id", new Uri(instance, id));
-            
+
             return BaseController.ExecuteSingle(query);
         }
 
-        // Ruby route: get '/people/:letter', to: 'people#letters', letter: /[A-Za-z]/, via: [:get]
         [Route(@"{initial:regex(^\p{L}+$):maxlength(1)}", Name = "PersonByInitial")]
         [HttpGet]
         public Graph ByInitial(string initial)
@@ -312,10 +308,9 @@ WHERE {
 
         }
 
-        // Ruby route: get '/people/lookup', to: 'people#lookup'
         [Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "PersonLookup")]
         [HttpGet]
-        public Graph ByExternalIdentifier(string source, string id)
+        public Graph Lookup(string source, string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -337,7 +332,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby: get '/people/members', to: 'members#index'
         [Route("members", Name = "MemberIndex")]
         [HttpGet]
         public Graph Member()
@@ -420,11 +414,9 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: get '/people/:letters', to: 'people#lookup_by_letters'
         [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "PersonByLetters", Order = 999)]
         [HttpGet]
         public Graph ByLetters(string letters)
@@ -450,10 +442,9 @@ WHERE {
             var query = new SparqlParameterizedString(queryString);
 
             query.SetLiteral("letters", letters);
-            return BaseController.ExecuteList(query);            
+            return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: get '/people/a_z_letters', to: 'people#a_z_letters'
         [Route("a_z_letters", Name = "PersonAToZ")]
         [HttpGet]
         public Graph AToZLetters()
@@ -476,7 +467,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        // Ruby route: resources :people, only: [:index] do get '/constituencies', to: 'people#constituencies' end
         [Route(@"{id:regex(^\w{8}$)}/constituencies", Name = "PersonConstituencies")]
         [HttpGet]
         public Graph Constituencies(string id)
@@ -528,7 +518,6 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        // Ruby route: resources :people, only: [:index] doget '/constituencies/current', to: 'people#current_constituency' end
         [Route(@"{id:regex(^\w{8}$)}/constituencies/current", Name = "PersonCurrentConstituency")]
         [HttpGet]
         public Graph CurrentConstituency(string id)
@@ -573,11 +562,10 @@ WHERE {
 ";
             var query = new SparqlParameterizedString(queryString);
             query.SetUri("personid", new Uri(BaseController.instance, id));
-        
+
             return BaseController.ExecuteSingle(query);
         }
 
-        // Ruby route: resources :people, only: [:index] do get '/parties', to: 'people#parties' end
         [Route(@"{id:regex(^\w{8}$)}/parties", Name = "PersonParties")]
         [HttpGet]
         public Graph Parties(string id)
@@ -621,7 +609,6 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        // Ruby route: resources :people, only: [:index] do get '/parties/current', to: 'people#current_party' end
         [Route(@"{id:regex(^\w{8}$)}/parties/current", Name = "PersonCurrentParty")]
         [HttpGet]
         public Graph CurrentParty(string id)
@@ -664,7 +651,6 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        // Ruby route: resources :people, only: [:index] do get '/contact_points',to: 'people#contact_points' end
         // note: query currently only really returns parliamentary contact point, not "contact points"
         [Route(@"{id:regex(^\w{8}$)}/contact_points", Name = "PersonContactPoints")]
         [HttpGet]
@@ -730,7 +716,6 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        // Ruby route: resources :people, only: [:index] do get '/houses',to: 'people#houses' end
         [Route(@"{id:regex(^\w{8}$)}/houses", Name = "PersonHouses")]
         [HttpGet]
         public Graph Houses(string id)
@@ -799,7 +784,6 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        // Ruby route: resources :people, only: [:index] do get '/houses/current', to: 'people#current_house' end
         [Route(@"{id:regex(^\w{8}$)}/houses/current", Name = "PersonCurrentHouse")]
         [HttpGet]
         public Graph CurrentHouse(string id)
