@@ -1,4 +1,12 @@
-﻿td {
+﻿h3 {
+    display: none;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td {
     border: 1px solid;
     margin: 0;
     padding: 0;

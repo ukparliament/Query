@@ -150,6 +150,7 @@
     <Compile Include="AIExceptionLogger.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\ContactPointsController.cs" />
+    <Compile Include="Controllers\SparqlController.cs" />
     <Compile Include="Controllers\HouseController.cs" />
     <Compile Include="Controllers\PartyController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
