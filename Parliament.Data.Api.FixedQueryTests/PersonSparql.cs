@@ -44,7 +44,7 @@
         [TestMethod()]
         public void PersonMemberIndexSparql()
         {
-            ValidateSparql(() => controller.MemberIndex());
+            ValidateSparql(() => controller.Index());
         }
 
         [TestMethod()]

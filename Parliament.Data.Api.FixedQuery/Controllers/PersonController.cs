@@ -15,19 +15,75 @@
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
+    ?houseSeat
+        a :HouseSeat ;
+        :houseSeatHasConstituencyGroup ?constituencyGroup .
     ?person
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
-        <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+        <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
+        :memberHasIncumbency ?incumbency ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    ?seatIncumbency
+        a :SeatIncumbency ;
+        :seatIncumbencyHasHouseSeat ?houseSeat ;
+        :incumbencyEndDate ?seatIncumbencyEndDate .
+    ?houseIncumbency
+        a :HouseIncumbency ;
+        :incumbencyEndDate ?houseIncumbencyEndDate .
+    ?constituencyGroup
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?constituencyName .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+    _:x :value ?firstLetter .
 }
 WHERE {
-    ?person a :Person .
-    OPTIONAL { ?person :personGivenName ?givenName } .
-    OPTIONAL { ?person :personFamilyName ?familyName } .
-    OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
-    ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+   	{ SELECT * WHERE {
+        ?person 
+            a :Person ;
+            :memberHasIncumbency ?incumbency .
+        OPTIONAL { ?person :personGivenName ?givenName . }
+        OPTIONAL { ?person :personFamilyName ?familyName . }
+        OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+        ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+        { 
+            ?incumbency a :HouseIncumbency .
+            BIND(?incumbency AS ?houseIncumbency)
+            OPTIONAL { ?houseIncumbency :incumbencyEndDate ?houseIncumbencyEndDate . }
+        }
+        UNION {
+            ?incumbency a :SeatIncumbency .
+            BIND(?incumbency AS ?seatIncumbency)
+            ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
+            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+            OPTIONAL { ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+                ?constituencyGroup :constituencyGroupName ?constituencyName .
+                FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . } 
+            }
+        }
+        OPTIONAL {
+            ?person :partyMemberHasPartyMembership ?partyMembership .
+            FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+            ?partyMembership :partyMembershipHasParty ?party .
+            ?party :partyName ?partyName .
+        }
+      }
+    }
+    UNION {
+        SELECT DISTINCT ?firstLetter WHERE {
+	        ?person a :Person ;
+                    <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+
+          BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
+        }
+      }
 }
 ";
 
@@ -170,20 +226,77 @@ WHERE {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
+    ?houseSeat
+        a :HouseSeat ;
+        :houseSeatHasConstituencyGroup ?constituencyGroup .
     ?person
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
-        <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+        <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
+        :memberHasIncumbency ?incumbency ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    ?seatIncumbency
+        a :SeatIncumbency ;
+        :seatIncumbencyHasHouseSeat ?houseSeat ;
+        :incumbencyEndDate ?seatIncumbencyEndDate .
+    ?houseIncumbency
+        a :HouseIncumbency ;
+        :incumbencyEndDate ?houseIncumbencyEndDate .
+    ?constituencyGroup
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?constituencyName .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+    _:x :value ?firstLetter .
 }
 WHERE {
-    ?person a :Person .
-    OPTIONAL { ?person :personGivenName ?givenName } .
-    OPTIONAL { ?person :personFamilyName ?familyName } .
-    OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
-    ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
-    FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))
+   	{ SELECT * WHERE {
+        ?person 
+            a :Person ;
+            :memberHasIncumbency ?incumbency .
+        OPTIONAL { ?person :personGivenName ?givenName . }
+        OPTIONAL { ?person :personFamilyName ?familyName . }
+        OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+        ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+        { 
+            ?incumbency a :HouseIncumbency .
+            BIND(?incumbency AS ?houseIncumbency)
+            OPTIONAL { ?houseIncumbency :incumbencyEndDate ?houseIncumbencyEndDate . }
+        }
+        UNION {
+            ?incumbency a :SeatIncumbency .
+            BIND(?incumbency AS ?seatIncumbency)
+            ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
+            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+            OPTIONAL { ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+                ?constituencyGroup :constituencyGroupName ?constituencyName . 
+                    FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
+            }
+        }
+        OPTIONAL {
+            ?person :partyMemberHasPartyMembership ?partyMembership .
+            FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+            ?partyMembership :partyMembershipHasParty ?party .
+            ?party :partyName ?partyName .
+        }
+        FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))
+      }
+    }
+    UNION {
+        SELECT DISTINCT ?firstLetter WHERE {
+
+            ?person a :Person ;
+          			<http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+
+          BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
+        }
+      }
 }
 ";
 
@@ -221,7 +334,7 @@ WHERE {
 
         [Route("members", Name = "MemberIndex")]
         [HttpGet]
-        public Graph MemberIndex()
+        public Graph Member()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -253,35 +366,49 @@ CONSTRUCT {
     ?party
         a :Party ;
         :partyName ?partyName .
+    _:x :value ?firstLetter .
 }
 WHERE {
-    ?person 
-        a :Person ;
-        :memberHasIncumbency ?incumbency .
-    OPTIONAL { ?person :personGivenName ?givenName . }
-    OPTIONAL { ?person :personFamilyName ?familyName . }
-    OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
-    ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
-    { 
-        ?incumbency a :HouseIncumbency .
-        BIND(?incumbency AS ?houseIncumbency)
-        OPTIONAL { ?houseIncumbency :incumbencyEndDate ?houseIncumbencyEndDate . }
+    { SELECT * WHERE {
+        ?person 
+            a :Person ;
+            :memberHasIncumbency ?incumbency .
+        OPTIONAL { ?person :personGivenName ?givenName . }
+        OPTIONAL { ?person :personFamilyName ?familyName . }
+        OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+        ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+        { 
+            ?incumbency a :HouseIncumbency .
+            BIND(?incumbency AS ?houseIncumbency)
+            OPTIONAL { ?houseIncumbency :incumbencyEndDate ?houseIncumbencyEndDate . }
+        }
+        UNION {
+            ?incumbency a :SeatIncumbency .
+            BIND(?incumbency AS ?seatIncumbency)
+            ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
+            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+            OPTIONAL { ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+                ?constituencyGroup :constituencyGroupName ?constituencyName . 
+                FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
+            }
+        }
+        OPTIONAL {
+            ?person :partyMemberHasPartyMembership ?partyMembership .
+            FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+            ?partyMembership :partyMembershipHasParty ?party .
+            ?party :partyName ?partyName .
+        }
+      }
     }
     UNION {
-        ?incumbency a :SeatIncumbency .
-        BIND(?incumbency AS ?seatIncumbency)
-        ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
-        OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
-        OPTIONAL { ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
-            ?constituencyGroup :constituencyGroupName ?constituencyName . 
+        SELECT DISTINCT ?firstLetter WHERE {
+	        ?incumbency a :Incumbency ;
+                        :incumbencyHasMember ?person .
+          ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+
+          BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
         }
-    }
-    OPTIONAL {
-        ?person :partyMemberHasPartyMembership ?partyMembership .
-        FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
-        ?partyMembership :partyMembershipHasParty ?party .
-        ?party :partyName ?partyName .
-    }
+      }
 }
 ";
 
