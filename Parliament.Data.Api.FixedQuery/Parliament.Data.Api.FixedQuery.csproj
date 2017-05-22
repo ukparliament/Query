@@ -130,9 +130,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Secrets.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Content Include="Secrets.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -151,6 +149,7 @@
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\ContactPointsController.cs" />
     <Compile Include="Controllers\HouseController.cs" />
+    <Compile Include="Controllers\ParliamentController.cs" />
     <Compile Include="Controllers\PartyController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
