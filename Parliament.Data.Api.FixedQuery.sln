@@ -13,11 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{5D5A27F0-9524-472A-9E76-1D2849FCD7C0}"
 	ProjectSection(SolutionItems) = preProject
-		Deployment\APISetup.ps1 = Deployment\APISetup.ps1
 		Deployment\ApplicationSettingsRetrieval.ps1 = Deployment\ApplicationSettingsRetrieval.ps1
 		Deployment\AppService.json = Deployment\AppService.json
-		Deployment\Operations.json = Deployment\Operations.json
-		Deployment\Operations.ps1 = Deployment\Operations.ps1
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parliament.Data.Api.FixedQueryTests", "Parliament.Data.Api.FixedQueryTests\Parliament.Data.Api.FixedQueryTests.csproj", "{E03DA2F4-91CA-4A77-A00B-FFE4FDE2A21E}"
