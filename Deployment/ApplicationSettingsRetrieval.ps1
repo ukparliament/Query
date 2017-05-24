@@ -36,10 +36,13 @@ Log "Retrives subscription"
 $apiProduct=Get-AzureRmApiManagementProduct -Context $management -Title "Parliament - Fixed Query"
 $subscription=Get-AzureRmApiManagementSubscription -Context $management -ProductId $apiProduct.ProductId
 
+Log "Retrives API Management"
+$apiManagement=Get-AzureRmApiManagement -ResourceGroupName $APIResourceGroupName
 
 Log "Setting variables to use during deployment"
 Log "Instrumentation Key: $($properties.InstrumentationKey)"
 Write-Host "##vso[task.setvariable variable=ApplicationInsightsInstrumentationKey]$($properties.InstrumentationKey)"
 Write-Host "##vso[task.setvariable variable=SubscriptionKeyFixedQuery]$($subscription.PrimaryKey)"
+Write-Host "##vso[task.setvariable variable=APIManagementIP]$($apiManagement.StaticIPs[0])"
 
 Log "Job wel done!"
