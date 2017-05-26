@@ -1,13 +1,16 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
+    using System;
     using System.Linq;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Web;
     using System.Web.Http;
+    using VDS.RDF;
+    using VDS.RDF.Query;
 
     [RoutePrefix("")]
-    public class IndexController : ApiController
+    public class IndexController : BaseController
     {
         [Route()]
         public HttpResponseMessage Get()
@@ -111,5 +114,9 @@
 
             return response;
         }
+
+        [Route(@"lookup/{type:regex(^\w+$)}/{source:regex(^\w+$)}/{id}", Name = "Lookup")]
+        [HttpGet]
+        public Graph Lookup(string type, string source, string id) => base.LookupInternal(type, source, id);
     }
 }

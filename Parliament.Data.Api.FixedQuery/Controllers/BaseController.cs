@@ -67,6 +67,35 @@
             return graph;
         }
 
+
+        protected Graph LookupInternal(string type, string source, string id)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+CONSTRUCT {
+    ?s a @type .
+}
+WHERE {
+    BIND(@type AS ?type)
+    BIND(@source AS ?source)
+    BIND(@id AS ?id)
+
+    ?s
+        a @type ;
+        ?source ?actualId .
+
+    FILTER(STR(?actualId) = ?id)
+}";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("type", new Uri(BaseController.schema, type));
+            query.SetUri("source", new Uri(BaseController.schema, source));
+            query.SetLiteral("id", id);
+
+            return BaseController.ExecuteList(query);
+        }
+
         private static void ValidateSparql(string query)
         {
             var validator = new SparqlQueryValidator();
