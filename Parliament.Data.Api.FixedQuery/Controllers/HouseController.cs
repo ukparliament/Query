@@ -38,29 +38,7 @@ WHERE {
 
         [Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "HouseLookup")]
         [HttpGet]
-        public Graph Lookup(string source, string id)
-        {
-            var queryString = @"
-PREFIX : <http://id.ukpds.org/schema/>
-CONSTRUCT {
-    ?house a :House .
-}
-WHERE {
-    BIND(@id AS ?id)
-    BIND(@source AS ?source)
-    ?house 
-        a :House ;
-    	?source ?id .
-}
-";
-
-            var query = new SparqlParameterizedString(queryString);
-
-            query.SetUri("source", new Uri(BaseController.schema, source));
-            query.SetLiteral("id", id);
-
-            return BaseController.ExecuteList(query);
-        }
+        public Graph Lookup(string source, string id) => base.LookupInternal("House", source, id);
 
         [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "HouseByLetters", Order = 999)]
         [HttpGet]

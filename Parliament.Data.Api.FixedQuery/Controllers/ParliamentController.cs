@@ -50,8 +50,9 @@ CONSTRUCT {
         a :ParliamentPeriod .
 }
 WHERE {
-    ?parliament a :ParliamentPeriod ;
-                :parliamentPeriodStartDate ?startDate .
+    ?parliament 
+        a :ParliamentPeriod ;
+        :parliamentPeriodStartDate ?startDate .
     FILTER NOT EXISTS { ?parliament a :PastParliamentPeriod }
     BIND(xsd:dateTime(?startDate) AS ?startDateTime)
     BIND(now() AS ?currentDate)
@@ -83,11 +84,13 @@ WHERE {
     }
     UNION {
         ?parliament a :ParliamentPeriod .
-        {  SELECT (max(?parliamentPeriodEndDate) AS ?maxEndDate) 
-          WHERE {
-              ?parliament a :ParliamentPeriod ;
-                        :parliamentPeriodEndDate ?parliamentPeriodEndDate .
-          }
+        {
+            SELECT (max(?parliamentPeriodEndDate) AS ?maxEndDate) 
+            WHERE {
+                ?parliament 
+                    a :ParliamentPeriod ;
+                    :parliamentPeriodEndDate ?parliamentPeriodEndDate .
+            }
    		}
         ?parliament :parliamentPeriodEndDate ?maxEndDate .
         BIND(?parliament AS ?previousParliament)
@@ -112,8 +115,9 @@ CONSTRUCT {
         a :ParliamentPeriod .
 }
 WHERE {
-    ?nextParliament a :ParliamentPeriod ;
-                    :parliamentPeriodStartDate ?startDate .
+    ?nextParliament 
+        a :ParliamentPeriod ;
+        :parliamentPeriodStartDate ?startDate .
     BIND(now() AS ?currentDate)
     BIND(xsd:dateTime(?startDate) AS ?startDateTime)
     FILTER(?startDateTime > ?currentDate)
@@ -158,26 +162,26 @@ WHERE {
             OPTIONAL { ?parliament :parliamentPeriodEndDate ?endDate . }
         	OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament . }
             OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
-
-        OPTIONAL {
-            ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
-            ?seatIncumbency :incumbencyStartDate ?incStartDate ;                
-           					:incumbencyHasMember ?member .
-            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?incumbencyEndDate . }
-            ?member :partyMemberHasPartyMembership ?partyMembership .
-            ?partyMembership :partyMembershipHasParty ?party ;
-                             :partyMembershipStartDate ?pmStartDate .
-            OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
-            ?party :partyName ?partyName .
-            
-            BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-    		BIND(COALESCE(?incumbencyEndDate,now()) AS ?incEndDate)
-            FILTER (
-                (?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
-                (?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
-            )
+            OPTIONAL {
+                ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
+                ?seatIncumbency 
+                    :incumbencyStartDate ?incStartDate ;                
+           			:incumbencyHasMember ?member .
+                OPTIONAL { ?seatIncumbency :incumbencyEndDate ?incumbencyEndDate . }
+                ?member :partyMemberHasPartyMembership ?partyMembership .
+                ?partyMembership 
+                    :partyMembershipHasParty ?party ;
+                    :partyMembershipStartDate ?pmStartDate .
+                OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+                ?party :partyName ?partyName .
+                BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
+    		    BIND(COALESCE(?incumbencyEndDate,now()) AS ?incEndDate)
+                FILTER (
+                    (?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
+                    (?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
+                )
+            }
         }
-    }
 	GROUP BY ?parliament ?startDate ?endDate ?parliamentNumber ?party ?partyName ?nextParliament ?previousParliament
 }";
 
