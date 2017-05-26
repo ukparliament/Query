@@ -87,7 +87,6 @@
 
                 this.Url.Route("ContactPointIndex", null),
                 this.Url.Route("ContactPointById", new { id = "Ne6xySIb" }),
-                this.Url.Route("ContactPointById", new { id = "Ne6xySIb" }),
 
                 this.Url.Route("ParliamentIndex", null),
                 this.Url.Route("ParliamentCurrent", null),
