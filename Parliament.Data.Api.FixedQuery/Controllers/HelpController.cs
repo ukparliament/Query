@@ -86,7 +86,11 @@
                 this.Url.Route("HousePartyCurrentMembersAToZ", new { houseid = "KL2k1BGP", partyid = "P6LNyUn4"}),
 
                 this.Url.Route("ContactPointIndex", null),
-                this.Url.Route("ContactPointById", new { id = "Ne6xySIb" })
+                this.Url.Route("ContactPointById", new { id = "Ne6xySIb" }),
+
+                this.Url.Route("ParliamentIndex", null),
+                this.Url.Route("ParliamentCurrent", null),
+                this.Url.Route("ParliamentLookup", new { source = "number", id = "56" })
             };
 
             var response = Request.CreateResponse();
