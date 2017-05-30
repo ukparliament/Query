@@ -93,7 +93,7 @@ WHERE {
             query.SetUri("source", new Uri(BaseController.schema, source));
             query.SetLiteral("id", id);
 
-            return BaseController.ExecuteList(query);
+            return BaseController.ExecuteSingle(query);
         }
 
         private static void ValidateSparql(string query)
