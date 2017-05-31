@@ -78,27 +78,33 @@
         }
 
         [TestMethod()]
-        public void ParliamentMembersHousesSparql()
+        public void ParliamentHousesSparql()
         {
-            ValidateSparql(() => controller.MembersHouses(null));
+            ValidateSparql(() => controller.Houses(null));
         }
 
         [TestMethod()]
-        public void ParliamentMembersHouseSparql()
+        public void ParliamentHouseSparql()
         {
-            ValidateSparql(() => controller.MembersHouse(null, null));
+            ValidateSparql(() => controller.House(null, null));
         }
 
         [TestMethod()]
-        public void ParliamentMembersHouseAToZSparql()
+        public void ParliamentHouseMembersSparql()
         {
-            ValidateSparql(() => controller.MembersHouseAToZLetters(null, null));
+            ValidateSparql(() => controller.HouseMembers(null, null));
         }
 
         [TestMethod()]
-        public void ParliamentMemberHouseByInitialSparql()
+        public void ParliamentHouseMembersAToZSparql()
         {
-            ValidateSparql(() => controller.MembersHouseByInitial(null, null, null));
+            ValidateSparql(() => controller.HouseMembersAToZLetters(null, null));
+        }
+
+        [TestMethod()]
+        public void ParliamentHouseMembersByInitialSparql()
+        {
+            ValidateSparql(() => controller.HouseMembersByInitial(null, null, null));
         }
 
         [TestMethod()]
@@ -132,33 +138,33 @@
         }
 
         [TestMethod()]
-        public void ParliamentPartyHousesSparql()
+        public void ParliamentHousePartiesSparql()
         {
-            ValidateSparql(() => controller.PartyHouses(null, null));
+            ValidateSparql(() => controller.HouseParties(null, null));
         }
 
         [TestMethod()]
-        public void ParliamentPartyHouseSparql()
+        public void ParliamentHousePartySparql()
         {
-            ValidateSparql(() => controller.PartyHouse(null, null, null));
+            ValidateSparql(() => controller.HouseParty(null, null, null));
         }
 
         [TestMethod()]
-        public void ParliamentPartyHouseMembersSparql()
+        public void ParliamentHousePartyMembersSparql()
         {
-            ValidateSparql(() => controller.PartyHouseMembers(null, null, null));
+            ValidateSparql(() => controller.HousePartyMembers(null, null, null));
         }
 
         [TestMethod()]
-        public void ParliamentPartyHouseMembersAToZSparql()
+        public void ParliamentHousePartyMembersAToZSparql()
         {
-            ValidateSparql(() => controller.PartyHouseMembersAToZLetters(null, null, null));
+            ValidateSparql(() => controller.HousePartyMembersAToZLetters(null, null, null));
         }
 
         [TestMethod()]
-        public void ParliamentPartyHouseMembersByInitialSparql()
+        public void ParliamentHousePartyMembersByInitialSparql()
         {
-            ValidateSparql(() => controller.PartyHouseMembersByInitial(null, null, null, null));
+            ValidateSparql(() => controller.HousePartyMembersByInitial(null, null, null, null));
         }
 
         [TestMethod()]

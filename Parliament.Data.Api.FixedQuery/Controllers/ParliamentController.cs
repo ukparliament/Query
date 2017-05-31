@@ -259,6 +259,7 @@ CONSTRUCT {
    ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
+        :incumbencyStartDate ?incStartDate ;
         :incumbencyEndDate ?seatIncumbencyEndDate .   
     ?houseSeat
         a :HouseSeat ;
@@ -366,6 +367,7 @@ CONSTRUCT {
    ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
+        :incumbencyStartDate ?incStartDate ;
         :incumbencyEndDate ?seatIncumbencyEndDate .   
     ?houseSeat
         a :HouseSeat ;
@@ -485,9 +487,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{id:regex(^\w{8}$)}/members/houses", Name = "ParliamentMembersHouses")]
+        [Route(@"{id:regex(^\w{8}$)}/houses", Name = "ParliamentHouses")]
         [HttpGet]
-        public Graph MembersHouses(string id)
+        public Graph Houses(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -530,9 +532,60 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/members/houses/{houseid:regex(^\w{8}$)}", Name = "ParliamentMembersHouse")]
+        [Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}", Name = "ParliamentHouse")]
         [HttpGet]
-        public Graph MembersHouse(string parliamentid, string houseid)
+        public Graph House(string parliamentid, string houseid)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+CONSTRUCT {
+	 ?house
+        a :House ;
+        :houseName ?houseName .
+     ?parliament 
+         a :ParliamentPeriod ;
+         :parliamentPeriodStartDate ?parliamentStartDate ;
+         :parliamentPeriodEndDate ?parliamentEndDate ;
+         :parliamentPeriodNumber ?parliamentNumber ;
+         :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament ;
+    	 :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament .
+}
+WHERE {
+    BIND(@parliamentid AS ?parliament)
+
+    ?parliament 
+        a :ParliamentPeriod ;
+        :parliamentPeriodStartDate ?parliamentStartDate ;
+        :parliamentPeriodNumber ?parliamentNumber .
+    OPTIONAL { ?parliament :parliamentPeriodEndDate ?parliamentEndDate . }
+    OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament . }
+    OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
+
+    OPTIONAL {    
+        BIND(@houseid AS ?house)
+        
+        ?house
+            a :House ;
+            :houseName ?houseName .
+            ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
+            ?seatIncumbency :incumbencyHasMember ?person ;
+                            :seatIncumbencyHasHouseSeat ?houseSeat .
+            ?houseSeat :houseSeatHasHouse ?house .
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliamentid));
+            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
+
+            return BaseController.ExecuteSingle(query);
+        }
+
+        [Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/members", Name = "ParliamentHouseMembers")]
+        [HttpGet]
+        public Graph HouseMembers(string parliamentid, string houseid)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -548,6 +601,7 @@ CONSTRUCT {
    ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
+        :incumbencyStartDate ?incStartDate ;
         :incumbencyEndDate ?seatIncumbencyEndDate .   
     ?houseSeat
         a :HouseSeat ;
@@ -646,9 +700,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/members/houses/{houseid:regex(^\w{8}$)}/a_z_letters", Name = "ParliamentMembersHouseAToZ")]
+        [Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentHouseMembersAToZ")]
         [HttpGet]
-        public Graph MembersHouseAToZLetters(string parliamentid, string houseid)
+        public Graph HouseMembersAToZLetters(string parliamentid, string houseid)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -679,9 +733,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/members/houses/{houseid:regex(^\w{8}$)}/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentMembersHouseByInitial")]
+        [Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentHouseMembersByInitial")]
         [HttpGet]
-        public Graph MembersHouseByInitial(string parliamentid, string houseid, string initial)
+        public Graph HouseMembersByInitial(string parliamentid, string houseid, string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -697,6 +751,7 @@ CONSTRUCT {
    ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
+        :incumbencyStartDate ?incStartDate ;
         :incumbencyEndDate ?seatIncumbencyEndDate .   
     ?houseSeat
         a :HouseSeat ;
@@ -935,6 +990,7 @@ CONSTRUCT {
    ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
+        :incumbencyStartDate ?incStartDate ;
         :incumbencyEndDate ?seatIncumbencyEndDate .   
     ?houseSeat
         a :HouseSeat ;
@@ -1036,7 +1092,6 @@ WHERE {
 
     }         
 }";
-            // Use @parliamentid, @houseid
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -1110,6 +1165,7 @@ CONSTRUCT {
    ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
+        :incumbencyStartDate ?incStartDate ;
         :incumbencyEndDate ?seatIncumbencyEndDate .   
     ?houseSeat
         a :HouseSeat ;
@@ -1222,9 +1278,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/houses", Name = "ParliamentPartyHouses")]
+        [Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties", Name = "ParliamentHouseParties")]
         [HttpGet]
-        public Graph PartyHouses(string parliamentid, string partyid)
+        public Graph HouseParties(string parliamentid, string houseid)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -1245,10 +1301,10 @@ CONSTRUCT {
 }
 WHERE {
         BIND(@parliamentid AS ?parliament)
-    	BIND(@partyid AS ?party)
-    	?party
-        	a :Party ;
-         	:partyName ?partyName .
+    	BIND(@houseid AS ?house)
+    	?house
+        	a :House ;
+         	:houseName ?houseName .
         ?parliament 
             a :ParliamentPeriod ;
             :parliamentPeriodStartDate ?startDate ;
@@ -1268,6 +1324,7 @@ WHERE {
         ?member :partyMemberHasPartyMembership ?partyMembership .
         ?partyMembership :partyMembershipHasParty ?party ;
         				 :partyMembershipStartDate ?pmStartDate .
+        ?party :partyName ?partyName .
         OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
 
         BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
@@ -1283,14 +1340,14 @@ WHERE {
             var query = new SparqlParameterizedString(queryString);
 
             query.SetUri("parliamentid", new Uri(BaseController.instance, parliamentid));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
 
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}", Name = "ParliamentPartyHouse")]
+        [Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}", Name = "ParliamentHouseParty")]
         [HttpGet]
-        public Graph PartyHouse(string parliamentid, string partyid, string houseid)
+        public Graph HouseParty(string parliamentid, string partyid, string houseid)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -1311,11 +1368,11 @@ CONSTRUCT {
 }
 WHERE {
         BIND(@parliamentid AS ?parliament)
-        BIND(@partyid AS ?party)
+        BIND(@houseid AS ?house)
 
-    	?party
-        	a :Party ;
-         	:partyName ?partyName .
+    	?house
+        	a :House ;
+         	:houseName ?houseName .
         ?parliament 
             a :ParliamentPeriod ;
             :parliamentPeriodStartDate ?startDate ;
@@ -1325,11 +1382,11 @@ WHERE {
    	    OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
     	
     OPTIONAL {
-        BIND(@houseid AS ?house)
+        BIND(@partyid AS ?party)
 
-    	?house
-        	a :House ;
-         	:houseName ?houseName .
+    	?party
+        	a :Party ;
+         	:partyName ?partyName .
         ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
         ?seatIncumbency :incumbencyHasMember ?member ;
                         :incumbencyStartDate ?incStartDate ;
@@ -1360,9 +1417,9 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/members", Name = "ParliamentPartyHouseMembers")]
+        [Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members", Name = "ParliamentHousePartyMembers")]
         [HttpGet]
-        public Graph PartyHouseMembers(string parliamentid, string partyid, string houseid)
+        public Graph HousePartyMembers(string parliamentid, string partyid, string houseid)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -1378,6 +1435,7 @@ CONSTRUCT {
    ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
+        :incumbencyStartDate ?incStartDate ;
         :incumbencyEndDate ?seatIncumbencyEndDate .   
     ?houseSeat
         a :HouseSeat ;
@@ -1495,9 +1553,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentPartyHouseMembersAToZ")]
+        [Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentHousePartyMembersAToZ")]
         [HttpGet]
-        public Graph PartyHouseMembersAToZLetters(string parliamentid, string partyid, string houseid)
+        public Graph HousePartyMembersAToZLetters(string parliamentid, string partyid, string houseid)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -1546,9 +1604,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentPartyHouseMembersByInitial")]
+        [Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentHousePartyMembersByInitial")]
         [HttpGet]
-        public Graph PartyHouseMembersByInitial(string parliamentid, string partyid, string houseid, string initial)
+        public Graph HousePartyMembersByInitial(string parliamentid, string partyid, string houseid, string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -1564,6 +1622,7 @@ CONSTRUCT {
    ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
+        :incumbencyStartDate ?incStartDate ;
         :incumbencyEndDate ?seatIncumbencyEndDate .   
     ?houseSeat
         a :HouseSeat ;
