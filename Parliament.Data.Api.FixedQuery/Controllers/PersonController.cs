@@ -495,7 +495,7 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
             query.SetUri("personid", new Uri(BaseController.instance, id));
-            return BaseController.ExecuteSingle(query);
+            return BaseController.ExecuteList(query);
         }
 
         [Route(@"{id:regex(^\w{8}$)}/constituencies/current", Name = "PersonCurrentConstituency")]
@@ -586,7 +586,7 @@ WHERE {
 
             query.SetUri("personid", new Uri(BaseController.instance, id));
 
-            return BaseController.ExecuteSingle(query);
+            return BaseController.ExecuteList(query);
         }
 
         [Route(@"{id:regex(^\w{8}$)}/parties/current", Name = "PersonCurrentParty")]
@@ -761,7 +761,7 @@ WHERE {
 
             query.SetUri("personid", new Uri(BaseController.instance, id));
 
-            return BaseController.ExecuteSingle(query);
+            return BaseController.ExecuteList(query);
         }
 
         [Route(@"{id:regex(^\w{8}$)}/houses/current", Name = "PersonCurrentHouse")]
