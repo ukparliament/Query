@@ -93,8 +93,33 @@
 
                 this.Url.Route("ParliamentIndex", null),
                 this.Url.Route("ParliamentCurrent", null),
+                this.Url.Route("ParliamentNext", null),
+                this.Url.Route("ParliamentPrevious", null),
                 this.Url.Route("ParliamentLookup", new { source = "parliamentPeriodNumber", id = "56" }),
-                this.Url.Route("ParliamentHouseParty", new { parliamentid = "Du6iH79e", houseid = "cqIATgUK", partyid = "6THXr8R6"})
+                this.Url.Route("ParliamentById", new { id = "Du6iH79e" }),
+                this.Url.Route("ParliamentNext", new { id = "Du6iH79e" }),
+                this.Url.Route("ParliamentPrevious", new { id = "Du6iH79e" }),
+                this.Url.Route("ParliamentMembers", new { id = "Du6iH79e" }),
+                this.Url.Route("ParliamentMembersByInitial", new { id = "Du6iH79e", initial = "d" }),
+                this.Url.Route("ParliamentMembersAToZLetters", new { id = "Du6iH79e" }),
+                this.Url.Route("ParliamentHouses", new { id = "Du6iH79e" }),
+                this.Url.Route("ParliamentHouse", new { parliamentid = "Du6iH79e", houseid = "cqIATgUK" }),
+                this.Url.Route("ParliamentHouseMembers", new { parliamentid = "Du6iH79e", houseid = "cqIATgUK" }),
+                this.Url.Route("ParliamentHouseMembersAToZLetters", new { parliamentid = "Du6iH79e", houseid = "cqIATgUK" }),
+                this.Url.Route("ParliamentHouseMembersByInitial", new { parliamentid = "Du6iH79e", houseid = "cqIATgUK", initial = "d" }),
+                this.Url.Route("ParliamentParties", new { id = "Du6iH79e" }),
+                this.Url.Route("ParliamentParty", new { parliamentid = "Du6iH79e", partyid = "6THXr8R6" }),
+                this.Url.Route("ParliamentPartyMembers", new { parliamentid = "Du6iH79e", partyid = "6THXr8R6" }),
+                this.Url.Route("ParliamentPartyMembersAToZLetters", new { parliamentid = "Du6iH79e", partyid = "6THXr8R6" }),
+                this.Url.Route("ParliamentPartyMembersByInitial", new { parliamentid = "Du6iH79e", partyid = "6THXr8R6", initial = "d" }),
+                this.Url.Route("ParliamentHouseParties", new { parliamentid = "Du6iH79e", houseid = "cqIATgUK" }),
+                this.Url.Route("ParliamentHouseParty", new { parliamentid = "Du6iH79e", houseid = "cqIATgUK", partyid = "6THXr8R6"}),
+                this.Url.Route("ParliamentHousePartyMembers", new { parliamentid = "Du6iH79e", houseid = "cqIATgUK", partyid = "6THXr8R6"}),
+                this.Url.Route("ParliamentHousePartyMembersAToZLetters", new { parliamentid = "Du6iH79e", houseid = "cqIATgUK", partyid = "6THXr8R6"}),
+                this.Url.Route("ParliamentHousePartyMembersByInitial", new { parliamentid = "Du6iH79e", houseid = "cqIATgUK", partyid = "6THXr8R6", initial = "d"}),
+                this.Url.Route("ParliamentConstituencies", new { id = "Du6iH79e" }),
+                this.Url.Route("ParliamentConstituenciesAToZLetters", new { id = "Du6iH79e"}),
+                this.Url.Route("ParliamentConstituenciesByInitial", new { id = "Du6iH79e", initial = "d" })
             };
 
             var response = Request.CreateResponse();
