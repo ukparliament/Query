@@ -40,7 +40,7 @@ WHERE {
         [HttpGet]
         public Graph Lookup(string source, string id) => base.LookupInternal("House", source, id);
 
-        [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "HouseByLetters", Order = 999)]
+        [Route(@"partial/{letters:regex(^\p{L}+$):minlength(2)}", Name = "HouseByLetters", Order = 999)]
         [HttpGet]
         public Graph ByLetters(string letters)
         {

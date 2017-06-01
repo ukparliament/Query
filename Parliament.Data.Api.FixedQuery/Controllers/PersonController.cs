@@ -397,7 +397,7 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{letters:regex(^\p{L}+$):minlength(2)}", Name = "PersonByLetters", Order = 999)]
+        [Route(@"partial/{letters:regex(^\p{L}+$):minlength(2)}", Name = "PersonByLetters", Order = 999)]
         [HttpGet]
         public Graph ByLetters(string letters)
         {
