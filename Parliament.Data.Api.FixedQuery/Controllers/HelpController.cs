@@ -93,7 +93,8 @@
 
                 this.Url.Route("ParliamentIndex", null),
                 this.Url.Route("ParliamentCurrent", null),
-                this.Url.Route("ParliamentLookup", new { source = "parliamentPeriodNumber", id = "56" })
+                this.Url.Route("ParliamentLookup", new { source = "parliamentPeriodNumber", id = "56" }),
+                this.Url.Route("ParliamentHouseParty", new { parliamentid = "Du6iH79e", houseid = "cqIATgUK", partyid = "6THXr8R6"})
             };
 
             var response = Request.CreateResponse();
