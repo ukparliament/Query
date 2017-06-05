@@ -14,10 +14,16 @@
         "description": "Name of the Application Insights."
       }
     },
-    "applicationInsightsInstrumentationKey": {
+    "operationsResourceGroupName": {
       "type": "string",
       "metadata": {
-        "description": "Value of the Application Insights instrumentation key."
+        "description": "Name of the Resource Group where backup storage is."
+      }
+    },
+    "applicationInsightsName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Application Insights."
       }
     },
     "sparqlEndpoint": {
@@ -120,7 +126,7 @@
           ],
           "properties": {
             "WEBSITE_NODE_DEFAULT_VERSION": "6.9.1",
-            "ApplicationInsightsInstrumentationKey": "[parameters('applicationInsightsInstrumentationKey')]",
+            "ApplicationInsightsInstrumentationKey": "[reference(resourceId(subscription().subscriptionId,parameters('operationsResourceGroupName'),'Microsoft.Insights/Components',parameters('applicationInsightsName')),'2014-04-01').InstrumentationKey]",
             "SparqlEndpoint": "[parameters('sparqlEndpoint')]",
             "SubscriptionKey": "[parameters('subscriptionKey')]"
           }
