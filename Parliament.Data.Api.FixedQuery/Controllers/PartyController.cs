@@ -271,12 +271,46 @@ PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
     ?party
         a :Party ;
-        :partyName ?partyName .
+        :partyName ?partyName ;
+        :commonsCount ?commonsCount ;
+        :lordsCount ?lordsCount .
+    _:x :value ?firstLetter .
 }
 WHERE {
-    ?party a :Party .
-    ?party :partyName ?partyName .
-    FILTER CONTAINS(LCASE(?partyName), LCASE(@letters))
+    { SELECT ?party ?partyName (COUNT(?mp) AS ?commonsCount) (COUNT(?lord) AS ?lordsCount) WHERE {
+        ?party
+            a :Party ;
+            :partyHasPartyMembership ?partyMembership ;
+            :partyName ?partyName .
+        OPTIONAL {
+            ?partyMembership :partyMembershipHasPartyMember ?person .
+            FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+            ?person :memberHasIncumbency ?incumbency .
+            FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+            OPTIONAL {
+			    ?incumbency a :SeatIncumbency ;
+                			:incumbencyHasMember ?mp .
+            }
+            OPTIONAL {
+			    ?incumbency a :HouseIncumbency ;
+                  			:incumbencyHasMember ?lord .
+            }
+        }
+        FILTER CONTAINS(LCASE(?partyName), LCASE(@letters))
+
+      }
+        GROUP BY ?party ?partyName
+   }
+    UNION {
+        SELECT DISTINCT ?firstLetter WHERE {
+
+            ?s a :Party ;
+                :partyHasPartyMembership ?partyMembership;
+            	:partyName ?partyName.
+
+              BIND(ucase(SUBSTR(?partyName, 1, 1)) as ?firstLetter)
+         }
+   }
 }
 ";
 
