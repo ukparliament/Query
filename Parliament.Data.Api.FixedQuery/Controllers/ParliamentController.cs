@@ -1960,6 +1960,7 @@ CONSTRUCT {
         :personFamilyName ?familyName ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+    _:x :value ?firstLetter .
 }
 WHERE {
     { SELECT * WHERE {
@@ -2086,6 +2087,7 @@ CONSTRUCT {
         :personFamilyName ?familyName ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+     _:x :value ?firstLetter .
 
 }
 WHERE {
