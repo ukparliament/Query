@@ -271,6 +271,7 @@ CONSTRUCT {
     ?partyMembership
         a :PartyMembership ;
         :partyMembershipHasParty ?party ;
+        :partyMembershipStartDate ?pmStartDate ;
         :partyMembershipEndDate ?partyMembershipEndDate .
     ?party
         a :Party ;
@@ -392,6 +393,7 @@ CONSTRUCT {
     ?partyMembership
         a :PartyMembership ;
         :partyMembershipHasParty ?party ;
+        :partyMembershipStartDate ?pmStartDate ;
         :partyMembershipEndDate ?partyMembershipEndDate .
     ?party
         a :Party ;
@@ -639,6 +641,7 @@ CONSTRUCT {
     ?partyMembership
         a :PartyMembership ;
         :partyMembershipHasParty ?party ;
+        :partyMembershipStartDate ?pmStartDate ;
         :partyMembershipEndDate ?partyMembershipEndDate .
     ?party
         a :Party ;
@@ -806,6 +809,7 @@ CONSTRUCT {
     ?partyMembership
         a :PartyMembership ;
         :partyMembershipHasParty ?party ;
+        :partyMembershipStartDate ?pmStartDate ;
         :partyMembershipEndDate ?partyMembershipEndDate .
     ?party
         a :Party ;
@@ -1064,6 +1068,7 @@ CONSTRUCT {
     ?partyMembership
         a :PartyMembership ;
         :partyMembershipHasParty ?party ;
+        :partyMembershipStartDate ?pmStartDate ;
         :partyMembershipEndDate ?partyMembershipEndDate .
     ?party
         a :Party ;
@@ -1268,6 +1273,7 @@ CONSTRUCT {
     ?partyMembership
         a :PartyMembership ;
         :partyMembershipHasParty ?party ;
+        :partyMembershipStartDate ?pmStartDate ;
         :partyMembershipEndDate ?partyMembershipEndDate .
     ?party
         a :Party ;
@@ -1567,6 +1573,7 @@ CONSTRUCT {
     ?partyMembership
         a :PartyMembership ;
         :partyMembershipHasParty ?party ;
+        :partyMembershipStartDate ?pmStartDate ;
         :partyMembershipEndDate ?partyMembershipEndDate .
     ?party
         a :Party ;
@@ -1786,6 +1793,7 @@ CONSTRUCT {
     ?partyMembership
         a :PartyMembership ;
         :partyMembershipHasParty ?party ;
+        :partyMembershipStartDate ?pmStartDate ;
         :partyMembershipEndDate ?partyMembershipEndDate .
     ?party
         a :Party ;
@@ -1954,12 +1962,21 @@ CONSTRUCT {
         :incumbencyHasMember ?person ;
         :incumbencyStartDate ?incStartDate ;
         :incumbencyEndDate ?incEndDate .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party ;
+        :partyMembershipStartDate ?pmStartDate ;
+        :partyMembershipEndDate ?partyMembershipEndDate .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
     ?person
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
-        <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+        <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
+        :partyMemberHasPartyMembership ?partyMembership .
     _:x :value ?firstLetter .
 }
 WHERE {
@@ -1977,10 +1994,23 @@ WHERE {
             ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat ;
                             :incumbencyHasMember ?person ;
                             :incumbencyStartDate ?incStartDate .
-            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?incEndDate . }
+            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
             ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
             ?constituencyGroup :constituencyGroupName ?constituencyGroupName .
+			
+            ?person :partyMemberHasPartyMembership ?partyMembership.
+        	?partyMembership :partyMembershipHasParty ?party ;
+                         	:partyMembershipStartDate ?pmStartDate.
+        	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
 
+        	BIND(COALESCE(?partyMembershipEndDate, now()) AS ?pmEndDate)
+        	BIND(COALESCE(?seatIncumbencyEndDate, now()) AS ?incEndDate)
+        	FILTER(
+        		(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
+        		(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
+			)   
+            ?party :partyName ?partyName .
+                
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
@@ -2081,14 +2111,22 @@ CONSTRUCT {
         :incumbencyHasMember ?person ;
         :incumbencyStartDate ?incStartDate ;
         :incumbencyEndDate ?incEndDate .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party ;
+        :partyMembershipStartDate ?pmStartDate ;
+        :partyMembershipEndDate ?partyMembershipEndDate .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
     ?person
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
-        <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
-     _:x :value ?firstLetter .
-
+        <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    _:x :value ?firstLetter .
 }
 WHERE {
     { SELECT * WHERE {
@@ -2105,21 +2143,35 @@ WHERE {
             ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat ;
                             :incumbencyHasMember ?person ;
                             :incumbencyStartDate ?incStartDate .
-            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?incEndDate . }
+            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
             ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
             ?constituencyGroup :constituencyGroupName ?constituencyGroupName .
+			
+            ?person :partyMemberHasPartyMembership ?partyMembership.
+        	?partyMembership :partyMembershipHasParty ?party ;
+                         	:partyMembershipStartDate ?pmStartDate.
+        	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
 
+        	BIND(COALESCE(?partyMembershipEndDate, now()) AS ?pmEndDate)
+        	BIND(COALESCE(?seatIncumbencyEndDate, now()) AS ?incEndDate)
+        	FILTER(
+        		(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
+        		(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
+			)   
+            ?party :partyName ?partyName .
+                
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+            
             FILTER STRSTARTS(LCASE(?constituencyGroupName), LCASE(@initial))
         }
       }
     }
     UNION {
         SELECT ?parliament (COUNT(DISTINCT(?constituencyGroup)) AS ?constituencyCount) WHERE {
-        BIND(@parliamentid AS ?parliament)
+            BIND(@parliamentid AS ?parliament)
             
 			?parliament a :ParliamentPeriod .
             OPTIONAL {
