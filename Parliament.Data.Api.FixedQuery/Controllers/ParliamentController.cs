@@ -1420,12 +1420,14 @@ CONSTRUCT {
     	 :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament .
     ?party
         a :Party ;
-        :partyName ?partyName .
+        :partyName ?partyName ;
+        :count ?memberCount .
     ?house
         a :House ;
         :houseName ?houseName .
 }
 WHERE {
+    SELECT ?parliament ?startDate ?endDate ?parliamentNumber ?nextParliament ?previousParliament ?party ?partyName ?house ?houseName (COUNT(?member) AS ?memberCount) WHERE {
         BIND(@parliamentid AS ?parliament)
     	BIND(@houseid AS ?house)
     	?house
@@ -1460,6 +1462,8 @@ WHERE {
         	(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
 		)
     }
+   }
+   GROUP BY ?parliament ?startDate ?endDate ?parliamentNumber ?nextParliament ?previousParliament ?party ?partyName ?house ?houseName
 }
 ";
 
