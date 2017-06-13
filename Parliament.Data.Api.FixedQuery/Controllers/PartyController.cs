@@ -373,12 +373,13 @@ WHERE {
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
                 	:memberHasIncumbency ?incumbency .
+            OPTIONAL
             {
                 ?incumbency a :HouseIncumbency .
                 BIND(?incumbency AS ?houseIncumbency)
                 OPTIONAL { ?houseIncumbency :incumbencyEndDate ?houseIncumbencyEndDate . }
         	}
-        	UNION {
+        	OPTIONAL {
                 ?incumbency a :SeatIncumbency .
                 BIND(?incumbency AS ?seatIncumbency)
                 ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
@@ -467,12 +468,13 @@ WHERE {
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
                 	:memberHasIncumbency ?incumbency .
             FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+            OPTIONAL
             {
                 ?incumbency a :HouseIncumbency .
                 BIND(?incumbency AS ?houseIncumbency)
                 OPTIONAL { ?houseIncumbency :incumbencyEndDate ?houseIncumbencyEndDate . }
         	}
-        	UNION {
+        	OPTIONAL {
                 ?incumbency a :SeatIncumbency .
                 BIND(?incumbency AS ?seatIncumbency)
                 ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
@@ -562,12 +564,13 @@ WHERE {
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
                 	:memberHasIncumbency ?incumbency .
+            OPTIONAL
             {
                 ?incumbency a :HouseIncumbency .
                 BIND(?incumbency AS ?houseIncumbency)
                 OPTIONAL { ?houseIncumbency :incumbencyEndDate ?houseIncumbencyEndDate . }
         	}
-        	UNION {
+        	OPTIONAL {
                 ?incumbency a :SeatIncumbency .
                 BIND(?incumbency AS ?seatIncumbency)
                 ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
@@ -688,12 +691,13 @@ WHERE {
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
                 	:memberHasIncumbency ?incumbency .
             FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+            OPTIONAL
             {
                 ?incumbency a :HouseIncumbency .
                 BIND(?incumbency AS ?houseIncumbency)
                 OPTIONAL { ?houseIncumbency :incumbencyEndDate ?houseIncumbencyEndDate . }
         	}
-        	UNION {
+        	OPTIONAL {
                 ?incumbency a :SeatIncumbency .
                 BIND(?incumbency AS ?seatIncumbency)
                 ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
