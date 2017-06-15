@@ -802,8 +802,9 @@ WHERE {
         public Graph HouseMembersByInitial(string parliamentid, string houseid, string initial)
         {
             var queryString = @"
-PREFIX : <http://id.ukpds.org/schema/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     ?person
         a :Person ;

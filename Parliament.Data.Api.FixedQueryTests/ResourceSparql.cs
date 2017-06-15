@@ -20,7 +20,7 @@
         [TestMethod()]
         public void ResourceByIdSparql()
         {
-            ValidateSparql(() => controller.ById(null));
+            ValidateSparql(() => controller.ById(string.Empty));
         }
     }
 }

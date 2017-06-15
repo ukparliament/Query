@@ -20,13 +20,13 @@
         [TestMethod()]
         public void ConstituencyByIdSparql()
         {
-            ValidateSparql(() => controller.ById(null));
+            ValidateSparql(() => controller.ById(string.Empty));
         }
 
         [TestMethod()]
         public void ConstituencyByInitialSparql()
         {
-            ValidateSparql(() => controller.ByInitial(null));
+            ValidateSparql(() => controller.ByInitial(string.Empty));
         }
 
         [TestMethod()]
@@ -38,13 +38,13 @@
         [TestMethod()]
         public void ConstituencyLookupSparql()
         {
-            ValidateSparql(() => controller.Lookup(null, null));
+            ValidateSparql(() => controller.Lookup(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void ConstituencyByLettersSparql()
         {
-            ValidateSparql(() => controller.ByLetters(null));
+            ValidateSparql(() => controller.ByLetters(string.Empty));
         }
 
         [TestMethod()]
@@ -56,7 +56,7 @@
         [TestMethod()]
         public void ConstituencyCurrentByLettersSparql()
         {
-            ValidateSparql(() => controller.CurrentByLetters(null));
+            ValidateSparql(() => controller.CurrentByLetters(string.Empty));
         }
 
         [TestMethod()]
@@ -74,25 +74,25 @@
         [TestMethod()]
         public void ConstituencyMembersSparql()
         {
-            ValidateSparql(() => controller.Members(null));
+            ValidateSparql(() => controller.Members(string.Empty));
         }
 
         [TestMethod()]
         public void ConstituencyCurrentMembersSparql()
         {
-            ValidateSparql(() => controller.CurrentMembers(null));
+            ValidateSparql(() => controller.CurrentMembers(string.Empty));
         }
 
         [TestMethod()]
         public void ConstituencyContactPointSparql()
         {
-            ValidateSparql(() => controller.ContactPoint(null));
+            ValidateSparql(() => controller.ContactPoint(string.Empty));
         }
 
         [TestMethod()]
         public void ConstituencyLookupByPostcodeSparql()
         {
-            ValidateSparql(() => controller.LookupByPostcode(null));
+            ValidateSparql(() => controller.LookupByPostcode(string.Empty));
         }
     }
 }

@@ -26,7 +26,7 @@
         [TestMethod()]
         public void MemberByInitialSparql()
         {
-            ValidateSparql(() => controller.ByInitial(null));
+            ValidateSparql(() => controller.ByInitial(string.Empty));
         }
 
         [TestMethod()]
@@ -38,7 +38,7 @@
         [TestMethod()]
         public void MemberCurrentByInitialSparql()
         {
-            ValidateSparql(() => controller.CurrentByInitial(null));
+            ValidateSparql(() => controller.CurrentByInitial(string.Empty));
         }
 
         [TestMethod()]

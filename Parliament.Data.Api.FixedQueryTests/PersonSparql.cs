@@ -26,19 +26,19 @@
         [TestMethod()]
         public void PersonByIdSparql()
         {
-            ValidateSparql(() => controller.ById(null));
+            ValidateSparql(() => controller.ById(string.Empty));
         }
 
         [TestMethod()]
         public void PersonByInitialSparql()
         {
-            ValidateSparql(() => controller.ByInitial(null));
+            ValidateSparql(() => controller.ByInitial(string.Empty));
         }
 
         [TestMethod()]
         public void PersonLookupSparql()
         {
-            ValidateSparql(() => controller.Lookup(null, null));
+            ValidateSparql(() => controller.Lookup(string.Empty, string.Empty));
         }
 
         [TestMethod()]
@@ -50,7 +50,7 @@
         [TestMethod()]
         public void PersonByLettersSparql()
         {
-            ValidateSparql(() => controller.ByLetters(null));
+            ValidateSparql(() => controller.ByLetters(string.Empty));
         }
 
         [TestMethod()]
@@ -62,43 +62,43 @@
         [TestMethod()]
         public void PersonConstituenciesSparql()
         {
-            ValidateSparql(() => controller.Constituencies(null));
+            ValidateSparql(() => controller.Constituencies(string.Empty));
         }
 
         [TestMethod()]
         public void PersonCurrentConstituencySparql()
         {
-            ValidateSparql(() => controller.CurrentConstituency(null));
+            ValidateSparql(() => controller.CurrentConstituency(string.Empty));
         }
 
         [TestMethod()]
         public void PersonPartiesSparql()
         {
-            ValidateSparql(() => controller.Parties(null));
+            ValidateSparql(() => controller.Parties(string.Empty));
         }
 
         [TestMethod()]
         public void PersonCurrentPartySparql()
         {
-            ValidateSparql(() => controller.CurrentParty(null));
+            ValidateSparql(() => controller.CurrentParty(string.Empty));
         }
 
         [TestMethod()]
         public void PersonContactPointsSparql()
         {
-            ValidateSparql(() => controller.ContactPoints(null));
+            ValidateSparql(() => controller.ContactPoints(string.Empty));
         }
 
         [TestMethod()]
         public void PersonHousesSparql()
         {
-            ValidateSparql(() => controller.Houses(null));
+            ValidateSparql(() => controller.Houses(string.Empty));
         }
 
         [TestMethod()]
         public void PersonCurrentHouseSparql()
         {
-            ValidateSparql(() => controller.CurrentHouse(null));
+            ValidateSparql(() => controller.CurrentHouse(string.Empty));
         }
     }
 }

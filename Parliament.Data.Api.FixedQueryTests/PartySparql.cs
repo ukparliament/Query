@@ -26,13 +26,13 @@
         [TestMethod()]
         public void PartyByIdSparql()
         {
-            ValidateSparql(() => controller.ById(null));
+            ValidateSparql(() => controller.ById(string.Empty));
         }
 
         [TestMethod()]
         public void PartyByInitialSparql()
         {
-            ValidateSparql(() => controller.ByInitial(null));
+            ValidateSparql(() => controller.ByInitial(string.Empty));
         }
 
         [TestMethod()]
@@ -56,49 +56,49 @@
         [TestMethod()]
         public void PartyLookupSparql()
         {
-            ValidateSparql(() => controller.Lookup(null, null));
+            ValidateSparql(() => controller.Lookup(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void PartyByLettersSparql()
         {
-            ValidateSparql(() => controller.ByLetters(null));
+            ValidateSparql(() => controller.ByLetters(string.Empty));
         }
 
         [TestMethod()]
         public void PartyMembersSparql()
         {
-            ValidateSparql(() => controller.Members(null));
+            ValidateSparql(() => controller.Members(string.Empty));
         }
 
         [TestMethod()]
         public void PartyCurrentMembersSparql()
         {
-            ValidateSparql(() => controller.CurrentMembers(null));
+            ValidateSparql(() => controller.CurrentMembers(string.Empty));
         }
 
         [TestMethod()]
         public void PartyMembersByInitialSparql()
         {
-            ValidateSparql(() => controller.MembersByInitial(null, null));
+            ValidateSparql(() => controller.MembersByInitial(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void PartyMembersAToZLettersSparql()
         {
-            ValidateSparql(() => controller.MembersAToZLetters(null));
+            ValidateSparql(() => controller.MembersAToZLetters(string.Empty));
         }
 
         [TestMethod()]
         public void PartyCurrentMembersByInitialSparql()
         {
-            ValidateSparql(() => controller.CurrentMembersByInitial(null, null));
+            ValidateSparql(() => controller.CurrentMembersByInitial(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void PartyCurrentMembersAToZLettersSparql()
         {
-            ValidateSparql(() => controller.CurrentMembersAToZLetters(null));
+            ValidateSparql(() => controller.CurrentMembersAToZLetters(string.Empty));
         }
     }
 }

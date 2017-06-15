@@ -26,7 +26,7 @@
         [TestMethod()]
         public void ContactPointsByIdSparql()
         {
-            ValidateSparql(() => controller.ById(null));
+            ValidateSparql(() => controller.ById(string.Empty));
         }
     }
 }
