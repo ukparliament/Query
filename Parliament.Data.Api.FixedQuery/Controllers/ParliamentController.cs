@@ -374,8 +374,8 @@ UNION {
         public Graph MembersByInitial(string id, string initial)
         {
             var queryString = @"
-PREFIX : <http://id.ukpds.org/schema/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
     ?person
         a :Person ;
@@ -1307,8 +1307,8 @@ WHERE {
         public Graph PartyMembersByInitial(string parliamentid, string partyid, string initial)
         {
             var queryString = @"
-PREFIX : <http://id.ukpds.org/schema/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
     ?person
         a :Person ;
@@ -1878,8 +1878,8 @@ WHERE {
         public Graph HousePartyMembersByInitial(string parliamentid, string houseid, string partyid, string initial)
         {
             var queryString = @"
-PREFIX : <http://id.ukpds.org/schema/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
     ?person
         a :Person ;
