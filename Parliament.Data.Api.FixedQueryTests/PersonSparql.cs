@@ -100,5 +100,11 @@
         {
             ValidateSparql(() => controller.CurrentHouse(string.Empty));
         }
+
+        [TestMethod()]
+        public void PersonMPsSparql()
+        {
+            ValidateSparql(() => controller.MPs());
+        }
     }
 }
