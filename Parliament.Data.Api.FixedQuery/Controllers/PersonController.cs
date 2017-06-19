@@ -886,5 +886,59 @@ WHERE {
 
             return BaseController.ExecuteSingle(query);
         }
+
+        [Route("mps", Name = "PersonMPs")]
+        [HttpGet]
+        public Graph MPs()
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+CONSTRUCT {
+    ?party
+        a :Party ;
+        :partyName ?partyName ;
+    	:count ?memberCount .
+    ?parliament
+        a :ParliamentPeriod ;
+        :parliamentPeriodStartDate ?parliamentPeriodStartDate ;
+        :parliamentPeriodEndDate ?parliamentPeriodEndDate .
+    ?speaker
+        a :Person .
+}
+WHERE {
+    { SELECT ?party ?partyName (COUNT(?member) AS ?memberCount) WHERE {
+    ?party a :Party ;
+        :partyName ?partyName ;
+    	:partyHasPartyMembership ?partyMembership .
+        FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+        ?partyMembership :partyMembershipHasPartyMember ?member .
+        ?member :memberHasIncumbency ?seatIncumbency .
+        ?seatIncumbency a :SeatIncumbency .
+        FILTER NOT EXISTS { ?seatIncumbency a :PastIncumbency . }
+	}
+    GROUP BY ?party ?partyName
+}
+    UNION {
+        SELECT * WHERE {
+            ?parliament a :PastParliamentPeriod ;
+            			:parliamentPeriodStartDate ?parliamentPeriodStartDate ;
+               			:parliamentPeriodEndDate ?parliamentPeriodEndDate .
+        }
+        ORDER BY DESC(?parliamentPeriodStartDate)
+        LIMIT 3
+    }
+    UNION {
+        SELECT ?speaker WHERE {
+            ?speaker :partyMemberHasPartyMembership ?partyMembership .
+            FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+            ?partyMembership :partyMembershipHasParty ?party .
+            ?party :partyName ""Speaker"" .
+        }
+    }
+}
+";
+            var query = new SparqlParameterizedString(queryString);
+            return BaseController.ExecuteList(query);
+        }
     }
 }
