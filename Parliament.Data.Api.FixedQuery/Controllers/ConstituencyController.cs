@@ -705,7 +705,9 @@ construct {
         parl:houseSeatHasSeatIncumbency ?seatIncumbency .
     ?seatIncumbency
         a parl:SeatIncumbency ;
-        parl:incumbencyHasMember ?member .
+        parl:incumbencyHasMember ?member ;
+        parl:incumbencyStartDate ?incStartDate ;
+        parl:incumbencyEndDate ?incEndDate .
     ?member
         a parl:Person ;
         parl:personGivenName ?givenName ;
@@ -714,7 +716,9 @@ construct {
         parl:partyMemberHasPartyMembership ?partyMembership .
     ?partyMembership
         a parl:PartyMembership ;
-        parl:partyMembershipHasParty ?party .
+        parl:partyMembershipHasParty ?party ;
+        parl:partyMembershipStartDate ?pmStartDate ;
+        parl:partyMembershipEndDate ?pmEndDate .
     ?party
         a parl:Party ;
         parl:partyName ?partyName .
@@ -731,6 +735,8 @@ where {
         ?constituencyGroup parl:constituencyGroupHasHouseSeat ?houseSeat .
         ?houseSeat parl:houseSeatHasSeatIncumbency ?seatIncumbency .
         filter not exists { ?seatIncumbency a parl:PastIncumbency . }
+        ?seatIncumbency parl:incumbencyStartDate ?incStartDate .
+        optional { ?seatIncumbency parl:incumbencyEndDate ?incEndDate . }
         optional { ?seatIncumbency parl:incumbencyHasMember ?member . }
         optional { ?member parl:personGivenName ?givenName . }
         optional { ?member parl:personFamilyName ?familyName . }
@@ -739,7 +745,9 @@ where {
         optional {
             ?member parl:partyMemberHasPartyMembership ?partyMembership .
             filter not exists { ?partyMembership a parl:PastPartyMembership . }
-            ?partyMembership parl:partyMembershipHasParty ?party .
+            ?partyMembership parl:partyMembershipHasParty ?party ;
+                             parl:partyMembershipStartDate ?pmStartDate .
+            optional { ?partyMembership parl:partyMembershipEndDate ?pmEndDate . }
             ?party parl:partyName ?partyName .
         }
    }

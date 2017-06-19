@@ -328,8 +328,8 @@ WHERE {
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
                 
-            BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-            BIND(COALESCE(?seatIncumbencyEndDate,now()) AS ?incEndDate)
+            BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+            BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
             FILTER (
                 (?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
                 (?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -456,8 +456,8 @@ WHERE {
         		 BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         		 BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
 
-                BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-                BIND(COALESCE(?seatIncumbencyEndDate,now()) AS ?incEndDate)
+                BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+                BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
                 FILTER (
                     (?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
                     (?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -713,8 +713,8 @@ WHERE {
                 BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
                 BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
                 
-                BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-                BIND(COALESCE(?seatIncumbencyEndDate,now()) AS ?incEndDate)
+                BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+                BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
                 FILTER (
                     (?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
                     (?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -888,8 +888,8 @@ WHERE {
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
             
-            BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-            BIND(COALESCE(?seatIncumbencyEndDate,now()) AS ?incEndDate)
+            BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+            BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
             FILTER (
                 (?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
                 (?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -988,8 +988,8 @@ WHERE {
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
             
-            BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-            BIND(COALESCE(?seatIncumbencyEndDate,now()) AS ?incEndDate)
+            BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+            BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
             FILTER (
         	    (?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	    (?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -1050,14 +1050,15 @@ WHERE {
             ?member :partyMemberHasPartyMembership ?partyMembership .
             ?partyMembership :partyMembershipHasParty ?party ;
                              :partyMembershipStartDate ?partyMembershipStartDate .
-            OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }               
+            OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . } 
+              
             BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
             
-            BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-            BIND(COALESCE(?seatIncumbencyEndDate,now()) AS ?incEndDate)
+            BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+            BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
             FILTER (
                 (?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
                 (?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -1166,8 +1167,8 @@ WHERE {
         BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
                 
-        BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-        BIND(COALESCE(?seatIncumbencyEndDate,now()) AS ?incEndDate)
+        BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+        BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
         FILTER (
         	(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -1198,8 +1199,8 @@ WHERE {
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
                 
-        	BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-        	BIND(COALESCE(?seatIncumbencyEndDate,now()) AS ?incEndDate)
+        	BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+        	BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
         	FILTER (
         		(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         		(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -1229,8 +1230,8 @@ WHERE {
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
             
-            BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-            BIND(COALESCE(?seatIncumbencyEndDate,now()) AS ?incEndDate)
+            BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+            BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
             FILTER (
         	    (?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	    (?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -1282,8 +1283,8 @@ WHERE {
         BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
         
-        BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-        BIND(COALESCE(?seatIncumbencyEndDate,now()) AS ?incEndDate)
+        BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+        BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
         FILTER (
         	(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -1386,14 +1387,15 @@ WHERE {
         ?person :partyMemberHasPartyMembership ?partyMembership .
         ?partyMembership :partyMembershipHasParty ?party ;
         				 :partyMembershipStartDate ?partyMembershipStartDate .
-        OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }               
+        OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }  
+             
         BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
 
-        BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-        BIND(COALESCE(?seatIncumbencyEndDate,now()) AS ?incEndDate)
+        BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+        BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
         FILTER (
         	(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -1418,14 +1420,15 @@ WHERE {
             ?person :partyMemberHasPartyMembership ?partyMembership .
         	?partyMembership :partyMembershipHasParty ?party ;
         				 	:partyMembershipStartDate ?partyMembershipStartDate .
-        	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }               
+        	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+               
             BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
 
-        	BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-        	BIND(COALESCE(?seatIncumbencyEndDate,now()) AS ?incEndDate)
+        	BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+        	BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
         	FILTER (
         		(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         		(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -1455,8 +1458,8 @@ WHERE {
         BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)  
             
-        BIND(COALESCE(?partyMembershipEndDate, now()) AS ?pmEndDate)
-        BIND(COALESCE(?seatIncumbencyEndDate, now()) AS ?incEndDate)
+        BIND(COALESCE(?pmEndDateTime, now()) AS ?pmEndDate)
+        BIND(COALESCE(?incEndDateTime, now()) AS ?incEndDate)
         FILTER(
         	(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -1535,8 +1538,8 @@ WHERE {
         BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
             
-        BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-        BIND(COALESCE(?seatIncumbencyEndDate,now()) AS ?incEndDate)
+        BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+        BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
         FILTER (
         	(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -1614,8 +1617,8 @@ WHERE {
         BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
         
-        BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-        BIND(COALESCE(?seatIncumbencyEndDate,now()) AS ?incEndDate)
+        BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+        BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
         FILTER (
         	(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -1721,8 +1724,8 @@ WHERE {
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)    
                 
-            BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-            BIND(COALESCE(?seatIncumbencyEndDate,now()) AS ?incEndDate)
+            BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+            BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
             FILTER (
         	    (?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	    (?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -1753,14 +1756,15 @@ WHERE {
             ?person :partyMemberHasPartyMembership ?partyMembership .
         	?partyMembership :partyMembershipHasParty ?party ;
         				 	:partyMembershipStartDate ?partyMembershipStartDate .
-        	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }               
+        	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }  
+             
             BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
 
-        	BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-        	BIND(COALESCE(?seatIncumbencyEndDate,now()) AS ?incEndDate)
+        	BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+        	BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
         	FILTER (
         		(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         		(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -1794,8 +1798,8 @@ WHERE {
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
                 
-            BIND(COALESCE(?partyMembershipEndDate, now()) AS ?pmEndDate)
-            BIND(COALESCE(?seatIncumbencyEndDate, now()) AS ?incEndDate)
+            BIND(COALESCE(?pmEndDateTime, now()) AS ?pmEndDate)
+            BIND(COALESCE(?incEndDateTime, now()) AS ?incEndDate)
             FILTER(
         	    (?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	    (?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -1852,8 +1856,8 @@ WHERE {
         BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate) 
         
-        BIND(COALESCE(?partyMembershipEndDate, now()) AS ?pmEndDate)
-        BIND(COALESCE(?seatIncumbencyEndDate, now()) AS ?incEndDate)
+        BIND(COALESCE(?pmEndDateTime, now()) AS ?pmEndDate)
+        BIND(COALESCE(?incEndDateTime, now()) AS ?incEndDate)
         FILTER(
         	(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -1962,8 +1966,8 @@ WHERE {
         BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)          
                 
-        BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-        BIND(COALESCE(?seatIncumbencyEndDate,now()) AS ?incEndDate)
+        BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+        BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
         FILTER (
         	(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -1996,14 +2000,15 @@ WHERE {
             ?person :partyMemberHasPartyMembership ?partyMembership .
         	?partyMembership :partyMembershipHasParty ?party ;
         				 	:partyMembershipStartDate ?partyMembershipStartDate .
-        	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }               
+        	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }  
+             
 			BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)  
                 
-        	BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
-        	BIND(COALESCE(?seatIncumbencyEndDate,now()) AS ?incEndDate)
+        	BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+        	BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
         	FILTER (
         		(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         		(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -2037,8 +2042,8 @@ WHERE {
         BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)         
             
-        BIND(COALESCE(?partyMembershipEndDate, now()) AS ?pmEndDate)
-        BIND(COALESCE(?seatIncumbencyEndDate, now()) AS ?incEndDate)
+        BIND(COALESCE(?pmEndDateTime, now()) AS ?pmEndDate)
+        BIND(COALESCE(?incEndDateTime, now()) AS ?incEndDate)
         FILTER(
         	(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -2135,8 +2140,8 @@ WHERE {
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)   
                 
-        	BIND(COALESCE(?partyMembershipEndDate, now()) AS ?pmEndDate)
-        	BIND(COALESCE(?seatIncumbencyEndDate, now()) AS ?incEndDate)
+        	BIND(COALESCE(?pmEndDateTime, now()) AS ?pmEndDate)
+        	BIND(COALESCE(?incEndDateTime, now()) AS ?incEndDate)
         	FILTER(
         		(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         		(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
@@ -2290,8 +2295,8 @@ WHERE {
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)   
                 
-        	BIND(COALESCE(?partyMembershipEndDate, now()) AS ?pmEndDate)
-        	BIND(COALESCE(?seatIncumbencyEndDate, now()) AS ?incEndDate)
+        	BIND(COALESCE(?pmEndDateTime, now()) AS ?pmEndDate)
+        	BIND(COALESCE(?incEndDateTime, now()) AS ?incEndDate)
         	FILTER(
         		(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         		(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
