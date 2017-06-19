@@ -705,7 +705,6 @@ construct {
         parl:houseSeatHasSeatIncumbency ?seatIncumbency .
     ?seatIncumbency
         a parl:SeatIncumbency ;
-        parl:incumbencyHasMember ?member ;
         parl:incumbencyStartDate ?incStartDate ;
         parl:incumbencyEndDate ?incEndDate .
     ?member
@@ -713,6 +712,7 @@ construct {
         parl:personGivenName ?givenName ;
         parl:personFamilyName ?familyName ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        parl:memberHasIncumbency ?seatIncumbency ;
         parl:partyMemberHasPartyMembership ?partyMembership .
     ?partyMembership
         a parl:PartyMembership ;
