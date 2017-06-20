@@ -698,15 +698,15 @@ PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
 construct {
     ?constituencyGroup 
         a parl:ConstituencyGroup ;
-        parl:constituencyGroupName ?constituencyGroupName ;
-        parl:constituencyGroupHasHouseSeat ?houseSeat .
+        parl:constituencyGroupName ?constituencyGroupName .
     ?houseSeat
         a parl:HouseSeat ;
-        parl:houseSeatHasSeatIncumbency ?seatIncumbency .
+        parl:houseSeatHasConstituencyGroup ?constituencyGroup .
     ?seatIncumbency
         a parl:SeatIncumbency ;
         parl:incumbencyStartDate ?incStartDate ;
-        parl:incumbencyEndDate ?incEndDate .
+        parl:incumbencyEndDate ?incEndDate ;
+        parl:seatIncumbencyHasHouseSeat ?houseSeat .
     ?member
         a parl:Person ;
         parl:personGivenName ?givenName ;
