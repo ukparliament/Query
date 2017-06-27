@@ -24,6 +24,12 @@
         }
 
         [TestMethod()]
+        public void ConstituencyMapSparql()
+        {
+            ValidateSparql(() => controller.Map(string.Empty));
+        }
+
+        [TestMethod()]
         public void ConstituencyByInitialSparql()
         {
             ValidateSparql(() => controller.ByInitial(string.Empty));

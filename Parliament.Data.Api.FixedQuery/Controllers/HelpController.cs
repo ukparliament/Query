@@ -41,7 +41,8 @@
                 this.Url.Route("MemberCurrentAToZ", null),
 
                 this.Url.Route("ConstituencyIndex", null),
-                this.Url.Route("ConstituencyByID", new { id = "EiwoTrI2" }),
+                this.Url.Route("ConstituencyByID", new { id = "tiIAowt8" }),
+                this.Url.Route("ConstituencyMap", new { id = "tiIAowt8" }),
                 this.Url.Route("ConstituencyByInitial", new { initial = "l" }),
                 this.Url.Route("ConstituencyCurrent", null),
                 this.Url.Route("ConstituencyLookup", new { source = "onsCode", id = "E14000699" }),

@@ -23,6 +23,73 @@ CONSTRUCT{
         :constituencyGroupName ?name ;
         :constituencyGroupOnsCode ?onsCode ;
         :constituencyGroupHasConstituencyArea ?constituencyArea .
+    ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+    ?houseSeat 
+        a :HouseSeat ;
+        :houseSeatHasSeatIncumbency ?seatIncumbency .
+    ?seatIncumbency 
+        a :SeatIncumbency ;
+        :incumbencyHasMember ?member ;
+        :incumbencyEndDate ?seatIncumbencyEndDate ;
+        :incumbencyStartDate ?seatIncumbencyStartDate .
+    ?member 
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+}
+WHERE {
+    BIND( @id AS ?constituencyGroup )
+    ?constituencyGroup a :ConstituencyGroup .
+    OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?endDate . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?startDate . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupOnsCode ?onsCode . }
+    OPTIONAL {
+        ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+        ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
+        ?seatIncumbency a :SeatIncumbency ;
+        OPTIONAL { ?seatIncumbency :incumbencyHasMember ?member . }
+        OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+        OPTIONAL { ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate . }
+        OPTIONAL { ?member :personGivenName ?givenName . }
+        OPTIONAL { ?member :personFamilyName ?familyName . }
+        OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+        OPTIONAL { ?member :partyMemberHasPartyMembership ?partyMembership .}
+        OPTIONAL { ?partyMembership :partyMembershipHasParty ?party . }
+        OPTIONAL { ?party :partyName ?partyName . }
+    }
+}
+";
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("id", new Uri(BaseController.instance, id));
+
+            return BaseController.ExecuteSingle(query);
+        }
+
+        [Route(@"{id:regex(^\w{8}$)}/map", Name = "ConstituencyMap")]
+        [HttpGet]
+        public Graph Map(string id)
+        {
+            var queryString = @"
+PREFIX : <http://id.ukpds.org/schema/>
+CONSTRUCT{
+    ?constituencyGroup
+        a :ConstituencyGroup ;
+        :constituencyGroupEndDate ?endDate ;
+        :constituencyGroupStartDate ?startDate ;
+        :constituencyGroupName ?name ;
+        :constituencyGroupOnsCode ?onsCode ;
+        :constituencyGroupHasConstituencyArea ?constituencyArea .
     ?constituencyArea
         a :ConstituencyArea ;
         :constituencyAreaLatitude ?latitude ;
