@@ -33,4 +33,4 @@ Log "Setting variables to use during deployment"
 Write-Host "##vso[task.setvariable variable=SubscriptionKeyFixedQuery]$($subscription.PrimaryKey)"
 Write-Host "##vso[task.setvariable variable=APIManagementIP]$($apiManagement.StaticIPs[0])"
 
-Log "Job welll done!"
+Log "Job well done!"
