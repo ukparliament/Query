@@ -323,7 +323,6 @@ CONSTRUCT {
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
-        :personHasImage ?image ;
         :partyMemberHasPartyMembership ?partyMembership .
     ?partyMembership
         a :PartyMembership ;
@@ -346,7 +345,6 @@ CONSTRUCT {
                 ?seatIncumbency :incumbencyHasMember ?member .
                 OPTIONAL { ?member :personGivenName ?givenName . }
                 OPTIONAL { ?member :personFamilyName ?familyName . }
-                OPTIONAL { ?member :personHasImage ?image . }
                 OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
                 ?member :partyMemberHasPartyMembership ?partyMembership .
                 FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
