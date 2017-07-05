@@ -548,7 +548,7 @@ WHERE {
     OPTIONAL { ?person :personGivenName ?givenName } .
     OPTIONAL { ?person :personFamilyName ?familyName } .
     OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
-    OPTIONAL { ?person :personHasImage ?image . }
+    OPTIONAL { ?person :personHasImage ?image .}
     OPTIONAL {
         ?person :memberHasIncumbency ?seatIncumbency .
         ?seatIncumbency a :SeatIncumbency .
@@ -907,20 +907,19 @@ CONSTRUCT {
     ?party
         a :Party ;
         :partyName ?partyName ;
-    	:count ?memberCount .
+    	  :count ?memberCount .
     ?parliament
         a :ParliamentPeriod ;
         :parliamentPeriodStartDate ?parliamentPeriodStartDate ;
         :parliamentPeriodEndDate ?parliamentPeriodEndDate .
     ?speaker
         a :Person .
-        :personHasImage ?image .
 }
 WHERE {
     { SELECT ?party ?partyName (COUNT(?member) AS ?memberCount) WHERE {
     ?party a :Party ;
         :partyName ?partyName ;
-    	:partyHasPartyMembership ?partyMembership .
+    	  :partyHasPartyMembership ?partyMembership .
         FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
         ?partyMembership :partyMembershipHasPartyMember ?member .
         ?member :memberHasIncumbency ?seatIncumbency .
@@ -932,7 +931,7 @@ WHERE {
     UNION {
         SELECT * WHERE {
             ?parliament a :PastParliamentPeriod ;
-            			:parliamentPeriodStartDate ?parliamentPeriodStartDate ;
+            			  :parliamentPeriodStartDate ?parliamentPeriodStartDate ;
                			:parliamentPeriodEndDate ?parliamentPeriodEndDate .
         }
         ORDER BY DESC(?parliamentPeriodStartDate)
