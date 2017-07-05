@@ -914,6 +914,7 @@ CONSTRUCT {
         :parliamentPeriodEndDate ?parliamentPeriodEndDate .
     ?speaker
         a :Person .
+        :personHasImage ?image .
 }
 WHERE {
     { SELECT ?party ?partyName (COUNT(?member) AS ?memberCount) WHERE {
