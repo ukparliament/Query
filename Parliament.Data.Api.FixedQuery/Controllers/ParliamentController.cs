@@ -25,7 +25,7 @@ CONSTRUCT {
         :parliamentPeriodNumber ?parliamentNumber .
 }
 WHERE {
-    ?parliament 
+    ?parliament
         a :ParliamentPeriod ;
         :parliamentPeriodStartDate ?startDate ;
         :parliamentPeriodNumber ?parliamentNumber .
@@ -50,7 +50,7 @@ CONSTRUCT {
         a :ParliamentPeriod .
 }
 WHERE {
-    ?parliament 
+    ?parliament
         a :ParliamentPeriod ;
         :parliamentPeriodStartDate ?startDate .
     FILTER NOT EXISTS { ?parliament a :PastParliamentPeriod }
@@ -85,9 +85,9 @@ WHERE {
     UNION {
         ?parliament a :ParliamentPeriod .
         {
-            SELECT (max(?parliamentPeriodEndDate) AS ?maxEndDate) 
+            SELECT (max(?parliamentPeriodEndDate) AS ?maxEndDate)
             WHERE {
-                ?parliament 
+                ?parliament
                     a :ParliamentPeriod ;
                     :parliamentPeriodEndDate ?parliamentPeriodEndDate .
             }
@@ -115,7 +115,7 @@ CONSTRUCT {
         a :ParliamentPeriod .
 }
 WHERE {
-    ?nextParliament 
+    ?nextParliament
         a :ParliamentPeriod ;
         :parliamentPeriodStartDate ?startDate .
     BIND(now() AS ?currentDate)
@@ -164,12 +164,12 @@ WHERE {
             OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
             OPTIONAL {
                 ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
-                ?seatIncumbency 
-                    :incumbencyStartDate ?incStartDate ;                
+                ?seatIncumbency
+                    :incumbencyStartDate ?incStartDate ;
            			:incumbencyHasMember ?member .
                 OPTIONAL { ?seatIncumbency :incumbencyEndDate ?incumbencyEndDate . }
                 ?member :partyMemberHasPartyMembership ?partyMembership .
-                ?partyMembership 
+                ?partyMembership
                     :partyMembershipHasParty ?party ;
                     :partyMembershipStartDate ?pmStartDate .
                 OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
@@ -205,7 +205,7 @@ CONSTRUCT {
 }
 WHERE {
     BIND(@id AS ?parliament)
-    
+
     ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament .
 }";
 
@@ -229,7 +229,7 @@ CONSTRUCT {
 }
 WHERE {
     BIND(@id AS ?parliament)
-    
+
     ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament .
 }";
 
@@ -253,6 +253,7 @@ CONSTRUCT {
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
+        :personHasImage ?image ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
         :memberHasIncumbency ?seatIncumbency ;
@@ -261,7 +262,7 @@ CONSTRUCT {
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
         :incumbencyStartDate ?incStartDate ;
-        :incumbencyEndDate ?seatIncumbencyEndDate .   
+        :incumbencyEndDate ?seatIncumbencyEndDate .
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;
@@ -277,7 +278,7 @@ CONSTRUCT {
     ?party
         a :Party ;
         :partyName ?partyName .
-     ?parliament 
+     ?parliament
          a :ParliamentPeriod ;
          :parliamentPeriodStartDate ?parliamentStartDate ;
          :parliamentPeriodEndDate ?parliamentEndDate ;
@@ -293,14 +294,14 @@ CONSTRUCT {
 WHERE {
     { SELECT * WHERE {
         BIND(@parliamentid AS ?parliament)
-        ?parliament 
+        ?parliament
             a :ParliamentPeriod ;
             :parliamentPeriodStartDate ?parliamentStartDate ;
             :parliamentPeriodNumber ?parliamentNumber .
         OPTIONAL { ?parliament :parliamentPeriodEndDate ?parliamentEndDate . }
         OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament . }
         OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
-        
+
         OPTIONAL {
             ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
             ?seatIncumbency :incumbencyHasMember ?person ;
@@ -314,20 +315,21 @@ WHERE {
 
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
+            OPTIONAL { ?person :personHasImage ?image . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
-                
+
             ?person :partyMemberHasPartyMembership ?partyMembership .
             ?partyMembership :partyMembershipHasParty ?party ;
                                 :partyMembershipStartDate ?partyMembershipStartDate .
-            OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }               
+            OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
             ?party :partyName ?partyName .
 
             BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
-                
+
             BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
             BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
             FILTER (
@@ -352,7 +354,7 @@ UNION {
     SELECT DISTINCT ?firstLetter WHERE {
         BIND(@parliamentid AS ?parliament)
 
-        ?parliament a :ParliamentPeriod ;                
+        ?parliament a :ParliamentPeriod ;
         			:parliamentPeriodHasSeatIncumbency ?seatIncumbency.
         ?seatIncumbency :incumbencyHasMember ?person .
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
@@ -389,7 +391,7 @@ CONSTRUCT {
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
         :incumbencyStartDate ?incStartDate ;
-        :incumbencyEndDate ?seatIncumbencyEndDate .   
+        :incumbencyEndDate ?seatIncumbencyEndDate .
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;
@@ -405,7 +407,7 @@ CONSTRUCT {
     ?party
         a :Party ;
         :partyName ?partyName .
-     ?parliament 
+     ?parliament
          a :ParliamentPeriod ;
          :parliamentPeriodStartDate ?parliamentStartDate ;
          :parliamentPeriodEndDate ?parliamentEndDate ;
@@ -421,14 +423,14 @@ CONSTRUCT {
 WHERE {
     { SELECT * WHERE {
         BIND(@parliamentid AS ?parliament)
-        ?parliament 
+        ?parliament
             a :ParliamentPeriod ;
             :parliamentPeriodStartDate ?parliamentStartDate ;
             :parliamentPeriodNumber ?parliamentNumber .
         OPTIONAL { ?parliament :parliamentPeriodEndDate ?parliamentEndDate . }
         OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament . }
         OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
-        
+
         OPTIONAL {
             ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
             ?seatIncumbency :incumbencyHasMember ?person ;
@@ -444,13 +446,13 @@ WHERE {
             OPTIONAL { ?person :personFamilyName ?familyName . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
-                
+
                 ?person :partyMemberHasPartyMembership ?partyMembership .
                 ?partyMembership :partyMembershipHasParty ?party ;
                                  :partyMembershipStartDate ?partyMembershipStartDate .
-                OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }               
+                OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
                 ?party :partyName ?partyName .
-                
+
                  BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         		 BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         		 BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
@@ -481,7 +483,7 @@ UNION {
     SELECT DISTINCT ?firstLetter WHERE {
         BIND(@parliamentid AS ?parliament)
 
-        ?parliament a :ParliamentPeriod ;                
+        ?parliament a :ParliamentPeriod ;
         			:parliamentPeriodHasSeatIncumbency ?seatIncumbency.
         ?seatIncumbency :incumbencyHasMember ?person .
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
@@ -512,7 +514,7 @@ WHERE {
     SELECT DISTINCT ?firstLetter WHERE {
         BIND(@parliamentid AS ?parliament)
 
-        ?parliament a :ParliamentPeriod ;                
+        ?parliament a :ParliamentPeriod ;
         			:parliamentPeriodHasSeatIncumbency ?seatIncumbency .
         ?seatIncumbency :incumbencyHasMember ?person .
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
@@ -537,7 +539,7 @@ CONSTRUCT {
 	 ?house
         a :House ;
         :houseName ?houseName .
-     ?parliament 
+     ?parliament
          a :ParliamentPeriod ;
          :parliamentPeriodStartDate ?parliamentStartDate ;
          :parliamentPeriodEndDate ?parliamentEndDate ;
@@ -547,7 +549,7 @@ CONSTRUCT {
 }
 WHERE {
     BIND(@parliamentid AS ?parliament)
-    ?parliament 
+    ?parliament
         a :ParliamentPeriod ;
         :parliamentPeriodStartDate ?parliamentStartDate ;
         :parliamentPeriodNumber ?parliamentNumber .
@@ -560,7 +562,7 @@ WHERE {
         ?seatIncumbency :incumbencyHasMember ?person ;
                         :seatIncumbencyHasHouseSeat ?houseSeat .
         ?houseSeat :houseSeatHasHouse ?house .
-        ?house :houseName ?houseName . 
+        ?house :houseName ?houseName .
     }
 }
 ";
@@ -582,7 +584,7 @@ CONSTRUCT {
 	 ?house
         a :House ;
         :houseName ?houseName .
-     ?parliament 
+     ?parliament
          a :ParliamentPeriod ;
          :parliamentPeriodStartDate ?parliamentStartDate ;
          :parliamentPeriodEndDate ?parliamentEndDate ;
@@ -593,7 +595,7 @@ CONSTRUCT {
 WHERE {
     BIND(@parliamentid AS ?parliament)
 
-    ?parliament 
+    ?parliament
         a :ParliamentPeriod ;
         :parliamentPeriodStartDate ?parliamentStartDate ;
         :parliamentPeriodNumber ?parliamentNumber .
@@ -601,9 +603,9 @@ WHERE {
     OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament . }
     OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
 
-    OPTIONAL {    
+    OPTIONAL {
         BIND(@houseid AS ?house)
-        
+
         ?house
             a :House ;
             :houseName ?houseName .
@@ -643,7 +645,7 @@ CONSTRUCT {
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
         :incumbencyStartDate ?incStartDate ;
-        :incumbencyEndDate ?seatIncumbencyEndDate .   
+        :incumbencyEndDate ?seatIncumbencyEndDate .
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;
@@ -659,7 +661,7 @@ CONSTRUCT {
     ?party
         a :Party ;
         :partyName ?partyName .
-     ?parliament 
+     ?parliament
          a :ParliamentPeriod ;
          :parliamentPeriodStartDate ?parliamentStartDate ;
          :parliamentPeriodEndDate ?parliamentEndDate ;
@@ -676,7 +678,7 @@ WHERE {
     { SELECT * WHERE {
           BIND(@parliamentid AS ?parliament)
 		  BIND(@houseid AS ?house)
-        ?parliament 
+        ?parliament
             a :ParliamentPeriod ;
             :parliamentPeriodStartDate ?parliamentStartDate ;
             :parliamentPeriodNumber ?parliamentNumber .
@@ -686,7 +688,7 @@ WHERE {
         OPTIONAL { ?parliament :parliamentPeriodEndDate ?parliamentEndDate . }
         OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament . }
         OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
-        
+
         OPTIONAL {
             ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
             ?seatIncumbency :incumbencyHasMember ?person ;
@@ -705,14 +707,14 @@ WHERE {
                 ?person :partyMemberHasPartyMembership ?partyMembership .
                 ?partyMembership :partyMembershipHasParty ?party ;
                                  :partyMembershipStartDate ?partyMembershipStartDate .
-                OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }               
+                OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
                 ?party :partyName ?partyName .
 
                 BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
                 BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
                 BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
                 BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
-                
+
                 BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
                 BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
                 FILTER (
@@ -742,7 +744,7 @@ WHERE {
         SELECT DISTINCT ?firstLetter WHERE {
           BIND(@parliamentid AS ?parliament)
 		  BIND(@houseid AS ?house)
-            
+
           ?parliament a :ParliamentPeriod .
           ?house a :House .
        	  ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
@@ -777,7 +779,7 @@ WHERE {
         SELECT DISTINCT ?firstLetter WHERE {
           BIND(@parliamentid AS ?parliament)
 		  BIND(@houseid AS ?house)
-            
+
           ?parliament a :ParliamentPeriod .
           ?house a :House .
        	  ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
@@ -818,7 +820,7 @@ CONSTRUCT {
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
         :incumbencyStartDate ?incStartDate ;
-        :incumbencyEndDate ?seatIncumbencyEndDate .   
+        :incumbencyEndDate ?seatIncumbencyEndDate .
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;
@@ -834,7 +836,7 @@ CONSTRUCT {
     ?party
         a :Party ;
         :partyName ?partyName .
-     ?parliament 
+     ?parliament
          a :ParliamentPeriod ;
          :parliamentPeriodStartDate ?parliamentStartDate ;
          :parliamentPeriodEndDate ?parliamentEndDate ;
@@ -851,7 +853,7 @@ WHERE {
     { SELECT * WHERE {
           BIND(@parliamentid AS ?parliament)
           BIND(@houseid AS ?house)
-        ?parliament 
+        ?parliament
             a :ParliamentPeriod ;
             :parliamentPeriodStartDate ?parliamentStartDate ;
             :parliamentPeriodNumber ?parliamentNumber .
@@ -861,7 +863,7 @@ WHERE {
         OPTIONAL { ?parliament :parliamentPeriodEndDate ?parliamentEndDate . }
         OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament . }
         OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
-        
+
         OPTIONAL {
             ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
             ?seatIncumbency :incumbencyHasMember ?person ;
@@ -880,14 +882,14 @@ WHERE {
             ?person :partyMemberHasPartyMembership ?partyMembership .
             ?partyMembership :partyMembershipHasParty ?party ;
                                 :partyMembershipStartDate ?partyMembershipStartDate .
-            OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }               
+            OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
             ?party :partyName ?partyName .
 
             BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
-            
+
             BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
             BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
             FILTER (
@@ -918,7 +920,7 @@ WHERE {
         SELECT DISTINCT ?firstLetter WHERE {
           BIND(@parliamentid AS ?parliament)
           BIND(@houseid AS ?house)
-            
+
           ?parliament a :ParliamentPeriod.
           ?house a :House.
           ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
@@ -965,7 +967,7 @@ WHERE {
     SELECT ?parliament ?startDate ?endDate ?parliamentNumber ?party ?partyName ?nextParliament ?previousParliament (COUNT(?member) AS ?memberCount)
     WHERE {
         BIND(@parliamentid AS ?parliament)
-        ?parliament 
+        ?parliament
             a :ParliamentPeriod ;
             :parliamentPeriodStartDate ?startDate ;
             :parliamentPeriodNumber ?parliamentNumber .
@@ -980,14 +982,14 @@ WHERE {
             ?member :partyMemberHasPartyMembership ?partyMembership .
             ?partyMembership :partyMembershipHasParty ?party ;
         				     :partyMembershipStartDate ?partyMembershipStartDate .
-            OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }               
+            OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
             ?party :partyName ?partyName .
 
             BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
-            
+
             BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
             BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
             FILTER (
@@ -1031,7 +1033,7 @@ WHERE {
     SELECT ?parliament ?startDate ?endDate ?parliamentNumber ?party ?partyName ?nextParliament ?previousParliament (COUNT(?member) AS ?memberCount)
     WHERE {
         BIND(@parliamentid AS ?parliament)
-        ?parliament 
+        ?parliament
             a :ParliamentPeriod ;
             :parliamentPeriodStartDate ?startDate ;
             :parliamentPeriodNumber ?parliamentNumber .
@@ -1050,13 +1052,13 @@ WHERE {
             ?member :partyMemberHasPartyMembership ?partyMembership .
             ?partyMembership :partyMembershipHasParty ?party ;
                              :partyMembershipStartDate ?partyMembershipStartDate .
-            OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . } 
-              
+            OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+
             BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
-            
+
             BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
             BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
             FILTER (
@@ -1097,7 +1099,7 @@ CONSTRUCT {
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
         :incumbencyStartDate ?incStartDate ;
-        :incumbencyEndDate ?seatIncumbencyEndDate .   
+        :incumbencyEndDate ?seatIncumbencyEndDate .
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;
@@ -1113,7 +1115,7 @@ CONSTRUCT {
     ?party
         a :Party ;
         :partyName ?partyName .
-     ?parliament 
+     ?parliament
          a :ParliamentPeriod ;
          :parliamentPeriodStartDate ?parliamentStartDate ;
          :parliamentPeriodEndDate ?parliamentEndDate ;
@@ -1133,7 +1135,7 @@ WHERE {
 	?party
          a :Party ;
          :partyName ?partyName .
-    ?parliament 
+    ?parliament
         a :ParliamentPeriod ;
         :parliamentPeriodStartDate ?parliamentStartDate ;
         :parliamentPeriodNumber ?parliamentNumber .
@@ -1146,7 +1148,7 @@ WHERE {
                         :incumbencyStartDate ?seatIncumbencyStartDate ;
                         :seatIncumbencyHasHouseSeat ?houseSeat .
         OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
-            
+
         ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup ;
                     :houseSeatHasHouse ?house .
         ?house :houseName ?houseName .
@@ -1156,17 +1158,17 @@ WHERE {
         OPTIONAL { ?person :personFamilyName ?familyName . }
         OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
-            
+
         ?person :partyMemberHasPartyMembership ?partyMembership .
         ?partyMembership :partyMembershipHasParty ?party ;
         				 :partyMembershipStartDate ?partyMembershipStartDate .
-        OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }  
-             
+        OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+
 		BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
-                
+
         BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
         BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
         FILTER (
@@ -1192,13 +1194,13 @@ WHERE {
             ?person :partyMemberHasPartyMembership ?partyMembership .
         	?partyMembership :partyMembershipHasParty ?party ;
         				 	:partyMembershipStartDate ?partyMembershipStartDate .
-        	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . } 
-              
+        	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+
             BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
-                
+
         	BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
         	BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
         	FILTER (
@@ -1208,12 +1210,12 @@ WHERE {
         }
       }
     GROUP BY ?parliament
-  }  
+  }
     UNION {
         SELECT DISTINCT ?firstLetter WHERE {
              BIND(@parliamentid AS ?parliament)
              BIND(@partyid AS ?party)
-        
+
             ?parliament a :ParliamentPeriod .
             ?party a :Party .
             ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
@@ -1223,24 +1225,24 @@ WHERE {
             ?person :partyMemberHasPartyMembership ?partyMembership .
             ?partyMembership :partyMembershipHasParty ?party ;
                              :partyMembershipStartDate ?partyMembershipStartDate .
-            OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }   
-    
+            OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+
             BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
-            
+
             BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
             BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
             FILTER (
         	    (?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	    (?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
 		    )
-            
+
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
             BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
         }
-    }         
+    }
 }
 ";
 
@@ -1266,7 +1268,7 @@ WHERE {
     SELECT DISTINCT ?firstLetter WHERE {
              BIND(@parliamentid AS ?parliament)
              BIND(@partyid AS ?party)
-        
+
         ?parliament a :ParliamentPeriod .
         ?party a :Party .
         ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
@@ -1276,20 +1278,20 @@ WHERE {
         ?person :partyMemberHasPartyMembership ?partyMembership .
         ?partyMembership :partyMembershipHasParty ?party ;
                          :partyMembershipStartDate ?partyMembershipStartDate .
-        OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }   
-    
+        OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+
         BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
-        
+
         BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
         BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
         FILTER (
         	(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
 		)
-            
+
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
         BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
         }
@@ -1324,7 +1326,7 @@ CONSTRUCT {
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
         :incumbencyStartDate ?incStartDate ;
-        :incumbencyEndDate ?seatIncumbencyEndDate .   
+        :incumbencyEndDate ?seatIncumbencyEndDate .
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;
@@ -1340,7 +1342,7 @@ CONSTRUCT {
     ?party
         a :Party ;
         :partyName ?partyName .
-     ?parliament 
+     ?parliament
          a :ParliamentPeriod ;
          :parliamentPeriodStartDate ?parliamentStartDate ;
          :parliamentPeriodEndDate ?parliamentEndDate ;
@@ -1360,20 +1362,20 @@ WHERE {
 	?party
          a :Party ;
          :partyName ?partyName .
-    ?parliament 
+    ?parliament
         a :ParliamentPeriod ;
         :parliamentPeriodStartDate ?parliamentStartDate ;
         :parliamentPeriodNumber ?parliamentNumber .
     OPTIONAL { ?parliament :parliamentPeriodEndDate ?parliamentEndDate . }
     OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament . }
-   	OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }        
+   	OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
     OPTIONAL {
         ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
         ?seatIncumbency :incumbencyHasMember ?person ;
                         :incumbencyStartDate ?seatIncumbencyStartDate ;
                         :seatIncumbencyHasHouseSeat ?houseSeat .
         OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
-            
+
             ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup ;
                        :houseSeatHasHouse ?house .
             ?house :houseName ?houseName .
@@ -1383,12 +1385,12 @@ WHERE {
             OPTIONAL { ?person :personFamilyName ?familyName . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
-            
+
         ?person :partyMemberHasPartyMembership ?partyMembership .
         ?partyMembership :partyMembershipHasParty ?party ;
         				 :partyMembershipStartDate ?partyMembershipStartDate .
-        OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }  
-             
+        OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+
         BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
@@ -1399,9 +1401,9 @@ WHERE {
         FILTER (
         	(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
-		)    
-        FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))        
-      }   
+		)
+        FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))
+      }
      }
     }
   UNION {
@@ -1421,7 +1423,7 @@ WHERE {
         	?partyMembership :partyMembershipHasParty ?party ;
         				 	:partyMembershipStartDate ?partyMembershipStartDate .
         	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
-               
+
             BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
@@ -1441,7 +1443,7 @@ WHERE {
         SELECT DISTINCT ?firstLetter WHERE {
              BIND(@parliamentid AS ?parliament)
              BIND(@partyid AS ?party)
-        
+
         ?parliament a :ParliamentPeriod.
         ?party a :Party.
         ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
@@ -1456,19 +1458,19 @@ WHERE {
         BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
-        BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)  
-            
+        BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
+
         BIND(COALESCE(?pmEndDateTime, now()) AS ?pmEndDate)
         BIND(COALESCE(?incEndDateTime, now()) AS ?incEndDate)
         FILTER(
         	(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
 		)
-            
+
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
         BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
         }
-    }         
+    }
 }
 ";
 
@@ -1511,14 +1513,14 @@ WHERE {
     	?house
         	a :House ;
          	:houseName ?houseName .
-        ?parliament 
+        ?parliament
             a :ParliamentPeriod ;
             :parliamentPeriodStartDate ?startDate ;
             :parliamentPeriodNumber ?parliamentNumber .
         OPTIONAL { ?parliament :parliamentPeriodEndDate ?endDate . }
         OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament . }
    	    OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
-    	
+
     OPTIONAL {
         ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
         ?seatIncumbency :incumbencyHasMember ?member ;
@@ -1537,7 +1539,7 @@ WHERE {
         BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
-            
+
         BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
         BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
         FILTER (
@@ -1587,14 +1589,14 @@ WHERE {
     	?house
         	a :House ;
          	:houseName ?houseName .
-        ?parliament 
+        ?parliament
             a :ParliamentPeriod ;
             :parliamentPeriodStartDate ?startDate ;
             :parliamentPeriodNumber ?parliamentNumber .
         OPTIONAL { ?parliament :parliamentPeriodEndDate ?endDate . }
         OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament . }
    	    OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
-    	
+
     OPTIONAL {
         BIND(@partyid AS ?party)
 
@@ -1616,7 +1618,7 @@ WHERE {
         BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
-        
+
         BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
         BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
         FILTER (
@@ -1656,7 +1658,7 @@ CONSTRUCT {
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
         :incumbencyStartDate ?incStartDate ;
-        :incumbencyEndDate ?seatIncumbencyEndDate .   
+        :incumbencyEndDate ?seatIncumbencyEndDate .
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;
@@ -1672,7 +1674,7 @@ CONSTRUCT {
     ?party
         a :Party ;
         :partyName ?partyName .
-     ?parliament 
+     ?parliament
          a :ParliamentPeriod ;
          :parliamentPeriodStartDate ?parliamentStartDate ;
          :parliamentPeriodEndDate ?parliamentEndDate ;
@@ -1694,7 +1696,7 @@ WHERE {
     	?party
         	a :Party ;
          	:partyName ?partyName .
-        ?parliament 
+        ?parliament
             a :ParliamentPeriod ;
             :parliamentPeriodStartDate ?parliamentStartDate ;
             :parliamentPeriodNumber ?parliamentNumber .
@@ -1704,7 +1706,7 @@ WHERE {
         OPTIONAL { ?parliament :parliamentPeriodEndDate ?parliamentEndDate . }
         OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament . }
    	    OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
-    	
+
         OPTIONAL {
             ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
             ?seatIncumbency :incumbencyHasMember ?person ;
@@ -1722,8 +1724,8 @@ WHERE {
             BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
-        	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)    
-                
+        	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
+
             BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
             BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
             FILTER (
@@ -1756,8 +1758,8 @@ WHERE {
             ?person :partyMemberHasPartyMembership ?partyMembership .
         	?partyMembership :partyMembershipHasParty ?party ;
         				 	:partyMembershipStartDate ?partyMembershipStartDate .
-        	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }  
-             
+        	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+
             BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
@@ -1778,10 +1780,10 @@ WHERE {
         BIND(@parliamentid AS ?parliament)
         BIND(@partyid AS ?party)
     	BIND(@houseid AS ?house)
-		
+
             ?party a :Party .
             ?house a :House .
-            ?parliament a :ParliamentPeriod ;                
+            ?parliament a :ParliamentPeriod ;
         			    :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
             ?seatIncumbency :incumbencyHasMember ?person ;
                             :seatIncumbencyHasHouseSeat ?houseSeat ;
@@ -1797,14 +1799,14 @@ WHERE {
         	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
         	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
-                
+
             BIND(COALESCE(?pmEndDateTime, now()) AS ?pmEndDate)
             BIND(COALESCE(?incEndDateTime, now()) AS ?incEndDate)
             FILTER(
         	    (?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	    (?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
 		    )
-            
+
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
             BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
         }
@@ -1836,10 +1838,10 @@ WHERE {
         BIND(@parliamentid AS ?parliament)
         BIND(@partyid AS ?party)
     	BIND(@houseid AS ?house)
-		
+
         ?party a :Party .
         ?house a :House .
-        ?parliament a :ParliamentPeriod ;                
+        ?parliament a :ParliamentPeriod ;
         			:parliamentPeriodHasSeatIncumbency ?seatIncumbency .
         ?seatIncumbency :incumbencyHasMember ?person ;
                         :seatIncumbencyHasHouseSeat ?houseSeat ;
@@ -1854,15 +1856,15 @@ WHERE {
         BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
-        BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate) 
-        
+        BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
+
         BIND(COALESCE(?pmEndDateTime, now()) AS ?pmEndDate)
         BIND(COALESCE(?incEndDateTime, now()) AS ?incEndDate)
         FILTER(
         	(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
 		)
-            
+
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
         BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
    }
@@ -1898,7 +1900,7 @@ CONSTRUCT {
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
         :incumbencyStartDate ?incStartDate ;
-        :incumbencyEndDate ?seatIncumbencyEndDate .   
+        :incumbencyEndDate ?seatIncumbencyEndDate .
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;
@@ -1914,7 +1916,7 @@ CONSTRUCT {
     ?party
         a :Party ;
         :partyName ?partyName .
-     ?parliament 
+     ?parliament
          a :ParliamentPeriod ;
          :parliamentPeriodStartDate ?parliamentStartDate ;
          :parliamentPeriodEndDate ?parliamentEndDate ;
@@ -1936,7 +1938,7 @@ WHERE {
     	?party
         	a :Party ;
          	:partyName ?partyName .
-        ?parliament 
+        ?parliament
             a :ParliamentPeriod ;
             :parliamentPeriodStartDate ?parliamentStartDate ;
             :parliamentPeriodNumber ?parliamentNumber .
@@ -1946,7 +1948,7 @@ WHERE {
         OPTIONAL { ?parliament :parliamentPeriodEndDate ?parliamentEndDate . }
         OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament . }
    	    OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
-    	
+
     OPTIONAL {
         ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
         ?seatIncumbency :incumbencyHasMember ?person ;
@@ -1964,8 +1966,8 @@ WHERE {
         BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
-        BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)          
-                
+        BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
+
         BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
         BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
         FILTER (
@@ -1977,7 +1979,7 @@ WHERE {
         OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
-        FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))     
+        FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))
       }
     }
    }
@@ -2000,13 +2002,13 @@ WHERE {
             ?person :partyMemberHasPartyMembership ?partyMembership .
         	?partyMembership :partyMembershipHasParty ?party ;
         				 	:partyMembershipStartDate ?partyMembershipStartDate .
-        	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }  
-             
+        	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+
 			BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
-        	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)  
-                
+        	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
+
         	BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
         	BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
         	FILTER (
@@ -2025,7 +2027,7 @@ WHERE {
 
         ?party a :Party.
         ?house a :House.
-        ?parliament a :ParliamentPeriod ;                
+        ?parliament a :ParliamentPeriod ;
         			:parliamentPeriodHasSeatIncumbency ?seatIncumbency.
         ?seatIncumbency :incumbencyHasMember ?person ;
                         :seatIncumbencyHasHouseSeat ?houseSeat;
@@ -2040,15 +2042,15 @@ WHERE {
 		BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
-        BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)         
-            
+        BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
+
         BIND(COALESCE(?pmEndDateTime, now()) AS ?pmEndDate)
         BIND(COALESCE(?incEndDateTime, now()) AS ?incEndDate)
         FILTER(
         	(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         	(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
 		)
-            
+
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
         BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
         }
@@ -2114,7 +2116,7 @@ CONSTRUCT {
 WHERE {
     { SELECT * WHERE {
     BIND(@parliamentid AS ?parliament)
-        ?parliament 
+        ?parliament
             a :ParliamentPeriod ;
             :parliamentPeriodStartDate ?startDate ;
             :parliamentPeriodNumber ?parliamentNumber .
@@ -2129,7 +2131,7 @@ WHERE {
             OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
             ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
             ?constituencyGroup :constituencyGroupName ?constituencyGroupName .
-			
+
             ?person :partyMemberHasPartyMembership ?partyMembership.
         	?partyMembership :partyMembershipHasParty ?party ;
                          	:partyMembershipStartDate ?partyMembershipStartDate.
@@ -2138,16 +2140,16 @@ WHERE {
             BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
-        	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)   
-                
+        	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
+
         	BIND(COALESCE(?pmEndDateTime, now()) AS ?pmEndDate)
         	BIND(COALESCE(?incEndDateTime, now()) AS ?incEndDate)
         	FILTER(
         		(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         		(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
-			)   
+			)
             ?party :partyName ?partyName .
-                
+
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
@@ -2158,7 +2160,7 @@ WHERE {
     UNION {
         SELECT ?parliament (COUNT(DISTINCT(?constituencyGroup)) AS ?constituencyCount) WHERE {
             BIND(@parliamentid AS ?parliament)
-            
+
 			?parliament a :ParliamentPeriod .
             OPTIONAL {
                 ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
@@ -2210,7 +2212,7 @@ WHERE {
         ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
         ?constituencyGroup :constituencyGroupName ?constituencyGroupName .
         BIND(ucase(SUBSTR(?constituencyGroupName, 1, 1)) as ?firstLetter)
-    } 
+    }
 }
 ";
 
@@ -2269,7 +2271,7 @@ CONSTRUCT {
 WHERE {
     { SELECT * WHERE {
     BIND(@parliamentid AS ?parliament)
-        ?parliament 
+        ?parliament
             a :ParliamentPeriod ;
             :parliamentPeriodStartDate ?startDate ;
             :parliamentPeriodNumber ?parliamentNumber .
@@ -2284,7 +2286,7 @@ WHERE {
             OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
             ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
             ?constituencyGroup :constituencyGroupName ?constituencyGroupName .
-			
+
             ?person :partyMemberHasPartyMembership ?partyMembership.
         	?partyMembership :partyMembershipHasParty ?party ;
                          	:partyMembershipStartDate ?partyMembershipStartDate.
@@ -2293,21 +2295,21 @@ WHERE {
             BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
         	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
-        	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)   
-                
+        	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
+
         	BIND(COALESCE(?pmEndDateTime, now()) AS ?pmEndDate)
         	BIND(COALESCE(?incEndDateTime, now()) AS ?incEndDate)
         	FILTER(
         		(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
         		(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
-			)   
+			)
             ?party :partyName ?partyName .
-                
+
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
-            
+
                 FILTER STRSTARTS(LCASE(?constituencyGroupName), LCASE(@initial))
         }
       }
@@ -2315,7 +2317,7 @@ WHERE {
     UNION {
         SELECT ?parliament (COUNT(DISTINCT(?constituencyGroup)) AS ?constituencyCount) WHERE {
             BIND(@parliamentid AS ?parliament)
-            
+
 			?parliament a :ParliamentPeriod .
             OPTIONAL {
                 ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
