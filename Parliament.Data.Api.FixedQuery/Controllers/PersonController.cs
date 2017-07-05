@@ -526,6 +526,7 @@ CONSTRUCT {
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
+        :personHasImage ?image ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs .
     ?constituency
         a :ConstituencyGroup ;
@@ -547,6 +548,7 @@ WHERE {
     OPTIONAL { ?person :personGivenName ?givenName } .
     OPTIONAL { ?person :personFamilyName ?familyName } .
     OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+    OPTIONAL { ?person :personHasImage ?image . }
     OPTIONAL {
         ?person :memberHasIncumbency ?seatIncumbency .
         ?seatIncumbency a :SeatIncumbency .
