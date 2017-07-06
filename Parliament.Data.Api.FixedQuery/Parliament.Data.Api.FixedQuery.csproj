@@ -146,6 +146,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AIExceptionLogger.cs" />
+    <Compile Include="Controllers\X.Constituencies.cs" />
+    <Compile Include="Controllers\X.Houses.cs" />
+    <Compile Include="Controllers\XController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\ContactPointsController.cs" />
     <Compile Include="Controllers\SparqlController.cs" />
@@ -163,6 +166,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="GraphFormatter.cs" />
+    <Compile Include="HttpErrorJsonFormatter.cs" />
+    <Compile Include="HttpErrorXmlFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SparqlInvalidException.cs" />
   </ItemGroup>

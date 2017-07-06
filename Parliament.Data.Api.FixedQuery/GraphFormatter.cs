@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Formatting;
@@ -25,12 +26,15 @@
             { "turtle", "text/turtle" }
         };
 
-        public GraphFormatter() : base()
+        public GraphFormatter(MediaTypeMapping mapping)
         {
-            foreach (var mediaType in GraphFormatter.mediaTypes.Values)
+            if (mapping == null)
             {
-                this.MediaTypeMappings.Add(new RequestHeaderMapping("Accept", mediaType, StringComparison.Ordinal, false, mediaType));
+                throw new ArgumentNullException("mapping");
             }
+
+            this.SupportedMediaTypes.Add(mapping.MediaType);
+            this.MediaTypeMappings.Add(mapping);
         }
 
         public override bool CanReadType(Type type)
@@ -45,8 +49,9 @@
 
         public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext)
         {
-            var writer = GetWriter(content.Headers.ContentType.MediaType);
-
+            var mediaType = this.SupportedMediaTypes.Single().MediaType;
+            var writer = GetWriter(mediaType);
+            
             return Task.Factory.StartNew(() =>
             {
                 using (var sw = new StreamWriter(writeStream))
