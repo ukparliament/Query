@@ -125,8 +125,8 @@ WHERE {
 
           var query = new SparqlParameterizedString(queryString);
 
-          query.SetLiteral("personid", new Uri(BaseController.instance, personid));
-          query.SetLiteral("mediaid", new Uri(BaseController.instance, mediaid));
+          query.SetUri("personid", new Uri(BaseController.instance, personid));
+          query.SetUri("mediaid", new Uri(BaseController.instance, mediaid));
 
           return BaseController.ExecuteSingle(query);
         }
