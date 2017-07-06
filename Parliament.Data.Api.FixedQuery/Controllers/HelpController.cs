@@ -31,7 +31,7 @@
                 this.Url.Route("PersonCurrentHouse", new { id = "Cz0WNho9" }),
                 this.Url.Route("PersonMPs", null),
                 //TODO fill in when media id is available
-                this.Url.Route("PersonImage", new { personid = "Cz0WNho9", mediaid = "XXXXXXXX" })
+                //this.Url.Route("PersonImage", new { personid = "Cz0WNho9", mediaid = "XXXXXXXX" })
 
                 // MemberIndex route exists on person controller
                 this.Url.Route("MemberIndex", null),
