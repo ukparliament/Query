@@ -146,21 +146,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AIExceptionLogger.cs" />
+    <Compile Include="Controllers\X.Resources.cs" />
+    <Compile Include="Controllers\X.People.cs" />
+    <Compile Include="Controllers\X.Parties.cs" />
+    <Compile Include="Controllers\X.Parliaments.cs" />
+    <Compile Include="Controllers\X.Members.cs" />
+    <Compile Include="Controllers\X.ContactPoints.cs" />
     <Compile Include="Controllers\X.Constituencies.cs" />
     <Compile Include="Controllers\X.Houses.cs" />
     <Compile Include="Controllers\XController.cs" />
-    <Compile Include="Controllers\DefaultController.cs" />
-    <Compile Include="Controllers\ContactPointsController.cs" />
     <Compile Include="Controllers\SparqlController.cs" />
-    <Compile Include="Controllers\HouseController.cs" />
-    <Compile Include="Controllers\ParliamentController.cs" />
-    <Compile Include="Controllers\PartyController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\MemberController.cs" />
-    <Compile Include="Controllers\ResourceController.cs" />
-    <Compile Include="Controllers\PersonController.cs" />
-    <Compile Include="Controllers\ConstituencyController.cs" />
     <Compile Include="ConstructOnlyRemoteEndpoint.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -10,7 +10,7 @@
     using VDS.RDF.Query;
     using VDS.RDF.Storage;
 
-    public abstract class BaseController : ApiController
+    public abstract partial class BaseController : ApiController
     {
         private static readonly string sparqlEndpoint = ConfigurationManager.AppSettings["SparqlEndpoint"];
         private static readonly string subscriptionKey = ConfigurationManager.AppSettings["SubscriptionKey"];
@@ -51,8 +51,8 @@
 
             graph.NamespaceMap.AddNamespace("owl", new Uri("http://www.w3.org/2002/07/owl#"));
             graph.NamespaceMap.AddNamespace("rdf", new Uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));
-            graph.NamespaceMap.AddNamespace("id", ConstituencyController.instance);
-            graph.NamespaceMap.AddNamespace("schema", ConstituencyController.schema);
+            graph.NamespaceMap.AddNamespace("id", XController.instance);
+            graph.NamespaceMap.AddNamespace("schema", XController.schema);
 
             var graphHandler = new GraphHandler(graph);
 

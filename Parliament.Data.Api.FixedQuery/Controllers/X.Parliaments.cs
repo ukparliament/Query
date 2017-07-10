@@ -5,15 +5,11 @@
     using VDS.RDF;
     using VDS.RDF.Query;
 
-    [RoutePrefix("parliaments")]
-
-    public class ParliamentController : BaseController
+    public partial class XController 
     {
-        // Ruby route: get '/parliaments'
-
-        [Route("", Name = "ParliamentIndex")]
+        //[Route("", Name = "ParliamentIndex")]
         [HttpGet]
-        public Graph Index()
+        public Graph ParliamentIndex()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -38,9 +34,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route("current", Name = "ParliamentCurrent")]
+        //[Route("current", Name = "ParliamentCurrent")]
         [HttpGet]
-        public Graph Current()
+        public Graph ParliamentCurrent()
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -65,9 +61,9 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        [Route("previous", Name = "ParliamentPrevious")]
+        //[Route("previous", Name = "ParliamentPrevious")]
         [HttpGet]
-        public Graph Previous()
+        public Graph ParliamentPrevious()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -103,9 +99,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route("next", Name = "ParliamentNext")]
+        //[Route("next", Name = "ParliamentNext")]
         [HttpGet]
-        public Graph Next()
+        public Graph ParliamentNext()
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -128,13 +124,13 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "ParliamentLookup")]
+        //[Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "ParliamentLookup")]
         [HttpGet]
-        public Graph Lookup(string source, string id) => base.LookupInternal("ParliamentPeriod", source, id);
+        public Graph ParliamentLookup(string source, string id) => base.LookupInternal("ParliamentPeriod", source, id);
 
-        [Route(@"{id:regex(^\w{8}$)}", Name = "ParliamentById")]
+        //[Route(@"{id:regex(^\w{8}$)}", Name = "ParliamentById")]
         [HttpGet]
-        public Graph ById(string id)
+        public Graph ParliamentById(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -193,9 +189,9 @@ WHERE {
 
         }
 
-        [Route(@"{id:regex(^\w{8}$)}/next", Name = "NextParliamentById")]
+        //[Route(@"{id:regex(^\w{8}$)}/next", Name = "NextParliamentById")]
         [HttpGet]
-        public Graph Next(string id)
+        public Graph NextParliamentById(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -217,9 +213,9 @@ WHERE {
 
         }
 
-        [Route(@"{id:regex(^\w{8}$)}/previous", Name = "PreviousParliamentById")]
+        //[Route(@"{id:regex(^\w{8}$)}/previous", Name = "PreviousParliamentById")]
         [HttpGet]
-        public Graph Previous(string id)
+        public Graph PreviousParliamentById(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -241,9 +237,9 @@ WHERE {
 
         }
 
-        [Route(@"{id:regex(^\w{8}$)}/members", Name = "ParliamentMembers")]
+        //[Route(@"{id:regex(^\w{8}$)}/members", Name = "ParliamentMembers")]
         [HttpGet]
-        public Graph Members(string id)
+        public Graph ParliamentMembers(string id)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -369,9 +365,9 @@ UNION {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{id:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentMembersByInitial")]
+        //[Route(@"{id:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentMembersByInitial")]
         [HttpGet]
-        public Graph MembersByInitial(string id, string initial)
+        public Graph ParliamentMembersByInitial(string id, string initial)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -499,9 +495,9 @@ UNION {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{id:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentMembersAToZLetters")]
+        //[Route(@"{id:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentMembersAToZLetters")]
         [HttpGet]
-        public Graph MembersAToZLetters(string id)
+        public Graph ParliamentMembersAToZLetters(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -527,9 +523,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{id:regex(^\w{8}$)}/houses", Name = "ParliamentHouses")]
+        //[Route(@"{id:regex(^\w{8}$)}/houses", Name = "ParliamentHouses")]
         [HttpGet]
-        public Graph Houses(string id)
+        public Graph ParliamentHouses(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -572,9 +568,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}", Name = "ParliamentHouse")]
+        //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}", Name = "ParliamentHouse")]
         [HttpGet]
-        public Graph House(string parliamentid, string houseid)
+        public Graph ParliamentHouse(string parliamentid, string houseid)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -623,9 +619,9 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/members", Name = "ParliamentHouseMembers")]
+        //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/members", Name = "ParliamentHouseMembers")]
         [HttpGet]
-        public Graph HouseMembers(string parliamentid, string houseid)
+        public Graph ParliamentHouseMembers(string parliamentid, string houseid)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -764,9 +760,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentHouseMembersAToZLetters")]
+        //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentHouseMembersAToZLetters")]
         [HttpGet]
-        public Graph HouseMembersAToZLetters(string parliamentid, string houseid)
+        public Graph ParliamentHouseMembersAToZLetters(string parliamentid, string houseid)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -797,9 +793,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentHouseMembersByInitial")]
+        //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentHouseMembersByInitial")]
         [HttpGet]
-        public Graph HouseMembersByInitial(string parliamentid, string houseid, string initial)
+        public Graph ParliamentHouseMembersByInitial(string parliamentid, string houseid, string initial)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -941,9 +937,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{id:regex(^\w{8}$)}/parties", Name = "ParliamentParties")]
+        //[Route(@"{id:regex(^\w{8}$)}/parties", Name = "ParliamentParties")]
         [HttpGet]
-        public Graph Parties(string id)
+        public Graph ParliamentParties(string id)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -1007,9 +1003,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}", Name = "ParliamentParty")]
+        //[Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}", Name = "ParliamentParty")]
         [HttpGet]
-        public Graph Party(string parliamentid, string partyid)
+        public Graph ParliamentParty(string parliamentid, string partyid)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -1077,9 +1073,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members", Name = "ParliamentPartyMembers")]
+        //[Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members", Name = "ParliamentPartyMembers")]
         [HttpGet]
-        public Graph PartyMembers(string parliamentid, string partyid)
+        public Graph ParliamentPartyMembers(string parliamentid, string partyid)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -1252,9 +1248,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentPartyMembersAToZLetters")]
+        //[Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentPartyMembersAToZLetters")]
         [HttpGet]
-        public Graph PartyMembersAToZLetters(string parliamentid, string partyid)
+        public Graph ParliamentPartyMembersAToZLetters(string parliamentid, string partyid)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -1304,9 +1300,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentPartyMembersByInitial")]
+        //[Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentPartyMembersByInitial")]
         [HttpGet]
-        public Graph PartyMembersByInitial(string parliamentid, string partyid, string initial)
+        public Graph ParliamentPartyMembersByInitial(string parliamentid, string partyid, string initial)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -1481,9 +1477,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties", Name = "ParliamentHouseParties")]
+        //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties", Name = "ParliamentHouseParties")]
         [HttpGet]
-        public Graph HouseParties(string parliamentid, string houseid)
+        public Graph ParliamentHouseParties(string parliamentid, string houseid)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -1558,9 +1554,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}", Name = "ParliamentHouseParty")]
+        //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}", Name = "ParliamentHouseParty")]
         [HttpGet]
-        public Graph HouseParty(string parliamentid, string houseid, string partyid)
+        public Graph ParliamentHouseParty(string parliamentid, string houseid, string partyid)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -1636,9 +1632,9 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members", Name = "ParliamentHousePartyMembers")]
+        //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members", Name = "ParliamentHousePartyMembers")]
         [HttpGet]
-        public Graph HousePartyMembers(string parliamentid, string houseid, string partyid)
+        public Graph ParliamentHousePartyMembers(string parliamentid, string houseid, string partyid)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -1821,9 +1817,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentHousePartyMembersAToZLetters")]
+        //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentHousePartyMembersAToZLetters")]
         [HttpGet]
-        public Graph HousePartyMembersAToZLetters(string parliamentid, string houseid, string partyid)
+        public Graph ParliamentHousePartyMembersAToZLetters(string parliamentid, string houseid, string partyid)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -1878,9 +1874,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentHousePartyMembersByInitial")]
+        //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentHousePartyMembersByInitial")]
         [HttpGet]
-        public Graph HousePartyMembersByInitial(string parliamentid, string houseid, string partyid, string initial)
+        public Graph ParliamentHousePartyMembersByInitial(string parliamentid, string houseid, string partyid, string initial)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -2066,9 +2062,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{id:regex(^\w{8}$)}/constituencies", Name = "ParliamentConstituencies")]
+        //[Route(@"{id:regex(^\w{8}$)}/constituencies", Name = "ParliamentConstituencies")]
         [HttpGet]
-        public Graph Constituencies(string id)
+        public Graph ParliamentConstituencies(string id)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -2191,9 +2187,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{id:regex(^\w{8}$)}/constituencies/a_z_letters", Name = "ParliamentConstituenciesAToZLetters")]
+        //[Route(@"{id:regex(^\w{8}$)}/constituencies/a_z_letters", Name = "ParliamentConstituenciesAToZLetters")]
         [HttpGet]
-        public Graph ConstituenciesAToZLetters(string id)
+        public Graph ParliamentConstituenciesAToZLetters(string id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -2221,9 +2217,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{id:regex(^\w{8}$)}/constituencies/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentConstituenciesByInitial")]
+        //[Route(@"{id:regex(^\w{8}$)}/constituencies/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentConstituenciesByInitial")]
         [HttpGet]
-        public Graph ConstituenciesByInitial(string id, string initial)
+        public Graph ParliamentConstituenciesByInitial(string id, string initial)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>

@@ -9,24 +9,24 @@
     [TestCategory("Sparql")]
     public class ContactPointsSparql : SparqlValidator
     {
-        private ContactPointsController controller;
+        private XController controller;
 
         [TestInitialize]
         public void Initialize()
         {
-            controller = new ContactPointsController();
+            controller = new XController();
         }
 
         [TestMethod()]
         public void ContactPointsIndexSparql()
         {
-            ValidateSparql(() => controller.Index());
+            ValidateSparql(() => controller.ContactPointIndex());
         }
 
         [TestMethod()]
         public void ContactPointsByIdSparql()
         {
-            ValidateSparql(() => controller.ById(string.Empty));
+            ValidateSparql(() => controller.ContactPointById(string.Empty));
         }
     }
 }

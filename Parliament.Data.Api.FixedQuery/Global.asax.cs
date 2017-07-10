@@ -43,6 +43,8 @@
 
             //config.MapHttpAttributeRoutes();
 
+            config.Routes.MapHttpRoute("Index", "", new { controller = "Help" });
+
             config.Routes.MapHttpRoute("WithExtension", "{action}.{ext}", new { controller = "x" });
             config.Routes.MapHttpRoute("WithoutExtension", "{action}", new { controller = "x" });
 

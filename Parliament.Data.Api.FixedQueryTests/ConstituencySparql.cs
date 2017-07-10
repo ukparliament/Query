@@ -9,96 +9,96 @@
     [TestCategory("Sparql")]
     public class ConstituencySparql : SparqlValidator
     {
-        private ConstituencyController controller;
+        private XController controller;
 
         [TestInitialize]
         public void Initialize()
         {
-            controller = new ConstituencyController();
+            controller = new XController();
         }
 
         [TestMethod()]
         public void ConstituencyByIdSparql()
         {
-            ValidateSparql(() => controller.ById(string.Empty));
+            ValidateSparql(() => controller.ConstituencyByID(string.Empty));
         }
 
         [TestMethod()]
         public void ConstituencyMapSparql()
         {
-            ValidateSparql(() => controller.Map(string.Empty));
+            ValidateSparql(() => controller.ConstituencyMap(string.Empty));
         }
 
         [TestMethod()]
         public void ConstituencyByInitialSparql()
         {
-            ValidateSparql(() => controller.ByInitial(string.Empty));
+            ValidateSparql(() => controller.ConstituencyByInitial(string.Empty));
         }
 
         [TestMethod()]
         public void ConstituencyCurrentSparql()
         {
-            ValidateSparql(() => controller.Current());
+            ValidateSparql(() => controller.ConstituencyCurrent());
         }
 
         [TestMethod()]
         public void ConstituencyLookupSparql()
         {
-            ValidateSparql(() => controller.Lookup(string.Empty, string.Empty));
+            ValidateSparql(() => controller.ConstituencyLookup(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void ConstituencyByLettersSparql()
         {
-            ValidateSparql(() => controller.ByLetters(string.Empty));
+            ValidateSparql(() => controller.ConstituencyByLetters(string.Empty));
         }
 
         [TestMethod()]
         public void ConstituencyAToZLettersSparql()
         {
-            ValidateSparql(() => controller.AToZLetters());
+            ValidateSparql(() => controller.ConstituencyAToZ());
         }
 
-        [TestMethod()]
-        public void ConstituencyCurrentByLettersSparql()
-        {
-            ValidateSparql(() => controller.CurrentByLetters(string.Empty));
-        }
+        //[TestMethod()]
+        //public void ConstituencyCurrentByLettersSparql()
+        //{
+        //    ValidateSparql(() => controller.ConstituencyCurrentByLetters(string.Empty));
+        //}
 
         [TestMethod()]
         public void ConstituencyCurrentAToZLettersSparql()
         {
-            ValidateSparql(() => controller.CurrentAToZLetters());
+            ValidateSparql(() => controller.ConstituencyCurrentAToZ());
         }
 
         [TestMethod()]
         public void ConstituencyIndexSparql()
         {
-            ValidateSparql(() => controller.Index());
+            ValidateSparql(() => controller.ConstituencyIndex());
         }
 
         [TestMethod()]
         public void ConstituencyMembersSparql()
         {
-            ValidateSparql(() => controller.Members(string.Empty));
+            ValidateSparql(() => controller.ConstituencyMembers(string.Empty));
         }
 
         [TestMethod()]
         public void ConstituencyCurrentMembersSparql()
         {
-            ValidateSparql(() => controller.CurrentMembers(string.Empty));
+            ValidateSparql(() => controller.ConstituencyCurrentMember(string.Empty));
         }
 
         [TestMethod()]
         public void ConstituencyContactPointSparql()
         {
-            ValidateSparql(() => controller.ContactPoint(string.Empty));
+            ValidateSparql(() => controller.ConstituencyContactPoint(string.Empty));
         }
 
         [TestMethod()]
         public void ConstituencyLookupByPostcodeSparql()
         {
-            ValidateSparql(() => controller.LookupByPostcode(string.Empty));
+            ValidateSparql(() => controller.ConstituencyLookupByPostcode(string.Empty));
         }
     }
 }
