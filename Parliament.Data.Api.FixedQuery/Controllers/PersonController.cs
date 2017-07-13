@@ -92,45 +92,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{personid:regex(^\w{8}$)/media/{mediaid:regex(^\w{8}$)}}", Name = "PersonImage")]
-        [HttpGet]
-        public Graph PersonImage(string personid, string mediaid)
-        {
-          var queryString = @"
-          PREFIX : <http://id.ukpds.org/schema/>
-          CONSTRUCT {
-            ?media
-              a :Image ;
-            ?person
-              a :Person ;
-              :personGivenName ?givenName ;
-              :personFamilyName ?familyName ;
-              <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
-              <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
-              :personHasImage ?media ;
-            WHERE {
-              BIND(@mediaid AS ?media)
-              ?media
-                a :Image ;
-              BIND(@personid AS ?person)
-              ?person
-                a :Person ;
-                OPTIONAL { ?person :personGivenName ?givenName . }
-                OPTIONAL { ?person :personFamilyName ?familyName . }
-                OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
-                ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
-            }
-          }
-          ";
-
-          var query = new SparqlParameterizedString(queryString);
-
-          query.SetUri("personid", new Uri(BaseController.instance, personid));
-          query.SetUri("mediaid", new Uri(BaseController.instance, mediaid));
-
-          return BaseController.ExecuteSingle(query);
-        }
-
 
         [Route(@"{id:regex(^\w{8}$)}", Name = "PersonById")]
         [HttpGet]

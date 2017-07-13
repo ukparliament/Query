@@ -106,11 +106,5 @@
         {
             ValidateSparql(() => controller.MPs());
         }
-
-        [TestMethod()]
-        public void PersonImage()
-        {
-            ValidateSparql(() => controller.PersonImage(string.Empty, string.Empty));
-        }
     }
 }
