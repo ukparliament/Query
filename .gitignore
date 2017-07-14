@@ -7,3 +7,4 @@ Secrets.config
 *.csproj.user
 .idea/*
 Properties/PublishProfiles
+Parliament.Data.Api.FixedQuery.userprefs
