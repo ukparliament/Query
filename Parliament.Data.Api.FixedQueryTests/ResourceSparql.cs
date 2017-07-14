@@ -1,26 +1,26 @@
-﻿namespace Parliament.Data.Api.FixedQuery.Controllers.Test
+﻿namespace Parliament.Data.Api.FixedQuery.Controllers.Tests
+{
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Parliament.Data.Api.FixedQuery.Controllers;
+    using Parliament.Data.Api.FixedQueryTests;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting
-    using Parliament.Data.Api.FixedQuery.Controllers
-    using Parliament.Data.Api.FixedQueryTests
+    [TestClass()]
+    [TestCategory("Resource")]
+    [TestCategory("Sparql")]
+    public class ResourceSparql : SparqlValidator
+    {
+        private ResourceController controller;
 
-    [TestClass()
-    [TestCategory("Resource")
-    [TestCategory("Sparql")
-    public class ResourceSparql : SparqlValidato
-    
-        private ResourceController controller
+        [TestInitialize]
+        public void Initialize()
+        {
+            controller = new ResourceController();
+        }
 
-        [TestInitialize
-        public void Initialize(
-        
-            controller = new ResourceController()
-        
-
-        [TestMethod()
-        public void ResourceByIdSparql(
-        
-            ValidateSparql(() => controller.ById(string.Empty))
-        
-    
+        [TestMethod()]
+        public void ResourceByIdSparql()
+        {
+            ValidateSparql(() => controller.ById(string.Empty));
+        }
+    }
 }
