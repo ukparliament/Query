@@ -1,50 +1,50 @@
-﻿namespace Parliament.Data.Api.FixedQuery.Controllers.Tests
-{
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Parliament.Data.Api.FixedQuery.Controllers;
-    using Parliament.Data.Api.FixedQueryTests;
+﻿namespace Parliament.Data.Api.FixedQuery.Controllers.Test
 
-    [TestClass()]
-    [TestCategory("Member")]
-    [TestCategory("Sparql")]
-    public class MemberSparql : SparqlValidator
-    {
-        private MemberController controller;
+    using Microsoft.VisualStudio.TestTools.UnitTesting
+    using Parliament.Data.Api.FixedQuery.Controllers
+    using Parliament.Data.Api.FixedQueryTests
 
-        [TestInitialize]
-        public void Initialize()
-        {
-            controller = new MemberController();
-        }
+    [TestClass()
+    [TestCategory("Member")
+    [TestCategory("Sparql")
+    public class MemberSparql : SparqlValidato
+    
+        private MemberController controller
 
-        [TestMethod()]
-        public void MemberCurrentSparql()
-        {
-            ValidateSparql(() => controller.Current());
-        }
+        [TestInitialize
+        public void Initialize(
+        
+            controller = new MemberController()
+        
 
-        [TestMethod()]
-        public void MemberByInitialSparql()
-        {
-            ValidateSparql(() => controller.ByInitial(string.Empty));
-        }
+        [TestMethod()
+        public void MemberCurrentSparql(
+        
+            ValidateSparql(() => controller.Current())
+        
 
-        [TestMethod()]
-        public void MemberAToZLettersSparql()
-        {
-            ValidateSparql(() => controller.AToZLetters());
-        }
+        [TestMethod()
+        public void MemberByInitialSparql(
+        
+            ValidateSparql(() => controller.ByInitial(string.Empty))
+        
 
-        [TestMethod()]
-        public void MemberCurrentByInitialSparql()
-        {
-            ValidateSparql(() => controller.CurrentByInitial(string.Empty));
-        }
+        [TestMethod()
+        public void MemberAToZLettersSparql(
+        
+            ValidateSparql(() => controller.AToZLetters())
+        
 
-        [TestMethod()]
-        public void MemberCurrentAToZLettersSparql()
-        {
-            ValidateSparql(() => controller.CurrentAToZLetters());
-        }
-    }
+        [TestMethod()
+        public void MemberCurrentByInitialSparql(
+        
+            ValidateSparql(() => controller.CurrentByInitial(string.Empty))
+        
+
+        [TestMethod()
+        public void MemberCurrentAToZLettersSparql(
+        
+            ValidateSparql(() => controller.CurrentAToZLetters())
+        
+    
 }

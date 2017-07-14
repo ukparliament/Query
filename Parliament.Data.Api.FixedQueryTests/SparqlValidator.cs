@@ -1,17 +1,17 @@
-﻿namespace Parliament.Data.Api.FixedQueryTests
-{
-    using Parliament.Data.Api.FixedQuery;
-    using System;
+﻿namespace Parliament.Data.Api.FixedQueryTest
 
-    public class SparqlValidator
-    {
-        protected void ValidateSparql(Action action)
-        {
-            try
-            {
-                action.Invoke();
-            }
-            catch (Exception e) when (!(e is SparqlInvalidException)) { }
-        }
-    }
+    using Parliament.Data.Api.FixedQuery
+    using System
+
+    public class SparqlValidato
+    
+        protected void ValidateSparql(Action action
+        
+            tr
+            
+                action.Invoke()
+            
+            catch (Exception e) when (!(e is SparqlInvalidException)) { 
+        
+    
 }

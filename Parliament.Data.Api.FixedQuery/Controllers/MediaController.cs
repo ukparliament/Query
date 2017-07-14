@@ -17,8 +17,8 @@
     PREFIX : <http://id.ukpds.org/schema/>
     CONSTRUCT {
     ?image
-        a :Image ;
-        :personImageHasPerson ?person .
+        a :MemberImage ;
+        :memberImageHasMember ?person .
     ?person
         a :Person ;
         :personGivenName ?givenName ;
@@ -29,8 +29,8 @@
     WHERE {
         BIND(@id AS ?image)
         ?image
-            a :Image ;
-            :personImageHasPerson ?person .
+            a :MemberImage ;
+            :memberImageHasMember ?person .
         OPTIONAL { ?person :personGivenName ?givenName . }
         OPTIONAL { ?person :personFamilyName ?familyName . }
         OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .

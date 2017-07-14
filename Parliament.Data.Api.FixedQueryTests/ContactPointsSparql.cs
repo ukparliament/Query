@@ -1,32 +1,32 @@
-﻿namespace Parliament.Data.Api.FixedQuery.Controllers.Tests
-{
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Parliament.Data.Api.FixedQuery.Controllers;
-    using Parliament.Data.Api.FixedQueryTests;
+﻿namespace Parliament.Data.Api.FixedQuery.Controllers.Test
 
-    [TestClass()]
-    [TestCategory("ContactPoints")]
-    [TestCategory("Sparql")]
-    public class ContactPointsSparql : SparqlValidator
-    {
-        private ContactPointsController controller;
+    using Microsoft.VisualStudio.TestTools.UnitTesting
+    using Parliament.Data.Api.FixedQuery.Controllers
+    using Parliament.Data.Api.FixedQueryTests
 
-        [TestInitialize]
-        public void Initialize()
-        {
-            controller = new ContactPointsController();
-        }
+    [TestClass()
+    [TestCategory("ContactPoints")
+    [TestCategory("Sparql")
+    public class ContactPointsSparql : SparqlValidato
+    
+        private ContactPointsController controller
 
-        [TestMethod()]
-        public void ContactPointsIndexSparql()
-        {
-            ValidateSparql(() => controller.Index());
-        }
+        [TestInitialize
+        public void Initialize(
+        
+            controller = new ContactPointsController()
+        
 
-        [TestMethod()]
-        public void ContactPointsByIdSparql()
-        {
-            ValidateSparql(() => controller.ById(string.Empty));
-        }
-    }
+        [TestMethod()
+        public void ContactPointsIndexSparql(
+        
+            ValidateSparql(() => controller.Index())
+        
+
+        [TestMethod()
+        public void ContactPointsByIdSparql(
+        
+            ValidateSparql(() => controller.ById(string.Empty))
+        
+    
 }
