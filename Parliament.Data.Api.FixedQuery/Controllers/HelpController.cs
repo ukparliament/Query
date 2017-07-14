@@ -30,7 +30,7 @@
                 this.Url.Route("PersonHouses", new { id = "Cz0WNho9" }),
                 this.Url.Route("PersonCurrentHouse", new { id = "Cz0WNho9" }),
                 this.Url.Route("PersonMPs", null),
-
+        
                 // MemberIndex route exists on person controller
                 this.Url.Route("MemberIndex", null),
 
@@ -121,7 +121,9 @@
                 this.Url.Route("ParliamentHousePartyMembersByInitial", new { parliamentid = "Du6iH79e", houseid = "cqIATgUK", partyid = "6THXr8R6", initial = "d"}),
                 this.Url.Route("ParliamentConstituencies", new { id = "Du6iH79e" }),
                 this.Url.Route("ParliamentConstituenciesAToZLetters", new { id = "Du6iH79e"}),
-                this.Url.Route("ParliamentConstituenciesByInitial", new { id = "0FxbTVtr", initial = "d" })
+                this.Url.Route("ParliamentConstituenciesByInitial", new { id = "0FxbTVtr", initial = "d" }),
+
+                this.Url.Route("ImageById", new { id = "qnsCGpnw" })
             };
 
             var response = Request.CreateResponse();
