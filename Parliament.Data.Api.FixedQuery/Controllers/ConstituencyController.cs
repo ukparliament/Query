@@ -765,7 +765,8 @@ PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
 construct {
     ?constituencyGroup
         a parl:ConstituencyGroup ;
-        parl:constituencyGroupName ?constituencyGroupName .
+        parl:constituencyGroupName ?constituencyGroupName ;
+        parl:constituencyGroupHasHouseSeat ?houseSeat .
     ?houseSeat
         a parl:HouseSeat ;
         parl:houseSeatHasConstituencyGroup ?constituencyGroup .
