@@ -9,7 +9,7 @@
     {
         //[Route("", Name = "ContactPointIndex")]
         [HttpGet]
-        public Graph ContactPointIndex()
+        public Graph contact_point_index()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -53,7 +53,7 @@ WHERE {
 
         //[Route(@"{id:regex(^\w{8}$)}", Name = "ContactPointById")]
         [HttpGet]
-        public Graph ContactPointById(string id)
+        public Graph contact_point_by_id(string contact_point_id)
         {
             var queryString = @"
 PREFIX :<http://id.ukpds.org/schema/>
@@ -109,7 +109,7 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("id", new Uri(instance, id));
+            query.SetUri("id", new Uri(instance, contact_point_id));
 
             return BaseController.ExecuteSingle(query);
         }

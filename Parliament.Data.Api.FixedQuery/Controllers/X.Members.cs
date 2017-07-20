@@ -8,7 +8,7 @@
     {
         //[Route("current", Name = "MemberCurrent")]
         [HttpGet]
-        public Graph MemberCurrent()
+        public Graph member_current()
         {
             var queryString = @"
 PREFIX :<http://id.ukpds.org/schema/>
@@ -109,7 +109,7 @@ WHERE {
 
         //[Route(@"{initial:regex(^\p{L}+$):maxlength(1)}", Name = "MemberByInitial")]
         [HttpGet]
-        public Graph MemberByInitial(string initial)
+        public Graph member_by_initial(string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -214,7 +214,7 @@ WHERE {
 
         //[Route("a_z_letters", Name = "MemberAToZ")]
         [HttpGet]
-        public Graph MemberAToZ()
+        public Graph member_a_to_z()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -239,7 +239,7 @@ WHERE {
 
         //[Route(@"current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "MemberCurrentByInitial")]
         [HttpGet]
-        public Graph MemberCurrentByInitial(string initial)
+        public Graph member_current_by_initial(string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -344,7 +344,7 @@ WHERE {
 
         //[Route("current/a_z_letters", Name = "MemberCurrentAToZ")]
         [HttpGet]
-        public Graph MemberCurrentAToZ()
+        public Graph member_current_a_to_z()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>

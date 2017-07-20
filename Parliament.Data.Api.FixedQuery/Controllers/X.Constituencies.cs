@@ -11,7 +11,7 @@
 
         //[Route(@"{id:regex(^\w{8}$)}", Name = "ConstituencyByID")]
         [HttpGet]
-        public Graph ConstituencyByID(string id)
+        public Graph constituency_by_id(string constituency_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -71,14 +71,14 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("id", new Uri(BaseController.instance, id));
+            query.SetUri("id", new Uri(BaseController.instance, constituency_id));
 
             return BaseController.ExecuteSingle(query);
         }
 
         //[Route(@"{id:regex(^\w{8}$)}/map", Name = "ConstituencyMap")]
         [HttpGet]
-        public Graph ConstituencyMap(string id)
+        public Graph constituency_map(string constituency_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -150,14 +150,14 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("id", new Uri(BaseController.instance, id));
+            query.SetUri("id", new Uri(BaseController.instance, constituency_id));
 
             return BaseController.ExecuteSingle(query);
         }
 
         //[Route(@"{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ConstituencyByInitial")]
         [HttpGet]
-        public Graph ConstituencyByInitial(string initial)
+        public Graph constituency_by_initial(string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -230,7 +230,7 @@ WHERE {
 
         //[Route("current", Name = "ConstituencyCurrent")]
         [HttpGet]
-        public Graph ConstituencyCurrent()
+        public Graph constituency_current()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -298,11 +298,11 @@ WHERE {
 
         //[Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "ConstituencyLookup")]
         [HttpGet]
-        public Graph ConstituencyLookup(string source, string id) => base.LookupInternal("ConstituencyGroup", source, id);
+        public Graph constituency_lookup(string property, string value) => base.LookupInternal("ConstituencyGroup", property, value);
 
         //[Route(@"partial/{letters:regex(^\p{L}+$):minlength(2)}", Name = "ConstituencyByLetters", Order = 999)]
         [HttpGet]
-        public Graph ConstituencyByLetters(string letters)
+        public Graph constituency_by_substring(string substring)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -351,7 +351,7 @@ CONSTRUCT {
                 ?partyMembership :partyMembershipHasParty ?party .
                 ?party :partyName ?partyName .
            }
-           FILTER CONTAINS(LCASE(?constituencyName), LCASE(@letters))
+           FILTER CONTAINS(LCASE(?constituencyName), LCASE(@substring))
         }
     }
     UNION {
@@ -368,14 +368,14 @@ CONSTRUCT {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetLiteral("letters", letters);
+            query.SetLiteral("substring", substring);
 
             return BaseController.ExecuteList(query);
         }
 
         //[Route("a_z_letters", Name = "ConstituencyAToZ")]
         [HttpGet]
-        public Graph ConstituencyAToZ()
+        public Graph constituency_a_to_z()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -399,7 +399,7 @@ WHERE {
 
         //[Route(@"current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ConstituencyCurrentByInitial")]
         [HttpGet]
-        public Graph ConstituencyCurrentByInitial(string initial)
+        public Graph constituency_current_by_initial(string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -469,7 +469,7 @@ WHERE {
 
         //[Route("current/a_z_letters", Name = "ConstituencyCurrentAToZ")]
         [HttpGet]
-        public Graph ConstituencyCurrentAToZ()
+        public Graph constituency_current_a_to_z()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -493,7 +493,7 @@ WHERE {
 
         //[Route("", Name = "ConstituencyIndex")]
         [HttpGet]
-        public Graph ConstituencyIndex()
+        public Graph constituency_index()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -562,7 +562,7 @@ CONSTRUCT {
 
         //[Route(@"{id:regex(^\w{8}$)}/members", Name = "ConstituencyMembers")]
         [HttpGet]
-        public Graph ConstituencyMembers(string id)
+        public Graph constituency_members(string constituency_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -608,14 +608,14 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("constituencyid", new Uri(BaseController.instance, id));
+            query.SetUri("constituencyid", new Uri(BaseController.instance, constituency_id));
 
             return BaseController.ExecuteList(query);
         }
 
         //[Route(@"{id:regex(^\w{8}$)}/members/current", Name = "ConstituencyCurrentMember")]
         [HttpGet]
-        public Graph ConstituencyCurrentMember(string id)
+        public Graph constituency_current_member(string constituency_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -665,7 +665,7 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("constituencyid", new Uri(BaseController.instance, id));
+            query.SetUri("constituencyid", new Uri(BaseController.instance, constituency_id));
 
             return BaseController.ExecuteList(query);
         }
@@ -673,7 +673,7 @@ WHERE {
         // TODO: Why is this singular? - still not completely solved here
         //[Route(@"{id:regex(^\w{8}$)}/contact_point", Name = "ConstituencyContactPoint")]
         [HttpGet]
-        public Graph ConstituencyContactPoint(string id)
+        public Graph constituency_contact_point(string constituency_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -736,14 +736,14 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("constituencyid", new Uri(BaseController.instance, id));
+            query.SetUri("constituencyid", new Uri(BaseController.instance, constituency_id));
 
             return BaseController.ExecuteSingle(query);
         }
 
         //[Route(@"postcode_lookup/{postcode}", Name = "ConstituencyLookupByPostcode")]
         [HttpGet]
-        public Graph ConstituencyLookupByPostcode(string postcode)
+        public Graph constituency_lookup_by_postcode(string postcode)
         {
             var externalQueryString = @"
 PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>

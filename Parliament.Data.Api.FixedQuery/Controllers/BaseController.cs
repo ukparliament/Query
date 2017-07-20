@@ -68,7 +68,7 @@
         }
 
 
-        protected Graph LookupInternal(string type, string source, string id)
+        protected Graph LookupInternal(string type, string property, string value)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -90,8 +90,8 @@ WHERE {
             var query = new SparqlParameterizedString(queryString);
 
             query.SetUri("type", new Uri(BaseController.schema, type));
-            query.SetUri("source", new Uri(BaseController.schema, source));
-            query.SetLiteral("id", id);
+            query.SetUri("source", new Uri(BaseController.schema, property));
+            query.SetLiteral("id", value);
 
             return BaseController.ExecuteSingle(query);
         }

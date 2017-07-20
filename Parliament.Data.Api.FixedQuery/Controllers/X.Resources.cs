@@ -9,7 +9,7 @@
     {
         //[Route(Name = "ResourceById")]
         [HttpGet]
-        public Graph ResourceById(string uri)
+        public Graph resource_by_id(string uri)
         {
             var queryString = @"DESCRIBE @uri";
 

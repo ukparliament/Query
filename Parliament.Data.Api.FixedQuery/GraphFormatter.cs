@@ -77,7 +77,7 @@
             {
                 return new HtmlWriter()
                 {
-                    UriPrefix = GlobalConfiguration.Configuration.VirtualPathRoot + "ResourceById?uri=",
+                    UriPrefix = GlobalConfiguration.Configuration.VirtualPathRoot + "resource_by_id?uri=",
                     Stylesheet = "/resourceStyle.css"
                 };
             }

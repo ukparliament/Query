@@ -9,7 +9,7 @@
     {
         //[Route("", Name = "ParliamentIndex")]
         [HttpGet]
-        public Graph ParliamentIndex()
+        public Graph parliament_index()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -36,7 +36,7 @@ WHERE {
 
         //[Route("current", Name = "ParliamentCurrent")]
         [HttpGet]
-        public Graph ParliamentCurrent()
+        public Graph parliament_current()
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -63,7 +63,7 @@ WHERE {
 
         //[Route("previous", Name = "ParliamentPrevious")]
         [HttpGet]
-        public Graph ParliamentPrevious()
+        public Graph parliament_previous()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -101,7 +101,7 @@ WHERE {
 
         //[Route("next", Name = "ParliamentNext")]
         [HttpGet]
-        public Graph ParliamentNext()
+        public Graph parliament_next()
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -126,11 +126,11 @@ WHERE {
 
         //[Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "ParliamentLookup")]
         [HttpGet]
-        public Graph ParliamentLookup(string source, string id) => base.LookupInternal("ParliamentPeriod", source, id);
+        public Graph parliament_lookup(string property, string value) => base.LookupInternal("ParliamentPeriod", property, value);
 
         //[Route(@"{id:regex(^\w{8}$)}", Name = "ParliamentById")]
         [HttpGet]
-        public Graph ParliamentById(string id)
+        public Graph parliament_by_id(string parliament_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -183,7 +183,7 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("id", new Uri(BaseController.instance, id));
+            query.SetUri("id", new Uri(BaseController.instance, parliament_id));
 
             return BaseController.ExecuteSingle(query);
 
@@ -191,7 +191,7 @@ WHERE {
 
         //[Route(@"{id:regex(^\w{8}$)}/next", Name = "NextParliamentById")]
         [HttpGet]
-        public Graph NextParliamentById(string id)
+        public Graph next_parliament_by_id(string parliament_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -207,7 +207,7 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("id", new Uri(BaseController.instance, id));
+            query.SetUri("id", new Uri(BaseController.instance, parliament_id));
 
             return BaseController.ExecuteSingle(query);
 
@@ -215,7 +215,7 @@ WHERE {
 
         //[Route(@"{id:regex(^\w{8}$)}/previous", Name = "PreviousParliamentById")]
         [HttpGet]
-        public Graph PreviousParliamentById(string id)
+        public Graph previous_parliament_by_id(string parliament_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -231,7 +231,7 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("id", new Uri(BaseController.instance, id));
+            query.SetUri("id", new Uri(BaseController.instance, parliament_id));
 
             return BaseController.ExecuteSingle(query);
 
@@ -239,7 +239,7 @@ WHERE {
 
         //[Route(@"{id:regex(^\w{8}$)}/members", Name = "ParliamentMembers")]
         [HttpGet]
-        public Graph ParliamentMembers(string id)
+        public Graph parliament_members(string parliament_id)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -360,14 +360,14 @@ UNION {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, id));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
 
             return BaseController.ExecuteList(query);
         }
 
         //[Route(@"{id:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentMembersByInitial")]
         [HttpGet]
-        public Graph ParliamentMembersByInitial(string id, string initial)
+        public Graph parliament_members_by_initial(string parliament_id, string initial)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -489,7 +489,7 @@ UNION {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, id));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
             query.SetLiteral("initial", initial);
 
             return BaseController.ExecuteList(query);
@@ -497,7 +497,7 @@ UNION {
 
         //[Route(@"{id:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentMembersAToZLetters")]
         [HttpGet]
-        public Graph ParliamentMembersAToZLetters(string id)
+        public Graph parliament_members_a_to_z(string parliament_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -518,14 +518,14 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, id));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
 
             return BaseController.ExecuteList(query);
         }
 
         //[Route(@"{id:regex(^\w{8}$)}/houses", Name = "ParliamentHouses")]
         [HttpGet]
-        public Graph ParliamentHouses(string id)
+        public Graph parliament_houses(string parliament_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -563,14 +563,14 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, id));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
 
             return BaseController.ExecuteList(query);
         }
 
         //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}", Name = "ParliamentHouse")]
         [HttpGet]
-        public Graph ParliamentHouse(string parliamentid, string houseid)
+        public Graph parliament_house(string parliament_id, string house_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -613,15 +613,15 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, parliamentid));
-            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
 
             return BaseController.ExecuteSingle(query);
         }
 
         //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/members", Name = "ParliamentHouseMembers")]
         [HttpGet]
-        public Graph ParliamentHouseMembers(string parliamentid, string houseid)
+        public Graph parliament_house_members(string parliament_id, string house_id)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -754,15 +754,15 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, parliamentid));
-            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
 
             return BaseController.ExecuteList(query);
         }
 
         //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentHouseMembersAToZLetters")]
         [HttpGet]
-        public Graph ParliamentHouseMembersAToZLetters(string parliamentid, string houseid)
+        public Graph parliament_house_members_a_to_z(string parliament_id, string house_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -787,15 +787,15 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, parliamentid));
-            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
 
             return BaseController.ExecuteList(query);
         }
 
         //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentHouseMembersByInitial")]
         [HttpGet]
-        public Graph ParliamentHouseMembersByInitial(string parliamentid, string houseid, string initial)
+        public Graph parliament_house_members_by_initial(string parliament_id, string house_id, string initial)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -930,8 +930,8 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, parliamentid));
-            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
             query.SetLiteral("initial", initial);
 
             return BaseController.ExecuteList(query);
@@ -939,7 +939,7 @@ WHERE {
 
         //[Route(@"{id:regex(^\w{8}$)}/parties", Name = "ParliamentParties")]
         [HttpGet]
-        public Graph ParliamentParties(string id)
+        public Graph parliament_parties(string parliament_id)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -998,14 +998,14 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, id));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
 
             return BaseController.ExecuteList(query);
         }
 
         //[Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}", Name = "ParliamentParty")]
         [HttpGet]
-        public Graph ParliamentParty(string parliamentid, string partyid)
+        public Graph parliament_party(string parliament_id, string party_id)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -1067,15 +1067,15 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, parliamentid));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
+            query.SetUri("partyid", new Uri(BaseController.instance, party_id));
 
             return BaseController.ExecuteList(query);
         }
 
         //[Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members", Name = "ParliamentPartyMembers")]
         [HttpGet]
-        public Graph ParliamentPartyMembers(string parliamentid, string partyid)
+        public Graph parliament_party_members(string parliament_id, string party_id)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -1242,15 +1242,15 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, parliamentid));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
+            query.SetUri("partyid", new Uri(BaseController.instance, party_id));
 
             return BaseController.ExecuteList(query);
         }
 
         //[Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentPartyMembersAToZLetters")]
         [HttpGet]
-        public Graph ParliamentPartyMembersAToZLetters(string parliamentid, string partyid)
+        public Graph parliament_party_members_a_to_z(string parliament_id, string party_id)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -1294,15 +1294,15 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, parliamentid));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
+            query.SetUri("partyid", new Uri(BaseController.instance, party_id));
 
             return BaseController.ExecuteList(query);
         }
 
         //[Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentPartyMembersByInitial")]
         [HttpGet]
-        public Graph ParliamentPartyMembersByInitial(string parliamentid, string partyid, string initial)
+        public Graph parliament_party_members_by_initial(string parliament_id, string party_id, string initial)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -1470,8 +1470,8 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, parliamentid));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
+            query.SetUri("partyid", new Uri(BaseController.instance, party_id));
             query.SetLiteral("initial", initial);
 
             return BaseController.ExecuteList(query);
@@ -1479,7 +1479,7 @@ WHERE {
 
         //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties", Name = "ParliamentHouseParties")]
         [HttpGet]
-        public Graph ParliamentHouseParties(string parliamentid, string houseid)
+        public Graph parliament_house_parties(string parliament_id, string house_id)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -1548,15 +1548,15 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, parliamentid));
-            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
 
             return BaseController.ExecuteList(query);
         }
 
         //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}", Name = "ParliamentHouseParty")]
         [HttpGet]
-        public Graph ParliamentHouseParty(string parliamentid, string houseid, string partyid)
+        public Graph parliament_house_party(string parliament_id, string house_id, string party_id)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -1625,16 +1625,16 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, parliamentid));
-            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
+            query.SetUri("partyid", new Uri(BaseController.instance, party_id));
 
             return BaseController.ExecuteSingle(query);
         }
 
         //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members", Name = "ParliamentHousePartyMembers")]
         [HttpGet]
-        public Graph ParliamentHousePartyMembers(string parliamentid, string houseid, string partyid)
+        public Graph parliament_house_party_members(string parliament_id, string house_id, string party_id)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -1810,16 +1810,16 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, parliamentid));
-            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
+            query.SetUri("partyid", new Uri(BaseController.instance, party_id));
 
             return BaseController.ExecuteList(query);
         }
 
         //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentHousePartyMembersAToZLetters")]
         [HttpGet]
-        public Graph ParliamentHousePartyMembersAToZLetters(string parliamentid, string houseid, string partyid)
+        public Graph parliament_house_party_members_a_to_z(string parliament_id, string house_id, string party_id)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -1867,16 +1867,16 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, parliamentid));
-            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
+            query.SetUri("partyid", new Uri(BaseController.instance, party_id));
 
             return BaseController.ExecuteList(query);
         }
 
         //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentHousePartyMembersByInitial")]
         [HttpGet]
-        public Graph ParliamentHousePartyMembersByInitial(string parliamentid, string houseid, string partyid, string initial)
+        public Graph parliament_house_party_members_by_initial(string parliament_id, string house_id, string party_id, string initial)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -2054,9 +2054,9 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, parliamentid));
-            query.SetUri("houseid", new Uri(BaseController.instance, houseid));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyid));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
+            query.SetUri("partyid", new Uri(BaseController.instance, party_id));
             query.SetLiteral("initial", initial);
 
             return BaseController.ExecuteList(query);
@@ -2064,7 +2064,7 @@ WHERE {
 
         //[Route(@"{id:regex(^\w{8}$)}/constituencies", Name = "ParliamentConstituencies")]
         [HttpGet]
-        public Graph ParliamentConstituencies(string id)
+        public Graph parliament_constituencies(string parliament_id)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -2182,14 +2182,14 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, id));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
 
             return BaseController.ExecuteList(query);
         }
 
         //[Route(@"{id:regex(^\w{8}$)}/constituencies/a_z_letters", Name = "ParliamentConstituenciesAToZLetters")]
         [HttpGet]
-        public Graph ParliamentConstituenciesAToZLetters(string id)
+        public Graph parliament_constituencies_a_to_z(string parliament_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -2212,14 +2212,14 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, id));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
 
             return BaseController.ExecuteList(query);
         }
 
         //[Route(@"{id:regex(^\w{8}$)}/constituencies/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentConstituenciesByInitial")]
         [HttpGet]
-        public Graph ParliamentConstituenciesByInitial(string id, string initial)
+        public Graph parliament_constituencies_by_initial(string parliament_id, string initial)
         {
             var queryString = @"
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -2339,7 +2339,7 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("parliamentid", new Uri(BaseController.instance, id));
+            query.SetUri("parliamentid", new Uri(BaseController.instance, parliament_id));
             query.SetLiteral("initial", initial);
 
             return BaseController.ExecuteList(query);
