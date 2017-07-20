@@ -20,169 +20,169 @@
         [TestMethod()]
         public void ParliamentIndexSparql()
         {
-            ValidateSparql(() => controller.ParliamentIndex());
+            ValidateSparql(() => controller.parliament_index());
         }
 
         [TestMethod()]
         public void ParliamentCurrentSparql()
         {
-            ValidateSparql(() => controller.ParliamentCurrent());
+            ValidateSparql(() => controller.parliament_current());
         }
 
         [TestMethod()]
         public void ParliamentPreviousSparql()
         {
-            ValidateSparql(() => controller.ParliamentPrevious());
+            ValidateSparql(() => controller.parliament_previous());
         }
 
         [TestMethod()]
         public void ParliamentNextSparql()
         {
-            ValidateSparql(() => controller.ParliamentNext());
+            ValidateSparql(() => controller.parliament_next());
         }
 
         [TestMethod()]
         public void ParliamentLookupSparql()
         {
-            ValidateSparql(() => controller.ParliamentLookup(string.Empty, string.Empty));
+            ValidateSparql(() => controller.parliament_lookup(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentByIdSparql()
         {
-            ValidateSparql(() => controller.ParliamentById(string.Empty));
+            ValidateSparql(() => controller.parliament_by_id(string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentNextByIdSparql()
         {
-            ValidateSparql(() => controller.ParliamentNext());
+            ValidateSparql(() => controller.next_parliament_by_id(string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentMembersSparql()
         {
-            ValidateSparql(() => controller.ParliamentMembers(string.Empty));
+            ValidateSparql(() => controller.parliament_members(string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentMembersByInitialSparql()
         {
-            ValidateSparql(() => controller.ParliamentMembersByInitial(string.Empty, string.Empty));
+            ValidateSparql(() => controller.parliament_members_by_initial(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentMembersAToZSparql()
         {
-            ValidateSparql(() => controller.ParliamentMembersAToZLetters(string.Empty));
+            ValidateSparql(() => controller.parliament_members_a_to_z(string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentHousesSparql()
         {
-            ValidateSparql(() => controller.ParliamentHouses(string.Empty));
+            ValidateSparql(() => controller.parliament_houses(string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentHouseSparql()
         {
-            ValidateSparql(() => controller.ParliamentHouse(string.Empty, string.Empty));
+            ValidateSparql(() => controller.parliament_house(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentHouseMembersSparql()
         {
-            ValidateSparql(() => controller.ParliamentHouseMembers(string.Empty, string.Empty));
+            ValidateSparql(() => controller.parliament_house_members(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentHouseMembersAToZSparql()
         {
-            ValidateSparql(() => controller.ParliamentHouseMembersAToZLetters(string.Empty, string.Empty));
+            ValidateSparql(() => controller.parliament_house_members_a_to_z(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentHouseMembersByInitialSparql()
         {
-            ValidateSparql(() => controller.ParliamentHouseMembersByInitial(string.Empty, string.Empty, string.Empty));
+            ValidateSparql(() => controller.parliament_house_members_by_initial(string.Empty, string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentPartiesSparql()
         {
-            ValidateSparql(() => controller.ParliamentParties(string.Empty));
+            ValidateSparql(() => controller.parliament_parties(string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentPartySparql()
         {
-            ValidateSparql(() => controller.ParliamentParty(string.Empty, string.Empty));
+            ValidateSparql(() => controller.parliament_party(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentPartyMembersSparql()
         {
-            ValidateSparql(() => controller.ParliamentPartyMembers(string.Empty, string.Empty));
+            ValidateSparql(() => controller.parliament_party_members(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentPartyMembersAToZSparql()
         {
-            ValidateSparql(() => controller.ParliamentPartyMembersAToZLetters(string.Empty, string.Empty));
+            ValidateSparql(() => controller.parliament_party_members_a_to_z(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentPartyMembersByInitialSparql()
         {
-            ValidateSparql(() => controller.ParliamentPartyMembersByInitial(string.Empty, string.Empty, string.Empty));
+            ValidateSparql(() => controller.parliament_party_members_by_initial(string.Empty, string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentHousePartiesSparql()
         {
-            ValidateSparql(() => controller.ParliamentHouseParties(string.Empty, string.Empty));
+            ValidateSparql(() => controller.parliament_house_parties(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentHousePartySparql()
         {
-            ValidateSparql(() => controller.ParliamentHouseParty(string.Empty, string.Empty, string.Empty));
+            ValidateSparql(() => controller.parliament_house_party(string.Empty, string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentHousePartyMembersSparql()
         {
-            ValidateSparql(() => controller.ParliamentHousePartyMembers(string.Empty, string.Empty, string.Empty));
+            ValidateSparql(() => controller.parliament_house_party_members(string.Empty, string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentHousePartyMembersAToZSparql()
         {
-            ValidateSparql(() => controller.ParliamentHousePartyMembersAToZLetters(string.Empty, string.Empty, string.Empty));
+            ValidateSparql(() => controller.parliament_house_party_members_a_to_z(string.Empty, string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentHousePartyMembersByInitialSparql()
         {
-            ValidateSparql(() => controller.ParliamentHousePartyMembersByInitial(string.Empty, string.Empty, string.Empty, string.Empty));
+            ValidateSparql(() => controller.parliament_house_party_members_by_initial(string.Empty, string.Empty, string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentConstituenciesSparql()
         {
-            ValidateSparql(() => controller.ParliamentConstituencies(string.Empty));
+            ValidateSparql(() => controller.parliament_constituencies(string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentConstituenciesAToZSparql()
         {
-            ValidateSparql(() => controller.ParliamentConstituenciesAToZLetters(string.Empty));
+            ValidateSparql(() => controller.parliament_constituencies_a_to_z(string.Empty));
         }
 
         [TestMethod()]
         public void ParliamentConstituenciesByInitialSparql()
         {
-            ValidateSparql(() => controller.ParliamentConstituenciesByInitial(string.Empty, string.Empty));
+            ValidateSparql(() => controller.parliament_constituencies_by_initial(string.Empty, string.Empty));
         }
     }
 }

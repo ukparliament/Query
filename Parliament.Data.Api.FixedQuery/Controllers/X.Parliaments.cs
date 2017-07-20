@@ -249,11 +249,14 @@ CONSTRUCT {
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
+        :memberHasMemberImage ?image ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
         :memberHasIncumbency ?seatIncumbency ;
         :partyMemberHasPartyMembership ?partyMembership .
-   ?seatIncumbency
+    ?image
+        a :MemberImage .
+    ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
         :incumbencyStartDate ?incStartDate ;
@@ -310,6 +313,7 @@ WHERE {
 
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
+            OPTIONAL { ?person :memberHasMemberImage ?image . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
                 
@@ -377,11 +381,14 @@ CONSTRUCT {
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
+        :memberHasMemberImage ?image ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
         :memberHasIncumbency ?seatIncumbency ;
         :partyMemberHasPartyMembership ?partyMembership .
-   ?seatIncumbency
+    ?image
+        a :MemberImage .
+    ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
         :incumbencyStartDate ?incStartDate ;
@@ -438,6 +445,7 @@ WHERE {
 
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
+            OPTIONAL { ?person :memberHasMemberImage ?image . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
                 
@@ -631,11 +639,14 @@ CONSTRUCT {
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
+        :memberHasMemberImage ?image ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
         :memberHasIncumbency ?seatIncumbency ;
         :partyMemberHasPartyMembership ?partyMembership .
-   ?seatIncumbency
+    ?image
+        a :MemberImage .
+    ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
         :incumbencyStartDate ?incStartDate ;
@@ -695,6 +706,7 @@ WHERE {
 
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
+            OPTIONAL { ?person :memberHasMemberImage ?image . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
@@ -806,11 +818,14 @@ CONSTRUCT {
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
+        :memberHasMemberImage ?image ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
         :memberHasIncumbency ?seatIncumbency ;
         :partyMemberHasPartyMembership ?partyMembership .
-   ?seatIncumbency
+    ?image
+        a :MemberImage .
+    ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
         :incumbencyStartDate ?incStartDate ;
@@ -870,6 +885,7 @@ WHERE {
 
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
+            OPTIONAL { ?person :memberHasMemberImage ?image . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
@@ -1085,11 +1101,14 @@ CONSTRUCT {
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
+        :memberHasMemberImage ?image ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
         :memberHasIncumbency ?seatIncumbency ;
         :partyMemberHasPartyMembership ?partyMembership .
-   ?seatIncumbency
+    ?image
+        a :MemberImage .
+    ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
         :incumbencyStartDate ?incStartDate ;
@@ -1150,6 +1169,7 @@ WHERE {
 
         OPTIONAL { ?person :personGivenName ?givenName . }
         OPTIONAL { ?person :personFamilyName ?familyName . }
+        OPTIONAL { ?person :memberHasMemberImage ?image . }
         OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
             
@@ -1312,11 +1332,14 @@ CONSTRUCT {
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
+        :memberHasMemberImage ?image ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
         :memberHasIncumbency ?seatIncumbency ;
         :partyMemberHasPartyMembership ?partyMembership .
-   ?seatIncumbency
+    ?image
+        a :MemberImage .
+    ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
         :incumbencyStartDate ?incStartDate ;
@@ -1377,6 +1400,7 @@ WHERE {
 
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
+            OPTIONAL { ?person :memberHasMemberImage ?image . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
             
@@ -1490,8 +1514,8 @@ CONSTRUCT {
         :parliamentPeriodStartDate ?startDate ;
         :parliamentPeriodEndDate ?endDate ;
         :parliamentPeriodNumber ?parliamentNumber ;
-         :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament ;
-    	 :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament .
+        :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament ;
+   	    :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament .
     ?party
         a :Party ;
         :partyName ?partyName ;
@@ -1644,11 +1668,14 @@ CONSTRUCT {
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
+        :memberHasMemberImage ?image ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
         :memberHasIncumbency ?seatIncumbency ;
         :partyMemberHasPartyMembership ?partyMembership .
-   ?seatIncumbency
+    ?image
+        a :MemberImage .
+    ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
         :incumbencyStartDate ?incStartDate ;
@@ -1728,6 +1755,7 @@ WHERE {
 		    )
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
+            OPTIONAL { ?person :memberHasMemberImage ?image . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
         }
@@ -1886,11 +1914,14 @@ CONSTRUCT {
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
+        :memberHasMemberImage ?image ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
         :memberHasIncumbency ?seatIncumbency ;
         :partyMemberHasPartyMembership ?partyMembership .
-   ?seatIncumbency
+    ?image
+        a :MemberImage .
+    ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
         :incumbencyStartDate ?incStartDate ;
@@ -1970,6 +2001,7 @@ WHERE {
 		)
         OPTIONAL { ?person :personGivenName ?givenName . }
         OPTIONAL { ?person :personFamilyName ?familyName . }
+        OPTIONAL { ?person :memberHasMemberImage ?image . }
         OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
@@ -2102,10 +2134,13 @@ CONSTRUCT {
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
+        :memberHasMemberImage ?image ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
         :partyMemberHasPartyMembership ?partyMembership .
-    _:x :value ?firstLetter .
+    ?image
+        a :MemberImage .
+_:x :value ?firstLetter .
 }
 WHERE {
     { SELECT * WHERE {
@@ -2146,6 +2181,7 @@ WHERE {
                 
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
+            OPTIONAL { ?person :memberHasMemberImage ?image . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
         }
@@ -2257,9 +2293,12 @@ CONSTRUCT {
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
+        :memberHasMemberImage ?image ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
         :partyMemberHasPartyMembership ?partyMembership .
+    ?image
+        a :MemberImage .
     _:x :value ?firstLetter .
 }
 WHERE {
@@ -2301,6 +2340,7 @@ WHERE {
                 
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
+            OPTIONAL { ?person :memberHasMemberImage ?image . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
             

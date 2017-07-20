@@ -20,13 +20,13 @@
         [TestMethod()]
         public void ContactPointsIndexSparql()
         {
-            ValidateSparql(() => controller.ContactPointIndex());
+            ValidateSparql(() => controller.contact_point_index());
         }
 
         [TestMethod()]
         public void ContactPointsByIdSparql()
         {
-            ValidateSparql(() => controller.ContactPointById(string.Empty));
+            ValidateSparql(() => controller.contact_point_by_id(string.Empty));
         }
     }
 }

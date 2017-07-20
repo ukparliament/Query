@@ -20,115 +20,114 @@
         [TestMethod()]
         public void HouseByIdSparql()
         {
-            ValidateSparql(() => controller.HouseById(string.Empty));
+            ValidateSparql(() => controller.house_by_id(string.Empty));
         }
 
         [TestMethod()]
         public void HouseLookupSparql()
         {
-            ValidateSparql(() => controller.HouseLookup(string.Empty, string.Empty));
+            ValidateSparql(() => controller.house_lookup(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void HouseByLettersSparql()
         {
-            ValidateSparql(() => controller.HouseByLetters(string.Empty));
+            ValidateSparql(() => controller.house_by_substring(string.Empty));
         }
 
         [TestMethod()]
         public void HouseIndexSparql()
         {
-            ValidateSparql(() => controller.HouseIndex());
+            ValidateSparql(() => controller.house_index());
         }
 
         [TestMethod()]
         public void HouseMembersSparql()
         {
-            ValidateSparql(() => controller.HouseMembers(string.Empty));
+            ValidateSparql(() => controller.house_members(string.Empty));
         }
 
         [TestMethod()]
         public void HouseCurrentMembersSparql()
         {
-            ValidateSparql(() => controller.HouseCurrentMembers(string.Empty));
+            ValidateSparql(() => controller.house_current_members(string.Empty));
         }
 
         [TestMethod()]
         public void HousePartiesSparql()
         {
-            ValidateSparql(() => controller.HouseParties(string.Empty));
+            ValidateSparql(() => controller.house_parties(string.Empty));
         }
 
         [TestMethod()]
         public void HouseCurrentPartiesSparql()
         {
-            ValidateSparql(() => controller.HouseCurrentParties(string.Empty));
+            ValidateSparql(() => controller.house_current_parties(string.Empty));
         }
 
         [TestMethod()]
         public void HousePartyByIdSparql()
         {
-            ValidateSparql(() => controller.HousePartyById(string.Empty, string.Empty));
+            ValidateSparql(() => controller.house_party_by_id(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void HouseMembersByInitialSparql()
         {
-            ValidateSparql(() => controller.HouseMembersByInitial(string.Empty, string.Empty));
+            ValidateSparql(() => controller.house_members_by_initial(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void HouseMembersAToZLettersSparql()
         {
-            ValidateSparql(() => controller.HouseMembersAToZ(string.Empty));
+            ValidateSparql(() => controller.house_members_a_to_z(string.Empty));
         }
 
         [TestMethod()]
         public void HouseCurrentMembersByInitialSparql()
         {
-            ValidateSparql(() => controller.HouseCurrentMembersByInitial(string.Empty, string.Empty));
+            ValidateSparql(() => controller.house_current_members_by_initial(string.Empty, string.Empty));
         }
 
         [TestMethod()]
-        public void HouseCurrentMembersAToZLettersSparql()
+        public void HousecurrentMembersAToZLettersSparql()
         {
-            ValidateSparql(() => controller.HouseCurrentMembersAToZ(string.Empty));
+            ValidateSparql(() => controller.house_current_members_a_to_z(string.Empty));
         }
-
         [TestMethod()]
         public void HousePartyMembersSparql()
         {
-            ValidateSparql(() => controller.HousePartyMembers(string.Empty, string.Empty));
+            ValidateSparql(() => controller.house_party_members(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void HousePartyMembersByInitialSparql()
         {
-            ValidateSparql(() => controller.HousePartyMembersByInitial(string.Empty, string.Empty, string.Empty));
+            ValidateSparql(() => controller.house_party_members_by_initial(string.Empty, string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void HousePartyMembersAToZLettersSparql()
         {
-            ValidateSparql(() => controller.HousePartyMembersAToZ(string.Empty, string.Empty));
+            ValidateSparql(() => controller.house_party_members_a_to_z(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void HousePartyCurrentMembersSparql()
         {
-            ValidateSparql(() => controller.HousePartyCurrentMembers(string.Empty, string.Empty));
+            ValidateSparql(() => controller.house_party_current_members(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void HousePartyCurrentMembersByInitialSparql()
         {
-            ValidateSparql(() => controller.HousePartyCurrentMembersByInitial(string.Empty, string.Empty, string.Empty));
+            ValidateSparql(() => controller.house_party_current_members_by_initial(string.Empty, string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void HousePartyCurrentMembersAToZLettersSparql()
         {
-            ValidateSparql(() => controller.HousePartyCurrentMembersAToZ(string.Empty, string.Empty));
+            ValidateSparql(() => controller.house_party_current_members_a_to_z(string.Empty, string.Empty));
         }
     }
 }

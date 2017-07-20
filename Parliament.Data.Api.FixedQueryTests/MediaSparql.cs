@@ -5,9 +5,9 @@
     using Parliament.Data.Api.FixedQueryTests;
 
     [TestClass()]
-    [TestCategory("Resource")]
+    [TestCategory("Media")]
     [TestCategory("Sparql")]
-    public class ResourceSparql : SparqlValidator
+    public class MediaSparql : SparqlValidator
     {
         private XController controller;
 
@@ -18,9 +18,9 @@
         }
 
         [TestMethod()]
-        public void ResourceByIdSparql()
+        public void ImageByIdSparql()
         {
-            ValidateSparql(() => controller.resource_by_id(string.Empty));
+            ValidateSparql(() => controller.image_by_id(string.Empty));
         }
     }
-}
+} 

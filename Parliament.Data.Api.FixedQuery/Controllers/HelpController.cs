@@ -120,7 +120,10 @@
                 this.Url.Route("WithoutExtension", new {action = "parliament_house_party_members_by_initial", parliament_id = "fHx6P1lb", house_id = "Kz7ncmrt", party_id = "891w1b1k", initial = "d"}),
                 this.Url.Route("WithoutExtension", new {action = "parliament_constituencies", parliament_id = "fHx6P1lb" }),
                 this.Url.Route("WithoutExtension", new {action = "parliament_constituencies_a_to_z", parliament_id = "fHx6P1lb"}),
-                this.Url.Route("WithoutExtension", new {action = "parliament_constituencies_by_initial", parliament_id = "fHx6P1lb", initial = "d" })
+                this.Url.Route("WithoutExtension", new {action = "parliament_constituencies_by_initial", parliament_id = "fHx6P1lb", initial = "d" }),
+
+                this.Url.Route("WithoutExtension", new {action = "image_by_id", image_id = "qnsCGpnw"})
+
             };
 
             var response = Request.CreateResponse();

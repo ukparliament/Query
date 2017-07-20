@@ -20,85 +20,85 @@
         [TestMethod()]
         public void PartyIndexSparql()
         {
-            ValidateSparql(() => controller.PartyIndex());
+            ValidateSparql(() => controller.party_index());
         }
 
         [TestMethod()]
         public void PartyByIdSparql()
         {
-            ValidateSparql(() => controller.PartyById(string.Empty));
+            ValidateSparql(() => controller.party_by_id(string.Empty));
         }
 
         [TestMethod()]
         public void PartyByInitialSparql()
         {
-            ValidateSparql(() => controller.PartyByInitial(string.Empty));
+            ValidateSparql(() => controller.party_by_initial(string.Empty));
         }
 
         [TestMethod()]
         public void PartyCurrentSparql()
         {
-            ValidateSparql(() => controller.PartyCurrent());
+            ValidateSparql(() => controller.party_current());
         }
 
         [TestMethod()]
         public void PartyAToZLettersSparql()
         {
-            ValidateSparql(() => controller.PartyAToZ());
+            ValidateSparql(() => controller.party_a_to_z());
         }
 
         [TestMethod()]
         public void PartyCurrentAToZPartiesSparql()
         {
-            ValidateSparql(() => controller.PartyCurrentAToZ());
+            ValidateSparql(() => controller.party_current_a_to_z());
         }
 
         [TestMethod()]
         public void PartyLookupSparql()
         {
-            ValidateSparql(() => controller.PartyLookup(string.Empty, string.Empty));
+            ValidateSparql(() => controller.party_lookup(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void PartyByLettersSparql()
         {
-            ValidateSparql(() => controller.PartyByLetters(string.Empty));
+            ValidateSparql(() => controller.party_by_substring(string.Empty));
         }
 
         [TestMethod()]
         public void PartyMembersSparql()
         {
-            ValidateSparql(() => controller.PartyMembers(string.Empty));
+            ValidateSparql(() => controller.party_members(string.Empty));
         }
 
         [TestMethod()]
         public void PartyCurrentMembersSparql()
         {
-            ValidateSparql(() => controller.PartyCurrentMembers(string.Empty));
+            ValidateSparql(() => controller.party_current_members(string.Empty));
         }
 
         [TestMethod()]
         public void PartyMembersByInitialSparql()
         {
-            ValidateSparql(() => controller.PartyMembersByInitial(string.Empty, string.Empty));
+            ValidateSparql(() => controller.party_members_by_initial(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void PartyMembersAToZLettersSparql()
         {
-            ValidateSparql(() => controller.PartyMembersAToZ(string.Empty));
+            ValidateSparql(() => controller.party_members_a_to_z(string.Empty));
         }
 
         [TestMethod()]
         public void PartyCurrentMembersByInitialSparql()
         {
-            ValidateSparql(() => controller.PartyCurrentMembersByInitial(string.Empty, string.Empty));
+            ValidateSparql(() => controller.party_current_members_by_initial(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void PartyCurrentMembersAToZLettersSparql()
         {
-            ValidateSparql(() => controller.PartyCurrentMembersAToZ(string.Empty));
+            ValidateSparql(() => controller.party_current_members_a_to_z(string.Empty));
         }
     }
 }

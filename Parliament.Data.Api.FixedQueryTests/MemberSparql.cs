@@ -20,31 +20,31 @@
         [TestMethod()]
         public void MemberCurrentSparql()
         {
-            ValidateSparql(() => controller.MemberCurrent());
+            ValidateSparql(() => controller.member_current());
         }
 
         [TestMethod()]
         public void MemberByInitialSparql()
         {
-            ValidateSparql(() => controller.MemberByInitial(string.Empty));
+            ValidateSparql(() => controller.member_by_initial(string.Empty));
         }
 
         [TestMethod()]
         public void MemberAToZLettersSparql()
         {
-            ValidateSparql(() => controller.MemberAToZ());
+            ValidateSparql(() => controller.member_a_to_z());
         }
 
         [TestMethod()]
         public void MemberCurrentByInitialSparql()
         {
-            ValidateSparql(() => controller.MemberCurrentByInitial(string.Empty));
+            ValidateSparql(() => controller.member_current_by_initial(string.Empty));
         }
 
         [TestMethod()]
         public void MemberCurrentAToZLettersSparql()
         {
-            ValidateSparql(() => controller.MemberCurrentAToZ());
+            ValidateSparql(() => controller.member_current_a_to_z());
         }
     }
 }

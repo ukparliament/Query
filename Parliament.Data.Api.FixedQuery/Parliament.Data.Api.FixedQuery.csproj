@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AIExceptionLogger.cs" />
+    <Compile Include="Controllers\X.Media.cs" />
     <Compile Include="Controllers\X.Resources.cs" />
     <Compile Include="Controllers\X.People.cs" />
     <Compile Include="Controllers\X.Parties.cs" />
