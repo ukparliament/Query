@@ -36,8 +36,11 @@ CONSTRUCT{
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
+        :memberHasMemberImage ?image ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         :partyMemberHasPartyMembership ?partyMembership .
+    ?image
+        a :MemberImage .
     ?partyMembership
         a :PartyMembership ;
         :partyMembershipHasParty ?party .
@@ -63,6 +66,7 @@ WHERE {
         OPTIONAL { ?member :personFamilyName ?familyName . }
         OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
         OPTIONAL { ?member :partyMemberHasPartyMembership ?partyMembership .}
+        OPTIONAL { ?member :memberHasMemberImage ?image } .
         OPTIONAL { ?partyMembership :partyMembershipHasParty ?party . }
         OPTIONAL { ?party :partyName ?partyName . }
     }
