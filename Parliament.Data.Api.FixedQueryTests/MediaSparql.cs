@@ -9,12 +9,12 @@
     [TestCategory("Sparql")]
     public class MediaSparql : SparqlValidator
     {
-        private XController controller;
+        private FixedQueryController controller;
 
         [TestInitialize]
         public void Initialize()
         {
-            controller = new XController();
+            controller = new FixedQueryController();
         }
 
         [TestMethod()]

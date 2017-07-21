@@ -5,7 +5,7 @@
     using VDS.RDF;
     using VDS.RDF.Query;
 
-    public partial class XController 
+    public partial class FixedQueryController 
     {
         //[Route("", Name = "ParliamentIndex")]
         [HttpGet]

@@ -51,8 +51,8 @@
 
             graph.NamespaceMap.AddNamespace("owl", new Uri("http://www.w3.org/2002/07/owl#"));
             graph.NamespaceMap.AddNamespace("rdf", new Uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));
-            graph.NamespaceMap.AddNamespace("id", XController.instance);
-            graph.NamespaceMap.AddNamespace("schema", XController.schema);
+            graph.NamespaceMap.AddNamespace("id", FixedQueryController.instance);
+            graph.NamespaceMap.AddNamespace("schema", FixedQueryController.schema);
 
             var graphHandler = new GraphHandler(graph);
 

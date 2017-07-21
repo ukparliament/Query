@@ -6,7 +6,7 @@
     using VDS.RDF;
     using VDS.RDF.Query;
 
-    public partial class XController
+    public partial class FixedQueryController
     {
 
         //[Route(@"{id:regex(^\w{8}$)}", Name = "ConstituencyByID")]
@@ -50,25 +50,30 @@ CONSTRUCT{
 }
 WHERE {
     BIND( @id AS ?constituencyGroup )
-    ?constituencyGroup a :ConstituencyGroup .
+    ?constituencyGroup :constituencyGroupStartDate ?startDate .
     OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?endDate . }
-    OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?startDate . }
     OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
     OPTIONAL { ?constituencyGroup :constituencyGroupOnsCode ?onsCode . }
     OPTIONAL {
         ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
         ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
         ?seatIncumbency a :SeatIncumbency ;
-        OPTIONAL { ?seatIncumbency :incumbencyHasMember ?member . }
         OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
         OPTIONAL { ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate . }
-        OPTIONAL { ?member :personGivenName ?givenName . }
-        OPTIONAL { ?member :personFamilyName ?familyName . }
-        OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
-        OPTIONAL { ?member :partyMemberHasPartyMembership ?partyMembership .}
-        OPTIONAL { ?member :memberHasMemberImage ?image } .
-        OPTIONAL { ?partyMembership :partyMembershipHasParty ?party . }
-        OPTIONAL { ?party :partyName ?partyName . }
+        OPTIONAL { 
+            ?seatIncumbency :incumbencyHasMember ?member .
+            OPTIONAL { ?member :personGivenName ?givenName . }
+            OPTIONAL { ?member :personOtherName ?personOtherName . }
+            OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+            OPTIONAL { ?member :memberHasMemberImage ?image . } 
+            OPTIONAL { 
+                ?member :partyMemberHasPartyMembership ?partyMembership .
+                OPTIONAL { 
+                    ?partyMembership :partyMembershipHasParty ?party . 
+                    OPTIONAL { ?party :partyName ?partyName . }
+                }
+            }
+        }
     }
 }
 ";

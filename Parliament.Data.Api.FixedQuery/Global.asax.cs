@@ -41,12 +41,10 @@
             config.Formatters.Add(new HttpErrorJsonFormatter());
             config.Formatters.Add(new HttpErrorXmlFormatter());
 
-            //config.MapHttpAttributeRoutes();
-
             config.Routes.MapHttpRoute("Index", "", new { controller = "Help" });
 
-            config.Routes.MapHttpRoute("WithExtension", "{action}.{ext}", new { controller = "x" });
-            config.Routes.MapHttpRoute("WithoutExtension", "{action}", new { controller = "x" });
+            config.Routes.MapHttpRoute("WithExtension", "{action}.{ext}", new { controller = "FixedQuery" });
+            config.Routes.MapHttpRoute("WithoutExtension", "{action}", new { controller = "FixedQuery" });
 
             config.Routes.MapHttpRoute("BadRequest", "{*any}", new { controller = "BadRequest", action = "Get" });
 
