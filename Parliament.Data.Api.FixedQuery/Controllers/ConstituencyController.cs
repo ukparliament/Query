@@ -49,7 +49,7 @@ CONSTRUCT{
         :partyName ?partyName .
 }
 WHERE {
-    BIND(<http://id.ukpds.org/E1pYbePW> AS ?constituencyGroup )
+    BIND( @id AS ?constituencyGroup )
     ?constituencyGroup :constituencyGroupStartDate ?startDate .
     OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?endDate . }
     OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
