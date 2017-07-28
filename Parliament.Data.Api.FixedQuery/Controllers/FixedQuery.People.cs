@@ -969,8 +969,8 @@ WHERE {
     UNION {
         SELECT * WHERE {
             ?parliament a :PastParliamentPeriod ;
-            			:parliamentPeriodStartDate ?parliamentPeriodStartDate ;
-               			:parliamentPeriodEndDate ?parliamentPeriodEndDate .
+   			    :parliamentPeriodStartDate ?parliamentPeriodStartDate ;
+                OPTIONAL { ?parliament :parliamentPeriodEndDate ?parliamentPeriodEndDate . }
         }
         ORDER BY DESC(?parliamentPeriodStartDate)
         LIMIT 3
