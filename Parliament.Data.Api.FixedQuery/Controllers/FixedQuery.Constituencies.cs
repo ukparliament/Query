@@ -70,6 +70,7 @@ WHERE {
                 ?member :partyMemberHasPartyMembership ?partyMembership .
                 OPTIONAL { 
                     ?partyMembership :partyMembershipHasParty ?party . 
+                    FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
                     OPTIONAL { ?party :partyName ?partyName . }
                 }
             }
