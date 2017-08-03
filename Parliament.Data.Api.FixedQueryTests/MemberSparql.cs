@@ -9,42 +9,42 @@
     [TestCategory("Sparql")]
     public class MemberSparql : SparqlValidator
     {
-        private MemberController controller;
+        private FixedQueryController controller;
 
         [TestInitialize]
         public void Initialize()
         {
-            controller = new MemberController();
+            controller = new FixedQueryController();
         }
 
         [TestMethod()]
         public void MemberCurrentSparql()
         {
-            ValidateSparql(() => controller.Current());
+            ValidateSparql(() => controller.member_current());
         }
 
         [TestMethod()]
         public void MemberByInitialSparql()
         {
-            ValidateSparql(() => controller.ByInitial(string.Empty));
+            ValidateSparql(() => controller.member_by_initial(string.Empty));
         }
 
         [TestMethod()]
         public void MemberAToZLettersSparql()
         {
-            ValidateSparql(() => controller.AToZLetters());
+            ValidateSparql(() => controller.member_a_to_z());
         }
 
         [TestMethod()]
         public void MemberCurrentByInitialSparql()
         {
-            ValidateSparql(() => controller.CurrentByInitial(string.Empty));
+            ValidateSparql(() => controller.member_current_by_initial(string.Empty));
         }
 
         [TestMethod()]
         public void MemberCurrentAToZLettersSparql()
         {
-            ValidateSparql(() => controller.CurrentAToZLetters());
+            ValidateSparql(() => controller.member_current_a_to_z());
         }
     }
 }

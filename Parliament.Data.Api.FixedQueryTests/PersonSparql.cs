@@ -9,102 +9,102 @@
     [TestCategory("Sparql")]
     public class PersonSparql : SparqlValidator
     {
-        private PersonController controller;
+        private FixedQueryController controller;
 
         [TestInitialize]
         public void Initialize()
         {
-            controller = new PersonController();
+            controller = new FixedQueryController();
         }
 
         [TestMethod()]
         public void PersonIndexSparql()
         {
-            ValidateSparql(() => controller.Index());
+            ValidateSparql(() => controller.person_index());
         }
 
         [TestMethod()]
         public void PersonByIdSparql()
         {
-            ValidateSparql(() => controller.ById(string.Empty));
+            ValidateSparql(() => controller.person_by_id(string.Empty));
         }
 
         [TestMethod()]
         public void PersonByInitialSparql()
         {
-            ValidateSparql(() => controller.ByInitial(string.Empty));
+            ValidateSparql(() => controller.person_by_initial(string.Empty));
         }
 
         [TestMethod()]
         public void PersonLookupSparql()
         {
-            ValidateSparql(() => controller.Lookup(string.Empty, string.Empty));
+            ValidateSparql(() => controller.person_lookup(string.Empty, string.Empty));
         }
 
         [TestMethod()]
         public void PersonMemberIndexSparql()
         {
-            ValidateSparql(() => controller.Index());
+            ValidateSparql(() => controller.person_index());
         }
 
         [TestMethod()]
         public void PersonByLettersSparql()
         {
-            ValidateSparql(() => controller.ByLetters(string.Empty));
+            ValidateSparql(() => controller.person_by_substring(string.Empty));
         }
 
         [TestMethod()]
         public void PersonAToZLettersSparql()
         {
-            ValidateSparql(() => controller.AToZLetters());
+            ValidateSparql(() => controller.person_a_to_z());
         }
 
         [TestMethod()]
         public void PersonConstituenciesSparql()
         {
-            ValidateSparql(() => controller.Constituencies(string.Empty));
+            ValidateSparql(() => controller.person_constituencies(string.Empty));
         }
 
         [TestMethod()]
         public void PersonCurrentConstituencySparql()
         {
-            ValidateSparql(() => controller.CurrentConstituency(string.Empty));
+            ValidateSparql(() => controller.person_current_constituency(string.Empty));
         }
 
         [TestMethod()]
         public void PersonPartiesSparql()
         {
-            ValidateSparql(() => controller.Parties(string.Empty));
+            ValidateSparql(() => controller.person_parties(string.Empty));
         }
 
         [TestMethod()]
         public void PersonCurrentPartySparql()
         {
-            ValidateSparql(() => controller.CurrentParty(string.Empty));
+            ValidateSparql(() => controller.person_current_party(string.Empty));
         }
 
         [TestMethod()]
         public void PersonContactPointsSparql()
         {
-            ValidateSparql(() => controller.ContactPoints(string.Empty));
+            ValidateSparql(() => controller.person_contact_points(string.Empty));
         }
 
         [TestMethod()]
         public void PersonHousesSparql()
         {
-            ValidateSparql(() => controller.Houses(string.Empty));
+            ValidateSparql(() => controller.person_houses(string.Empty));
         }
 
         [TestMethod()]
         public void PersonCurrentHouseSparql()
         {
-            ValidateSparql(() => controller.CurrentHouse(string.Empty));
+            ValidateSparql(() => controller.person_current_house(string.Empty));
         }
 
         [TestMethod()]
         public void PersonMPsSparql()
         {
-            ValidateSparql(() => controller.MPs());
+            ValidateSparql(() => controller.person_mps());
         }
     }
 }

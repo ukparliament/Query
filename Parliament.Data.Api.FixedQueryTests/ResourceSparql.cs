@@ -9,18 +9,18 @@
     [TestCategory("Sparql")]
     public class ResourceSparql : SparqlValidator
     {
-        private ResourceController controller;
+        private FixedQueryController controller;
 
         [TestInitialize]
         public void Initialize()
         {
-            controller = new ResourceController();
+            controller = new FixedQueryController();
         }
 
         [TestMethod()]
         public void ResourceByIdSparql()
         {
-            ValidateSparql(() => controller.ById(string.Empty));
+            ValidateSparql(() => controller.resource_by_id(string.Empty));
         }
     }
 }

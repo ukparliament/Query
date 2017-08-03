@@ -5,13 +5,11 @@
     using VDS.RDF;
     using VDS.RDF.Query;
 
-    [RoutePrefix("houses")]
-    public class HouseController : BaseController
+    public partial class FixedQueryController
     {
-
-        [Route(@"{id:regex(^\w{8}$)}", Name = "HouseById")]
+        //[Route(@"{id:regex(^\w{8}$)}", Name = "HouseById")]
         [HttpGet]
-        public Graph ById(string id)
+        public Graph house_by_id(string house_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -30,19 +28,19 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("id", new Uri(BaseController.instance, id));
+            query.SetUri("id", new Uri(BaseController.instance, house_id));
 
             return BaseController.ExecuteSingle(query);
 
         }
 
-        [Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "HouseLookup")]
+        //[Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "HouseLookup")]
         [HttpGet]
-        public Graph Lookup(string source, string id) => base.LookupInternal("House", source, id);
+        public Graph house_lookup(string property, string value) => base.LookupInternal("House", property, value);
 
-        [Route(@"partial/{letters:regex(^\p{L}+$):minlength(2)}", Name = "HouseByLetters", Order = 999)]
+        //[Route(@"partial/{letters:regex(^\p{L}+$):minlength(2)}", Name = "HouseByLetters", Order = 999)]
         [HttpGet]
-        public Graph ByLetters(string letters)
+        public Graph house_by_substring(string substring)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -52,23 +50,23 @@ CONSTRUCT {
         :houseName ?houseName .
 }
 WHERE {
-    ?house
+    ?house 
          a :House ;
     	:houseName ?houseName .
-    FILTER CONTAINS(LCASE(?houseName), LCASE(@letters))
+    FILTER CONTAINS(LCASE(?houseName), LCASE(@substring))
 }
 ";
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetLiteral("letters", letters);
+            query.SetLiteral("substring", substring);
 
             return BaseController.ExecuteList(query);
         }
 
-        [Route("", Name = "HouseIndex")]
+        //[Route("", Name = "HouseIndex")]
         [HttpGet]
-        public Graph Index()
+        public Graph house_index()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -89,9 +87,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{id:regex(^\w{8}$)}/members", Name = "HouseMembers")]
+        //[Route(@"{id:regex(^\w{8}$)}/members", Name = "HouseMembers")]
         [HttpGet]
-        public Graph Members(string id)
+        public Graph house_members(string house_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -117,7 +115,7 @@ CONSTRUCT {
     ?houseIncumbency
         a :HouseIncumbency ;
         :houseIncumbencyHasHouse ?house ;
-        :incumbencyEndDate ?houseIncumbencyEndDate .
+        :incumbencyEndDate ?houseIncumbencyEndDate .    
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;
@@ -138,10 +136,10 @@ WHERE {
     { SELECT * WHERE {
         BIND(@houseid AS ?house)
         ?house a :House .
-
+        
         OPTIONAL {
         ?person a :Member .
-            ?incumbency
+            ?incumbency 
                 :incumbencyHasMember ?person .
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
@@ -151,7 +149,7 @@ WHERE {
             {
                 ?incumbency :houseIncumbencyHasHouse ?house .
                 OPTIONAL { ?incumbency :incumbencyEndDate ?houseIncumbencyEndDate . }
-                BIND(?incumbency AS ?houseIncumbency)
+                BIND(?incumbency AS ?houseIncumbency)        
             }
             UNION {
                 ?incumbency :seatIncumbencyHasHouseSeat ?houseSeat .
@@ -199,14 +197,14 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, id));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
 
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{id:regex(^\w{8}$)}/members/current", Name = "HouseCurrentMembers")]
+        //[Route(@"{id:regex(^\w{8}$)}/members/current", Name = "HouseCurrentMembers")]
         [HttpGet]
-        public Graph CurrentMembers(string id)
+        public Graph house_current_members(string house_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -230,7 +228,7 @@ CONSTRUCT {
         :seatIncumbencyHasHouseSeat ?houseSeat .
     ?houseIncumbency
         a :HouseIncumbency ;
-        :houseIncumbencyHasHouse ?house .
+        :houseIncumbencyHasHouse ?house .   
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;
@@ -249,12 +247,12 @@ CONSTRUCT {
 WHERE {
     { SELECT * WHERE {
         BIND(@houseid AS ?house)
-        ?house
+        ?house 
             a :House ;
             :houseName ?houseName .
         OPTIONAL {
             ?person a :Member .
-            ?incumbency
+            ?incumbency 
                 :incumbencyHasMember ?person .
             FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
             OPTIONAL { ?person :personGivenName ?givenName . }
@@ -264,7 +262,7 @@ WHERE {
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
             {
                 ?incumbency :houseIncumbencyHasHouse ?house .
-                BIND(?incumbency AS ?houseIncumbency)
+                BIND(?incumbency AS ?houseIncumbency)        
             }
             UNION {
                 ?incumbency :seatIncumbencyHasHouseSeat ?houseSeat .
@@ -282,7 +280,7 @@ WHERE {
                 ?partyMembership :partyMembershipHasParty ?party .
                 ?party :partyName ?partyName .
             }
-          }
+          }        
        }
     }
     UNION {
@@ -309,14 +307,14 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, id));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
 
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{id:regex(^\w{8}$)}/parties", Name = "HouseParties")]
+        //[Route(@"{id:regex(^\w{8}$)}/parties", Name = "HouseParties")]
         [HttpGet]
-        public Graph Parties(string id)
+        public Graph house_parties(string house_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -330,11 +328,11 @@ CONSTRUCT {
 }
 WHERE {
     BIND(@houseid as ?house)
-    ?house
+    ?house 
         a :House ;
         :houseName ?houseName .
     ?person a :Member .
-    ?incumbency
+    ?incumbency 
         :incumbencyHasMember ?person ;
         :incumbencyStartDate ?incStartDate .
     OPTIONAL { ?incumbency :incumbencyEndDate ?incumbencyEndDate . }
@@ -345,7 +343,7 @@ WHERE {
         ?incumbency :seatIncumbencyHasHouseSeat ?houseSeat .
         ?houseSeat :houseSeatHasHouse ?house .
 	}
-    ?partyMembership
+    ?partyMembership 
         :partyMembershipHasPartyMember ?person ;
         :partyMembershipHasParty ?party ;
         :partyMembershipStartDate ?pmStartDate .
@@ -362,14 +360,14 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, id));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
 
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{id:regex(^\w{8}$)}/parties/current", Name = "HouseCurrentParties")]
+        //[Route(@"{id:regex(^\w{8}$)}/parties/current", Name = "HouseCurrentParties")]
         [HttpGet]
-        public Graph CurrentParties(string id)
+        public Graph house_current_parties(string house_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -417,14 +415,14 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, id));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
 
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}", Name = "HousePartyById")]
+        //[Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}", Name = "HousePartyById")]
         [HttpGet]
-        public Graph PartyById(string houseId, string partyId)
+        public Graph house_party_by_id(string house_id, string party_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -437,15 +435,15 @@ CONSTRUCT {
         :partyName ?partyName .
     ?party :count ?currentMemberCount .
 }
-WHERE {
+WHERE { 
     {
-        SELECT *
+        SELECT * 
         WHERE {
             BIND(@houseid AS ?house)
             ?house :houseName ?houseName .
             OPTIONAL {
                 BIND(@partyid AS ?party)
-                ?person
+                ?person 
                 	a :Member ;
                 	:partyMemberHasPartyMembership ?partyMembership .
                 ?partyMembership :partyMembershipHasParty ?party .
@@ -462,7 +460,7 @@ WHERE {
         }
     }
     UNION {
-    	SELECT ?party (COUNT(?currentMember) AS ?currentMemberCount)
+    	SELECT ?party (COUNT(?currentMember) AS ?currentMemberCount) 
         WHERE {
         	BIND(@houseid AS ?house)
             BIND(@partyid AS ?party)
@@ -490,16 +488,16 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, houseId));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyId));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
+            query.SetUri("partyid", new Uri(BaseController.instance, party_id));
 
 
             return BaseController.ExecuteSingle(query);
         }
 
-        [Route(@"{houseId:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HouseMembersByInitial")]
+        //[Route(@"{houseId:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HouseMembersByInitial")]
         [HttpGet]
-        public Graph MembersByInitial(string houseId, string initial)
+        public Graph house_members_by_initial(string house_id, string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -525,7 +523,7 @@ CONSTRUCT {
     ?houseIncumbency
         a :HouseIncumbency ;
         :houseIncumbencyHasHouse ?house ;
-        :incumbencyEndDate ?houseIncumbencyEndDate .
+        :incumbencyEndDate ?houseIncumbencyEndDate .    
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;
@@ -545,12 +543,12 @@ CONSTRUCT {
 WHERE {
     { SELECT * WHERE {
         BIND(@houseid AS ?house)
-        ?house
+        ?house 
             a :House ;
             :houseName ?houseName .
         OPTIONAL {
             ?person a :Member .
-            ?incumbency
+            ?incumbency 
                 :incumbencyHasMember ?person .
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
@@ -560,7 +558,7 @@ WHERE {
             {
                 ?incumbency :houseIncumbencyHasHouse ?house .
                 OPTIONAL { ?incumbency :incumbencyEndDate ?houseIncumbencyEndDate . }
-                BIND(?incumbency AS ?houseIncumbency)
+                BIND(?incumbency AS ?houseIncumbency)        
             }
             UNION {
                 ?incumbency :seatIncumbencyHasHouseSeat ?houseSeat .
@@ -590,7 +588,7 @@ WHERE {
           ?house a :House .
           ?person a :Member ;
                   <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
-          ?incumbency :incumbencyHasMember ?person .
+          ?incumbency :incumbencyHasMember ?person . 
             {
     	        ?incumbency :houseIncumbencyHasHouse ?house .
     	    }
@@ -607,15 +605,15 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, houseId));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
             query.SetLiteral("initial", initial);
 
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{id:regex(^\w{8}$)}/members/a_z_letters", Name = "HouseMembersAToZ")]
+        //[Route(@"{id:regex(^\w{8}$)}/members/a_z_letters", Name = "HouseMembersAToZ")]
         [HttpGet]
-        public Graph MembersAToZLetters(string id)
+        public Graph house_members_a_to_z(string house_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -623,13 +621,13 @@ CONSTRUCT {
     [ :value ?firstLetter ]
 }
 WHERE {
-    SELECT DISTINCT ?firstLetter
+    SELECT DISTINCT ?firstLetter 
     WHERE {
         BIND(@houseid AS ?house)
-        ?house
+        ?house 
             a :House ;
             :houseName ?houseName .
-        ?person
+        ?person 
             a :Member ;
             <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
         ?incumbency :incumbencyHasMember ?person .
@@ -647,14 +645,14 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, id));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
 
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{houseId:regex(^\w{8}$)}/members/current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HouseCurrentMembersByInitial")]
+        //[Route(@"{houseId:regex(^\w{8}$)}/members/current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HouseCurrentMembersByInitial")]
         [HttpGet]
-        public Graph CurrentMembersByInitial(string houseId, string initial)
+        public Graph house_current_members_by_initial(string house_id, string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -673,17 +671,17 @@ CONSTRUCT {
     ?house
         a :House ;
         :houseName ?houseName .
-   ?seatIncumbency
+    ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat .
     ?houseIncumbency
         a :HouseIncumbency ;
-        :houseIncumbencyHasHouse ?house .
+        :houseIncumbencyHasHouse ?house .   
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;
         :houseSeatHasConstituencyGroup ?constituencyGroup .
-   ?constituencyGroup
+    ?constituencyGroup
         a :ConstituencyGroup;
         :constituencyGroupName ?constituencyName .
     ?partyMembership
@@ -697,12 +695,12 @@ CONSTRUCT {
 WHERE {
     { SELECT * WHERE {
         BIND(@houseid AS ?house)
-        ?house
+        ?house 
             a :House ;
             :houseName ?houseName .
         OPTIONAL {
             ?person a :Member .
-            ?incumbency
+            ?incumbency 
                 :incumbencyHasMember ?person .
             FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
             OPTIONAL { ?person :personGivenName ?givenName . }
@@ -712,7 +710,7 @@ WHERE {
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
             {
                 ?incumbency :houseIncumbencyHasHouse ?house .
-                BIND(?incumbency AS ?houseIncumbency)
+                BIND(?incumbency AS ?houseIncumbency)        
             }
             UNION {
                 ?incumbency :seatIncumbencyHasHouseSeat ?houseSeat .
@@ -761,15 +759,15 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, houseId));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
             query.SetLiteral("initial", initial);
 
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{id:regex(^\w{8}$)}/members/current/a_z_letters", Name = "HouseCurrentMembersAToZ")]
+        //[Route(@"{id:regex(^\w{8}$)}/members/current/a_z_letters", Name = "HouseCurrentMembersAToZ")]
         [HttpGet]
-        public Graph CurrentMembersAToZLetters(string id)
+        public Graph house_current_members_a_to_z(string house_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -777,13 +775,13 @@ CONSTRUCT {
     [ :value ?firstLetter ]
 }
 WHERE {
-    SELECT DISTINCT ?firstLetter
+    SELECT DISTINCT ?firstLetter 
     WHERE {
         BIND(@houseid AS ?house)
-        ?house
+        ?house 
             a :House ;
             :houseName ?houseName .
-        ?person
+        ?person 
             a :Member;
             <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
         ?incumbency :incumbencyHasMember ?person .
@@ -802,14 +800,14 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, id));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
 
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members", Name = "HousePartyMembers")]
+        //[Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members", Name = "HousePartyMembers")]
         [HttpGet]
-        public Graph PartyMembers(string houseId, string partyId)
+        public Graph house_party_members(string house_id, string party_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -835,7 +833,7 @@ CONSTRUCT {
     ?houseIncumbency
         a :HouseIncumbency ;
         :houseIncumbencyHasHouse ?house ;
-        :incumbencyEndDate ?houseIncumbencyEndDate .
+        :incumbencyEndDate ?houseIncumbencyEndDate . 
    ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;
@@ -861,12 +859,12 @@ WHERE {
             BIND(@partyid AS ?party)
             ?party a :Party ;
                    :partyName ?partyName .
-            ?person
+            ?person 
                 a :Member ;
                 :partyMemberHasPartyMembership ?partyMembership .
-            ?partyMembership :partyMembershipHasParty ?party .
+            ?partyMembership :partyMembershipHasParty ?party .        
             OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
-            ?incumbency
+            ?incumbency 
                 :incumbencyHasMember ?person .
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
@@ -876,7 +874,7 @@ WHERE {
             {
                 ?incumbency :houseIncumbencyHasHouse ?house .
                 OPTIONAL { ?incumbency :incumbencyEndDate ?houseIncumbencyEndDate . }
-                BIND(?incumbency AS ?houseIncumbency)
+                BIND(?incumbency AS ?houseIncumbency)        
             }
             UNION {
                 ?incumbency :seatIncumbencyHasHouseSeat ?houseSeat .
@@ -921,15 +919,15 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, houseId));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyId));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
+            query.SetUri("partyid", new Uri(BaseController.instance, party_id));
 
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HousePartyMembersByInitial")]
+        //[Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HousePartyMembersByInitial")]
         [HttpGet]
-        public Graph PartyMembers(string houseId, string partyId, string initial)
+        public Graph house_party_members_by_initial(string house_id, string party_id, string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -955,7 +953,7 @@ CONSTRUCT {
     ?houseIncumbency
         a :HouseIncumbency ;
         :houseIncumbencyHasHouse ?house ;
-        :incumbencyEndDate ?houseIncumbencyEndDate .
+        :incumbencyEndDate ?houseIncumbencyEndDate . 
    ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;
@@ -981,12 +979,12 @@ WHERE {
             BIND(@partyid AS ?party)
             ?party a :Party ;
                    :partyName ?partyName .
-            ?person
+            ?person 
                 a :Member ;
                 :partyMemberHasPartyMembership ?partyMembership .
-            ?partyMembership :partyMembershipHasParty ?party .
+            ?partyMembership :partyMembershipHasParty ?party .        
             OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
-            ?incumbency
+            ?incumbency 
                 :incumbencyHasMember ?person .
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
@@ -996,7 +994,7 @@ WHERE {
             {
                 ?incumbency :houseIncumbencyHasHouse ?house .
                 OPTIONAL { ?incumbency :incumbencyEndDate ?houseIncumbencyEndDate . }
-                BIND(?incumbency AS ?houseIncumbency)
+                BIND(?incumbency AS ?houseIncumbency)        
             }
             UNION {
                 ?incumbency :seatIncumbencyHasHouseSeat ?houseSeat .
@@ -1041,17 +1039,17 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, houseId));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyId));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
+            query.SetUri("partyid", new Uri(BaseController.instance, party_id));
             query.SetLiteral("initial", initial);
 
 
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/a_z_letters", Name = "HousePartyMembersAToZ")]
+        //[Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/a_z_letters", Name = "HousePartyMembersAToZ")]
         [HttpGet]
-        public Graph PartyMembersAToZLetters(string houseId, string partyId)
+        public Graph house_party_members_a_to_z(string house_id, string party_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -1059,13 +1057,13 @@ CONSTRUCT {
     [ :value ?firstLetter ]
 }
 WHERE {
-    SELECT DISTINCT ?firstLetter
+    SELECT DISTINCT ?firstLetter 
     WHERE {
         BIND(@houseid AS ?house)
         BIND(@partyid AS ?party)
         ?house a :House .
         ?party a :Party .
-        ?person
+        ?person 
             a :Member ;
         	<http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
         	:partyMemberHasPartyMembership ?partyMembership .
@@ -1085,15 +1083,15 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, houseId));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyId));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
+            query.SetUri("partyid", new Uri(BaseController.instance, party_id));
 
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/current", Name = "HousePartyCurrentMembers")]
+        //[Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/current", Name = "HousePartyCurrentMembers")]
         [HttpGet]
-        public Graph PartyCurrentMembers(string houseId, string partyId)
+        public Graph house_party_current_members(string house_id, string party_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -1117,7 +1115,7 @@ CONSTRUCT {
         :seatIncumbencyHasHouseSeat ?houseSeat .
     ?houseIncumbency
         a :HouseIncumbency ;
-        :houseIncumbencyHasHouse ?house .
+        :houseIncumbencyHasHouse ?house . 
    ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;
@@ -1142,11 +1140,11 @@ WHERE {
         ?party a :Party ;
                :partyName ?partyName .
          OPTIONAL {
-            ?person
+            ?person 
                 a :Member ;
                 :partyMemberHasPartyMembership ?partyMembership .
             FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
-            ?partyMembership :partyMembershipHasParty ?party .
+            ?partyMembership :partyMembershipHasParty ?party .        
             ?incumbency :incumbencyHasMember ?person .
             FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
             OPTIONAL { ?person :personGivenName ?givenName . }
@@ -1156,7 +1154,7 @@ WHERE {
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
             {
                 ?incumbency :houseIncumbencyHasHouse ?house .
-                BIND(?incumbency AS ?houseIncumbency)
+                BIND(?incumbency AS ?houseIncumbency)        
             }
             UNION {
                 ?incumbency :seatIncumbencyHasHouseSeat ?houseSeat .
@@ -1199,15 +1197,15 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, houseId));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyId));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
+            query.SetUri("partyid", new Uri(BaseController.instance, party_id));
 
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HousePartyCurrentMembersByInitial")]
+        //[Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HousePartyCurrentMembersByInitial")]
         [HttpGet]
-        public Graph PartyCurrentMembersByInitial(string houseId, string partyId, string initial)
+        public Graph house_party_current_members_by_initial(string house_id, string party_id, string initial)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -1231,7 +1229,7 @@ CONSTRUCT {
         :seatIncumbencyHasHouseSeat ?houseSeat .
     ?houseIncumbency
         a :HouseIncumbency ;
-        :houseIncumbencyHasHouse ?house .
+        :houseIncumbencyHasHouse ?house . 
    ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;
@@ -1256,11 +1254,11 @@ WHERE {
         ?party a :Party ;
                :partyName ?partyName .
          OPTIONAL {
-            ?person
+            ?person 
                 a :Member ;
                 :partyMemberHasPartyMembership ?partyMembership .
             FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
-            ?partyMembership :partyMembershipHasParty ?party .
+            ?partyMembership :partyMembershipHasParty ?party .        
             ?incumbency :incumbencyHasMember ?person .
             FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
             OPTIONAL { ?person :personGivenName ?givenName . }
@@ -1270,7 +1268,7 @@ WHERE {
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
             {
                 ?incumbency :houseIncumbencyHasHouse ?house .
-                BIND(?incumbency AS ?houseIncumbency)
+                BIND(?incumbency AS ?houseIncumbency)        
             }
             UNION {
                 ?incumbency :seatIncumbencyHasHouseSeat ?houseSeat .
@@ -1315,17 +1313,17 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, houseId));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyId));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
+            query.SetUri("partyid", new Uri(BaseController.instance, party_id));
             query.SetLiteral("initial", initial);
 
 
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/current/a_z_letters", Name = "HousePartyCurrentMembersAToZ")]
+        //[Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/current/a_z_letters", Name = "HousePartyCurrentMembersAToZ")]
         [HttpGet]
-        public Graph PartyCurrentMembersAToZLetters(string houseId, string partyId)
+        public Graph house_party_current_members_a_to_z(string house_id, string party_id)
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -1357,10 +1355,13 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("houseid", new Uri(BaseController.instance, houseId));
-            query.SetUri("partyid", new Uri(BaseController.instance, partyId));
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
+            query.SetUri("partyid", new Uri(BaseController.instance, party_id));
 
             return BaseController.ExecuteList(query);
         }
+
     }
 }
+
+

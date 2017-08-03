@@ -5,12 +5,11 @@
     using VDS.RDF;
     using VDS.RDF.Query;
 
-    [RoutePrefix("contact_points")]
-    public class ContactPointsController : BaseController
+    public partial class FixedQueryController 
     {
-        [Route("", Name = "ContactPointIndex")]
+        //[Route("", Name = "ContactPointIndex")]
         [HttpGet]
-        public Graph Index()
+        public Graph contact_point_index()
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
@@ -52,9 +51,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        [Route(@"{id:regex(^\w{8}$)}", Name = "ContactPointById")]
+        //[Route(@"{id:regex(^\w{8}$)}", Name = "ContactPointById")]
         [HttpGet]
-        public Graph ById(string id)
+        public Graph contact_point_by_id(string contact_point_id)
         {
             var queryString = @"
 PREFIX :<http://id.ukpds.org/schema/>
@@ -110,7 +109,7 @@ WHERE {
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("id", new Uri(instance, id));
+            query.SetUri("id", new Uri(instance, contact_point_id));
 
             return BaseController.ExecuteSingle(query);
         }

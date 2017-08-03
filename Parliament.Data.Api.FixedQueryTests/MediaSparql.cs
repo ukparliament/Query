@@ -9,18 +9,18 @@
     [TestCategory("Sparql")]
     public class MediaSparql : SparqlValidator
     {
-        private MediaController controller;
+        private FixedQueryController controller;
 
         [TestInitialize]
         public void Initialize()
         {
-            controller = new MediaController();
+            controller = new FixedQueryController();
         }
 
         [TestMethod()]
         public void ImageByIdSparql()
         {
-            ValidateSparql(() => controller.ById(string.Empty));
+            ValidateSparql(() => controller.image_by_id(string.Empty));
         }
     }
-}
+} 
