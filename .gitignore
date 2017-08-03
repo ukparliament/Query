@@ -8,3 +8,4 @@ Secrets.config
 .idea/*
 Properties/PublishProfiles
 Parliament.Data.Api.FixedQuery.userprefs
+/Parliament.Data.Api.FixedQuery/Properties/PublishProfiles
