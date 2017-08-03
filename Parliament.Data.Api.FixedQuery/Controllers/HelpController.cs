@@ -122,8 +122,9 @@
                 this.Url.Route("WithoutExtension", new {action = "parliament_constituencies_a_to_z", parliament_id = "fHx6P1lb"}),
                 this.Url.Route("WithoutExtension", new {action = "parliament_constituencies_by_initial", parliament_id = "fHx6P1lb", initial = "d" }),
 
-                this.Url.Route("WithoutExtension", new {action = "image_by_id", image_id = "qnsCGpnw"})
+                this.Url.Route("WithoutExtension", new {action = "image_by_id", image_id = "qnsCGpnw"}),
 
+                this.Url.Route("WithoutExtension", new {action = "region_constituencies", region = "Scotland" })
             };
 
             var response = Request.CreateResponse();
