@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="MediaSparql.cs" />
     <Compile Include="ConstituencySparql.cs" />
+    <Compile Include="MediaSparql.cs" />
     <Compile Include="ParliamentSparql.cs" />
     <Compile Include="ResourceSparql.cs" />
     <Compile Include="PersonSparql.cs" />
