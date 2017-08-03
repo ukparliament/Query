@@ -78,7 +78,6 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="MediaSparql.cs" />
     <Compile Include="ConstituencySparql.cs" />
     <Compile Include="MediaSparql.cs" />
     <Compile Include="ParliamentSparql.cs" />
