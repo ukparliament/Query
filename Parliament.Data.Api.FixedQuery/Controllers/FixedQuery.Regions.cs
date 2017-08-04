@@ -8,8 +8,30 @@
 
     public partial class FixedQueryController
     {
+        [HttpGet]
+        public Graph region_index()
+        {
+            var externalQueryString = @"
+PREFIX spatial: <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
+CONSTRUCT {
+ ?uri skos:prefLabel ?name  .
+ ?uri a admingeo:EuropeanRegion .
+}
+WHERE {
+ ?uri skos:prefLabel ?name  .
+ ?uri a admingeo:EuropeanRegion .
+}
+";
+            var externalQuery = new SparqlParameterizedString(externalQueryString);
+            return BaseController.ExecuteSingle(externalQuery, "http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql");
 
-        //[Route(@"postcode_lookup/{postcode}", Name = "ConstituencyLookupByPostcode")]
+
+        }
+
+
+
         [HttpGet]
         public Graph region_constituencies(string region)
         {
