@@ -27,10 +27,7 @@ WHERE {
             var externalQuery = new SparqlParameterizedString(externalQueryString);
             return BaseController.ExecuteSingle(externalQuery, "http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql");
 
-
         }
-
-
 
         [HttpGet]
         public Graph region_constituencies(string region)
@@ -46,8 +43,6 @@ construct {
    ?region admingeo:westminsterConstituency ?constituency.
    ?constituency skos:prefLabel ?constituencyName.
 }
-
-
 WHERE {
    ?region a admingeo:EuropeanRegion .
    ?region skos:prefLabel @region .
@@ -57,6 +52,8 @@ WHERE {
 ";
             var queryString = @"
 PREFIX parl: <http://id.ukpds.org/schema/>
+PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
+
 construct
 {
     ?constituency a parl:ConstituencyGroup;
@@ -65,8 +62,8 @@ construct
 where
 {
     ?constituency a parl:ConstituencyGroup;
-		parl:constituencyGroupName ?consName.    
-    FILTER regex(?consName, @firstConstituency)
+	    parl:constituencyGroupName ?consName.    
+    FILTER regex(?consName, @constituencyRegex)
 }
 ";
             var externalQuery = new SparqlParameterizedString(externalQueryString);
@@ -84,8 +81,21 @@ where
             }
             constituencyRegex = constituencyRegex.Remove(constituencyRegex.Length - 1);
 
-            query.SetLiteral("firstConstituency", constituencyRegex);
-            return BaseController.ExecuteSingle(query);
+            query.SetLiteral("constituencyRegex", constituencyRegex);
+
+            var graph = BaseController.ExecuteSingle(query);
+            var regionNameWithSpace = graph.CreateLiteralNode(regionWithSpace);
+            var rdfType = graph.CreateUriNode(UriFactory.Create("http://rdftype.ex"));
+            var label = graph.CreateUriNode(UriFactory.Create("http://www.w3.org/2004/02/skos/core#prefLabel"));
+            var regionType = graph.CreateUriNode(UriFactory.Create("http://data.ordnancesurvey.co.uk/ontology/admingeo/EuropeanRegion"));
+
+
+            Triple regionLabelStatement = externalResults.GetTriplesWithObject(regionType).First();
+            Triple regionTypeStatement = externalResults.GetTriplesWithObject(regionNameWithSpace).First();
+
+            graph.Assert(regionLabelStatement);
+            graph.Assert(regionTypeStatement);
+            return graph;
         }
     }
 }
