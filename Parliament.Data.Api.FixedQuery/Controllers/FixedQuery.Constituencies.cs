@@ -68,9 +68,9 @@ WHERE {
             OPTIONAL { ?member :memberHasMemberImage ?image . } 
             OPTIONAL { 
                 ?member :partyMemberHasPartyMembership ?partyMembership .
+                FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
                 OPTIONAL { 
                     ?partyMembership :partyMembershipHasParty ?party . 
-                    FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
                     OPTIONAL { ?party :partyName ?partyName . }
                 }
             }
