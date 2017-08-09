@@ -37,61 +37,57 @@ PREFIX spatial: <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
 
-construct {
+CONSTRUCT {
    ?region a admingeo:EuropeanRegion .
    ?region skos:prefLabel @region .
    ?region admingeo:westminsterConstituency ?constituency.
    ?constituency skos:prefLabel ?constituencyName.
+   ?constituency admingeo:gssCode ?gss.
 }
 WHERE {
    ?region a admingeo:EuropeanRegion .
    ?region skos:prefLabel @region .
    ?region admingeo:westminsterConstituency ?constituency.
    ?constituency skos:prefLabel ?constituencyName.
+   ?constituency admingeo:gssCode ?gss.
 }
 ";
             var queryString = @"
 PREFIX parl: <http://id.ukpds.org/schema/>
 PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
 
-construct
-{
-    ?constituency a parl:ConstituencyGroup;
-		parl:constituencyGroupName ?consName.   
+CONSTRUCT {
+?constituency a parl:ConstituencyGroup;
+	    parl:onsCode ?onsCode;
+		parl:constituencyGroupName ?constituencyName.   
 }
-where
-{
-    ?constituency a parl:ConstituencyGroup;
-	    parl:constituencyGroupName ?consName.    
-    FILTER regex(?consName, @constituencyRegex)
-}
+WHERE{
+    {}
 ";
+
             var externalQuery = new SparqlParameterizedString(externalQueryString);
-            var regionWithSpace = region + " ";
+            var regionWithSpace = region;
+            if (region[region.Length - 1].ToString() != " "){ regionWithSpace = region + " "; }
+            
             externalQuery.SetLiteral("region", regionWithSpace);
             var externalResults = BaseController.ExecuteSingle(externalQuery, "http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql");
-
             var query = new SparqlParameterizedString(queryString);
-            var constituenciesInRegion = externalResults.GetTriplesWithPredicate(new Uri("http://www.w3.org/2004/02/skos/core#prefLabel")).ToList();
+            var constituenciesInRegion = externalResults.GetTriplesWithPredicate(new Uri("http://data.ordnancesurvey.co.uk/ontology/admingeo/gssCode")).ToList();
             string constituencyRegex = String.Empty;
 
             foreach (var constituency in constituenciesInRegion)
             {
-                constituencyRegex = constituencyRegex + "^" + constituency.Object.ToString() + "$|";
+                var unionSparql = new SparqlParameterizedString("UNION {BIND(@onsCode AS ?onsCode) ?constituency a parl:ConstituencyGroup; parl:onsCode ?onsCode; parl:constituencyGroupName ?consName.} ");
+                unionSparql.SetLiteral("onsCode", constituency.Object.ToString());
+                query.Append(unionSparql.ToString());
             }
-            constituencyRegex = constituencyRegex.Remove(constituencyRegex.Length - 1);
-
-            query.SetLiteral("constituencyRegex", constituencyRegex);
+            query.Append("}");
 
             var graph = BaseController.ExecuteSingle(query);
-            var regionNameWithSpace = graph.CreateLiteralNode(regionWithSpace);
-            var rdfType = graph.CreateUriNode(UriFactory.Create("http://rdftype.ex"));
-            var label = graph.CreateUriNode(UriFactory.Create("http://www.w3.org/2004/02/skos/core#prefLabel"));
             var regionType = graph.CreateUriNode(UriFactory.Create("http://data.ordnancesurvey.co.uk/ontology/admingeo/EuropeanRegion"));
 
-
             Triple regionLabelStatement = externalResults.GetTriplesWithObject(regionType).First();
-            Triple regionTypeStatement = externalResults.GetTriplesWithObject(regionNameWithSpace).First();
+            Triple regionTypeStatement = externalResults.GetTriplesWithObject(graph.CreateLiteralNode(regionWithSpace)).First();
 
             graph.Assert(regionLabelStatement);
             graph.Assert(regionTypeStatement);
