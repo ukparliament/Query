@@ -147,6 +147,7 @@
   <ItemGroup>
     <Compile Include="AIExceptionLogger.cs" />
     <Compile Include="Controllers\FixedQuery.Media.cs" />
+    <Compile Include="Controllers\FixedQuery.Regions.cs" />
     <Compile Include="Controllers\FixedQuery.Resources.cs" />
     <Compile Include="Controllers\FixedQuery.People.cs" />
     <Compile Include="Controllers\FixedQuery.Parties.cs" />
