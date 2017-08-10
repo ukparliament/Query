@@ -125,7 +125,7 @@
                 this.Url.Route("WithoutExtension", new {action = "image_by_id", image_id = "qnsCGpnw"}),
 
                 this.Url.Route("WithoutExtension", new {action = "region_index"}),
-                this.Url.Route("WithoutExtension", new {action = "region_constituencies", region = "Scotland" })
+                this.Url.Route("WithoutExtension", new {action = "region_constituencies", region_code = "E15000001" })
             };
 
             var response = Request.CreateResponse();
