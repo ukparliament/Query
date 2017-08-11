@@ -968,7 +968,7 @@ WHERE {
 }
     UNION {
         SELECT * WHERE {
-            ?parliament a :PastParliamentPeriod ;
+            ?parliament a :ParliamentPeriod ;
    			    :parliamentPeriodStartDate ?parliamentPeriodStartDate ;
                 OPTIONAL { ?parliament :parliamentPeriodEndDate ?parliamentPeriodEndDate . }
         }
