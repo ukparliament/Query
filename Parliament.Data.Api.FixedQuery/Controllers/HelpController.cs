@@ -1,6 +1,7 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
     using System.Net.Http.Headers;
@@ -9,7 +10,7 @@
     using VDS.RDF;
     using VDS.RDF.Query;
 
-    public partial class HelpController : BaseController 
+    public partial class HelpController : BaseController
     {
         [HttpGet]
         public HttpResponseMessage Index()
@@ -126,7 +127,10 @@
 
                 this.Url.Route("WithoutExtension", new {action = "region_index"}),
                 this.Url.Route("WithoutExtension", new {action = "region_constituencies", region_code = "E15000001" })
-            };
+            } as IEnumerable<string>;
+
+            // Make links relative, remove application virtual path (in this case, a trailing forward slash).
+            links = from link in links select HttpUtility.UrlDecode(link).Substring(this.Configuration.VirtualPathRoot.Length);
 
             var response = Request.CreateResponse();
 
@@ -137,7 +141,7 @@
         <meta charset='utf-8'>
     </head>
     <body>
-        <ul>{string.Join(string.Empty, from link in links select $"<li><a href={link}>{HttpUtility.UrlDecode(link).Substring(this.Configuration.VirtualPathRoot.Length)}</a></li>")}</ul>
+        <ul>{string.Join(string.Empty, from link in links select $"<li><a href='{link}'>{link}</a></li>")}</ul>
     </body>
 </html>
 ");

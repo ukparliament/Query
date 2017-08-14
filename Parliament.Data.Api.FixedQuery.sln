@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26621.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parliament.Data.Api.FixedQuery", "Parliament.Data.Api.FixedQuery\Parliament.Data.Api.FixedQuery.csproj", "{9A3F675D-DF8E-4405-A59B-6E1E668E305B}"
 EndProject
@@ -39,5 +39,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5D5A27F0-9524-472A-9E76-1D2849FCD7C0} = {DFF16828-53C9-4AF2-A5D8-B89612968331}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5653A987-0BC8-4E92-BC55-39E42271CFCE}
 	EndGlobalSection
 EndGlobal

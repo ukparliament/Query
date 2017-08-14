@@ -24,6 +24,7 @@
     </NuGetPackageImportStamp>
     <ApplicationInsightsResourceId>/subscriptions/7bd651a8-fab6-4449-b3d2-e0d86dd0fb13/resourcegroups/SLTest/providers/microsoft.insights/components/api</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/7bd651a8-fab6-4449-b3d2-e0d86dd0fb13/resourcegroups/SLTest/providers/microsoft.insights/components/api</ApplicationInsightsAnnotationResourceId>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -141,7 +142,6 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <None Include="Parameters.xml" />
-    <Content Include="resourceStyle.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +157,7 @@
     <Compile Include="Controllers\FixedQuery.Constituencies.cs" />
     <Compile Include="Controllers\FixedQuery.Houses.cs" />
     <Compile Include="Controllers\FixedQueryController.cs" />
+    <Compile Include="Controllers\CssController.cs" />
     <Compile Include="Controllers\SparqlController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
