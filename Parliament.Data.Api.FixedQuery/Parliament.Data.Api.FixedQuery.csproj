@@ -157,7 +157,7 @@
     <Compile Include="Controllers\FixedQuery.Constituencies.cs" />
     <Compile Include="Controllers\FixedQuery.Houses.cs" />
     <Compile Include="Controllers\FixedQueryController.cs" />
-    <Compile Include="Controllers\CssController.cs" />
+    <Compile Include="Controllers\StaticController.cs" />
     <Compile Include="Controllers\SparqlController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\BaseController.cs" />

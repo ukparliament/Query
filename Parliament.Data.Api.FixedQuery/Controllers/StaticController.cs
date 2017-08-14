@@ -10,14 +10,12 @@
     using VDS.RDF;
     using VDS.RDF.Query;
 
-    public partial class CssController : BaseController
+    public partial class StaticController : BaseController
     {
         [HttpGet]
         public HttpResponseMessage ResourceStyle()
         {        
-
             var response = Request.CreateResponse();
-
             response.Content = new StringContent(@"
 h3 {
     display: none;
@@ -33,9 +31,7 @@ td {
     padding: 0;
 }
 ");
-
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/css");
-
             return response;
         }
     }

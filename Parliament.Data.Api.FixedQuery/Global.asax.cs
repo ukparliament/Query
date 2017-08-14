@@ -42,7 +42,7 @@
             config.Formatters.Add(new HttpErrorJsonFormatter());
             config.Formatters.Add(new HttpErrorXmlFormatter());
 
-            config.Routes.MapHttpRoute("ResourceStyle", "resourceStyle.css", new { controller = "Css" });
+            config.Routes.MapHttpRoute("ResourceStyle", "resourceStyle.css", new { controller = "Static" });
             config.Routes.MapHttpRoute("Index", "", new { controller = "Help" });
 
             config.Routes.MapHttpRoute("WithExtension", "{action}.{ext}", new { controller = "FixedQuery" });
