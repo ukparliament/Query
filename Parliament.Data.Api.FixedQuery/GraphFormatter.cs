@@ -78,7 +78,6 @@
                 return new HtmlWriter()
                 {
                     UriPrefix = "resource_by_id?uri=",
-                    Stylesheet = "resourceStyle.css"
                 };
             }
 
