@@ -15,16 +15,31 @@
 PREFIX spatial: <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
+PREFIX : <http://id.ukpds.org/schema/>
 
 CONSTRUCT {
-    ?uri skos:prefLabel ?name  .
-    ?uri a admingeo:EuropeanRegion .
-    ?uri admingeo:gssCode ?gssCode .
+    ?region skos:prefLabel ?name  .
+    ?region a admingeo:EuropeanRegion .
+    ?region admingeo:gssCode ?gssCode .
+    ?region :count ?count .
 }
 WHERE {
-    ?uri skos:prefLabel ?name  .
-    ?uri a admingeo:EuropeanRegion .
-    ?uri admingeo:gssCode ?gssCode .
+    {
+        SELECT ?region (COUNT(?westminsterConstituency) AS ?count) WHERE 
+        {
+            ?region a admingeo:EuropeanRegion .
+            ?region admingeo:gssCode ?gssCode .
+            ?region admingeo:westminsterConstituency ?westminsterConstituency .
+        } GROUP BY ?region  
+    }
+    UNION
+    {
+        SELECT * WHERE {
+            ?region skos:prefLabel ?name  .
+            ?region a admingeo:EuropeanRegion .
+            ?region admingeo:gssCode ?gssCode .
+        }
+    }
 }
 ";
             var externalQuery = new SparqlParameterizedString(externalQueryString);
