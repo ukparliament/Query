@@ -131,8 +131,8 @@ CONSTRUCT {
         :postCode ?postCode .
     ?constituency
         a :ConstituencyGroup ;
-        :constituencyGroupName ?constituencyName .
-        :constituencyGroupStartDate ?constituencyStartDate .
+        :constituencyGroupName ?constituencyName ;
+        :constituencyGroupStartDate ?constituencyStartDate ;
         :constituencyGroupEndDate ?constituencyEndDate .
     ?seatIncumbency
         a :SeatIncumbency ;
