@@ -1,7 +1,10 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
+    using Newtonsoft.Json;
     using System;
     using System.Linq;
+    using System.Net;
+    using System.Net.Http;
     using System.Web.Http;
     using VDS.RDF;
     using VDS.RDF.Query;
@@ -763,13 +766,14 @@ WHERE {
         {
             var externalQueryString = @"
 PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+
 CONSTRUCT {
-    ?postcode
+    ?postcode 
         geo:long ?long ;
         geo:lat ?lat .
-}
+} 
 WHERE {
-    BIND(@postcode as ?postcode)
+    BIND(@postcode as ?postcode) 
     ?postcode geo:long ?long ;
         geo:lat ?lat .
 }
@@ -779,7 +783,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
 construct {
-    ?constituencyGroup
+    ?constituencyGroup 
         a parl:ConstituencyGroup ;
         parl:constituencyGroupName ?constituencyGroupName ;
         parl:constituencyGroupHasHouseSeat ?houseSeat .
@@ -811,7 +815,7 @@ where {
     ?constituencyArea a parl:ConstituencyArea;
         parl:constituencyAreaExtent ?constituencyAreaExtent;
         parl:constituencyAreaHasConstituencyGroup ?constituencyGroup.
-    ?constituencyGroup parl:constituencyGroupName ?constituencyGroupName.
+    ?constituencyGroup parl:constituencyGroupName ?constituencyGroupName.    
     bind(strdt(concat(""Point("",@longitude,"" "",@latitude,"")""),geo:wktLiteral) as ?point)
     filter(geof:sfWithin(?point,?constituencyAreaExtent))
 
@@ -825,7 +829,7 @@ where {
         optional { ?member parl:personGivenName ?givenName . }
         optional { ?member parl:personFamilyName ?familyName . }
         optional { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
-
+        
         optional {
             ?member parl:partyMemberHasPartyMembership ?partyMembership .
             filter not exists { ?partyMembership a parl:PastPartyMembership . }
@@ -837,18 +841,59 @@ where {
    }
 }
 ";
-            var externalQuery = new SparqlParameterizedString(externalQueryString);
-            var formattedPostcode = postcode.ToUpperInvariant().Replace(" ", string.Empty);
-            externalQuery.SetUri("postcode", new Uri(new Uri("http://data.ordnancesurvey.co.uk/id/postcodeunit/"), formattedPostcode));
-            var externalResults = BaseController.ExecuteSingle(externalQuery, "http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql");
+
+            postcode = postcode.ToUpperInvariant().Replace(" ", string.Empty);
+
+            GetCoordinates(postcode, externalQueryString, out string latitude, out string longitude);
 
             var query = new SparqlParameterizedString(queryString);
-            var longitude = (LiteralNode)externalResults.GetTriplesWithPredicate(new Uri("http://www.w3.org/2003/01/geo/wgs84_pos#long")).SingleOrDefault().Object;
-            var latitude = (LiteralNode)externalResults.GetTriplesWithPredicate(new Uri("http://www.w3.org/2003/01/geo/wgs84_pos#lat")).SingleOrDefault().Object;
-            query.SetLiteral("longitude", longitude.Value);
-            query.SetLiteral("latitude", latitude.Value);
+
+            query.SetLiteral("longitude", longitude);
+            query.SetLiteral("latitude", latitude);
 
             return BaseController.ExecuteSingle(query);
+        }
+
+        private static void GetCoordinates(string postcode, string externalQueryString, out string latitude, out string longitude)
+        {
+            if (postcode.StartsWith("BT"))
+            {
+                using (var client = new HttpClient())
+                {
+                    try
+                    {
+                        var json = client.GetStringAsync($"http://api.postcodes.io/postcodes/{postcode}").Result;
+
+                        dynamic postcodesioJson = JsonConvert.DeserializeObject(json);
+
+                        latitude = postcodesioJson.result.latitude ;
+                        longitude = postcodesioJson.result.longitude ;
+                    }
+                    catch (AggregateException e) when (e.InnerException is HttpRequestException)
+                    {
+                        throw new HttpResponseException(HttpStatusCode.NotFound);
+                    }
+                }
+            }
+            else
+            {
+                var externalQuery = new SparqlParameterizedString(externalQueryString);
+                externalQuery.SetUri("postcode", new Uri(new Uri("http://data.ordnancesurvey.co.uk/id/postcodeunit/"), postcode));
+                var externalResults = BaseController.ExecuteList(externalQuery, "http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql");
+
+                if (externalResults.Triples.Any())
+                {
+                    var longitudeObject = (LiteralNode)externalResults.GetTriplesWithPredicate(new Uri("http://www.w3.org/2003/01/geo/wgs84_pos#long")).SingleOrDefault().Object;
+                    var latitudeObject = (LiteralNode)externalResults.GetTriplesWithPredicate(new Uri("http://www.w3.org/2003/01/geo/wgs84_pos#lat")).SingleOrDefault().Object;
+
+                    longitude = longitudeObject.Value;
+                    latitude = latitudeObject.Value;
+                }
+                else
+                {
+                    throw new HttpResponseException(HttpStatusCode.NotFound);
+                }
+            }
         }
     }
 }
