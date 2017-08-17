@@ -193,7 +193,7 @@ WHERE {
             ?house2 :houseName ?houseName2 .
             ?constituency :constituencyGroupName ?constituencyName .
             ?constituency :constituencyGroupStartDate ?constituencyStartDate .
-            ?constituency :constituencyGroupEndDate ?constituencyEndDate .
+            OPTIONAL { ?constituency :constituencyGroupEndDate ?constituencyEndDate . }
             ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate .
             OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
         }
