@@ -24,9 +24,9 @@
             config.Formatters.Add(new GraphFormatter(new UriPathExtensionMapping("ttl", "text/turtle")));
             config.Formatters.Add(new GraphFormatter(new UriPathExtensionMapping("json", "application/rdf+json")));
             config.Formatters.Add(new GraphFormatter(new UriPathExtensionMapping("xml", "application/rdf+xml")));
-            config.Formatters.Add(new GraphFormatter(new UriPathExtensionMapping("rdfjson", "application/rdf+json")));
+            config.Formatters.Add(new GraphFormatter(new UriPathExtensionMapping("rj", "application/rdf+json")));
             config.Formatters.Add(new GraphFormatter(new UriPathExtensionMapping("html", "text/html")));
-            config.Formatters.Add(new GraphFormatter(new UriPathExtensionMapping("rdfxml", "application/rdf+xml")));
+            config.Formatters.Add(new GraphFormatter(new UriPathExtensionMapping("rdf", "application/rdf+xml")));
 
             config.Formatters.Add(new GraphFormatter(new QueryStringMapping("format", "application/n-triples", "application/n-triples")));
             config.Formatters.Add(new GraphFormatter(new QueryStringMapping("format", "text/turtle", "text/turtle")));
