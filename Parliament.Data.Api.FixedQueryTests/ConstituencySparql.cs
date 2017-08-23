@@ -100,5 +100,11 @@
         {
             ValidateSparql(() => controller.constituency_lookup_by_postcode(string.Empty));
         }
+
+        [TestMethod()]
+        public void FindYourConstituency()
+        {
+            ValidateSparql(() => controller.find_your_constituency());
+        }
     }
 }
