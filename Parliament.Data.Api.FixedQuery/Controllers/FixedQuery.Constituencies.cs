@@ -689,6 +689,44 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
+        [HttpGet]
+        public Graph find_your_constituency
+        {
+            var queryString = @"
+            PREFIX spatial: <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/>
+            PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+            PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
+            PREFIX : <http://id.ukpds.org/schema/>
+            CONSTRUCT {
+              ?region skos:prefLabel ?name  .
+              ?region a admingeo:EuropeanRegion .
+              ?region admingeo:gssCode ?gssCode .
+              ?region :count ?count .
+            }
+            WHERE {
+              {
+                SELECT ?region (COUNT(?westminsterConstituency) AS ?count) WHERE
+                {
+                    ?region a admingeo:EuropeanRegion .
+                    ?region admingeo:gssCode ?gssCode .
+                    ?region admingeo:westminsterConstituency ?westminsterConstituency .
+                } GROUP BY ?region
+              }
+              UNION
+              {
+                SELECT * WHERE {
+                    ?region skos:prefLabel ?name  .
+                    ?region a admingeo:EuropeanRegion .
+                    ?region admingeo:gssCode ?gssCode .
+                }
+              }
+            }
+            ";
+
+            var query = new SparqlParameterizedString(queryString);
+            return BaseController.ExecuteList(query);
+        }
+
         // TODO: Why is this singular? - still not completely solved here
         //[Route(@"{id:regex(^\w{8}$)}/contact_point", Name = "ConstituencyContactPoint")]
         [HttpGet]
@@ -768,12 +806,12 @@ WHERE {
 PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
 
 CONSTRUCT {
-    ?postcode 
+    ?postcode
         geo:long ?long ;
         geo:lat ?lat .
-} 
+}
 WHERE {
-    BIND(@postcode as ?postcode) 
+    BIND(@postcode as ?postcode)
     ?postcode geo:long ?long ;
         geo:lat ?lat .
 }
@@ -783,7 +821,7 @@ PREFIX parl: <http://id.ukpds.org/schema/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
 construct {
-    ?constituencyGroup 
+    ?constituencyGroup
         a parl:ConstituencyGroup ;
         parl:constituencyGroupName ?constituencyGroupName ;
         parl:constituencyGroupHasHouseSeat ?houseSeat .
@@ -815,7 +853,7 @@ where {
     ?constituencyArea a parl:ConstituencyArea;
         parl:constituencyAreaExtent ?constituencyAreaExtent;
         parl:constituencyAreaHasConstituencyGroup ?constituencyGroup.
-    ?constituencyGroup parl:constituencyGroupName ?constituencyGroupName.    
+    ?constituencyGroup parl:constituencyGroupName ?constituencyGroupName.
     bind(strdt(concat(""Point("",@longitude,"" "",@latitude,"")""),geo:wktLiteral) as ?point)
     filter(geof:sfWithin(?point,?constituencyAreaExtent))
 
@@ -829,7 +867,7 @@ where {
         optional { ?member parl:personGivenName ?givenName . }
         optional { ?member parl:personFamilyName ?familyName . }
         optional { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
-        
+
         optional {
             ?member parl:partyMemberHasPartyMembership ?partyMembership .
             filter not exists { ?partyMembership a parl:PastPartyMembership . }
