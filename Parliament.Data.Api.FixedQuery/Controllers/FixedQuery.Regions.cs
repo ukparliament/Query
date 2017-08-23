@@ -9,7 +9,7 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
   public partial class FixedQueryController
   {
     [HttpGet]
-    public Graph places_index()
+    public Graph region_index()
     {
       var externalQueryString = @"
       PREFIX spatial: <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/>
@@ -47,7 +47,7 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
     }
 
     [HttpGet]
-    public Graph place_by_id(string region_code)
+    public Graph region_by_id(string region_code)
     {
       var queryString = @"
       PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
@@ -81,7 +81,7 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
     }
 
     [HttpGet]
-    public Graph place_constituencies(string region_code)
+    public Graph region_constituencies(string region_code)
     {
       var queryString = @"
       PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
@@ -178,7 +178,7 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
     }
 
     [HttpGet]
-    public Graph place_constituencies_a_to_z(string region_code)
+    public Graph region_constituencies_a_to_z(string region_code)
     {
       var queryString = @"
       PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
@@ -222,7 +222,7 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
     }
 
     [HttpGet]
-    public Graph place_constituencies_by_initial(string region_code)
+    public Graph region_constituencies_by_initial(string region_code)
     {
       var queryString = @"
       PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>

@@ -24,9 +24,27 @@
         }
 
         [TestMethod()]
+        public void RegionByIdSparql()
+        {
+          ValidateSparql(() => controller.region_by_id(string.Empty));
+        }
+
+        [TestMethod()]
         public void RegionConstituenciesSparql()
         {
             ValidateSparql(() => controller.region_constituencies(string.Empty));
+        }
+
+        [TestMethod()]
+        public void RegionConstituenciesAtoZSparql()
+        {
+            ValidateSparql(() => controller.region_constituencies_a_to_z(string.Empty));
+        }
+
+        [TestMethod()]
+        public void RegionConstituenciesByInitialSparql()
+        {
+            ValidateSparql(() => controller.region_constituencies_by_initial(string.Empty));
         }
     }
 }

@@ -690,7 +690,7 @@ WHERE {
         }
 
         [HttpGet]
-        public Graph find_your_constituency
+        public Graph find_your_constituency()
         {
             var queryString = @"
             PREFIX spatial: <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/>
