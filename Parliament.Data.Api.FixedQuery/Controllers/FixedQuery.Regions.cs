@@ -260,7 +260,8 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
         _:x :value ?firstLetter .
       }
       WHERE {
-        {
+        { SELECT * WHERE {
+
           SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
             SELECT ?region (COUNT(?constituency) AS ?count) WHERE {
               BIND (@regionCode AS ?regionCode)
@@ -268,7 +269,7 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
                 a admingeo:EuropeanRegion ;
                 admingeo:gssCode ?regionCode ;
                 admingeo:westminsterConstituency ?constituency .
-            } GROUP BY ?region
+          } GROUP BY ?region
           }
 
           SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
@@ -301,7 +302,10 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
                 OPTIONAL { ?party :partyName ?partyName . }
               }
             }
+
           }
+          FILTER STRSTARTS(LCASE(?constituencyName), LCASE(@initial))
+        }
         }
 
         UNION {
@@ -317,6 +321,7 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
       }";
       var query = new SparqlParameterizedString(queryString);
       query.SetLiteral("regionCode", region_code);
+      query.SetLiteral("initial", initial);
       return BaseController.ExecuteSingle(query);
     }
   }
