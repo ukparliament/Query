@@ -130,7 +130,7 @@
                 this.Url.Route("WithoutExtension", new {action = "region_by_id", region_code = "E15000001" }),
                 this.Url.Route("WithoutExtension", new {action = "region_constituencies", region_code = "E15000001" }),
                 this.Url.Route("WithoutExtension", new {action = "region_constituencies_a_to_z", region_code = "E15000001" }),
-                this.Url.Route("WithoutExtension", new {action = "region_constituencies_by_initial", region_code = "E15000001" })
+                this.Url.Route("WithoutExtension", new {action = "region_constituencies_by_initial", region_code = "E15000001", initial = "h" })
             } as IEnumerable<string>;
 
             // Make links relative, remove application virtual path (in this case, a trailing forward slash).

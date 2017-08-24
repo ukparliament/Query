@@ -44,7 +44,7 @@
         [TestMethod()]
         public void RegionConstituenciesByInitialSparql()
         {
-            ValidateSparql(() => controller.region_constituencies_by_initial(string.Empty));
+            ValidateSparql(() => controller.region_constituencies_by_initial(string.Empty, string.Empty));
         }
     }
 }

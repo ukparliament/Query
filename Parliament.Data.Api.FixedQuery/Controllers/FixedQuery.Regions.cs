@@ -223,7 +223,7 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
     }
 
     [HttpGet]
-    public Graph region_constituencies_by_initial(string region_code)
+    public Graph region_constituencies_by_initial(string region_code, string initial)
     {
       var queryString = @"
       PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
