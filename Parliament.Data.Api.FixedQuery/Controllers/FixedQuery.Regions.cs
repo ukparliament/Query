@@ -98,10 +98,11 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
           a :ConstituencyGroup;
           :constituencyGroupName ?constituencyName ;
           :constituencyGroupHasHouseSeat ?houseSeat .
-          ?seatIncumbency a :SeatIncumbency ;
-          :incumbencyHasMember ?member ;
-          :incumbencyEndDate ?seatIncumbencyEndDate ;
-          :incumbencyStartDate ?seatIncumbencyStartDate .
+        ?houseSeat
+          a :HouseSeat ;
+          :houseSeatHasSeatIncumbency ?seatIncumbency .
+        ?seatIncumbency a :SeatIncumbency ;
+          :incumbencyHasMember ?member .
         ?member
           a :Person ;
           :personGivenName ?givenName ;
@@ -239,11 +240,11 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
           a :ConstituencyGroup;
           :constituencyGroupName ?constituencyName ;
           :constituencyGroupHasHouseSeat ?houseSeat .
-        ?seatIncumbency
-          a :SeatIncumbency ;
-          :incumbencyHasMember ?member ;
-          :incumbencyEndDate ?seatIncumbencyEndDate ;
-          :incumbencyStartDate ?seatIncumbencyStartDate .
+        ?houseSeat
+          a :HouseSeat ;
+          :houseSeatHasSeatIncumbency ?seatIncumbency .
+        ?seatIncumbency a :SeatIncumbency ;
+          :incumbencyHasMember ?member .
         ?member
           a :Person ;
           :personGivenName ?givenName ;
