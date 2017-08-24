@@ -692,7 +692,7 @@ WHERE {
         [HttpGet]
         public Graph find_your_constituency()
         {
-            var queryString = @"
+            var externalQueryString = @"
             PREFIX spatial: <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/>
             PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
             PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
@@ -723,8 +723,8 @@ WHERE {
             }
             ";
 
-            var query = new SparqlParameterizedString(queryString);
-            return BaseController.ExecuteList(query);
+            var externalQuery = new SparqlParameterizedString(externalQueryString);
+            return BaseController.ExecuteSingle(externalQuery, "http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql");
         }
 
         // TODO: Why is this singular? - still not completely solved here
