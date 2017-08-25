@@ -27,6 +27,7 @@
             config.Formatters.Add(new GraphFormatter(new UriPathExtensionMapping("rj", "application/rdf+json")));
             config.Formatters.Add(new GraphFormatter(new UriPathExtensionMapping("html", "text/html")));
             config.Formatters.Add(new GraphFormatter(new UriPathExtensionMapping("rdf", "application/rdf+xml")));
+            config.Formatters.Add(new GraphFormatter(new UriPathExtensionMapping("csv", "text/csv")));
 
             config.Formatters.Add(new GraphFormatter(new QueryStringMapping("format", "application/n-triples", "application/n-triples")));
             config.Formatters.Add(new GraphFormatter(new QueryStringMapping("format", "text/turtle", "text/turtle")));
@@ -37,6 +38,7 @@
             config.Formatters.Add(new GraphFormatter(new QueryStringMapping("format", "application/rdf+xml", "application/rdf+xml")));
             config.Formatters.Add(new GraphFormatter(new QueryStringMapping("format", "text/json", "application/rdf+json")));
             config.Formatters.Add(new GraphFormatter(new QueryStringMapping("format", "text/xml", "application/rdf+xml")));
+            config.Formatters.Add(new GraphFormatter(new QueryStringMapping("format", "text/csv", "text/csv")));
 
             config.Formatters.Add(new GraphFormatter(new RequestHeaderMapping("Accept", "application/n-triples", StringComparison.Ordinal, false, "application/n-triples")));
             config.Formatters.Add(new GraphFormatter(new RequestHeaderMapping("Accept", "text/turtle", StringComparison.Ordinal, false, "text/turtle")));
@@ -45,7 +47,7 @@
             config.Formatters.Add(new GraphFormatter(new RequestHeaderMapping("Accept", "application/rdf+json", StringComparison.Ordinal, false, "application/rdf+json")));
             config.Formatters.Add(new GraphFormatter(new RequestHeaderMapping("Accept", "text/html", StringComparison.Ordinal, false, "text/html")));
             config.Formatters.Add(new GraphFormatter(new RequestHeaderMapping("Accept", "application/rdf+xml", StringComparison.Ordinal, false, "application/rdf+xml")));
-
+            config.Formatters.Add(new GraphFormatter(new RequestHeaderMapping("Accept", "text/csv", StringComparison.Ordinal, false, "text/csv")));
 
             config.Formatters.Add(new HttpErrorJsonFormatter());
             config.Formatters.Add(new HttpErrorXmlFormatter());
