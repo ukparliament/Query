@@ -326,6 +326,7 @@ CONSTRUCT {
     ?constituencyGroup
         a :ConstituencyGroup ;
         :constituencyGroupName ?constituencyName ;
+	:constituencyGroupStartDate ?startDate ;
         :constituencyGroupEndDate ?endDate ;
         :constituencyGroupHasHouseSeat ?seat .
     ?seat
@@ -353,6 +354,7 @@ CONSTRUCT {
     	{ SELECT * WHERE {
             ?constituencyGroup a :ConstituencyGroup ;
                                 :constituencyGroupName ?constituencyName .
+            OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?startDate . }
             OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?endDate . }
             OPTIONAL {
                 ?constituencyGroup :constituencyGroupHasHouseSeat ?seat .
