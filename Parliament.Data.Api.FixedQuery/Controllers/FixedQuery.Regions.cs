@@ -56,38 +56,48 @@ WHERE {
 PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX : <http://id.ukpds.org/schema/>
-
 CONSTRUCT {
     ?region
         a admingeo:EuropeanRegion ;
         admingeo:gssCode ?regionCode ;
-        skos:prefLabel ?label .
+        skos:prefLabel ?label ;
+        :count ?count .
     ?constituency
         a :ConstituencyGroup;
         :constituencyGroupName ?constituencyName.
 }
 WHERE {
-    SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
-        BIND (@regionCode AS ?regionCode)
-
-        ?region
-            a admingeo:EuropeanRegion ;
-            admingeo:gssCode ?regionCode ;
-            skos:prefLabel ?label ;
-            admingeo:westminsterConstituency/admingeo:gssCode ?onsCode.
-    }
-
-    ?constituency
-        :onsCode ?onsCode;
-        :constituencyGroupName ?constituencyName.
-}
-";
-
-            var query = new SparqlParameterizedString(queryString);
-            query.SetLiteral("regionCode", region_code);
-
-            return BaseController.ExecuteSingle(query);
+        {
+	        SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
+	          SELECT ?region (COUNT(?constituency) AS ?count) WHERE {
+	            BIND (@regionCode AS ?regionCode)
+	            ?region
+	              a admingeo:EuropeanRegion ;
+	              admingeo:gssCode ?regionCode ;
+	              admingeo:westminsterConstituency ?constituency .
+	          } GROUP BY ?region
+	        }
         }
+        UNION
+        {
+  		    SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
+  		      BIND (@regionCode AS ?regionCode)
+  	          ?region
+  	            a admingeo:EuropeanRegion ;
+  	            admingeo:gssCode ?regionCode ;
+  	            skos:prefLabel ?label ;
+  	            admingeo:westminsterConstituency/admingeo:gssCode ?onsCode.
+          }
+          ?constituency
+            :onsCode ?onsCode;
+            :constituencyGroupName ?constituencyName.
+	      }
+      }
+      ";
+      var query = new SparqlParameterizedString(queryString);
+      query.SetLiteral("regionCode", region_code);
+      return BaseController.ExecuteSingle(query);
+    }
 
         [HttpGet]
         public Graph region_constituencies(string region_code)
