@@ -5,7 +5,7 @@
     using VDS.RDF;
     using VDS.RDF.Query;
 
-    public partial class FixedQueryController 
+    public partial class FixedQueryController
     {
         //[Route("", Name = "PartyIndex")]
         [HttpGet]
@@ -68,7 +68,7 @@ WHERE {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
-    ?party 
+    ?party
         a :Party ;
         :partyName ?name ;
         :commonsCount ?commonsCount ;
@@ -214,9 +214,9 @@ CONSTRUCT {
     [ :value ?firstLetter ]
 }
 WHERE {
-    SELECT DISTINCT ?firstLetter 
+    SELECT DISTINCT ?firstLetter
     WHERE {
-        ?s 
+        ?s
             a :Party ;
            :partyHasPartyMembership ?partyMembership ;
            :partyName ?partyName .
@@ -239,7 +239,7 @@ CONSTRUCT {
     [ :value ?firstLetter ]
 }
 WHERE {
-    SELECT DISTINCT ?firstLetter 
+    SELECT DISTINCT ?firstLetter
     WHERE {
         ?incumbency a :Incumbency .
         FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
@@ -327,10 +327,10 @@ WHERE {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
-    ?party 
+    ?party
         a :Party ;
         :partyName ?partyName .
-    ?person 
+    ?person
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
@@ -341,7 +341,7 @@ CONSTRUCT {
         :partyMemberHasPartyMembership ?partyMembership .
     ?image
         a :MemberImage .
-    ?partyMembership 
+    ?partyMembership
         a :PartyMembership ;
         :partyMembershipEndDate ?partyMembershipEndDate ;
         :partyMembershipHasParty ?party .
@@ -357,13 +357,13 @@ CONSTRUCT {
         :incumbencyEndDate ?houseIncumbencyEndDate .
     ?constituencyGroup
         a :ConstituencyGroup ;
-        :constituencyGroupName ?constituencyName .    
+        :constituencyGroupName ?constituencyName .
     _:x :value ?firstLetter .
 }
 WHERE {
     { SELECT * WHERE {
         BIND(@partyid AS ?party)
-        ?party 
+        ?party
             a :Party ;
             :partyName ?partyName .
         OPTIONAL {
@@ -526,10 +526,10 @@ WHERE {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
-    ?party 
+    ?party
         a :Party ;
         :partyName ?partyName .
-    ?person 
+    ?person
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
@@ -540,7 +540,7 @@ CONSTRUCT {
         :partyMemberHasPartyMembership ?partyMembership .
     ?image
         a :MemberImage .
-    ?partyMembership 
+    ?partyMembership
         a :PartyMembership ;
         :partyMembershipEndDate ?endDate ;
         :partyMembershipHasParty ?party .
@@ -556,13 +556,13 @@ CONSTRUCT {
         :incumbencyEndDate ?houseIncumbencyEndDate .
     ?constituencyGroup
         a :ConstituencyGroup ;
-        :constituencyGroupName ?constituencyName .    
+        :constituencyGroupName ?constituencyName .
     _:x :value ?firstLetter .
 }
 WHERE {
     { SELECT * WHERE {
         BIND(@partyid AS ?party)
-        ?party 
+        ?party
             a :Party ;
             :partyName ?partyName .
         OPTIONAL {
@@ -625,19 +625,32 @@ UNION {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
-    [ :value ?firstLetter ]
+    _:x :value ?firstLetter .
+    ?party
+    	a :Party ;
+    	:partyName ?partyName .
 }
 WHERE {
-    SELECT DISTINCT ?firstLetter 
-    WHERE {
-        BIND(@partyid AS ?party)
-        ?party 
-            a :Party ;
-            :partyHasPartyMembership ?partyMembership .
-        ?partyMembership :partyMembershipHasPartyMember ?person .
-        ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
-        BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
-    }
+	{
+	    SELECT DISTINCT ?firstLetter
+	    WHERE {
+	        BIND(@partyid AS ?party)
+	        ?party
+	            a :Party ;
+	            :partyHasPartyMembership ?partyMembership ;
+	            :partyName ?partyName .
+	        ?partyMembership :partyMembershipHasPartyMember ?person .
+	        ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+	        BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
+	    }
+  }
+  UNION
+  {
+  	BIND(@partyid AS ?party)
+    ?party
+    	a :Party ;
+    	:partyName ?partyName .
+	}
 }
 ";
 
@@ -760,14 +773,19 @@ UNION {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
 CONSTRUCT {
-    [ :value ?firstLetter ]
+    _:x :value ?firstLetter .
+    ?party
+    	a :Party ;
+    	:partyName ?partyName .
 }
 WHERE {
-    SELECT DISTINCT ?firstLetter 
+	{
+    SELECT DISTINCT ?firstLetter
     WHERE {
         BIND(@partyid AS ?party)
-        ?party 
+        ?party
             a :Party ;
+            :partyName ?partyName ;
             :partyHasPartyMembership ?partyMembership .
         FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
         ?partyMembership :partyMembershipHasPartyMember ?person .
@@ -776,6 +794,14 @@ WHERE {
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
         BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
     }
+  }
+  UNION
+  {
+    BIND(@partyid AS ?party)
+	?party
+	    a :Party ;
+	    :partyName ?partyName ;
+  }
 }
 ";
 
