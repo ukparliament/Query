@@ -130,20 +130,18 @@ CONSTRUCT {
 WHERE {
     {
         SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
-            SELECT ?region (COUNT(?constituency) AS ?count)
-            WHERE {
-                BIND (@regionCode AS ?regionCode)
+            {
+                SELECT ?region (COUNT(?constituency) AS ?count)
+                WHERE {
+                    BIND (@regionCode AS ?regionCode)
 
-                ?region
-                    a admingeo:EuropeanRegion ;
-                    admingeo:gssCode ?regionCode ;
-                    admingeo:westminsterConstituency ?constituency .
+                    ?region
+                        a admingeo:EuropeanRegion ;
+                        admingeo:gssCode ?regionCode ;
+                        admingeo:westminsterConstituency ?constituency .
+                }
+                GROUP BY ?region
             }
-            GROUP BY ?region
-        }
-
-        SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
-            BIND (@regionCode AS ?regionCode)
 
             ?region
                 a admingeo:EuropeanRegion ;
@@ -303,19 +301,18 @@ WHERE {
         SELECT *
         WHERE {
             SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
-                SELECT ?region (COUNT(?constituency) AS ?count)
-                WHERE {
-                    BIND (@regionCode AS ?regionCode)
+                {
+                    SELECT ?region (COUNT(?constituency) AS ?count)
+                    WHERE {
+                        BIND (@regionCode AS ?regionCode)
 
-                    ?region
-                        a admingeo:EuropeanRegion ;
-                        admingeo:gssCode ?regionCode ;
-                        admingeo:westminsterConstituency ?constituency .
+                        ?region
+                            a admingeo:EuropeanRegion ;
+                            admingeo:gssCode ?regionCode ;
+                            admingeo:westminsterConstituency ?constituency .
+                    }
+                    GROUP BY ?region
                 }
-                GROUP BY ?region
-            }
-            SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
-                BIND (@regionCode AS ?regionCode)
 
                 ?region
                     a admingeo:EuropeanRegion ;
