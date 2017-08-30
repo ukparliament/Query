@@ -165,6 +165,13 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
         UNION {
 
           SELECT DISTINCT ?firstLetter WHERE {
+            SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
+            BIND (@regionCode AS ?regionCode)
+            ?region
+              a admingeo:EuropeanRegion ;
+              admingeo:gssCode ?regionCode ;
+              admingeo:westminsterConstituency/admingeo:gssCode ?onsCode.
+            }
             ?constituency
               a :ConstituencyGroup ;
               :onsCode ?onsCode;
@@ -194,29 +201,33 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
         _:x :value ?firstLetter .
       }
       WHERE {
-
-        SELECT * WHERE {
-
-          { SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
-            BIND (@regionCode AS ?regionCode)
-            ?region
-              a admingeo:EuropeanRegion ;
-              admingeo:gssCode ?regionCode ;
-              skos:prefLabel ?regionName ;
-              admingeo:westminsterConstituency/admingeo:gssCode ?onsCode.
-          } }
-
-          UNION {
-            SELECT DISTINCT ?firstLetter WHERE {
-              ?constituency
-                a :ConstituencyGroup ;
-                :onsCode ?onsCode;
-                :constituencyGroupName ?constituencyName .
-              BIND(ucase(SUBSTR(?constituencyName, 1, 1)) as ?firstLetter)
-            }
+        { SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
+          BIND (@regionCode AS ?regionCode)
+          ?region
+            a admingeo:EuropeanRegion ;
+            admingeo:gssCode ?regionCode ;
+            skos:prefLabel ?regionName ;
+            admingeo:westminsterConstituency/admingeo:gssCode ?onsCode.
+      	  }
+        }
+        UNION {
+          SELECT DISTINCT ?firstLetter WHERE {
+      	  SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
+	        BIND (@regionCode AS ?regionCode)
+	        ?region
+	          a admingeo:EuropeanRegion ;
+	          admingeo:gssCode ?regionCode ;
+	          admingeo:westminsterConstituency/admingeo:gssCode ?onsCode.
+      	  }
+            ?constituency
+              a :ConstituencyGroup ;
+              :onsCode ?onsCode;
+              :constituencyGroupName ?constituencyName .
+            BIND(ucase(SUBSTR(?constituencyName, 1, 1)) as ?firstLetter)
           }
         }
-      }";
+      }
+      ";
       var query = new SparqlParameterizedString(queryString);
       query.SetLiteral("regionCode", region_code);
       return BaseController.ExecuteSingle(query);
@@ -261,7 +272,6 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
       }
       WHERE {
         { SELECT * WHERE {
-
           SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
             SELECT ?region (COUNT(?constituency) AS ?count) WHERE {
               BIND (@regionCode AS ?regionCode)
@@ -269,9 +279,8 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
                 a admingeo:EuropeanRegion ;
                 admingeo:gssCode ?regionCode ;
                 admingeo:westminsterConstituency ?constituency .
-          } GROUP BY ?region
+            } GROUP BY ?region
           }
-
           SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
             BIND (@regionCode AS ?regionCode)
             ?region
@@ -280,7 +289,6 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
               skos:prefLabel ?regionName ;
               admingeo:westminsterConstituency/admingeo:gssCode ?onsCode.
           }
-
           ?constituency
             :onsCode ?onsCode;
             :constituencyGroupName ?constituencyName ;
@@ -302,15 +310,19 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
                 OPTIONAL { ?party :partyName ?partyName . }
               }
             }
-
           }
           FILTER STRSTARTS(LCASE(?constituencyName), LCASE(@initial))
         }
-        }
-
-        UNION {
-
-          SELECT DISTINCT ?firstLetter WHERE {
+      }
+      UNION {
+        SELECT DISTINCT ?firstLetter WHERE {
+    	    SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
+		      BIND (@regionCode AS ?regionCode)
+		      ?region
+		        a admingeo:EuropeanRegion ;
+		        admingeo:gssCode ?regionCode ;
+		        admingeo:westminsterConstituency/admingeo:gssCode ?onsCode.
+	        }
             ?constituency
               a :ConstituencyGroup ;
               :onsCode ?onsCode;
@@ -318,7 +330,8 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
             BIND(ucase(SUBSTR(?constituencyName, 1, 1)) as ?firstLetter)
           }
         }
-      }";
+      }
+      ";
       var query = new SparqlParameterizedString(queryString);
       query.SetLiteral("regionCode", region_code);
       query.SetLiteral("initial", initial);
