@@ -1077,49 +1077,43 @@ WHERE {
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     [ :value ?firstLetter ] .
-    ?house
-      a :House ;
-      :houseName ?houseName .
-    ?party
-      a :Party ;
-      :partyName ?partyName .
+    @houseid
+        a :House ;
+        :houseName ?houseName .
+    @partyid
+        a :Party ;
+        :partyName ?partyName .
 }
 WHERE {
-  {
-    SELECT DISTINCT ?firstLetter
+    SELECT DISTINCT ?houseName ?partyName ?firstLetter
     WHERE {
-      BIND(@houseid AS ?house)
-      BIND(@partyid AS ?party)
-      ?house a :House .
-      ?party a :Party .
-      ?person
-      a :Member ;
-      <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
-      :partyMemberHasPartyMembership ?partyMembership .
-      ?partyMembership :partyMembershipHasParty ?party .
-      ?incumbency :incumbencyHasMember ?person .
-      {
-        ?incumbency :houseIncumbencyHasHouse ?house .
-      }
-      UNION {
-        ?incumbency :seatIncumbencyHasHouseSeat ?seat .
-        ?seat :houseSeatHasHouse ?house .
-      }
-      BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
+        BIND(@houseid AS ?house)
+        BIND(@partyid AS ?party)
+
+        ?house
+            :houseName ?houseName .
+        ?party
+            :partyName ?partyName .
+        ?person
+            a :Member ;
+            <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
+            :partyMemberHasPartyMembership ?partyMembership .
+        ?partyMembership :partyMembershipHasParty ?party .
+        ?incumbency :incumbencyHasMember ?person .
+
+        {
+            ?incumbency :houseIncumbencyHasHouse ?house .
+        }
+        UNION {
+            ?incumbency :seatIncumbencyHasHouseSeat ?seat .
+            ?seat :houseSeatHasHouse ?house .
+        }
+
+        BIND(UCASE(SUBSTR(?listAs, 1, 1)) AS ?firstLetter)
     }
-  }
-  UNION {
-    BIND(@houseid AS ?house)
-    BIND(@partyid AS ?party)
-    ?house
-      a :House ;
-      :houseName ?houseName .
-    ?party
-      a :Party ;
-      :partyName ?partyName .
-  }
 }
 ";
 
@@ -1369,45 +1363,44 @@ WHERE {
         {
             var queryString = @"
 PREFIX : <http://id.ukpds.org/schema/>
+
 CONSTRUCT {
     [ :value ?firstLetter ] .
-    ?house a :House ;
-           :houseName ?houseName .
-    ?party a :Party ;
-           :partyName ?partyName .
-}
-WHERE {
-    }
-      SELECT DISTINCT ?firstLetter WHERE {
-      BIND(@houseid AS ?house)
-      BIND(@partyid AS ?party)
-      ?person a :Member .
-      ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
-      ?person :partyMemberHasPartyMembership ?partyMembership .
-      FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
-      ?partyMembership :partyMembershipHasParty ?party .
-      ?incumbency :incumbencyHasMember ?person .
-      FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
-      {
-      	?incumbency :houseIncumbencyHasHouse ?house .
-      }
-      UNION {
-          ?incumbency :seatIncumbencyHasHouseSeat ?seat .
-          ?seat :houseSeatHasHouse ?house .
-      }
-      BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
-      }
-    }
-
-    UNION {
-      BIND(@houseid AS ?house)
-      BIND(@partyid AS ?party)
-      ?house
+    @houseid
         a :House ;
         :houseName ?houseName .
-      ?party
+    @partyid
         a :Party ;
         :partyName ?partyName .
+}
+WHERE {
+    SELECT DISTINCT ?houseName ?partyName ?firstLetter
+    WHERE {
+        BIND(@houseid AS ?house)
+        BIND(@partyid AS ?party)
+
+        ?house
+            :houseName ?houseName .
+        ?party
+            :partyName ?partyName .
+        ?person
+            a :Member ;
+            <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
+            :partyMemberHasPartyMembership ?partyMembership .
+        FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+        ?partyMembership :partyMembershipHasParty ?party .
+        ?incumbency :incumbencyHasMember ?person .
+        FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+
+        {
+            ?incumbency :houseIncumbencyHasHouse ?house .
+        }
+        UNION {
+            ?incumbency :seatIncumbencyHasHouseSeat ?seat .
+            ?seat :houseSeatHasHouse ?house .
+        }
+
+        BIND(UCASE(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
     }
 }
 ";
@@ -1419,6 +1412,5 @@ WHERE {
 
             return BaseController.ExecuteList(query);
         }
-
     }
 }
