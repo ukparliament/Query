@@ -1,0 +1,32 @@
+﻿PREFIX : <http://id.ukpds.org/schema/>
+CONSTRUCT {
+    ?party
+        a :Party ;
+        :partyName ?name ;
+        :commonsCount ?commonsCount ;
+        :lordsCount ?lordsCount .
+}
+WHERE {
+    SELECT ?party ?name (COUNT(?mp) AS ?commonsCount) (COUNT(?lord) AS ?lordsCount)
+    WHERE {
+        BIND(@id AS ?party)
+       	?party a :Party ;
+	           :partyName ?name .
+        OPTIONAL {
+            ?party :partyHasPartyMembership ?partyMembership .
+    	  	FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+    	  	?partyMembership :partyMembershipHasPartyMember ?member .
+    	  	?member :memberHasIncumbency ?incumbency .
+    	  	FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+            OPTIONAL {
+		        ?incumbency a :SeatIncumbency ;
+                			:incumbencyHasMember ?mp .
+            }
+            OPTIONAL {
+                ?incumbency a :HouseIncumbency ;
+                            :incumbencyHasMember ?lord .
+            }
+        }
+    }
+    GROUP BY ?party ?name
+}

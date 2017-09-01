@@ -1,0 +1,12 @@
+﻿PREFIX : <http://id.ukpds.org/schema/>
+CONSTRUCT {
+    ?house
+        a :House ;
+        :houseName ?houseName .
+}
+WHERE {
+    ?house
+         a :House ;
+    	:houseName ?houseName .
+    FILTER CONTAINS(LCASE(?houseName), LCASE(@substring))
+}

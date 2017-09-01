@@ -1,0 +1,40 @@
+﻿PREFIX : <http://id.ukpds.org/schema/>
+CONSTRUCT {
+    ?person
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        :memberHasMemberImage ?image .
+    ?image
+        a :MemberImage .
+    ?constituency
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?constituencyName ;
+        :constituencyGroupStartDate ?constituencyStartDate ;
+        :constituencyGroupHasHouseSeat ?seat .
+    ?seat
+        a :HouseSeat ;
+        :houseSeatHasSeatIncumbency ?seatIncumbency .
+    ?seatIncumbency
+        a :SeatIncumbency ;
+        :incumbencyStartDate ?seatIncumbencyStartDate .
+}
+WHERE {
+    BIND(@personid AS ?person)
+    ?person a :Person .
+    OPTIONAL { ?person :personGivenName ?givenName } .
+    OPTIONAL { ?person :personFamilyName ?familyName } .
+    OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+    OPTIONAL { ?person :memberHasMemberImage ?image } .
+    OPTIONAL {
+        ?person :memberHasIncumbency ?seatIncumbency .
+        ?seatIncumbency a :SeatIncumbency .
+        FILTER NOT EXISTS { ?seatIncumbency a :PastIncumbency . }
+        ?seatIncumbency :seatIncumbencyHasHouseSeat ?seat .
+        ?seat :houseSeatHasConstituencyGroup ?constituency .
+        ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate .
+        ?constituency :constituencyGroupName ?constituencyName .
+        ?constituency :constituencyGroupStartDate ?constituencyStartDate .
+    }
+}

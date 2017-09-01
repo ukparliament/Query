@@ -1,0 +1,19 @@
+﻿PREFIX : <http://id.ukpds.org/schema/>
+CONSTRUCT {
+    _:x :value ?firstLetter .
+}
+WHERE {
+        SELECT DISTINCT ?firstLetter WHERE {
+          BIND(@parliamentid AS ?parliament)
+		  BIND(@houseid AS ?house)
+
+          ?parliament a :ParliamentPeriod .
+          ?house a :House .
+       	  ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
+          ?seatIncumbency :incumbencyHasMember ?person ;
+          				  :seatIncumbencyHasHouseSeat ?houseSeat .
+          ?houseSeat :houseSeatHasHouse ?house .
+          ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+          BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
+        }
+}

@@ -1,0 +1,14 @@
+﻿PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : <http://id.ukpds.org/schema/>
+CONSTRUCT {
+    ?nextParliament
+        a :ParliamentPeriod .
+}
+WHERE {
+    ?nextParliament
+        a :ParliamentPeriod ;
+        :parliamentPeriodStartDate ?startDate .
+    BIND(now() AS ?currentDate)
+    BIND(xsd:dateTime(?startDate) AS ?startDateTime)
+    FILTER(?startDateTime > ?currentDate)
+}

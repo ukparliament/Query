@@ -1,0 +1,39 @@
+﻿PREFIX : <http://id.ukpds.org/schema/>
+CONSTRUCT {
+    ?house
+        a :House ;
+        :houseName ?houseName .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+}
+WHERE {
+    BIND(@houseid as ?house)
+    ?house
+        a :House ;
+        :houseName ?houseName .
+    ?person a :Member .
+    ?incumbency
+        :incumbencyHasMember ?person ;
+        :incumbencyStartDate ?incStartDate .
+    OPTIONAL { ?incumbency :incumbencyEndDate ?incumbencyEndDate . }
+    {
+        ?incumbency :houseIncumbencyHasHouse ?house .
+	}
+    UNION {
+        ?incumbency :seatIncumbencyHasHouseSeat ?houseSeat .
+        ?houseSeat :houseSeatHasHouse ?house .
+	}
+    ?partyMembership
+        :partyMembershipHasPartyMember ?person ;
+        :partyMembershipHasParty ?party ;
+        :partyMembershipStartDate ?pmStartDate .
+    OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+    ?party :partyName ?partyName.
+    BIND(COALESCE(?partyMembershipEndDate,now()) AS ?pmEndDate)
+    BIND(COALESCE(?incumbencyEndDate,now()) AS ?incEndDate)
+    FILTER (
+        (?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
+        (?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
+    )
+}

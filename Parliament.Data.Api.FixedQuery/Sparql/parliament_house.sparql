@@ -1,0 +1,36 @@
+﻿PREFIX : <http://id.ukpds.org/schema/>
+CONSTRUCT {
+	 ?house
+        a :House ;
+        :houseName ?houseName .
+     ?parliament
+         a :ParliamentPeriod ;
+         :parliamentPeriodStartDate ?parliamentStartDate ;
+         :parliamentPeriodEndDate ?parliamentEndDate ;
+         :parliamentPeriodNumber ?parliamentNumber ;
+         :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament ;
+    	 :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament .
+}
+WHERE {
+    BIND(@parliamentid AS ?parliament)
+
+    ?parliament
+        a :ParliamentPeriod ;
+        :parliamentPeriodStartDate ?parliamentStartDate ;
+        :parliamentPeriodNumber ?parliamentNumber .
+    OPTIONAL { ?parliament :parliamentPeriodEndDate ?parliamentEndDate . }
+    OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament . }
+    OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
+
+    OPTIONAL {
+        BIND(@houseid AS ?house)
+
+        ?house
+            a :House ;
+            :houseName ?houseName .
+            ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
+            ?seatIncumbency :incumbencyHasMember ?person ;
+                            :seatIncumbencyHasHouseSeat ?houseSeat .
+            ?houseSeat :houseSeatHasHouse ?house .
+    }
+}

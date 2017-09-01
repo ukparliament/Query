@@ -2,7 +2,9 @@
 {
     using System;
     using System.Configuration;
+    using System.IO;
     using System.Net;
+    using System.Reflection;
     using System.Web.Http;
     using VDS.RDF;
     using VDS.RDF.Parsing.Handlers;
@@ -67,25 +69,9 @@
             return graph;
         }
 
-
         protected Graph LookupInternal(string type, string property, string value)
         {
-            var queryString = @"
-PREFIX : <http://id.ukpds.org/schema/>
-CONSTRUCT {
-    ?s a @type .
-}
-WHERE {
-    BIND(@type AS ?type)
-    BIND(@source AS ?source)
-    BIND(@id AS ?id)
-
-    ?s
-        a @type ;
-        ?source ?actualId .
-
-    FILTER(STR(?actualId) = ?id)
-}";
+            var queryString = this.GetSparql("LookupInternal");
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -94,6 +80,20 @@ WHERE {
             query.SetLiteral("id", value);
 
             return BaseController.ExecuteSingle(query);
+        }
+
+        protected string GetSparql(string fileName)
+        {
+            var baseName = "Parliament.Data.Api.FixedQuery.Sparql";
+            var resourceName = $"{baseName}.{fileName}.sparql";
+
+            using (var sparqlResourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+            {
+                using (var reader = new StreamReader(sparqlResourceStream))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
         }
 
         private static void ValidateSparql(string query)

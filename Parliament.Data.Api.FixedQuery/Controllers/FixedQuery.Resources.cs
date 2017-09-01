@@ -10,7 +10,7 @@
         [HttpGet]
         public Graph resource_by_id(string uri)
         {
-            var queryString = @"DESCRIBE @uri";
+            var queryString = base.GetSparql("resource_by_id");
 
             var query = new SparqlParameterizedString(queryString);
 

@@ -1,0 +1,12 @@
+﻿PREFIX : <http://id.ukpds.org/schema/>
+CONSTRUCT {
+    ?house
+        a :House ;
+        :houseName ?houseName .
+}
+WHERE {
+    BIND(@id AS ?house)
+    ?house
+        a :House ;
+        :houseName ?houseName .
+}

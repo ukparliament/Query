@@ -1,0 +1,12 @@
+﻿PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+
+CONSTRUCT {
+    ?postcode
+        geo:long ?long ;
+        geo:lat ?lat .
+}
+WHERE {
+    BIND(@postcode as ?postcode)
+    ?postcode geo:long ?long ;
+        geo:lat ?lat .
+}

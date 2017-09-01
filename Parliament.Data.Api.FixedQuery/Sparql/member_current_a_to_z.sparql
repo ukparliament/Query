@@ -1,0 +1,14 @@
+﻿PREFIX : <http://id.ukpds.org/schema/>
+CONSTRUCT {
+    [ :value ?firstLetter ]
+}
+WHERE {
+    SELECT DISTINCT ?firstLetter 
+    WHERE {
+        ?incumbency a :Incumbency .
+        FILTER NOT EXISTS { ?incumbency a :PastIncumbency .	}
+        ?incumbency :incumbencyHasMember ?person .
+        ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+        BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
+    }
+}

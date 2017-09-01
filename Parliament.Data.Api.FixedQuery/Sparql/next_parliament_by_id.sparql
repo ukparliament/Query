@@ -1,0 +1,10 @@
+﻿PREFIX : <http://id.ukpds.org/schema/>
+CONSTRUCT {
+    ?nextParliament
+        a :ParliamentPeriod .
+}
+WHERE {
+    BIND(@id AS ?parliament)
+
+    ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament .
+}

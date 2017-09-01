@@ -1,14 +1,11 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Web;
     using System.Web.Http;
-    using VDS.RDF;
-    using VDS.RDF.Query;
 
     public partial class HelpController : BaseController
     {
