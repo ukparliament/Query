@@ -94,10 +94,10 @@ WHERE {
 	      }
       }
       ";
-      var query = new SparqlParameterizedString(queryString);
-      query.SetLiteral("regionCode", region_code);
-      return BaseController.ExecuteSingle(query);
-    }
+            var query = new SparqlParameterizedString(queryString);
+            query.SetLiteral("regionCode", region_code);
+            return BaseController.ExecuteSingle(query);
+        }
 
         [HttpGet]
         public Graph region_constituencies(string region_code)

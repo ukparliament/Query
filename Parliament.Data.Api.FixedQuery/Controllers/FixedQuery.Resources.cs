@@ -5,9 +5,8 @@
     using VDS.RDF;
     using VDS.RDF.Query;
 
-    public partial class FixedQueryController 
+    public partial class FixedQueryController
     {
-        //[Route(Name = "ResourceById")]
         [HttpGet]
         public Graph resource_by_id(string uri)
         {

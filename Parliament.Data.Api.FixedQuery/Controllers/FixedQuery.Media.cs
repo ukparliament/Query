@@ -5,9 +5,8 @@
     using VDS.RDF;
     using VDS.RDF.Query;
 
-    public partial class FixedQueryController 
+    public partial class FixedQueryController
     {
-        //[Route(Name = "MediaImageById")]
         [HttpGet]
         public Graph image_by_id(string image_id)
         {
@@ -35,11 +34,11 @@
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
     }
 ";
-            
+
             var query = new SparqlParameterizedString(queryString);
-            
+
             query.SetUri("id", new Uri(BaseController.instance, image_id));
-            
+
             return BaseController.ExecuteSingle(query);
         }
     }

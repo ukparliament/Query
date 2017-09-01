@@ -5,9 +5,8 @@
     using VDS.RDF;
     using VDS.RDF.Query;
 
-    public partial class FixedQueryController 
+    public partial class FixedQueryController
     {
-        //[Route("", Name = "ContactPointIndex")]
         [HttpGet]
         public Graph contact_point_index()
         {
@@ -51,7 +50,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}", Name = "ContactPointById")]
         [HttpGet]
         public Graph contact_point_by_id(string contact_point_id)
         {

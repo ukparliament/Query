@@ -4,9 +4,8 @@
     using VDS.RDF;
     using VDS.RDF.Query;
 
-    public partial class FixedQueryController 
+    public partial class FixedQueryController
     {
-        //[Route("current", Name = "MemberCurrent")]
         [HttpGet]
         public Graph member_current()
         {
@@ -111,7 +110,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{initial:regex(^\p{L}+$):maxlength(1)}", Name = "MemberByInitial")]
         [HttpGet]
         public Graph member_by_initial(string initial)
         {
@@ -220,7 +218,6 @@ WHERE {
 
         }
 
-        //[Route("a_z_letters", Name = "MemberAToZ")]
         [HttpGet]
         public Graph member_a_to_z()
         {
@@ -245,7 +242,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "MemberCurrentByInitial")]
         [HttpGet]
         public Graph member_current_by_initial(string initial)
         {
@@ -354,7 +350,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route("current/a_z_letters", Name = "MemberCurrentAToZ")]
         [HttpGet]
         public Graph member_current_a_to_z()
         {

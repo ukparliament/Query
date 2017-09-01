@@ -12,7 +12,6 @@
     public partial class FixedQueryController
     {
 
-        //[Route(@"{id:regex(^\w{8}$)}", Name = "ConstituencyByID")]
         [HttpGet]
         public Graph constituency_by_id(string constituency_id)
         {
@@ -89,7 +88,6 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/map", Name = "ConstituencyMap")]
         [HttpGet]
         public Graph constituency_map(string constituency_id)
         {
@@ -168,7 +166,6 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        //[Route(@"{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ConstituencyByInitial")]
         [HttpGet]
         public Graph constituency_by_initial(string initial)
         {
@@ -243,7 +240,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route("current", Name = "ConstituencyCurrent")]
         [HttpGet]
         public Graph constituency_current()
         {
@@ -312,11 +308,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "ConstituencyLookup")]
         [HttpGet]
         public Graph constituency_lookup(string property, string value) => base.LookupInternal("ConstituencyGroup", property, value);
 
-        //[Route(@"partial/{letters:regex(^\p{L}+$):minlength(2)}", Name = "ConstituencyByLetters", Order = 999)]
         [HttpGet]
         public Graph constituency_by_substring(string substring)
         {
@@ -391,7 +385,6 @@ CONSTRUCT {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route("a_z_letters", Name = "ConstituencyAToZ")]
         [HttpGet]
         public Graph constituency_a_to_z()
         {
@@ -415,7 +408,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ConstituencyCurrentByInitial")]
         [HttpGet]
         public Graph constituency_current_by_initial(string initial)
         {
@@ -486,7 +478,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route("current/a_z_letters", Name = "ConstituencyCurrentAToZ")]
         [HttpGet]
         public Graph constituency_current_a_to_z()
         {
@@ -510,7 +501,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route("", Name = "ConstituencyIndex")]
         [HttpGet]
         public Graph constituency_index()
         {
@@ -581,7 +571,6 @@ CONSTRUCT {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/members", Name = "ConstituencyMembers")]
         [HttpGet]
         public Graph constituency_members(string constituency_id)
         {
@@ -634,7 +623,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/members/current", Name = "ConstituencyCurrentMember")]
         [HttpGet]
         public Graph constituency_current_member(string constituency_id)
         {
@@ -730,7 +718,6 @@ WHERE {
         }
 
         // TODO: Why is this singular? - still not completely solved here
-        //[Route(@"{id:regex(^\w{8}$)}/contact_point", Name = "ConstituencyContactPoint")]
         [HttpGet]
         public Graph constituency_contact_point(string constituency_id)
         {
@@ -800,7 +787,6 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        //[Route(@"postcode_lookup/{postcode}", Name = "ConstituencyLookupByPostcode")]
         [HttpGet]
         public Graph constituency_lookup_by_postcode(string postcode)
         {
@@ -906,8 +892,8 @@ where {
 
                         dynamic postcodesioJson = JsonConvert.DeserializeObject(json);
 
-                        latitude = postcodesioJson.result.latitude ;
-                        longitude = postcodesioJson.result.longitude ;
+                        latitude = postcodesioJson.result.latitude;
+                        longitude = postcodesioJson.result.longitude;
                     }
                     catch (AggregateException e) when (e.InnerException is HttpRequestException)
                     {

@@ -7,7 +7,6 @@
 
     public partial class FixedQueryController
     {
-        //[Route(@"{id:regex(^\w{8}$)}", Name = "HouseById")]
         [HttpGet]
         public Graph house_by_id(string house_id)
         {
@@ -34,11 +33,9 @@ WHERE {
 
         }
 
-        //[Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "HouseLookup")]
         [HttpGet]
         public Graph house_lookup(string property, string value) => base.LookupInternal("House", property, value);
 
-        //[Route(@"partial/{letters:regex(^\p{L}+$):minlength(2)}", Name = "HouseByLetters", Order = 999)]
         [HttpGet]
         public Graph house_by_substring(string substring)
         {
@@ -64,7 +61,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route("", Name = "HouseIndex")]
         [HttpGet]
         public Graph house_index()
         {
@@ -87,7 +83,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/members", Name = "HouseMembers")]
         [HttpGet]
         public Graph house_members(string house_id)
         {
@@ -202,7 +197,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/members/current", Name = "HouseCurrentMembers")]
         [HttpGet]
         public Graph house_current_members(string house_id)
         {
@@ -312,7 +306,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/parties", Name = "HouseParties")]
         [HttpGet]
         public Graph house_parties(string house_id)
         {
@@ -365,7 +358,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/parties/current", Name = "HouseCurrentParties")]
         [HttpGet]
         public Graph house_current_parties(string house_id)
         {
@@ -420,7 +412,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}", Name = "HousePartyById")]
         [HttpGet]
         public Graph house_party_by_id(string house_id, string party_id)
         {
@@ -495,7 +486,6 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        //[Route(@"{houseId:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HouseMembersByInitial")]
         [HttpGet]
         public Graph house_members_by_initial(string house_id, string initial)
         {
@@ -611,7 +601,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/members/a_z_letters", Name = "HouseMembersAToZ")]
         [HttpGet]
         public Graph house_members_a_to_z(string house_id)
         {
@@ -662,7 +651,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{houseId:regex(^\w{8}$)}/members/current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HouseCurrentMembersByInitial")]
         [HttpGet]
         public Graph house_current_members_by_initial(string house_id, string initial)
         {
@@ -777,7 +765,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/members/current/a_z_letters", Name = "HouseCurrentMembersAToZ")]
         [HttpGet]
         public Graph house_current_members_a_to_z(string house_id)
         {
@@ -829,7 +816,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members", Name = "HousePartyMembers")]
         [HttpGet]
         public Graph house_party_members(string house_id, string party_id)
         {
@@ -949,7 +935,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HousePartyMembersByInitial")]
         [HttpGet]
         public Graph house_party_members_by_initial(string house_id, string party_id, string initial)
         {
@@ -1071,7 +1056,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/a_z_letters", Name = "HousePartyMembersAToZ")]
         [HttpGet]
         public Graph house_party_members_a_to_z(string house_id, string party_id)
         {
@@ -1125,7 +1109,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/current", Name = "HousePartyCurrentMembers")]
         [HttpGet]
         public Graph house_party_current_members(string house_id, string party_id)
         {
@@ -1239,7 +1222,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "HousePartyCurrentMembersByInitial")]
         [HttpGet]
         public Graph house_party_current_members_by_initial(string house_id, string party_id, string initial)
         {
@@ -1357,7 +1339,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{houseId:regex(^\w{8}$)}/parties/{partyId:regex(^\w{8}$)}/members/current/a_z_letters", Name = "HousePartyCurrentMembersAToZ")]
         [HttpGet]
         public Graph house_party_current_members_a_to_z(string house_id, string party_id)
         {

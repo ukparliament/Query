@@ -1,14 +1,7 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
-    using Newtonsoft.Json;
-    using System;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Net.Http.Headers;
     using System.Web.Http;
     using VDS.RDF;
-    using VDS.RDF.Query;
 
     public partial class FixedQueryController
     {
@@ -32,7 +25,7 @@
 <http://id.ukpds.org/JCORBJOBSCOMMITTEEMEMBERSHIP> <http://id.ukpds.org/schema/formalBodyMembershipEndDate> ""2012-06-08""^^<http://www.w3.org/2001/XMLSchema#date> .
 <http://id.ukpds.org/JOBSCOMMITTEE> <http://id.ukpds.org/schema/formalBodyName> ""Jobs Committee"" .
 <http://id.ukpds.org/JOBSCOMMITTEE> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.ukpds.org/schema/FormalBody> .
-".Replace("THE_PERSON",person_id);
+".Replace("THE_PERSON", person_id);
 
             var graph = new Graph();
             graph.LoadFromString(triples);
@@ -40,6 +33,7 @@
             calledGraph.Merge(graph);
             return calledGraph;
         }
+
         [HttpGet]
         public Graph committee_by_id(string committee_id)
         {
@@ -365,6 +359,7 @@
             graph.LoadFromString(triples);
             return graph;
         }
+
         [HttpGet]
         public Graph committee_index()
         {

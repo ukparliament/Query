@@ -5,9 +5,8 @@
     using VDS.RDF;
     using VDS.RDF.Query;
 
-    public partial class FixedQueryController 
+    public partial class FixedQueryController
     {
-        //[Route("", Name = "ParliamentIndex")]
         [HttpGet]
         public Graph parliament_index()
         {
@@ -34,7 +33,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route("current", Name = "ParliamentCurrent")]
         [HttpGet]
         public Graph parliament_current()
         {
@@ -61,7 +59,6 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        //[Route("previous", Name = "ParliamentPrevious")]
         [HttpGet]
         public Graph parliament_previous()
         {
@@ -99,7 +96,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route("next", Name = "ParliamentNext")]
         [HttpGet]
         public Graph parliament_next()
         {
@@ -124,11 +120,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "ParliamentLookup")]
         [HttpGet]
         public Graph parliament_lookup(string property, string value) => base.LookupInternal("ParliamentPeriod", property, value);
 
-        //[Route(@"{id:regex(^\w{8}$)}", Name = "ParliamentById")]
         [HttpGet]
         public Graph parliament_by_id(string parliament_id)
         {
@@ -189,7 +183,6 @@ WHERE {
 
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/next", Name = "NextParliamentById")]
         [HttpGet]
         public Graph next_parliament_by_id(string parliament_id)
         {
@@ -213,7 +206,6 @@ WHERE {
 
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/previous", Name = "PreviousParliamentById")]
         [HttpGet]
         public Graph previous_parliament_by_id(string parliament_id)
         {
@@ -237,7 +229,6 @@ WHERE {
 
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/members", Name = "ParliamentMembers")]
         [HttpGet]
         public Graph parliament_members(string parliament_id)
         {
@@ -369,7 +360,6 @@ UNION {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentMembersByInitial")]
         [HttpGet]
         public Graph parliament_members_by_initial(string parliament_id, string initial)
         {
@@ -503,7 +493,6 @@ UNION {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentMembersAToZLetters")]
         [HttpGet]
         public Graph parliament_members_a_to_z(string parliament_id)
         {
@@ -531,7 +520,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/houses", Name = "ParliamentHouses")]
         [HttpGet]
         public Graph parliament_houses(string parliament_id)
         {
@@ -576,7 +564,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}", Name = "ParliamentHouse")]
         [HttpGet]
         public Graph parliament_house(string parliament_id, string house_id)
         {
@@ -627,7 +614,6 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/members", Name = "ParliamentHouseMembers")]
         [HttpGet]
         public Graph parliament_house_members(string parliament_id, string house_id)
         {
@@ -772,7 +758,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentHouseMembersAToZLetters")]
         [HttpGet]
         public Graph parliament_house_members_a_to_z(string parliament_id, string house_id)
         {
@@ -805,7 +790,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentHouseMembersByInitial")]
         [HttpGet]
         public Graph parliament_house_members_by_initial(string parliament_id, string house_id, string initial)
         {
@@ -953,7 +937,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/parties", Name = "ParliamentParties")]
         [HttpGet]
         public Graph parliament_parties(string parliament_id)
         {
@@ -1019,7 +1002,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}", Name = "ParliamentParty")]
         [HttpGet]
         public Graph parliament_party(string parliament_id, string party_id)
         {
@@ -1089,7 +1071,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members", Name = "ParliamentPartyMembers")]
         [HttpGet]
         public Graph parliament_party_members(string parliament_id, string party_id)
         {
@@ -1268,7 +1249,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentPartyMembersAToZLetters")]
         [HttpGet]
         public Graph parliament_party_members_a_to_z(string parliament_id, string party_id)
         {
@@ -1320,7 +1300,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{parliamentid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentPartyMembersByInitial")]
         [HttpGet]
         public Graph parliament_party_members_by_initial(string parliament_id, string party_id, string initial)
         {
@@ -1501,7 +1480,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties", Name = "ParliamentHouseParties")]
         [HttpGet]
         public Graph parliament_house_parties(string parliament_id, string house_id)
         {
@@ -1578,7 +1556,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}", Name = "ParliamentHouseParty")]
         [HttpGet]
         public Graph parliament_house_party(string parliament_id, string house_id, string party_id)
         {
@@ -1656,7 +1633,6 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members", Name = "ParliamentHousePartyMembers")]
         [HttpGet]
         public Graph parliament_house_party_members(string parliament_id, string house_id, string party_id)
         {
@@ -1845,7 +1821,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/a_z_letters", Name = "ParliamentHousePartyMembersAToZLetters")]
         [HttpGet]
         public Graph parliament_house_party_members_a_to_z(string parliament_id, string house_id, string party_id)
         {
@@ -1902,7 +1877,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{parliamentid:regex(^\w{8}$)}/houses/{houseid:regex(^\w{8}$)}/parties/{partyid:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentHousePartyMembersByInitial")]
         [HttpGet]
         public Graph parliament_house_party_members_by_initial(string parliament_id, string house_id, string party_id, string initial)
         {
@@ -2094,7 +2068,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/constituencies", Name = "ParliamentConstituencies")]
         [HttpGet]
         public Graph parliament_constituencies(string parliament_id)
         {
@@ -2223,7 +2196,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/constituencies/a_z_letters", Name = "ParliamentConstituenciesAToZLetters")]
         [HttpGet]
         public Graph parliament_constituencies_a_to_z(string parliament_id)
         {
@@ -2253,7 +2225,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/constituencies/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "ParliamentConstituenciesByInitial")]
         [HttpGet]
         public Graph parliament_constituencies_by_initial(string parliament_id, string initial)
         {

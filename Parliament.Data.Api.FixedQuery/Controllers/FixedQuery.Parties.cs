@@ -7,7 +7,6 @@
 
     public partial class FixedQueryController
     {
-        //[Route("", Name = "PartyIndex")]
         [HttpGet]
         public Graph party_index()
         {
@@ -61,7 +60,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}", Name = "PartyById")]
         [HttpGet]
         public Graph party_by_id(string party_id)
         {
@@ -108,7 +106,6 @@ WHERE {
 
         }
 
-        //[Route(@"{initial:regex(^\p{L}+$):maxlength(1)}", Name = "PartyByInitial")]
         [HttpGet]
         public Graph party_by_initial(string initial)
         {
@@ -165,7 +162,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route("current", Name = "PartyCurrent")]
         [HttpGet]
         public Graph party_current()
         {
@@ -204,7 +200,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route("a_z_letters", Name = "PartyAToZ")]
         [HttpGet]
         public Graph party_a_to_z()
         {
@@ -229,7 +224,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route("current/a_z_letters", Name = "PartyCurrentAToZ")]
         [HttpGet]
         public Graph party_current_a_to_z()
         {
@@ -257,11 +251,9 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "PartyLookup")]
         [HttpGet]
         public Graph party_lookup(string property, string value) => base.LookupInternal("Party", property, value);
 
-        //[Route(@"partial/{letters:regex(^\p{L}+$):minlength(2)}", Name = "PartyByLetters", Order = 999)]
         [HttpGet]
         public Graph party_by_substring(string substring)
         {
@@ -320,7 +312,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/members", Name = "PartyMembers")]
         [HttpGet]
         public Graph party_members(string party_id)
         {
@@ -417,7 +408,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/members/current", Name = "PartyCurrentMembers")]
         [HttpGet]
         public Graph party_current_members(string party_id)
         {
@@ -519,7 +509,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/members/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "PartyMembersByInitial")]
         [HttpGet]
         public Graph party_members_by_initial(string party_id, string initial)
         {
@@ -618,7 +607,6 @@ UNION {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/members/a_z_letters", Name = "PartyMembersAToZ")]
         [HttpGet]
         public Graph party_members_a_to_z(string party_id)
         {
@@ -661,7 +649,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/members/current/{initial:regex(^\p{L}+$):maxlength(1)}", Name = "PartyCurrentMembersByInitial")]
         [HttpGet]
         public Graph party_current_members_by_initial(string party_id, string initial)
         {
@@ -766,7 +753,6 @@ UNION {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/members/current/a_z_letters", Name = "PartyCurrentMembersAToZ")]
         [HttpGet]
         public Graph party_current_members_a_to_z(string party_id)
         {

@@ -7,7 +7,6 @@
 
     public partial class FixedQueryController
     {
-        //[Route("", Name = "PersonIndex")]
         [HttpGet]
         public Graph person_index()
         {
@@ -95,7 +94,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}", Name = "PersonById")]
         [HttpGet]
         public Graph person_by_id(string person_id)
         {
@@ -230,7 +228,6 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        //[Route(@"{initial:regex(^\p{L}+$):maxlength(1)}", Name = "PersonByInitial")]
         [HttpGet]
         public Graph person_by_initial(string initial)
         {
@@ -323,11 +320,9 @@ WHERE {
 
         }
 
-        //[Route(@"lookup/{source:regex(^\w+$)}/{id}", Name = "PersonLookup")]
         [HttpGet]
         public Graph person_lookup(string property, string value) => base.LookupInternal("Person", property, value);
 
-        //[Route("members", Name = "MemberIndex")]
         [HttpGet]
         public Graph member_index()
         {
@@ -416,7 +411,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"partial/{letters:regex(^\p{L}+$):minlength(2)}", Name = "PersonByLetters", Order = 999)]
         [HttpGet]
         public Graph person_by_substring(string substring)
         {
@@ -508,7 +502,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route("a_z_letters", Name = "PersonAToZ")]
         [HttpGet]
         public Graph person_a_to_z()
         {
@@ -530,7 +523,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/constituencies", Name = "PersonConstituencies")]
         [HttpGet]
         public Graph person_constituencies(string person_id)
         {
@@ -585,7 +577,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/constituencies/current", Name = "PersonCurrentConstituency")]
         [HttpGet]
         public Graph person_current_constituency(string person_id)
         {
@@ -637,7 +628,6 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/parties", Name = "PersonParties")]
         [HttpGet]
         public Graph person_parties(string person_id)
         {
@@ -684,7 +674,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/parties/current", Name = "PersonCurrentParty")]
         [HttpGet]
         public Graph person_current_party(string person_id)
         {
@@ -732,7 +721,6 @@ WHERE {
         }
 
         // note: query currently only really returns parliamentary contact point, not "contact points"
-        //[Route(@"{id:regex(^\w{8}$)}/contact_points", Name = "PersonContactPoints")]
         [HttpGet]
         public Graph person_contact_points(string person_id)
         {
@@ -800,7 +788,6 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/houses", Name = "PersonHouses")]
         [HttpGet]
         public Graph person_houses(string person_id)
         {
@@ -872,7 +859,6 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/houses/current", Name = "PersonCurrentHouse")]
         [HttpGet]
         public Graph person_current_house(string person_id)
         {
@@ -939,7 +925,6 @@ WHERE {
             return BaseController.ExecuteSingle(query);
         }
 
-        //[Route("mps", Name = "PersonMPs")]
         [HttpGet]
         public Graph person_mps()
         {
@@ -993,5 +978,4 @@ WHERE {
             return BaseController.ExecuteList(query);
         }
     }
-
 }
