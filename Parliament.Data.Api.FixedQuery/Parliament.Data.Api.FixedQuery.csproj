@@ -243,6 +243,9 @@
     <EmbeddedResource Include="Sparql\region_constituencies.sparql" />
     <EmbeddedResource Include="Sparql\region_constituencies_by_initial.sparql" />
     <EmbeddedResource Include="Sparql\constituency_by_id.sparql" />
+    <EmbeddedResource Include="Sparql\formal_body_membership.sparql" />
+    <EmbeddedResource Include="Sparql\formal_body_index.sparql" />
+    <EmbeddedResource Include="Sparql\formal_body_by_id.sparql" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />

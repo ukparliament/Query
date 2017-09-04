@@ -7,47 +7,20 @@
 
     public partial class FixedQueryController
     {
-        //[Route("", Name = "FormalBodyIndex")]
         [HttpGet]
         public Graph formal_body_index()
         {
-            var queryString = @"
-PREFIX : <http://id.ukpds.org/schema/>
-CONSTRUCT {
-    ?formalBody
-        a :FormalBody ;
-        :formalBodyName ?formalBodyName .
-}
-WHERE {
-    ?formalBody
-        a :FormalBody ;
-        :formalBodyName ?formalBodyName .
-}
-";
+            var queryString = base.GetSparql("formal_body_index");
 
             var query = new SparqlParameterizedString(queryString);
 
             return BaseController.ExecuteList(query);
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}", Name = "FormalBodyById")]
         [HttpGet]
         public Graph formal_body_by_id(string formal_body_id)
         {
-            var queryString = @"
-PREFIX : <http://id.ukpds.org/schema/>
-CONSTRUCT {
-    ?formalBody
-        a :FormalBody ;
-        :formalBodyName ?formalBodyName .
-}
-WHERE {
-    BIND(@id AS ?formalBody)
-    ?formalBody
-        a :FormalBody ;
-        :formalBodyName ?formalBodyName .
-}
-";
+            var queryString = base.GetSparql("formal_body_by_id");
 
             var query = new SparqlParameterizedString(queryString);
 
@@ -57,24 +30,10 @@ WHERE {
 
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}", Name = "FormalBodyMembership")]
         [HttpGet]
         public Graph formal_body_membership(string formal_body_id)
         {
-            var queryString = @"
-PREFIX : <http://id.ukpds.org/schema/>
-CONSTRUCT {
-    ?formalBody a :FormalBody ;
-        :formalBodyHasFormalBodyMembership ?membership .
-    ?membership a :FormalBodyMembership ;
-        :formalBodyMembershipHasPerson ?person .
-}
-WHERE {
-    BIND(@id AS ?formalBody)
-    ?formalBody a :FormalBody ;
-        :formalBodyHasFormalBodyMembership ?membership .
-    ?membership :formalBodyMembershipHasPerson ?person .
-}";
+            var queryString = base.GetSparql("formal_body_membership");
 
             var query = new SparqlParameterizedString(queryString);
 

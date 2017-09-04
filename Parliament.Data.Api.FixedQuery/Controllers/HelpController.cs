@@ -127,7 +127,11 @@
                 this.Url.Route("WithoutExtension", new {action = "region_by_id", region_code = "E15000001" }),
                 this.Url.Route("WithoutExtension", new {action = "region_constituencies", region_code = "E15000001" }),
                 this.Url.Route("WithoutExtension", new {action = "region_constituencies_a_to_z", region_code = "E15000001" }),
-                this.Url.Route("WithoutExtension", new {action = "region_constituencies_by_initial", region_code = "E15000001", initial = "h" })
+                this.Url.Route("WithoutExtension", new {action = "region_constituencies_by_initial", region_code = "E15000001", initial = "h" }),
+
+                this.Url.Route("WithoutExtension", new {action = "formal_body_index" }),
+                this.Url.Route("WithoutExtension", new {action = "formal_body_by_id", formal_body_id="S2k3z9ww" }),
+                this.Url.Route("WithoutExtension", new {action = "formal_body_membership", formal_body_id="S2k3z9ww" })
             } as IEnumerable<string>;
 
             // Make links relative, remove application virtual path (in this case, a trailing forward slash).

@@ -1,0 +1,11 @@
+﻿PREFIX : <http://id.ukpds.org/schema/>
+CONSTRUCT {
+    ?formalBody
+        a :FormalBody ;
+        :formalBodyName ?formalBodyName .
+}
+WHERE {
+    ?formalBody
+        a :FormalBody ;
+        :formalBodyName ?formalBodyName .
+}
