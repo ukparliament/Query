@@ -1,5 +1,5 @@
 ﻿PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX : <http://id.ukpds.org/schema/>
+PREFIX : @schemaUri
 CONSTRUCT {
     _:x :value ?firstLetter .
 }

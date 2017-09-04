@@ -23,8 +23,10 @@ WHERE {
             a :Member ;
             <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
             :partyMemberHasPartyMembership ?partyMembership .
+        FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
         ?partyMembership :partyMembershipHasParty ?party .
         ?incumbency :incumbencyHasMember ?person .
+        FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
 
         {
             ?incumbency :houseIncumbencyHasHouse ?house .
@@ -34,6 +36,6 @@ WHERE {
             ?seat :houseSeatHasHouse ?house .
         }
 
-        BIND(UCASE(SUBSTR(?listAs, 1, 1)) AS ?firstLetter)
+        BIND(UCASE(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
     }
 }

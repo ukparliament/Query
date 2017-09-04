@@ -1,61 +1,61 @@
-﻿PREFIX parl: <http://id.ukpds.org/schema/>
-PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+﻿PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+PREFIX : @schemaUri
 construct {
     ?constituencyGroup
-        a parl:ConstituencyGroup ;
-        parl:constituencyGroupName ?constituencyGroupName ;
-        parl:constituencyGroupHasHouseSeat ?houseSeat .
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?constituencyGroupName ;
+        :constituencyGroupHasHouseSeat ?houseSeat .
     ?houseSeat
-        a parl:HouseSeat ;
-        parl:houseSeatHasConstituencyGroup ?constituencyGroup .
+        a :HouseSeat ;
+        :houseSeatHasConstituencyGroup ?constituencyGroup .
     ?seatIncumbency
-        a parl:SeatIncumbency ;
-        parl:incumbencyStartDate ?incStartDate ;
-        parl:incumbencyEndDate ?incEndDate ;
-        parl:seatIncumbencyHasHouseSeat ?houseSeat .
+        a :SeatIncumbency ;
+        :incumbencyStartDate ?incStartDate ;
+        :incumbencyEndDate ?incEndDate ;
+        :seatIncumbencyHasHouseSeat ?houseSeat .
     ?member
-        a parl:Person ;
-        parl:personGivenName ?givenName ;
-        parl:personFamilyName ?familyName ;
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
-        parl:memberHasIncumbency ?seatIncumbency ;
-        parl:partyMemberHasPartyMembership ?partyMembership .
+        :memberHasIncumbency ?seatIncumbency ;
+        :partyMemberHasPartyMembership ?partyMembership .
     ?partyMembership
-        a parl:PartyMembership ;
-        parl:partyMembershipHasParty ?party ;
-        parl:partyMembershipStartDate ?pmStartDate ;
-        parl:partyMembershipEndDate ?pmEndDate .
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party ;
+        :partyMembershipStartDate ?pmStartDate ;
+        :partyMembershipEndDate ?pmEndDate .
     ?party
-        a parl:Party ;
-        parl:partyName ?partyName .
+        a :Party ;
+        :partyName ?partyName .
 }
 where {
-    ?constituencyArea a parl:ConstituencyArea;
-        parl:constituencyAreaExtent ?constituencyAreaExtent;
-        parl:constituencyAreaHasConstituencyGroup ?constituencyGroup.
-    ?constituencyGroup parl:constituencyGroupName ?constituencyGroupName.
+    ?constituencyArea a :ConstituencyArea;
+        :constituencyAreaExtent ?constituencyAreaExtent;
+        :constituencyAreaHasConstituencyGroup ?constituencyGroup.
+    ?constituencyGroup :constituencyGroupName ?constituencyGroupName.
     bind(strdt(concat("Point(",@longitude," ",@latitude,")"),geo:wktLiteral) as ?point)
     filter(geof:sfWithin(?point,?constituencyAreaExtent))
 
     optional {
-        ?constituencyGroup parl:constituencyGroupHasHouseSeat ?houseSeat .
-        ?houseSeat parl:houseSeatHasSeatIncumbency ?seatIncumbency .
-        filter not exists { ?seatIncumbency a parl:PastIncumbency . }
-        ?seatIncumbency parl:incumbencyStartDate ?incStartDate .
-        optional { ?seatIncumbency parl:incumbencyEndDate ?incEndDate . }
-        optional { ?seatIncumbency parl:incumbencyHasMember ?member . }
-        optional { ?member parl:personGivenName ?givenName . }
-        optional { ?member parl:personFamilyName ?familyName . }
+        ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+        ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
+        filter not exists { ?seatIncumbency a :PastIncumbency . }
+        ?seatIncumbency :incumbencyStartDate ?incStartDate .
+        optional { ?seatIncumbency :incumbencyEndDate ?incEndDate . }
+        optional { ?seatIncumbency :incumbencyHasMember ?member . }
+        optional { ?member :personGivenName ?givenName . }
+        optional { ?member :personFamilyName ?familyName . }
         optional { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
 
         optional {
-            ?member parl:partyMemberHasPartyMembership ?partyMembership .
-            filter not exists { ?partyMembership a parl:PastPartyMembership . }
-            ?partyMembership parl:partyMembershipHasParty ?party ;
-                             parl:partyMembershipStartDate ?pmStartDate .
-            optional { ?partyMembership parl:partyMembershipEndDate ?pmEndDate . }
-            ?party parl:partyName ?partyName .
+            ?member :partyMemberHasPartyMembership ?partyMembership .
+            filter not exists { ?partyMembership a :PastPartyMembership . }
+            ?partyMembership :partyMembershipHasParty ?party ;
+                             :partyMembershipStartDate ?pmStartDate .
+            optional { ?partyMembership :partyMembershipEndDate ?pmEndDate . }
+            ?party :partyName ?partyName .
         }
    }
 }

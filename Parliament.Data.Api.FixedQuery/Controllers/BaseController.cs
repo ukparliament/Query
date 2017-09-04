@@ -45,6 +45,8 @@
 
         protected static Graph ExecuteList(SparqlParameterizedString query, string endpointUri)
         {
+            query.SetUri("schemaUri", schema);
+
             var queryString = query.ToString();
 
             ValidateSparql(queryString);

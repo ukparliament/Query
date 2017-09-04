@@ -1,6 +1,6 @@
 ﻿PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-PREFIX : <http://id.ukpds.org/schema/>
+PREFIX : @schemaUri
 CONSTRUCT {
     ?region
         a admingeo:EuropeanRegion ;

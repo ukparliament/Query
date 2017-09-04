@@ -1,4 +1,4 @@
-﻿PREFIX : <http://id.ukpds.org/schema/>
+﻿PREFIX : @schemaUri
 CONSTRUCT {
     ?house
         a :House ;

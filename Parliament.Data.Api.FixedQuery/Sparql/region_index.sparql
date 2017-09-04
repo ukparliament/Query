@@ -1,7 +1,7 @@
 ﻿PREFIX spatial: <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
-PREFIX : <http://id.ukpds.org/schema/>
+PREFIX : @schemaUri
 
 CONSTRUCT {
     ?region skos:prefLabel ?name  .
