@@ -1,0 +1,61 @@
+﻿PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+PREFIX : @schemaUri
+construct {
+    ?constituencyGroup
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?constituencyGroupName ;
+        :constituencyGroupHasHouseSeat ?houseSeat .
+    ?houseSeat
+        a :HouseSeat ;
+        :houseSeatHasConstituencyGroup ?constituencyGroup .
+    ?seatIncumbency
+        a :SeatIncumbency ;
+        :incumbencyStartDate ?incStartDate ;
+        :incumbencyEndDate ?incEndDate ;
+        :seatIncumbencyHasHouseSeat ?houseSeat .
+    ?member
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        :memberHasIncumbency ?seatIncumbency ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party ;
+        :partyMembershipStartDate ?pmStartDate ;
+        :partyMembershipEndDate ?pmEndDate .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+}
+where {
+    ?constituencyArea a :ConstituencyArea;
+        :constituencyAreaExtent ?constituencyAreaExtent;
+        :constituencyAreaHasConstituencyGroup ?constituencyGroup.
+    ?constituencyGroup :constituencyGroupName ?constituencyGroupName.
+    bind(strdt(concat("Point(",@longitude," ",@latitude,")"),geo:wktLiteral) as ?point)
+    filter(geof:sfWithin(?point,?constituencyAreaExtent))
+
+    optional {
+        ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+        ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
+        filter not exists { ?seatIncumbency a :PastIncumbency . }
+        ?seatIncumbency :incumbencyStartDate ?incStartDate .
+        optional { ?seatIncumbency :incumbencyEndDate ?incEndDate . }
+        optional { ?seatIncumbency :incumbencyHasMember ?member . }
+        optional { ?member :personGivenName ?givenName . }
+        optional { ?member :personFamilyName ?familyName . }
+        optional { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+
+        optional {
+            ?member :partyMemberHasPartyMembership ?partyMembership .
+            filter not exists { ?partyMembership a :PastPartyMembership . }
+            ?partyMembership :partyMembershipHasParty ?party ;
+                             :partyMembershipStartDate ?pmStartDate .
+            optional { ?partyMembership :partyMembershipEndDate ?pmEndDate . }
+            ?party :partyName ?partyName .
+        }
+   }
+}

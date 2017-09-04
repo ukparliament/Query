@@ -5,13 +5,12 @@
     using VDS.RDF;
     using VDS.RDF.Query;
 
-    public partial class FixedQueryController 
+    public partial class FixedQueryController
     {
-        //[Route(Name = "ResourceById")]
         [HttpGet]
         public Graph resource_by_id(string uri)
         {
-            var queryString = @"DESCRIBE @uri";
+            var queryString = base.GetSparql("resource_by_id");
 
             var query = new SparqlParameterizedString(queryString);
 

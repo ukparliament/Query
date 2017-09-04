@@ -1,0 +1,12 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?house
+        a :House ;
+        :houseName ?houseName .
+}
+WHERE {
+    ?house
+         a :House ;
+    	:houseName ?houseName .
+    FILTER CONTAINS(LCASE(?houseName), LCASE(@substring))
+}

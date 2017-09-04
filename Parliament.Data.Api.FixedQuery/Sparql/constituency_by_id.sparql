@@ -1,0 +1,63 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT{
+    ?constituencyGroup
+        a :ConstituencyGroup ;
+        :constituencyGroupEndDate ?endDate ;
+        :constituencyGroupStartDate ?startDate ;
+        :constituencyGroupName ?name ;
+        :constituencyGroupOnsCode ?onsCode ;
+        :constituencyGroupHasConstituencyArea ?constituencyArea .
+    ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+    ?houseSeat
+        a :HouseSeat ;
+        :houseSeatHasSeatIncumbency ?seatIncumbency .
+    ?seatIncumbency
+        a :SeatIncumbency ;
+        :incumbencyHasMember ?member ;
+        :incumbencyEndDate ?seatIncumbencyEndDate ;
+        :incumbencyStartDate ?seatIncumbencyStartDate .
+    ?member
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        :memberHasMemberImage ?image ;
+<http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    ?image
+        a :MemberImage .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+}
+WHERE {
+    BIND( @id AS ?constituencyGroup )
+    ?constituencyGroup :constituencyGroupStartDate ?startDate .
+    OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?endDate . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupOnsCode ?onsCode . }
+    OPTIONAL {
+        ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+        ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
+        ?seatIncumbency a :SeatIncumbency ;
+        OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+        OPTIONAL { ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate . }
+        OPTIONAL {
+            ?seatIncumbency :incumbencyHasMember ?member .
+            OPTIONAL { ?member :personGivenName ?givenName . }
+            OPTIONAL { ?member :personOtherName ?personOtherName . }
+            OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+            OPTIONAL { ?member :memberHasMemberImage ?image . }
+            OPTIONAL {
+                ?member :partyMemberHasPartyMembership ?partyMembership .
+                FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+                OPTIONAL {
+                    ?partyMembership :partyMembershipHasParty ?party .
+                    OPTIONAL { ?party :partyName ?partyName . }
+                }
+            }
+        }
+    }
+}

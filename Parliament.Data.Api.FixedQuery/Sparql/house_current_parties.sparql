@@ -1,0 +1,41 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?house
+        a :House ;
+        :houseName ?houseName .
+    ?party
+        a :Party ;
+        :partyName ?partyName ;
+        :count ?memberCount .
+}
+WHERE {
+    BIND(@houseid AS ?house) # Route parameter
+    ?house :houseName ?houseName .
+    OPTIONAL
+    {
+        SELECT ?party ?partyName (COUNT(?membership) AS ?memberCount)
+        WHERE {
+            BIND(@houseid AS ?house) # Route parameter
+            # The relatioship between a house and an incumbency is either via a seat or direct ("lords bypass")
+            {
+                # Commons
+                ?house :houseHasHouseSeat/:houseSeatHasSeatIncumbency ?incumbency .
+            }
+            UNION
+            {
+                # Lords
+                ?house :houseHasHouseIncumbency ?incumbency .
+            }
+            FILTER NOT EXISTS {
+                ?incumbency a :PastIncumbency .
+            }
+            ?incumbency :incumbencyHasMember/:partyMemberHasPartyMembership ?membership .
+            ?membership :partyMembershipHasParty ?party .
+            ?party :partyName ?partyName .
+            FILTER NOT EXISTS {
+                ?membership a :PastPartyMembership .
+            }
+        }
+        GROUP BY ?party ?partyName
+    }
+}

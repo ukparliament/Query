@@ -1,0 +1,58 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?person
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        :memberHasMemberImage ?image .
+    ?image
+        a :MemberImage .
+    ?house1
+        a :House ;
+        :houseName ?houseName1 .
+    ?house2
+        a :House ;
+        :houseName ?houseName2 .
+    ?seatIncumbency
+        a :Incumbency ;
+        :incumbencyEndDate ?incumbencyEndDate ;
+        :incumbencyStartDate ?incumbencyStartDate ;
+        :seatIncumbencyHasHouseSeat ?houseSeat .
+    ?houseSeat
+        a :HouseSeat ;
+        :houseSeatHasHouse ?house1 .
+    ?houseIncumbency
+        a :Incumbency ;
+        :incumbencyEndDate ?incumbencyEndDate ;
+        :incumbencyStartDate ?incumbencyStartDate ;
+        :houseIncumbencyHasHouse ?house2 .
+}
+WHERE {
+    BIND(@personid AS ?person)
+    ?person a :Person .
+    OPTIONAL { ?person :personGivenName ?givenName } .
+    OPTIONAL { ?person :personFamilyName ?familyName } .
+    OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+    OPTIONAL { ?person :memberHasMemberImage ?image } .
+    OPTIONAL {
+        ?person :memberHasIncumbency ?incumbency .
+        OPTIONAL { ?incumbency :incumbencyEndDate ?incumbencyEndDate . }
+        ?incumbency :incumbencyStartDate ?incumbencyStartDate .
+        OPTIONAL {
+            ?incumbency a :HouseIncumbency .
+            BIND(?incumbency AS ?houseIncumbency )
+            ?houseIncumbency :houseIncumbencyHasHouse ?house2 .
+            ?house2 :houseName ?houseName2 .
+        }
+        OPTIONAL {
+            ?incumbency a :SeatIncumbency .
+            BIND(?incumbency AS ?seatIncumbency )
+            ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
+            ?houseSeat :houseSeatHasConstituencyGroup ?constituency .
+            ?houseSeat :houseSeatHasHouse ?house1 .
+            ?house1 :houseName ?houseName1 .
+            ?constituency :constituencyGroupName ?constituencyName .
+        }
+    }
+}

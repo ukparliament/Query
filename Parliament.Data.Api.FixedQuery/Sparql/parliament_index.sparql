@@ -1,0 +1,15 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?parliament
+        a :ParliamentPeriod ;
+        :parliamentPeriodStartDate ?startDate ;
+        :parliamentPeriodEndDate ?endDate ;
+        :parliamentPeriodNumber ?parliamentNumber .
+}
+WHERE {
+    ?parliament
+        a :ParliamentPeriod ;
+        :parliamentPeriodStartDate ?startDate ;
+        :parliamentPeriodNumber ?parliamentNumber .
+    OPTIONAL { ?parliament :parliamentPeriodEndDate ?endDate . }
+}

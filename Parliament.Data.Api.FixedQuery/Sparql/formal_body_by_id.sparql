@@ -1,0 +1,12 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?formalBody
+        a :FormalBody ;
+        :formalBodyName ?formalBodyName .
+}
+WHERE {
+    BIND(@id AS ?formalBody)
+    ?formalBody
+        a :FormalBody ;
+        :formalBodyName ?formalBodyName .
+}
