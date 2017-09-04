@@ -57,7 +57,7 @@ WHERE {
 
         }
 
-        //[Route(@"{id:regex(^\w{8}$)}/members", Name = "FormalBodyMembership")]
+        //[Route(@"{id:regex(^\w{8}$)}", Name = "FormalBodyMembership")]
         [HttpGet]
         public Graph formal_body_membership(string formal_body_id)
         {
