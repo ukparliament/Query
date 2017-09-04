@@ -251,6 +251,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AIExceptionLogger.cs" />
+    <Compile Include="Controllers\FixedQuery.FormalBodies.cs" />
     <Compile Include="Controllers\FixedQuery.MockData.cs" />
     <Compile Include="Controllers\FixedQuery.Media.cs" />
     <Compile Include="Controllers\FixedQuery.Regions.cs" />
