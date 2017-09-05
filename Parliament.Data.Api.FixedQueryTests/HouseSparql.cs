@@ -30,7 +30,7 @@
         }
 
         [TestMethod()]
-        public void HouseByLettersSparql()
+        public void HouseBySubstringSparql()
         {
             ValidateSparql(() => controller.house_by_substring(string.Empty));
         }
@@ -78,7 +78,7 @@
         }
 
         [TestMethod()]
-        public void HouseMembersAToZLettersSparql()
+        public void HouseMembersAToZSparql()
         {
             ValidateSparql(() => controller.house_members_a_to_z(string.Empty));
         }
@@ -90,7 +90,7 @@
         }
 
         [TestMethod()]
-        public void HousecurrentMembersAToZLettersSparql()
+        public void HousecurrentMembersAToZSparql()
         {
             ValidateSparql(() => controller.house_current_members_a_to_z(string.Empty));
         }
@@ -107,7 +107,7 @@
         }
 
         [TestMethod()]
-        public void HousePartyMembersAToZLettersSparql()
+        public void HousePartyMembersAToZSparql()
         {
             ValidateSparql(() => controller.house_party_members_a_to_z(string.Empty, string.Empty));
         }
@@ -125,7 +125,7 @@
         }
 
         [TestMethod()]
-        public void HousePartyCurrentMembersAToZLettersSparql()
+        public void HousePartyCurrentMembersAToZSparql()
         {
             ValidateSparql(() => controller.house_party_current_members_a_to_z(string.Empty, string.Empty));
         }

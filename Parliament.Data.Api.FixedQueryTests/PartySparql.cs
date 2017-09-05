@@ -42,13 +42,13 @@
         }
 
         [TestMethod()]
-        public void PartyAToZLettersSparql()
+        public void PartyAToZSparql()
         {
             ValidateSparql(() => controller.party_a_to_z());
         }
 
         [TestMethod()]
-        public void PartyCurrentAToZPartiesSparql()
+        public void PartyCurrentAToZSparql()
         {
             ValidateSparql(() => controller.party_current_a_to_z());
         }
@@ -60,7 +60,7 @@
         }
 
         [TestMethod()]
-        public void PartyByLettersSparql()
+        public void PartyBySubstringSparql()
         {
             ValidateSparql(() => controller.party_by_substring(string.Empty));
         }
@@ -84,7 +84,7 @@
         }
 
         [TestMethod()]
-        public void PartyMembersAToZLettersSparql()
+        public void PartyMembersAToZSparql()
         {
             ValidateSparql(() => controller.party_members_a_to_z(string.Empty));
         }
@@ -96,7 +96,7 @@
         }
 
         [TestMethod()]
-        public void PartyCurrentMembersAToZLettersSparql()
+        public void PartyCurrentMembersAToZSparql()
         {
             ValidateSparql(() => controller.party_current_members_a_to_z(string.Empty));
         }

@@ -30,7 +30,7 @@
         }
 
         [TestMethod()]
-        public void MemberAToZLettersSparql()
+        public void MemberAToZSparql()
         {
             ValidateSparql(() => controller.member_a_to_z());
         }
@@ -42,9 +42,15 @@
         }
 
         [TestMethod()]
-        public void MemberCurrentAToZLettersSparql()
+        public void MemberCurrentAToZSparql()
         {
             ValidateSparql(() => controller.member_current_a_to_z());
+        }
+
+        [TestMethod()]
+        public void MemberIndexSparql()
+        {
+            ValidateSparql(() => controller.member_index());
         }
     }
 }

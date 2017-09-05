@@ -42,19 +42,13 @@
         }
 
         [TestMethod()]
-        public void PersonMemberIndexSparql()
-        {
-            ValidateSparql(() => controller.person_index());
-        }
-
-        [TestMethod()]
-        public void PersonByLettersSparql()
+        public void PersonBySubstringSparql()
         {
             ValidateSparql(() => controller.person_by_substring(string.Empty));
         }
 
         [TestMethod()]
-        public void PersonAToZLettersSparql()
+        public void PersonAToZSparql()
         {
             ValidateSparql(() => controller.person_a_to_z());
         }

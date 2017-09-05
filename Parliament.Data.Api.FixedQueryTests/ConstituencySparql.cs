@@ -24,6 +24,12 @@
         }
 
         [TestMethod()]
+        public void ConstituencyCurrentByInitialSparql()
+        {
+            ValidateSparql(() => controller.constituency_current_by_initial(string.Empty));
+        }
+
+        [TestMethod()]
         public void ConstituencyMapSparql()
         {
             ValidateSparql(() => controller.constituency_map(string.Empty));
@@ -48,25 +54,19 @@
         }
 
         [TestMethod()]
-        public void ConstituencyByLettersSparql()
+        public void ConstituencyBySubstringSparql()
         {
             ValidateSparql(() => controller.constituency_by_substring(string.Empty));
         }
 
         [TestMethod()]
-        public void ConstituencyAToZLettersSparql()
+        public void ConstituencyAToZSparql()
         {
             ValidateSparql(() => controller.constituency_a_to_z());
         }
 
-        //[TestMethod()]
-        //public void ConstituencyCurrentByLettersSparql()
-        //{
-        //    ValidateSparql(() => controller.ConstituencyCurrentByLetters(string.Empty));
-        //}
-
         [TestMethod()]
-        public void ConstituencyCurrentAToZLettersSparql()
+        public void ConstituencyCurrentAToZSparql()
         {
             ValidateSparql(() => controller.constituency_current_a_to_z());
         }
@@ -84,7 +84,7 @@
         }
 
         [TestMethod()]
-        public void ConstituencyCurrentMembersSparql()
+        public void ConstituencyCurrentMemberSparql()
         {
             ValidateSparql(() => controller.constituency_current_member(string.Empty));
         }
@@ -102,7 +102,7 @@
         }
 
         [TestMethod()]
-        public void FindYourConstituency()
+        public void FindYourConstituencySparql()
         {
             ValidateSparql(() => controller.find_your_constituency());
         }

@@ -26,7 +26,7 @@
         [TestMethod()]
         public void RegionByIdSparql()
         {
-          ValidateSparql(() => controller.region_by_id(string.Empty));
+            ValidateSparql(() => controller.region_by_id(string.Empty));
         }
 
         [TestMethod()]

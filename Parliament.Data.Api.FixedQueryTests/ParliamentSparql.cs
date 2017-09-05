@@ -36,6 +36,12 @@
         }
 
         [TestMethod()]
+        public void PreviousParliamentByIDSparql()
+        {
+            ValidateSparql(() => controller.previous_parliament_by_id(string.Empty));
+        }
+
+        [TestMethod()]
         public void ParliamentNextSparql()
         {
             ValidateSparql(() => controller.parliament_next());
@@ -54,7 +60,7 @@
         }
 
         [TestMethod()]
-        public void ParliamentNextByIdSparql()
+        public void NextParliamentByIdSparql()
         {
             ValidateSparql(() => controller.next_parliament_by_id(string.Empty));
         }
