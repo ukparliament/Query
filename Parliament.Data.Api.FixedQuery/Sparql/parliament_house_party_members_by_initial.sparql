@@ -47,9 +47,9 @@ CONSTRUCT {
 }
 WHERE {
     { SELECT * WHERE {
-        BIND(@parliamentid AS ?parliament)
-        BIND(@partyid AS ?party)
-    	BIND(@houseid AS ?house)
+        BIND(@parliament_id AS ?parliament)
+        BIND(@party_id AS ?party)
+    	BIND(@house_id AS ?house)
 
     	?party
         	a :Party ;
@@ -102,9 +102,9 @@ WHERE {
    }
    UNION {
 		SELECT ?parliament (COUNT(DISTINCT(?person)) AS ?memberCount) WHERE {
-        BIND(@parliamentid AS ?parliament)
-        BIND(@partyid AS ?party)
-    	BIND(@houseid AS ?house)
+        BIND(@parliament_id AS ?parliament)
+        BIND(@party_id AS ?party)
+    	BIND(@house_id AS ?house)
 
         ?parliament a :ParliamentPeriod .
         ?house a :House .
@@ -138,9 +138,9 @@ WHERE {
     }
     UNION {
         SELECT DISTINCT ?firstLetter WHERE {
-        BIND(@parliamentid AS ?parliament)
-        BIND(@partyid AS ?party)
-    	BIND(@houseid AS ?house)
+        BIND(@parliament_id AS ?parliament)
+        BIND(@party_id AS ?party)
+    	BIND(@house_id AS ?house)
 
         ?party a :Party.
         ?house a :House.

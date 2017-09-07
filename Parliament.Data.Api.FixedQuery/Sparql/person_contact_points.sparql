@@ -28,7 +28,7 @@ CONSTRUCT {
         :postCode ?postCode .
 }
 WHERE {
-    BIND(@personid AS ?person)
+    BIND(@person_id AS ?person)
     ?person a :Person .
     OPTIONAL { ?person :personGivenName ?givenName } .
     OPTIONAL { ?person :personFamilyName ?familyName } .

@@ -12,7 +12,7 @@ CONSTRUCT {
     	 :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament .
 }
 WHERE {
-    BIND(@parliamentid AS ?parliament)
+    BIND(@parliament_id AS ?parliament)
     ?parliament
         a :ParliamentPeriod ;
         :parliamentPeriodStartDate ?parliamentStartDate ;

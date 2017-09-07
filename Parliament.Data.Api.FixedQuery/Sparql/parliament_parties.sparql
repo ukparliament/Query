@@ -16,7 +16,7 @@ CONSTRUCT {
 WHERE {
     SELECT ?parliament ?startDate ?endDate ?parliamentNumber ?party ?partyName ?nextParliament ?previousParliament (COUNT(?member) AS ?memberCount)
     WHERE {
-        BIND(@parliamentid AS ?parliament)
+        BIND(@parliament_id AS ?parliament)
         ?parliament
             a :ParliamentPeriod ;
             :parliamentPeriodStartDate ?startDate ;

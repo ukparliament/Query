@@ -1,0 +1,666 @@
+﻿{
+  "$schema": "endpointsschema.json#",
+  "endpoints": {
+    "committee_by_id": {
+      "type": "single",
+      "parameters": {
+        "committee_id": "instanceUri"
+      }
+    },
+    "committee_index": {
+      "type": "list",
+      "parameters": {}
+    },
+    "constituency_a_to_z": {
+      "type": "list",
+      "parameters": {}
+    },
+    "constituency_by_id": {
+      "type": "single",
+      "parameters": {
+        "constituency_id": "instanceUri"
+      }
+    },
+    "constituency_by_initial": {
+      "type": "list",
+      "parameters": {
+        "initial": "literal"
+      }
+    },
+    "constituency_by_substring": {
+      "type": "list",
+      "parameters": {
+        "substring": "literal"
+      }
+    },
+    "constituency_contact_point": {
+      "type": "single",
+      "parameters": {
+        "constituency_id": "instanceUri"
+      }
+    },
+    "constituency_current": {
+      "type": "list",
+      "parameters": {}
+    },
+    "constituency_current_a_to_z": {
+      "type": "list",
+      "parameters": {}
+    },
+    "constituency_current_by_initial": {
+      "type": "list",
+      "parameters": {
+        "initial": "literal"
+      }
+    },
+    "constituency_current_member": {
+      "type": "list",
+      "parameters": {
+        "constituency_id": "instanceUri"
+      }
+    },
+    "constituency_index": {
+      "type": "list",
+      "parameters": {}
+    },
+    "constituency_lookup": {
+      "type": "single",
+      "parameters": {
+        "property": "schemaUri",
+        "value": "literal"
+      }
+    },
+    "constituency_lookup_by_postcode": {
+      "type": "hardCoded",
+      "parameters": {}
+    },
+    "constituency_map": {
+      "type": "single",
+      "parameters": {
+        "constituency_id": "instanceUri"
+      }
+    },
+    "constituency_members": {
+      "type": "list",
+      "parameters": {
+        "constituency_id": "instanceUri"
+      }
+    },
+    "contact_point_by_id": {
+      "type": "single",
+      "parameters": {
+        "contact_point_id": "instanceUri"
+      }
+    },
+    "contact_point_index": {
+      "type": "list",
+      "parameters": {}
+    },
+    "find_your_constituency": {
+      "type": "single",
+      "parameters": {}
+    },
+    "formal_body_by_id": {
+      "type": "single",
+      "parameters": {
+        "formal_body_id": "instanceUri"
+      }
+    },
+    "formal_body_index": {
+      "type": "list",
+      "parameters": {}
+    },
+    "formal_body_membership": {
+      "type": "list",
+      "parameters": {
+        "formal_body_id": "instanceUri"
+      }
+    },
+    "house_by_id": {
+      "type": "single",
+      "parameters": {
+        "house_id": "instanceUri"
+      }
+    },
+    "house_by_substring": {
+      "type": "list",
+      "parameters": {
+        "substring": "literal"
+      }
+    },
+    "house_current_members": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri"
+      }
+    },
+    "house_current_members_a_to_z": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri"
+      }
+    },
+    "house_current_members_by_initial": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri",
+        "initial": "literal"
+      }
+    },
+    "house_current_parties": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri"
+      }
+    },
+    "house_index": {
+      "type": "list",
+      "parameters": {}
+    },
+    "house_lookup": {
+      "type": "single",
+      "parameters": {
+        "property": "schemaUri",
+        "value": "literal"
+      }
+    },
+    "house_members": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri"
+      }
+    },
+    "house_members_a_to_z": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri"
+      }
+    },
+    "house_members_by_initial": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri",
+        "initial": "literal"
+      }
+    },
+    "house_parties": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri"
+      }
+    },
+    "house_party_by_id": {
+      "type": "single",
+      "parameters": {
+        "house_id": "instanceUri",
+        "party_id": "instanceUri"
+      }
+    },
+    "house_party_current_members": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri",
+        "party_id": "instanceUri"
+      }
+    },
+    "house_party_current_members_a_to_z": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri",
+        "party_id": "instanceUri"
+      }
+    },
+    "house_party_current_members_by_initial": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri",
+        "party_id": "instanceUri",
+        "initial": "literal"
+      }
+    },
+    "house_party_members": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri",
+        "party_id": "instanceUri"
+      }
+    },
+    "house_party_members_a_to_z": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri",
+        "party_id": "instanceUri"
+      }
+    },
+    "house_party_members_by_initial": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri",
+        "party_id": "instanceUri",
+        "initial": "literal"
+      }
+    },
+    "image_by_id": {
+      "type": "single",
+      "parameters": {
+        "image_id": "instanceUri"
+      }
+    },
+    "member_a_to_z": {
+      "type": "list",
+      "parameters": {}
+    },
+    "member_by_initial": {
+      "type": "list",
+      "parameters": {
+        "initial": "literal"
+      }
+    },
+    "member_current": {
+      "type": "list",
+      "parameters": {}
+    },
+    "member_current_a_to_z": {
+      "type": "list",
+      "parameters": {}
+    },
+    "member_current_by_initial": {
+      "type": "list",
+      "parameters": {
+        "initial": "literal"
+      }
+    },
+    "member_index": {
+      "type": "list",
+      "parameters": {}
+    },
+    "next_parliament_by_id": {
+      "type": "single",
+      "parameters": {
+        "parliament_id": "instanceUri"
+      }
+    },
+    "parliament_by_id": {
+      "type": "single",
+      "parameters": {
+        "parliament_id": "instanceUri"
+      }
+    },
+    "parliament_constituencies": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri"
+      }
+    },
+    "parliament_constituencies_a_to_z": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri"
+      }
+    },
+    "parliament_constituencies_by_initial": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri",
+        "initial": "literal"
+      }
+    },
+    "parliament_current": {
+      "type": "single",
+      "parameters": {}
+    },
+    "parliament_house": {
+      "type": "single",
+      "parameters": {
+        "parliament_id": "instanceUri",
+        "house_id": "instanceUri"
+      }
+    },
+    "parliament_house_members": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri",
+        "house_id": "instanceUri"
+      }
+    },
+    "parliament_house_members_a_to_z": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri",
+        "house_id": "instanceUri"
+      }
+    },
+    "parliament_house_members_by_initial": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri",
+        "house_id": "instanceUri",
+        "initial": "literal"
+      }
+    },
+    "parliament_house_parties": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri",
+        "house_id": "instanceUri"
+      }
+    },
+    "parliament_house_party": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri",
+        "house_id": "instanceUri",
+        "party_id": "instanceUri"
+      }
+    },
+    "parliament_house_party_members": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri",
+        "house_id": "instanceUri",
+        "party_id": "instanceUri"
+      }
+    },
+    "parliament_house_party_members_a_to_z": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri",
+        "house_id": "instanceUri",
+        "party_id": "instanceUri"
+      }
+    },
+    "parliament_house_party_members_by_initial": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri",
+        "party_id": "instanceUri",
+        "house_id": "instanceUri",
+        "initial": "literal"
+      }
+    },
+    "parliament_houses": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri"
+      }
+    },
+    "parliament_index": {
+      "type": "list",
+      "parameters": {}
+    },
+    "parliament_lookup": {
+      "type": "single",
+      "parameters": {
+        "property": "schemaUri",
+        "value": "literal"
+      }
+    },
+    "parliament_members": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri"
+      }
+    },
+    "parliament_members_a_to_z": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri"
+      }
+    },
+    "parliament_members_by_initial": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri",
+        "initial": "literal"
+      }
+    },
+    "parliament_next": {
+      "type": "list",
+      "parameters": {}
+    },
+    "parliament_parties": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri"
+      }
+    },
+    "parliament_party": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri",
+        "party_id": "instanceUri"
+      }
+    },
+    "parliament_party_members": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri",
+        "party_id": "instanceUri"
+      }
+    },
+    "parliament_party_members_a_to_z": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri",
+        "party_id": "instanceUri"
+      }
+    },
+    "parliament_party_members_by_initial": {
+      "type": "list",
+      "parameters": {
+        "parliament_id": "instanceUri",
+        "party_id": "instanceUri",
+        "initial": "literal"
+      }
+    },
+    "parliament_previous": {
+      "type": "list",
+      "parameters": {}
+    },
+    "party_a_to_z": {
+      "type": "list",
+      "parameters": {}
+    },
+    "party_by_id": {
+      "type": "single",
+      "parameters": {
+        "party_id": "instanceUri"
+      }
+    },
+    "party_by_initial": {
+      "type": "list",
+      "parameters": {
+        "initial": "literal"
+      }
+    },
+    "party_by_substring": {
+      "type": "list",
+      "parameters": {
+        "substring": "literal"
+      }
+    },
+    "party_current": {
+      "type": "list",
+      "parameters": {}
+    },
+    "party_current_a_to_z": {
+      "type": "list",
+      "parameters": {}
+    },
+    "party_current_members": {
+      "type": "list",
+      "parameters": {
+        "party_id": "instanceUri"
+      }
+    },
+    "party_current_members_a_to_z": {
+      "type": "list",
+      "parameters": {
+        "party_id": "instanceUri"
+      }
+    },
+    "party_current_members_by_initial": {
+      "type": "list",
+      "parameters": {
+        "party_id": "instanceUri",
+        "initial": "literal"
+      }
+    },
+    "party_index": {
+      "type": "list",
+      "parameters": {}
+    },
+    "party_lookup": {
+      "type": "single",
+      "parameters": {
+        "property": "schemaUri",
+        "value": "literal"
+      }
+    },
+    "party_members": {
+      "type": "list",
+      "parameters": {
+        "party_id": "instanceUri"
+      }
+    },
+    "party_members_a_to_z": {
+      "type": "list",
+      "parameters": {
+        "party_id": "instanceUri"
+      }
+    },
+    "party_members_by_initial": {
+      "type": "list",
+      "parameters": {
+        "party_id": "instanceUri",
+        "initial": "literal"
+      }
+    },
+    "person_a_to_z": {
+      "type": "list",
+      "parameters": {}
+    },
+    "person_by_id": {
+      "type": "list",
+      "parameters": {
+        "person_id": "instanceUri"
+      }
+    },
+    "person_by_id_mock": {
+      "type": "single",
+      "parameters": {
+        "person_id": "instanceUri"
+      }
+    },
+    "person_by_initial": {
+      "type": "list",
+      "parameters": {
+        "initial": "literal"
+      }
+    },
+    "person_by_substring": {
+      "type": "list",
+      "parameters": {
+        "substring": "literal"
+      }
+    },
+    "person_constituencies": {
+      "type": "list",
+      "parameters": {
+        "person_id": "instanceUri"
+      }
+    },
+    "person_contact_points": {
+      "type": "single",
+      "parameters": {
+        "person_id": "instanceUri"
+      }
+    },
+    "person_current_constituency": {
+      "type": "single",
+      "parameters": {
+        "person_id": "instanceUri"
+      }
+    },
+    "person_current_house": {
+      "type": "single",
+      "parameters": {
+        "person_id": "instanceUri"
+      }
+    },
+    "person_current_party": {
+      "type": "single",
+      "parameters": {
+        "person_id": "instanceUri"
+      }
+    },
+    "person_houses": {
+      "type": "list",
+      "parameters": {
+        "person_id": "instanceUri"
+      }
+    },
+    "person_index": {
+      "type": "list",
+      "parameters": {}
+    },
+    "person_lookup": {
+      "type": "single",
+      "parameters": {
+        "property": "schemaUri",
+        "value": "literal"
+      }
+    },
+    "person_mps": {
+      "type": "list",
+      "parameters": {}
+    },
+    "person_parties": {
+      "type": "list",
+      "parameters": {
+        "person_id": "instanceUri"
+      }
+    },
+    "previous_parliament_by_id": {
+      "type": "single",
+      "parameters": {
+        "parliament_id": "instanceUri"
+      }
+    },
+    "region_by_id": {
+      "type": "single",
+      "parameters": {
+        "region_code": "literal"
+      }
+    },
+    "region_constituencies": {
+      "type": "single",
+      "parameters": {
+        "region_code": "literal"
+      }
+    },
+    "region_constituencies_a_to_z": {
+      "type": "single",
+      "parameters": {
+        "region_code": "literal"
+      }
+    },
+    "region_constituencies_by_initial": {
+      "type": "single",
+      "parameters": {
+        "region_code": "literal",
+        "initial": "literal"
+      }
+    },
+    "region_index": {
+      "type": "single",
+      "parameters": {}
+    },
+    "resource_by_id": {
+      "type": "single",
+      "parameters": {
+        "resource_id": "uri"
+      }
+    }
+  }
+}

@@ -16,8 +16,8 @@ CONSTRUCT {
         :houseName ?houseName .
 }
 WHERE {
-        BIND(@parliamentid AS ?parliament)
-    	BIND(@houseid AS ?house)
+        BIND(@parliament_id AS ?parliament)
+    	BIND(@house_id AS ?house)
 
     	?house
         	a :House ;
@@ -31,7 +31,7 @@ WHERE {
    	    OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
 
     OPTIONAL {
-        BIND(@partyid AS ?party)
+        BIND(@party_id AS ?party)
 
     	?party
         	a :Party ;

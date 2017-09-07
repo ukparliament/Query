@@ -1,0 +1,14 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?s a :House .
+}
+WHERE {
+    BIND(@property AS ?property)
+    BIND(@value AS ?value)
+
+    ?s
+        a :House ;
+        ?property ?actualValue .
+
+    FILTER(STR(?actualValue) = ?value)
+}

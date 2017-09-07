@@ -38,7 +38,7 @@ WHERE {
             {
                 SELECT ?region (COUNT(?constituency) AS ?count)
                 WHERE {
-                    BIND (@regionCode AS ?regionCode)
+                    BIND (@region_code AS ?regionCode)
 
                     ?region
                         a admingeo:EuropeanRegion ;
@@ -83,7 +83,7 @@ WHERE {
         SELECT DISTINCT ?firstLetter
         WHERE {
             SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
-                BIND (@regionCode AS ?regionCode)
+                BIND (@region_code AS ?regionCode)
 
                 ?region
                     a admingeo:EuropeanRegion ;

@@ -1,0 +1,57 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "required": ["endpoints","$schema"],
+  "maxProperties": 2,
+  "properties": {
+    "endpoints": {
+      "patternProperties": {
+        ".+": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/endpoint"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "definitions": {
+    "endpoint": {
+      "type": "object",
+      "required": [
+        "type",
+        "parameters"
+      ],
+      "maxProperties": 2,
+      "properties": {
+        "type": {
+          "enum": [
+            "single",
+            "list",
+            "hardCoded"
+          ]
+        },
+        "parameters": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/parameter"
+            }
+          ]
+        }
+      }
+    },
+    "parameter": {
+      "type": "object",
+      "patternProperties": {
+        ".+": {
+          "enum": [
+            "uri",
+            "instanceUri",
+            "schemaUri",
+            "literal"
+          ]
+        }
+      }
+    }
+  }
+}

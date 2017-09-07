@@ -1,0 +1,23 @@
+﻿CONSTRUCT {
+	<http://id.ukpds.org/TRADECOMMITTEE> <http://id.ukpds.org/schema/formalBodyName> "Trade Committee" .
+	<http://id.ukpds.org/TRADECOMMITTEE> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.ukpds.org/schema/FormalBody> .
+	<http://id.ukpds.org/TRADECOMMITTEE> <http://id.ukpds.org/schema/formalBodyHasHouse> <http://id.ukpds.org/HOUSEOFLORDS> .
+	<http://id.ukpds.org/HOUSEOFLORDS> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.ukpds.org/schema/House> .
+	<http://id.ukpds.org/HOUSEOFLORDS> <http://id.ukpds.org/schema/houseName> "House Of Lords" .
+	<http://id.ukpds.org/TRADECOMMITTEE> <http://id.ukpds.org/schema/formalBodyStartDate> "1900-06-08"^^<http://www.w3.org/2001/XMLSchema#date> .
+
+	<http://id.ukpds.org/JOBSCOMMITTEE> <http://id.ukpds.org/schema/formalBodyName> "Jobs Committee" .
+	<http://id.ukpds.org/JOBSCOMMITTEE> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.ukpds.org/schema/FormalBody> .
+	<http://id.ukpds.org/JOBSCOMMITTEE> <http://id.ukpds.org/schema/formalBodyHasHouse> <http://id.ukpds.org/HOUSEOFCOMMONS> .
+	<http://id.ukpds.org/HOUSEOFCOMMONS> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.ukpds.org/schema/House> .
+	<http://id.ukpds.org/HOUSEOFCOMMONS> <http://id.ukpds.org/schema/houseName> "House Of Commons" .
+	<http://id.ukpds.org/JOBSCOMMITTEE> <http://id.ukpds.org/schema/formalBodyStartDate> "1901-06-08"^^<http://www.w3.org/2001/XMLSchema#date> .
+
+	<http://id.ukpds.org/EDUCOMMITTEE> <http://id.ukpds.org/schema/formalBodyName> "Education Committee" .
+	<http://id.ukpds.org/EDUCOMMITTEE> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.ukpds.org/schema/FormalBody> .
+	<http://id.ukpds.org/EDUCOMMITTEE> <http://id.ukpds.org/schema/formalBodyHasHouse> <http://id.ukpds.org/HOUSEOFCOMMONS> .
+	<http://id.ukpds.org/EDUCOMMITTEE> <http://id.ukpds.org/schema/formalBodyHasHouse> <http://id.ukpds.org/HOUSEOFLORDS> .
+	<http://id.ukpds.org/EDUCOMMITTEE> <http://id.ukpds.org/schema/formalBodyStartDate> "1928-06-08"^^<http://www.w3.org/2001/XMLSchema#date> .
+	<http://id.ukpds.org/EDUCOMMITTEE> <http://id.ukpds.org/schema/formalBodyEndDate> "2015-06-08"^^<http://www.w3.org/2001/XMLSchema#date> .
+}
+WHERE {}

@@ -4,8 +4,8 @@ CONSTRUCT {
 }
 WHERE {
         SELECT DISTINCT ?firstLetter WHERE {
-          BIND(@parliamentid AS ?parliament)
-		  BIND(@houseid AS ?house)
+          BIND(@parliament_id AS ?parliament)
+		  BIND(@house_id AS ?house)
 
           ?parliament a :ParliamentPeriod .
           ?house a :House .

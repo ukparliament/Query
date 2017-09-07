@@ -77,7 +77,7 @@
             {
                 return new HtmlWriter()
                 {
-                    UriPrefix = "resource_by_id?uri=",
+                    UriPrefix = "resource_by_id?resource_id=",
                 };
             }
 

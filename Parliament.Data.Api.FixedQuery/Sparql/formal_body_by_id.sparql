@@ -5,7 +5,7 @@ CONSTRUCT {
         :formalBodyName ?formalBodyName .
 }
 WHERE {
-    BIND(@id AS ?formalBody)
+    BIND(@formal_body_id AS ?formalBody)
     ?formalBody
         a :FormalBody ;
         :formalBodyName ?formalBodyName .

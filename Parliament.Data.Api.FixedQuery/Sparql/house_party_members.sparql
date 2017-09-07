@@ -40,11 +40,11 @@ CONSTRUCT {
 }
 WHERE {
     { SELECT * WHERE {
-        BIND(@houseid AS ?house)
+        BIND(@house_id AS ?house)
         ?house a :House ;
                :houseName ?houseName .
          OPTIONAL {
-            BIND(@partyid AS ?party)
+            BIND(@party_id AS ?party)
             ?party a :Party ;
                    :partyName ?partyName .
             ?person
@@ -79,8 +79,8 @@ WHERE {
     }
     UNION {
         SELECT DISTINCT ?firstLetter WHERE {
-          BIND(@houseid AS ?house)
-          BIND(@partyid AS ?party)
+          BIND(@house_id AS ?house)
+          BIND(@party_id AS ?party)
 
           ?house a :House .
           ?party a :Party .

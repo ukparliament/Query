@@ -6,7 +6,7 @@ CONSTRUCT {
         :formalBodyMembershipHasPerson ?person .
 }
 WHERE {
-    BIND(@id AS ?formalBody)
+    BIND(@formal_body_id AS ?formalBody)
     ?formalBody a :FormalBody ;
         :formalBodyHasFormalBodyMembership ?membership .
     ?membership :formalBodyMembershipHasPerson ?person .

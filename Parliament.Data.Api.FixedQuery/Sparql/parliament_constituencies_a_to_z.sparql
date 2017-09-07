@@ -4,7 +4,7 @@ CONSTRUCT {
 }
 WHERE {
     SELECT DISTINCT ?firstLetter WHERE {
-        BIND(@parliamentid AS ?parliament)
+        BIND(@parliament_id AS ?parliament)
 
         ?parliament a :ParliamentPeriod ;
                     :parliamentPeriodHasSeatIncumbency ?seatIncumbency .

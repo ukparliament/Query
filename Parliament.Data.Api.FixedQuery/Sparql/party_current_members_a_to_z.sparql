@@ -9,7 +9,7 @@ WHERE {
 	{
     SELECT DISTINCT ?firstLetter
     WHERE {
-        BIND(@partyid AS ?party)
+        BIND(@party_id AS ?party)
         ?party
             a :Party ;
             :partyName ?partyName ;
@@ -24,7 +24,7 @@ WHERE {
   }
   UNION
   {
-    BIND(@partyid AS ?party)
+    BIND(@party_id AS ?party)
 	?party
 	    a :Party ;
 	    :partyName ?partyName ;

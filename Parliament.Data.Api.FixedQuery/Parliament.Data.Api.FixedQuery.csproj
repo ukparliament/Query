@@ -133,6 +133,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Secrets.config" />
+    <EmbeddedResource Include="EndpointsSchema.json" />
+    <EmbeddedResource Include="Endpoints.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -150,18 +152,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AIExceptionLogger.cs" />
-    <Compile Include="Controllers\FixedQuery.FormalBodies.cs" />
-    <Compile Include="Controllers\FixedQuery.MockData.cs" />
-    <Compile Include="Controllers\FixedQuery.Media.cs" />
-    <Compile Include="Controllers\FixedQuery.Regions.cs" />
-    <Compile Include="Controllers\FixedQuery.Resources.cs" />
-    <Compile Include="Controllers\FixedQuery.People.cs" />
-    <Compile Include="Controllers\FixedQuery.Parties.cs" />
-    <Compile Include="Controllers\FixedQuery.Parliaments.cs" />
-    <Compile Include="Controllers\FixedQuery.Members.cs" />
-    <Compile Include="Controllers\FixedQuery.ContactPoints.cs" />
-    <Compile Include="Controllers\FixedQuery.Constituencies.cs" />
-    <Compile Include="Controllers\FixedQuery.Houses.cs" />
+    <Compile Include="Models\Endpoint.cs" />
+    <Compile Include="Models\DB.cs" />
+    <Compile Include="Models\EndpointType.cs" />
+    <Compile Include="Models\ParameterType.cs" />
+    <Compile Include="Controllers\HardCoded.cs" />
     <Compile Include="Controllers\FixedQueryController.cs" />
     <Compile Include="Controllers\SparqlController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
@@ -174,7 +169,7 @@
     <Compile Include="HttpErrorJsonFormatter.cs" />
     <Compile Include="HttpErrorXmlFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SparqlInvalidException.cs" />
+    <Compile Include="Resources.cs" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

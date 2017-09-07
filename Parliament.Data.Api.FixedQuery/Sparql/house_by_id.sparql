@@ -5,7 +5,7 @@ CONSTRUCT {
         :houseName ?houseName .
 }
 WHERE {
-    BIND(@id AS ?house)
+    BIND(@house_id AS ?house)
     ?house
         a :House ;
         :houseName ?houseName .

@@ -19,14 +19,8 @@
             }
 
             var queryString = wrapper.Query;
-            try
-            {
-                return BaseController.ExecuteList(new SparqlParameterizedString(queryString));
-            }
-            catch (SparqlInvalidException e)
-            {
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent(e.Message) });
-            }
+
+            return BaseController.ExecuteList(new SparqlParameterizedString(queryString));
         }
 
         [Route]
