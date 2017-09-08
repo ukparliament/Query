@@ -100,5 +100,23 @@
         {
             ValidateSparql(() => controller.person_mps());
         }
+
+        [TestMethod()]
+        public void PersonCommitteesIndex()
+        {
+            ValidateSparql(() => controller.person_committees_index(string.Empty));
+        }
+
+        [TestMethod()]
+        public void PersonCommitteesMembershipsIndex()
+        {
+            ValidateSparql(() => controller.person_committees_memberships_index(string.Empty));
+        }
+
+        [TestMethod()]
+        public void PersonCurrentCommitteesMemberships()
+        {
+            ValidateSparql(() => controller.person_current_committees_memberships(string.Empty));
+        }
     }
 }
