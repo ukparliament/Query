@@ -235,5 +235,81 @@
 
             return BaseController.ExecuteList(query);
         }
+
+        [HttpGet]
+        public Graph house_committees_index(string house_id)
+        {
+            var queryString = base.GetSparql("house_committees_index");
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
+
+            return BaseController.ExecuteList(query);
+        }
+
+        [HttpGet]
+        public Graph house_committees_a_to_z(string house_id)
+        {
+            var queryString = base.GetSparql("house_committees_a_to_z");
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
+
+            return BaseController.ExecuteList(query);
+        }
+
+        [HttpGet]
+        public Graph house_committees_by_initial(string house_id, string initial)
+        {
+            var queryString = base.GetSparql("house_committees_by_initial");
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
+            query.SetLiteral("initial", initial);
+
+            return BaseController.ExecuteList(query);
+        }
+
+        [HttpGet]
+        public Graph house_current_committees(string house_id)
+        {
+            var queryString = base.GetSparql("house_current_committees");
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
+
+            return BaseController.ExecuteList(query);
+        }
+
+        [HttpGet]
+        public Graph house_current_committees_a_to_z(string house_id)
+        {
+            var queryString = base.GetSparql("house_current_committees_a_to_z");
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
+
+            return BaseController.ExecuteList(query);
+        }
+
+        [HttpGet]
+        public Graph house_current_committees_by_initial(string house_id, string initial)
+        {
+            var queryString = base.GetSparql("house_current_committees_by_initial");
+
+            var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("houseid", new Uri(BaseController.instance, house_id));
+            query.SetLiteral("initial", initial);
+
+            return BaseController.ExecuteList(query);
+        }
+
+
     }
 }
