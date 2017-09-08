@@ -1,4 +1,4 @@
-﻿namespace Parliament.Data.Api.FixedQuery.Models
+﻿namespace Parliament.Data.Api.FixedQuery
 {
     using System.Collections.Generic;
 

@@ -1,6 +1,7 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Parliament.Data.Api.FixedQuery.Controllers;
     using System;
     using System.Collections.Generic;
     using System.Linq;

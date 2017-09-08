@@ -8,6 +8,7 @@
     using VDS.RDF;
     using VDS.RDF.Query;
 
+    // TODO: Merge with BaseController
     public class FixedQueryController : BaseController
     {
         public Graph Get(string name)

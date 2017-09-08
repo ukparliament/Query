@@ -9,7 +9,7 @@
     using VDS.RDF.Query;
     using VDS.RDF.Storage;
 
-    // TODO: This should be merged with FixedQueryController
+    // TODO: Merge with FixedQueryController
     public abstract partial class BaseController : ApiController
     {
         private static readonly string sparqlEndpoint = ConfigurationManager.AppSettings["SparqlEndpoint"];

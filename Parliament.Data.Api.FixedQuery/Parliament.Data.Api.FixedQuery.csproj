@@ -156,7 +156,7 @@
     <Compile Include="Models\DB.cs" />
     <Compile Include="Models\EndpointType.cs" />
     <Compile Include="Models\ParameterType.cs" />
-    <Compile Include="Controllers\HardCoded.cs" />
+    <Compile Include="HardCoded.cs" />
     <Compile Include="Controllers\FixedQueryController.cs" />
     <Compile Include="Controllers\SparqlController.cs" />
     <Compile Include="Controllers\HelpController.cs" />

@@ -1,4 +1,4 @@
-﻿namespace Parliament.Data.Api.FixedQuery.Models
+﻿namespace Parliament.Data.Api.FixedQuery
 {
     using Newtonsoft.Json;
     using System.Collections.Generic;
