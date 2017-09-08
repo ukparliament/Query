@@ -62,6 +62,15 @@ CONSTRUCT {
     ?house2
         a :House ;
         :houseName ?houseName2 .
+    ?formalBodyMembership
+        a :FormalBodyMembership ;
+        :personHasFormalBodyMembership ?formalBodyMembership ;
+        :formalBodyMembershipStartDate ?formalBodyMembershipStartDate ;
+        :formalBodyMembershipEndDate ?formalBodyMembershipEndDate ;
+        :formalBodyHasFormalBodyMembership ?formalBody .
+    ?formalBody
+    	a :FormalBody ;
+    	:formalBodyName ?formalBodyName .
 }
 WHERE {
     BIND(@person_id AS ?person)
@@ -117,5 +126,12 @@ WHERE {
         ?partyMembership :partyMembershipStartDate ?partyMembershipStartDate .
         OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
         ?party :partyName ?partyName .
+    }
+    OPTIONAL {
+    	?person :personHasFormalBodyMembership ?formalBodyMembership .
+    	?formalBodyMembership :formalBodyMembershipStartDate ?formalBodyMembershipStartDate .
+    	OPTIONAL { ?formalBodyMembership :formalBodyMembershipEndDate ?formalBodyMembershipEndDate . }
+    	?formalBodyMembership :formalBodyMembershipHasFormalBody ?formalBody .
+    	?formalBody :formalBodyName ?formalBodyName .
     }
 }
