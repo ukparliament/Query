@@ -1,4 +1,6 @@
-﻿PREFIX : @schemaUri
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
+PREFIX : @schemaUri
 CONSTRUCT{
     ?constituencyGroup
         a :ConstituencyGroup ;
@@ -6,7 +8,11 @@ CONSTRUCT{
         :constituencyGroupStartDate ?startDate ;
         :constituencyGroupName ?name ;
         :constituencyGroupOnsCode ?onsCode ;
-        :constituencyGroupHasConstituencyArea ?constituencyArea .
+        :constituencyGroupHasConstituencyArea ?constituencyArea ;
+        admingeo:inEuropeanRegion ?region .
+    ?region
+        admingeo:gssCode ?regionCode ;
+        skos:prefLabel ?regionName .
     ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
     ?houseSeat
         a :HouseSeat ;
@@ -21,7 +27,7 @@ CONSTRUCT{
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
         :memberHasMemberImage ?image ;
-<http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         :partyMemberHasPartyMembership ?partyMembership .
     ?image
         a :MemberImage .
@@ -34,10 +40,21 @@ CONSTRUCT{
 }
 WHERE {
     BIND( @id AS ?constituencyGroup )
-    ?constituencyGroup :constituencyGroupStartDate ?startDate .
+
+    SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
+        ?OrdnanceSurveyConstituency
+            admingeo:gssCode ?onsCode ;
+            admingeo:inEuropeanRegion ?region .
+        ?region
+            admingeo:gssCode ?regionCode ;
+            skos:prefLabel ?regionName .
+    }
+
+    ?constituencyGroup
+        :constituencyGroupName ?name ;
+        :constituencyGroupOnsCode ?onsCode ;
+        :constituencyGroupStartDate ?startDate .
     OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?endDate . }
-    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
-    OPTIONAL { ?constituencyGroup :constituencyGroupOnsCode ?onsCode . }
     OPTIONAL {
         ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
         ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .

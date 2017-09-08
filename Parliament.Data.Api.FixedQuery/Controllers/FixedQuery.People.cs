@@ -171,5 +171,35 @@
 
             return BaseController.ExecuteList(query);
         }
+
+        [HttpGet]
+        public Graph person_committees_index(string person_id)
+        {
+            var queryString = base.GetSparql("person_committees_index");
+
+            var query = new SparqlParameterizedString(queryString);
+
+            return BaseController.ExecuteList(query);
+        }
+
+        [HttpGet]
+        public Graph person_committees_memberships_index(string person_id)
+        {
+            var queryString = base.GetSparql("person_committees_memberships_index");
+
+            var query = new SparqlParameterizedString(queryString);
+
+            return BaseController.ExecuteList(query);
+        }
+
+        [HttpGet]
+        public Graph person_current_committees_memberships(string person_id)
+        {
+            var queryString = base.GetSparql("person_current_committees_memberships");
+
+            var query = new SparqlParameterizedString(queryString);
+
+            return BaseController.ExecuteList(query);
+        }
     }
 }
