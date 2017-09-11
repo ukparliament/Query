@@ -6,8 +6,8 @@
     public class DB
     {
         [JsonProperty("$schema")]
-        public string Schema;
+        public string Schema { get; set; }
 
-        public Dictionary<string, Endpoint> Endpoints;
+        public Dictionary<string, Endpoint> Endpoints { get; set; }
     }
 }

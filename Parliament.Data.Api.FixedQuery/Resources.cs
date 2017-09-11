@@ -6,7 +6,7 @@
 
     public static class Resources
     {
-        private const string baseName = "Parliament.Data.Api.FixedQuery";
+        private const string BaseName = "Parliament.Data.Api.FixedQuery";
 
         public static DB DB
         {
@@ -20,7 +20,7 @@
         {
             get
             {
-                return Resources.GetFile($"{baseName}.Endpoints.json");
+                return Resources.GetFile($"{BaseName}.Endpoints.json");
             }
         }
 
@@ -28,15 +28,14 @@
         {
             get
             {
-                return Resources.GetFile($"{baseName}.EndpointsSchema.json");
+                return Resources.GetFile($"{BaseName}.EndpointsSchema.json");
             }
         }
 
         public static string GetSparql(string name)
         {
-            return Resources.GetFile($"{baseName}.Sparql.{name}.sparql");
+            return Resources.GetFile($"{BaseName}.Sparql.{name}.sparql");
         }
-
 
         private static string GetFile(string resourceName)
         {

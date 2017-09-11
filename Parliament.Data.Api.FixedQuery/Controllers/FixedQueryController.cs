@@ -26,7 +26,6 @@
                 return method.Invoke(null, values.Values.Cast<object>().ToArray()) as Graph;
             }
 
-
             var queryString = Resources.GetSparql(name);
             var query = new SparqlParameterizedString(queryString);
 
@@ -73,11 +72,11 @@
                         break;
 
                     case ParameterType.InstanceUri:
-                        query.SetUri(name, new Uri(BaseController.instance, value));
+                        query.SetUri(name, new Uri(BaseController.Instance, value));
                         break;
 
                     case ParameterType.SchemaUri:
-                        query.SetUri(name, new Uri(BaseController.schema, value));
+                        query.SetUri(name, new Uri(BaseController.Schema, value));
                         break;
 
                     case ParameterType.Literal:

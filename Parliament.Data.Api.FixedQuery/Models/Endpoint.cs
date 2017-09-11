@@ -4,7 +4,8 @@
 
     public class Endpoint
     {
-        public EndpointType Type;
-        public Dictionary<string, ParameterType> Parameters;
+        public EndpointType Type { get; set; }
+
+        public Dictionary<string, ParameterType> Parameters { get; set; }
     }
 }

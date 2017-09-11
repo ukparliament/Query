@@ -4,9 +4,11 @@
     using System.Net;
     using VDS.RDF.Query;
 
-    class ConstructOnlyRemoteEndpoint : SparqlRemoteEndpoint
+    public class ConstructOnlyRemoteEndpoint : SparqlRemoteEndpoint
     {
-        public ConstructOnlyRemoteEndpoint(Uri endpointUri) : base(endpointUri) { }
+        public ConstructOnlyRemoteEndpoint(Uri endpointUri) : base(endpointUri)
+        {
+        }
 
         public override HttpWebResponse QueryRaw(string sparqlQuery)
         {

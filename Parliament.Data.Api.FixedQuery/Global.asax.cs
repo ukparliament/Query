@@ -53,9 +53,9 @@
             config.Formatters.Add(new HttpErrorJsonFormatter());
             config.Formatters.Add(new HttpErrorXmlFormatter());
 
-            config.Routes.MapHttpRoute("Index", "", new { controller = "Help" });
+            config.Routes.MapHttpRoute("Index", string.Empty, new { controller = "Help" });
 
-            config.Routes.MapHttpRoute("WithExtension", "{name}.{ext}", new { controller = "FixedQuery"  });
+            config.Routes.MapHttpRoute("WithExtension", "{name}.{ext}", new { controller = "FixedQuery" });
             config.Routes.MapHttpRoute("WithoutExtension", "{name}", new { controller = "FixedQuery" });
 
             // TODO: Implement

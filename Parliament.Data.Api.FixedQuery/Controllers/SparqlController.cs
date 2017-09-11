@@ -63,9 +63,4 @@ LIMIT 1</textarea>
             return response;
         }
     }
-
-    public class QueryWrapper
-    {
-        public string Query { get; set; }
-    }
 }

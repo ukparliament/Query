@@ -8,7 +8,7 @@
     using VDS.RDF.Parsing.Validation;
     using VDS.RDF.Query;
 
-    [TestClass()]
+    [TestClass]
     [TestCategory("Sparql")]
     public class SparqlTests
     {
