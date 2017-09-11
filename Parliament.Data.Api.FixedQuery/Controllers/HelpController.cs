@@ -27,6 +27,9 @@
                 this.Url.Route("WithoutExtension", new {action = "person_houses", person_id = "7KNGxTli" }),
                 this.Url.Route("WithoutExtension", new {action = "person_current_house", person_id = "7KNGxTli" }),
                 this.Url.Route("WithoutExtension", new {action = "person_mps" }),
+                this.Url.Route("WithoutExtension", new {action = "person_committees_index", person_id = "7KNGxTli" }),
+                this.Url.Route("WithoutExtension", new {action = "person_committees_memberships_index", person_id = "7KNGxTli" }),
+                this.Url.Route("WithoutExtension", new {action = "person_current_committees_memberships", person_id = "7KNGxTli" }),
 
                 // MemberIndex route exists on person controller
                 this.Url.Route("WithoutExtension", new {action = "member_index" }),
@@ -87,6 +90,12 @@
                 this.Url.Route("WithoutExtension", new {action = "house_party_current_members", house_id = "Kz7ncmrt", party_id = "891w1b1k"}),
                 this.Url.Route("WithoutExtension", new {action = "house_party_current_members_by_initial", house_id = "Kz7ncmrt", party_id = "891w1b1k", initial = "f"}),
                 this.Url.Route("WithoutExtension", new {action = "house_party_current_members_a_to_z", house_id = "Kz7ncmrt", party_id = "891w1b1k"}),
+                this.Url.Route("WithoutExtension", new {action = "house_committees_index", house_id = "Kz7ncmrt"}),
+                this.Url.Route("WithoutExtension", new {action = "house_committees_a_to_z", house_id = "Kz7ncmrt"}),
+                this.Url.Route("WithoutExtension", new {action = "house_committees_by_initial", house_id = "Kz7ncmrt", initial = "h"}),
+                this.Url.Route("WithoutExtension", new {action = "house_current_committees", house_id = "Kz7ncmrt"}),
+                this.Url.Route("WithoutExtension", new {action = "house_current_committees_a_to_z", house_id = "Kz7ncmrt"}),
+                this.Url.Route("WithoutExtension", new {action = "house_current_committees_by_initial", house_id = "Kz7ncmrt", initial = "h"}),
 
                 this.Url.Route("WithoutExtension", new {action = "contact_point_index"}),
                 this.Url.Route("WithoutExtension", new {action = "contact_point_by_id", contact_point_id = "t3Qeaou5" }),

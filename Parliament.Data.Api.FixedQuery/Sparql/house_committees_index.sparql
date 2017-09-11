@@ -1,0 +1,24 @@
+PREFIX : @schemaUri
+CONSTRUCT {
+    ?house
+        a :House ;
+        :houseName ?houseName ;
+        :houseHasFormalBody ?formalBody ;
+        :formalBodyStartDate ?formalBodyStartDate ;
+        :formalBodyEndDate ?formalBodyEndDate .
+
+    ?formalBody
+        a :FormalBody ;
+        :formalBodyName ?formalBodyName .
+}
+WHERE {
+    BIND(@houseid AS ?house)
+    ?house
+        a :House ;
+        :houseName ?houseName .
+    ?formalBody
+        a :FormalBody ;
+        :formalBodyName ?formalBodyName ;
+        :formalBodyStartDate ?formalBodyStartDate ;
+        :formalBodyEndDate ?formalBodyEndDate .
+}

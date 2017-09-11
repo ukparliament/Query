@@ -1,0 +1,40 @@
+PREFIX : @schemaUri
+CONSTRUCT {
+    ?house
+        a :House ;
+        :houseName ?houseName ;
+        :houseHasFormalBody ?formalBody .
+    ?formalBody
+        a :FormalBody ;
+        :formalBodyName ?formalBodyName ;
+        :formalBodyStartDate ?formalBodyStartDate .
+    _:x :value ?firstLetter .
+}
+WHERE {
+  {
+	    SELECT DISTINCT ?firstLetter
+	    WHERE {
+	        BIND(@houseid AS ?house)
+	        ?house
+	            a :House ;
+	            :houseName ?houseName ;
+              :houseHasFormalBody ?formalBody .
+          ?formalBody
+              a :FormalBody ;
+              :formalBodyName ?formalBodyName ;
+	        BIND(UCASE(SUBSTR(?formalBodyName, 1, 1)) as ?firstLetter)
+    	}
+	}
+  UNION
+  {
+    BIND(@houseid AS ?house)
+    ?house
+      a :House ;
+      :houseName ?houseName .
+    ?formalBody
+      a :FormalBody ;
+      :formalBodyName ?formalBodyName ;
+      :formalBodyStartDate ?formalBodyStartDate .
+    FILTER NOT EXISTS { ?formalBody :formalBodyEndDate ?formalBodyEndDate . }
+  }
+}
