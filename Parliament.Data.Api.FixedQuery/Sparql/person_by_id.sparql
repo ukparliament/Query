@@ -67,7 +67,7 @@ CONSTRUCT {
         :personHasFormalBodyMembership ?formalBodyMembership ;
         :formalBodyMembershipStartDate ?formalBodyMembershipStartDate ;
         :formalBodyMembershipEndDate ?formalBodyMembershipEndDate ;
-        :formalBodyHasFormalBodyMembership ?formalBody .
+        :formalBodyMembershipHasFormalBody ?formalBody .
     ?formalBody
     	a :FormalBody ;
     	:formalBodyName ?formalBodyName .
