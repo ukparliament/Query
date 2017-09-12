@@ -11,6 +11,7 @@ CONSTRUCT{
         :constituencyGroupHasConstituencyArea ?constituencyArea ;
         admingeo:inEuropeanRegion ?region .
     ?region
+        a admingeo:EuropeanRegion ;
         admingeo:gssCode ?regionCode ;
         skos:prefLabel ?regionName .
     ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
@@ -46,6 +47,7 @@ WHERE {
             admingeo:gssCode ?onsCode ;
             admingeo:inEuropeanRegion ?region .
         ?region
+            a admingeo:EuropeanRegion ;
             admingeo:gssCode ?regionCode ;
             skos:prefLabel ?regionName .
     }
