@@ -19,7 +19,7 @@
             config.Services.Replace(typeof(IContentNegotiator), new DefaultContentNegotiator(true));
 
             config.Formatters.Clear();
-            
+
             // TODO: Extract
             config.Formatters.Add(new GraphFormatter(new UriPathExtensionMapping("nt", "application/n-triples")));
             config.Formatters.Add(new GraphFormatter(new UriPathExtensionMapping("ttl", "text/turtle")));
@@ -56,7 +56,7 @@
             config.Routes.MapHttpRoute("Index", string.Empty, new { controller = "Help" });
 
             config.Routes.MapHttpRoute("WithExtension", "{name}.{ext}", new { controller = "FixedQuery" });
-            config.Routes.MapHttpRoute("WithoutExtension", "{name}", new { controller = "FixedQuery" });
+            config.Routes.MapHttpRoute("WithoutExtension", "{name}", new { controller = "FixedQuery", ext = string.Empty });
 
             // TODO: Implement
             config.Routes.MapHttpRoute("BadRequest", "{*any}", new { controller = "BadRequest", action = "Get" });
