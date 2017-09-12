@@ -129,5 +129,41 @@
         {
             ValidateSparql(() => controller.house_party_current_members_a_to_z(string.Empty, string.Empty));
         }
+
+        [TestMethod()]
+        public void HouseCommitteesIndex()
+        {
+            ValidateSparql(() => controller.house_committees_index(string.Empty));
+        }
+
+        [TestMethod()]
+        public void HouseCommitteesAtoZ()
+        {
+            ValidateSparql(() => controller.house_committees_a_to_z(string.Empty));
+        }
+
+        [TestMethod()]
+        public void HouseCommitteesByInitial()
+        {
+            ValidateSparql(() => controller.house_committees_by_initial(string.Empty, string.Empty));
+        }
+
+        [TestMethod()]
+        public void HouseCurrentCommittees()
+        {
+            ValidateSparql(() => controller.house_current_committees(string.Empty));
+        }
+
+        [TestMethod()]
+        public void HouseCurrentCommitteesAtoZ()
+        {
+            ValidateSparql(() => controller.house_current_committees_a_to_z(string.Empty));
+        }
+
+        [TestMethod()]
+        public void HouseCurrentCommitteesByInitial()
+        {
+            ValidateSparql(() => controller.house_current_committees_by_initial(string.Empty, string.Empty));
+        }
     }
 }
