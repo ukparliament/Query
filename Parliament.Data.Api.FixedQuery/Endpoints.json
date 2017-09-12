@@ -128,6 +128,44 @@
         "substring": "literal"
       }
     },
+    "house_committees_a_to_z": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri"
+      }
+    },
+    "house_committees_by_initial": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri",
+        "initial": "literal"
+      }
+    },
+    "house_committees_index": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri"
+      }
+    },
+    "house_current_committees": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri"
+      }
+    },
+    "house_current_committees_a_to_z": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri"
+      }
+    },
+    "house_current_committees_by_initial": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri",
+        "initial": "literal"
+      }
+    },
     "house_current_members": {
       "type": "list",
       "parameters": {
@@ -564,6 +602,18 @@
         "substring": "literal"
       }
     },
+    "person_committees_index": {
+      "type": "list",
+      "parameters": {
+        "person_id": "instanceUri"
+      }
+    },
+    "person_committees_memberships_index": {
+      "type": "list",
+      "parameters": {
+        "person_id": "instanceUri"
+      }
+    },
     "person_constituencies": {
       "type": "list",
       "parameters": {
@@ -572,6 +622,12 @@
     },
     "person_contact_points": {
       "type": "single",
+      "parameters": {
+        "person_id": "instanceUri"
+      }
+    },
+    "person_current_committees_memberships": {
+      "type": "list",
       "parameters": {
         "person_id": "instanceUri"
       }

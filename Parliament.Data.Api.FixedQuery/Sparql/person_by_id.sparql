@@ -10,7 +10,8 @@ CONSTRUCT {
         <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitle ;
         :memberHasMemberImage ?image ;
         :partyMemberHasPartyMembership ?partyMembership ;
-        :memberHasIncumbency ?incumbency .
+        :memberHasIncumbency ?incumbency ;
+        :personHasFormalBodyMembership ?formalBodyMembership .
     ?image
         a :MemberImage .
     ?contactPoint
@@ -64,10 +65,9 @@ CONSTRUCT {
         :houseName ?houseName2 .
     ?formalBodyMembership
         a :FormalBodyMembership ;
-        :personHasFormalBodyMembership ?formalBodyMembership ;
         :formalBodyMembershipStartDate ?formalBodyMembershipStartDate ;
         :formalBodyMembershipEndDate ?formalBodyMembershipEndDate ;
-        :formalBodyHasFormalBodyMembership ?formalBody .
+        :formalBodyMembershipHasFormalBody ?formalBody .
     ?formalBody
     	a :FormalBody ;
     	:formalBodyName ?formalBodyName .
