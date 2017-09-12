@@ -4,29 +4,22 @@ PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
 PREFIX : @schemaUri
 
 CONSTRUCT {
-    ?region skos:prefLabel ?name  .
-    ?region a admingeo:EuropeanRegion .
-    ?region admingeo:gssCode ?gssCode .
-    ?region :count ?count .
+    ?region
+        a admingeo:EuropeanRegion ;
+        admingeo:gssCode ?gssCode ;
+        skos:prefLabel ?name ;
+        :count ?count .
 }
 WHERE {
-    {
-        SELECT ?region (COUNT(?westminsterConstituency) AS ?count)
+    SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
+        SELECT ?region ?gssCode ?name (COUNT(?westminsterConstituency) AS ?count)
         WHERE {
             ?region
                 a admingeo:EuropeanRegion ;
                 admingeo:gssCode ?gssCode ;
+                skos:prefLabel ?name ;
                 admingeo:westminsterConstituency ?westminsterConstituency .
         }
-        GROUP BY ?region
-    }
-    UNION {
-        SELECT *
-        WHERE {
-            ?region
-                a admingeo:EuropeanRegion ;
-                admingeo:gssCode ?gssCode ;
-                skos:prefLabel ?name  .
-        }
+        GROUP BY ?region ?gssCode ?name
     }
 }

@@ -25,7 +25,7 @@ CONSTRUCT {
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs .
 }
 WHERE {
-    BIND(@id AS ?contactPoint )
+    BIND(@contact_point_id AS ?contactPoint )
     ?contactPoint a :ContactPoint .
     OPTIONAL{ ?contactPoint :email ?email . }
     OPTIONAL{ ?contactPoint :phoneNumber ?phoneNumber . }

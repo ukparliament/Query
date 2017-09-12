@@ -8,7 +8,7 @@ CONSTRUCT {
         :partyName ?partyName .
 }
 WHERE {
-    BIND(@houseid as ?house)
+    BIND(@house_id as ?house)
     ?house
         a :House ;
         :houseName ?houseName .

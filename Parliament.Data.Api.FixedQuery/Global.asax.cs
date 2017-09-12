@@ -19,7 +19,8 @@
             config.Services.Replace(typeof(IContentNegotiator), new DefaultContentNegotiator(true));
 
             config.Formatters.Clear();
-            //n triples//turtle//json//xml/rdf json//html//rdf xml
+
+            // TODO: Extract
             config.Formatters.Add(new GraphFormatter(new UriPathExtensionMapping("nt", "application/n-triples")));
             config.Formatters.Add(new GraphFormatter(new UriPathExtensionMapping("ttl", "text/turtle")));
             config.Formatters.Add(new GraphFormatter(new UriPathExtensionMapping("json", "application/rdf+json")));
@@ -52,11 +53,12 @@
             config.Formatters.Add(new HttpErrorJsonFormatter());
             config.Formatters.Add(new HttpErrorXmlFormatter());
 
-            config.Routes.MapHttpRoute("Index", "", new { controller = "Help" });
+            config.Routes.MapHttpRoute("Index", string.Empty, new { controller = "Help" });
 
-            config.Routes.MapHttpRoute("WithExtension", "{action}.{ext}", new { controller = "FixedQuery" });
-            config.Routes.MapHttpRoute("WithoutExtension", "{action}", new { controller = "FixedQuery" });
+            config.Routes.MapHttpRoute("WithExtension", "{name}.{ext}", new { controller = "FixedQuery" });
+            config.Routes.MapHttpRoute("WithoutExtension", "{name}", new { controller = "FixedQuery", ext = string.Empty });
 
+            // TODO: Implement
             config.Routes.MapHttpRoute("BadRequest", "{*any}", new { controller = "BadRequest", action = "Get" });
 
             config.Services.Add(typeof(IExceptionLogger), new AIExceptionLogger());

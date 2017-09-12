@@ -35,7 +35,7 @@ CONSTRUCT {
 }
 WHERE {
     { SELECT * WHERE {
-        BIND(@partyid AS ?party)
+        BIND(@party_id AS ?party)
         ?party
             a :Party ;
             :partyName ?partyName .
@@ -70,7 +70,7 @@ WHERE {
     }
     UNION {
         SELECT DISTINCT ?firstLetter WHERE {
-            BIND(@partyid AS ?party)
+            BIND(@party_id AS ?party)
 
             ?party a :Party ;
                    :partyHasPartyMembership ?partyMembership .

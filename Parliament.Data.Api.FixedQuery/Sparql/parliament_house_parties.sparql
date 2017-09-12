@@ -18,8 +18,8 @@ CONSTRUCT {
 }
 WHERE {
     SELECT ?parliament ?startDate ?endDate ?parliamentNumber ?nextParliament ?previousParliament ?party ?partyName ?house ?houseName (COUNT(?member) AS ?memberCount) WHERE {
-        BIND(@parliamentid AS ?parliament)
-    	BIND(@houseid AS ?house)
+        BIND(@parliament_id AS ?parliament)
+    	BIND(@house_id AS ?house)
     	?house
         	a :House ;
          	:houseName ?houseName .

@@ -15,7 +15,7 @@ WHERE {
   {
 	    SELECT DISTINCT ?firstLetter
 	    WHERE {
-	        BIND(@houseid AS ?house)
+	        BIND(@house_id AS ?house)
 	        ?house
 	            a :House ;
 	            :houseName ?houseName ;
@@ -28,7 +28,7 @@ WHERE {
 	}
   UNION
   {
-      BIND(@houseid AS ?house)
+      BIND(@house_id AS ?house)
       ?house
           a :House ;
           :houseName ?houseName .

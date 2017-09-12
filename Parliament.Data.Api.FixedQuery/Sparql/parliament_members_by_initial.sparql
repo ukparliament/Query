@@ -47,7 +47,7 @@ CONSTRUCT {
 }
 WHERE {
     { SELECT * WHERE {
-        BIND(@parliamentid AS ?parliament)
+        BIND(@parliament_id AS ?parliament)
         ?parliament
             a :ParliamentPeriod ;
             :parliamentPeriodStartDate ?parliamentStartDate ;
@@ -96,7 +96,7 @@ WHERE {
 }
 UNION {
 	SELECT ?parliament (COUNT(DISTINCT(?person)) AS ?memberCount) WHERE {
-        BIND(@parliamentid AS ?parliament)
+        BIND(@parliament_id AS ?parliament)
         ?parliament a :ParliamentPeriod .
         OPTIONAL {
             ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
@@ -107,7 +107,7 @@ UNION {
     }
 UNION {
     SELECT DISTINCT ?firstLetter WHERE {
-        BIND(@parliamentid AS ?parliament)
+        BIND(@parliament_id AS ?parliament)
 
         ?parliament a :ParliamentPeriod ;
         			:parliamentPeriodHasSeatIncumbency ?seatIncumbency.

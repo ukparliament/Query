@@ -2,18 +2,18 @@
 
 CONSTRUCT {
     [ :value ?firstLetter ] .
-    @houseid
+    @house_id
         a :House ;
         :houseName ?houseName .
-    @partyid
+    @party_id
         a :Party ;
         :partyName ?partyName .
 }
 WHERE {
     SELECT DISTINCT ?houseName ?partyName ?firstLetter
     WHERE {
-        BIND(@houseid AS ?house)
-        BIND(@partyid AS ?party)
+        BIND(@house_id AS ?house)
+        BIND(@party_id AS ?party)
 
         ?house
             :houseName ?houseName .

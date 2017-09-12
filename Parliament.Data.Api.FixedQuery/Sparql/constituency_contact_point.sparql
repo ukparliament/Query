@@ -27,7 +27,7 @@ CONSTRUCT {
         :addressLine5 ?addressLine5 .
 }
 WHERE {
-    BIND(@constituencyid AS ?constituencyGroup )
+    BIND(@constituency_id AS ?constituencyGroup )
     ?constituencyGroup a :ConstituencyGroup .
     OPTIONAL {
         ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .

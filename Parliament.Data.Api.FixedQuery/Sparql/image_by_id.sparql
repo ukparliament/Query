@@ -11,7 +11,7 @@
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
     }
     WHERE {
-        BIND(@id AS ?image)
+        BIND(@image_id AS ?image)
         ?image
             a :MemberImage ;
             :memberImageHasMember ?person .

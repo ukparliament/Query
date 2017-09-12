@@ -1,0 +1,14 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?s a :ParliamentPeriod .
+}
+WHERE {
+    BIND(@property AS ?property)
+    BIND(@value AS ?value)
+
+    ?s
+        a :ParliamentPeriod ;
+        ?property ?actualValue .
+
+    FILTER(STR(?actualValue) = ?value)
+}

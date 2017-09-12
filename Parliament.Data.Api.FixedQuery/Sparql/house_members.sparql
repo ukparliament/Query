@@ -40,7 +40,7 @@ CONSTRUCT {
 }
 WHERE {
     { SELECT * WHERE {
-        BIND(@houseid AS ?house)
+        BIND(@house_id AS ?house)
         ?house a :House .
 
         OPTIONAL {
@@ -79,7 +79,7 @@ WHERE {
     }
     UNION {
         SELECT DISTINCT ?firstLetter WHERE {
-          BIND(@houseid AS ?house)
+          BIND(@house_id AS ?house)
 
           ?house a :House ;
 	               :houseName ?houseName .

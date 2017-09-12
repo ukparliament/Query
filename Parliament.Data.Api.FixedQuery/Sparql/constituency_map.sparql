@@ -35,7 +35,7 @@ CONSTRUCT{
         :partyName ?partyName .
 }
 WHERE {
-    BIND( @id AS ?constituencyGroup )
+    BIND( @constituency_id AS ?constituencyGroup )
     ?constituencyGroup a :ConstituencyGroup .
     OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?endDate . }
     OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?startDate . }

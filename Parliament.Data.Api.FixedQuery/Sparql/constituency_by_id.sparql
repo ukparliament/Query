@@ -1,4 +1,4 @@
-PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+﻿PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
 PREFIX : @schemaUri
 CONSTRUCT{
@@ -40,7 +40,7 @@ CONSTRUCT{
         :partyName ?partyName .
 }
 WHERE {
-    BIND( @id AS ?constituencyGroup )
+    BIND( @constituency_id AS ?constituencyGroup )
 
     SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
         ?OrdnanceSurveyConstituency

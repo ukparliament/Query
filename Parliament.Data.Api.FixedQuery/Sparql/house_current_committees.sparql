@@ -10,7 +10,7 @@ CONSTRUCT {
         :formalBodyStartDate ?formalBodyStartDate .
 }
 WHERE {
-    BIND(@houseid AS ?house)
+    BIND(@house_id AS ?house)
     ?house
         a :House ;
         :houseName ?houseName .

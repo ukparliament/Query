@@ -12,10 +12,10 @@ WHERE {
     {
         SELECT *
         WHERE {
-            BIND(@houseid AS ?house)
+            BIND(@house_id AS ?house)
             ?house :houseName ?houseName .
             OPTIONAL {
-                BIND(@partyid AS ?party)
+                BIND(@party_id AS ?party)
                 ?person
                 	a :Member ;
                 	:partyMemberHasPartyMembership ?partyMembership .
@@ -35,8 +35,8 @@ WHERE {
     UNION {
     	SELECT ?party (COUNT(?currentMember) AS ?currentMemberCount)
         WHERE {
-        	BIND(@houseid AS ?house)
-            BIND(@partyid AS ?party)
+        	BIND(@house_id AS ?house)
+            BIND(@party_id AS ?party)
             ?house a :House .
             ?party a :Party .
             OPTIONAL {

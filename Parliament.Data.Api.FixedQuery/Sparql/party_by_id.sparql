@@ -9,7 +9,7 @@ CONSTRUCT {
 WHERE {
     SELECT ?party ?name (COUNT(?mp) AS ?commonsCount) (COUNT(?lord) AS ?lordsCount)
     WHERE {
-        BIND(@id AS ?party)
+        BIND(@party_id AS ?party)
        	?party a :Party ;
 	           :partyName ?name .
         OPTIONAL {
