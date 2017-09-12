@@ -17,7 +17,7 @@ CONSTRUCT {
         :formalBodyName ?formalBodyName .
 }
 WHERE {
-    BIND(@id AS ?person)
+    BIND(@personid AS ?person)
     ?person a :Person .
     OPTIONAL { ?person :personGivenName ?givenName } .
     OPTIONAL { ?person :personOtherNames ?otherName } .

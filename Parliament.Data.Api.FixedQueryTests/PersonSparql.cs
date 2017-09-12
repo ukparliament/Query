@@ -102,19 +102,19 @@
         }
 
         [TestMethod()]
-        public void PersonCommitteesIndex()
+        public void PersonCommitteesIndexSparql()
         {
             ValidateSparql(() => controller.person_committees_index(string.Empty));
         }
 
         [TestMethod()]
-        public void PersonCommitteesMembershipsIndex()
+        public void PersonCommitteesMembershipsIndexSparql()
         {
             ValidateSparql(() => controller.person_committees_memberships_index(string.Empty));
         }
 
         [TestMethod()]
-        public void PersonCurrentCommitteesMemberships()
+        public void PersonCurrentCommitteesMembershipsSparql()
         {
             ValidateSparql(() => controller.person_current_committees_memberships(string.Empty));
         }

@@ -21,7 +21,7 @@ WHERE {
               :houseHasFormalBody ?formalBody .
           ?formalBody
               a :FormalBody ;
-              :formalBodyName ?formalBodyName ;
+              :formalBodyName ?formalBodyName .
 	        BIND(UCASE(SUBSTR(?formalBodyName, 1, 1)) as ?firstLetter)
     	}
 	}

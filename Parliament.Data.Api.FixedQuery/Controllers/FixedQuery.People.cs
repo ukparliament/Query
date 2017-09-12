@@ -179,6 +179,8 @@
 
             var query = new SparqlParameterizedString(queryString);
 
+            query.SetUri("personid", new Uri(BaseController.instance, person_id));
+
             return BaseController.ExecuteList(query);
         }
 
@@ -189,6 +191,8 @@
 
             var query = new SparqlParameterizedString(queryString);
 
+            query.SetUri("personid", new Uri(BaseController.instance, person_id));
+
             return BaseController.ExecuteList(query);
         }
 
@@ -198,6 +202,8 @@
             var queryString = base.GetSparql("person_current_committees_memberships");
 
             var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("personid", new Uri(BaseController.instance, person_id));
 
             return BaseController.ExecuteList(query);
         }
