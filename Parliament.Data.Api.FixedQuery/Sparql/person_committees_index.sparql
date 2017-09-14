@@ -14,7 +14,9 @@ CONSTRUCT {
         :formalBodyMembershipHasFormalBody ?formalBody .
     ?formalBody
         a :FormalBody ;
-        :formalBodyName ?formalBodyName .
+        :formalBodyName ?formalBodyName ;
+        :formalBodyStartDate ?formalBodyStartDate ;
+        :formalBodyEndDate ?formalBodyEndDate .
 }
 WHERE {
     BIND(@person_id AS ?person)
@@ -33,6 +35,8 @@ WHERE {
         OPTIONAL { ?formalBodyMembership :formalBodyMembershipStartDate ?formalBodyMembershipStartDate } .
         ?formalBody
             a :FormalBody ;
-            :formalBodyName ?formalBodyName .
+            :formalBodyName ?formalBodyName ;
+            :formalBodyStartDate ?formalBodyStartDate .
+        OPTIONAL { ?formalBody :formalBodyEndDate ?formalBodyEndDate . }
     }
 }

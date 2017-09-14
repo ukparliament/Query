@@ -6,19 +6,35 @@ CONSTRUCT {
         :houseHasFormalBody ?formalBody ;
         :formalBodyStartDate ?formalBodyStartDate ;
         :formalBodyEndDate ?formalBodyEndDate .
-
     ?formalBody
         a :FormalBody ;
         :formalBodyName ?formalBodyName .
+    _:x :value ?firstLetter .
 }
 WHERE {
-    BIND(@house_id AS ?house)
-    ?house
-        a :House ;
-        :houseName ?houseName .
-    ?formalBody
-        a :FormalBody ;
-        :formalBodyName ?formalBodyName ;
-        :formalBodyStartDate ?formalBodyStartDate ;
-        :formalBodyEndDate ?formalBodyEndDate .
+    {
+        BIND(@house_id AS ?house)
+        ?house
+            a :House ;
+            :houseName ?houseName .
+        ?formalBody
+            a :FormalBody ;
+            :formalBodyName ?formalBodyName .
+        OPTIONAL { ?formalBody :formalBodyStartDate ?formalBodyStartDate } .
+        OPTIONAL { ?formalBody :formalBodyEndDate ?formalBodyEndDate . }
+    }
+    UNION {
+        SELECT DISTINCT ?firstLetter
+  	    WHERE {
+  	        BIND(@house_id AS ?house)
+  	        ?house
+  	            a :House ;
+  	            :houseName ?houseName ;
+                :houseHasFormalBody ?formalBody .
+            ?formalBody
+                a :FormalBody ;
+                :formalBodyName ?formalBodyName .
+  	        BIND(UCASE(SUBSTR(?formalBodyName, 1, 1)) as ?firstLetter)
+      	}
+    }
 }

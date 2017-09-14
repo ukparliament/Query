@@ -20,10 +20,12 @@ WHERE {
 	            a :House ;
 	            :houseName ?houseName ;
               :houseHasFormalBody ?formalBody .
-          ?formalBody
-              a :FormalBody ;
-              :formalBodyName ?formalBodyName .
-	        BIND(UCASE(SUBSTR(?formalBodyName, 1, 1)) as ?firstLetter)
+          OPTIONAL {
+              ?formalBody
+                a :FormalBody ;
+                :formalBodyName ?formalBodyName .
+              BIND(UCASE(SUBSTR(?formalBodyName, 1, 1)) as ?firstLetter)
+          }
     	}
 	}
   UNION
@@ -35,8 +37,8 @@ WHERE {
       ?formalBody
           a :FormalBody ;
           :formalBodyName ?formalBodyName ;
-          :formalBodyStartDate ?formalBodyStartDate ;
-          :formalBodyEndDate ?formalBodyEndDate .
+          :formalBodyStartDate ?formalBodyStartDate .
+      OPTIONAL { ?formalBody :formalBodyEndDate ?formalBodyEndDate . }
       FILTER STRSTARTS(LCASE(?formalBodyName), LCASE(@initial))
   }
 }
