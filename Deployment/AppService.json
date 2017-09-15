@@ -38,12 +38,6 @@
         "description": "Value of the Application Insights instrumentation key."
       }
     },
-    "environment": {
-      "type": "string",
-      "metadata": {
-        "description": "Name of the environment that is being deployed to."
-      }
-    },
     "releaseId": {
       "type": "int",
       "metadata": {
@@ -68,11 +62,7 @@
       "apiVersion": "2015-08-01",
       "location": "[resourceGroup().location]",
       "tags": {
-        "Department": "Data & Search",
-        "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c",
-        "Environment": "[parameters('environment')]",
-        "ReleaseId": "[parameters('releaseId')]",
-        "Type": "App plan"
+        "ReleaseId": "[parameters('releaseId')]"
       },
       "dependsOn": []
     },
@@ -84,11 +74,7 @@
       "apiVersion": "2015-08-01",
       "location": "[resourceGroup().location]",
       "tags": {
-        "Department": "Data & Search",
-        "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c",
-        "Environment": "[parameters('environment')]",
-        "ReleaseId": "[parameters('releaseId')]",
-        "Type": "API app"
+        "ReleaseId": "[parameters('releaseId')]"
       },
       "properties": {
         "name": "[parameters('fixedQueryName')]",

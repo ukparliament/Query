@@ -13,7 +13,9 @@ This script is for use as a part of deployment in VSTS only.
 #>
 
 Param(
-	[Parameter(Mandatory=$true)] [string] $APIResourceGroupName
+	[Parameter(Mandatory=$true)] [string] $APIResourceGroupName,
+	[Parameter(Mandatory=$true)] [string] $APIManagementName,
+	[Parameter(Mandatory=$true)] [string] $APIPrefix
 )
 $ErrorActionPreference = "Stop"
 
@@ -22,11 +24,11 @@ function Log([Parameter(Mandatory=$true)][string]$LogText){
 }
 
 Log "Get API Management"
-$apiManagement=Get-AzureRmApiManagement -ResourceGroupName $APIResourceGroupName
+$apiManagement=Get-AzureRmApiManagement -ResourceGroupName $APIResourceGroupName -Name $APIManagementName
 Log "Get API Management context"
-$management=New-AzureRmApiManagementContext -ResourceGroupName $APIResourceGroupName -ServiceName $apiManagement.Name
+$management=New-AzureRmApiManagementContext -ResourceGroupName $APIResourceGroupName -ServiceName $APIManagementName
 Log "Retrives subscription"
-$apiProduct=Get-AzureRmApiManagementProduct -Context $management -Title "Parliament - Fixed Query"
+$apiProduct=Get-AzureRmApiManagementProduct -Context $management -Title "$APIPrefix - Parliament [Fixed Query]"
 $subscription=Get-AzureRmApiManagementSubscription -Context $management -ProductId $apiProduct.ProductId
 
 Log "Setting variables to use during deployment"
