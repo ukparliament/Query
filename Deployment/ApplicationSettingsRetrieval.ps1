@@ -23,6 +23,8 @@ function Log([Parameter(Mandatory=$true)][string]$LogText){
     Write-Host ("{0} - {1}" -f (Get-Date -Format "HH:mm:ss.fff"), $LogText)
 }
 
+Log "Get API Management"
+$apiManagement=Get-AzureRmApiManagement -ResourceGroupName $APIResourceGroupName -Name $APIManagementName
 Log "Get API Management context"
 $management=New-AzureRmApiManagementContext -ResourceGroupName $APIResourceGroupName -ServiceName $APIManagementName
 Log "Retrives subscription"
