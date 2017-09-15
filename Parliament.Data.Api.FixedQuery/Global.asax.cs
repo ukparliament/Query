@@ -59,8 +59,7 @@
             config.Routes.MapHttpRoute("WithExtension", "{name}.{ext}", new { controller = "FixedQuery" }, constraints);
             config.Routes.MapHttpRoute("WithoutExtension", "{name}", new { controller = "FixedQuery", ext = string.Empty }, constraints);
 
-            // TODO: Implement
-            config.Routes.MapHttpRoute("BadRequest", "{*any}", new { controller = "BadRequest", action = "Get" });
+            config.Routes.MapHttpRoute("BadRequest", "{*any}", new { controller = "BadRequest" });
 
             config.Services.Add(typeof(IExceptionLogger), new AIExceptionLogger());
 
