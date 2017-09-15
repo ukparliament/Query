@@ -8,11 +8,19 @@
     {
         private const string BaseName = "Parliament.Data.Api.FixedQuery";
 
+        private static DB db;
+
         public static DB DB
         {
             get
             {
                 return JsonConvert.DeserializeObject<DB>(Resources.EndpointsJson);
+                if (Resources.db == null)
+                {
+                    Resources.db = JsonConvert.DeserializeObject<DB>(Resources.EndpointsJson);
+                }
+
+                return Resources.db;
             }
         }
 

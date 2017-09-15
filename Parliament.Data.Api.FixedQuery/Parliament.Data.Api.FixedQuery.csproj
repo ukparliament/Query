@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AIExceptionLogger.cs" />
+    <Compile Include="EndpointConstraint.cs" />
     <Compile Include="Models\QueryWrapper.cs" />
     <Compile Include="Models\Endpoint.cs" />
     <Compile Include="Models\DB.cs" />
