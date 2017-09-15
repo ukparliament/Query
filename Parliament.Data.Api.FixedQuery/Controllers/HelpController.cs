@@ -5,12 +5,10 @@
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Web;
-    using System.Web.Http;
 
     public partial class HelpController : BaseController
     {
-        [HttpGet]
-        public HttpResponseMessage Index()
+        public HttpResponseMessage Get()
         {
             var helpIds = new Dictionary<string, string>()
             {
