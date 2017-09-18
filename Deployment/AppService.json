@@ -26,13 +26,19 @@
         "description": "Name of the Application Insights."
       }
     },
-    "sparqlEndpoint": {
+    "apiManagementName": {
       "type": "string",
       "metadata": {
-        "description": "Value of the Application Insights instrumentation key."
+        "description": "Name of the API Managment."
       }
     },
-    "subscriptionKey": {
+    "apiPrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Url segment of API for additional deployments."
+      }
+    },
+    "subscriptionKeyFixedQuery": {
       "type": "string",
       "metadata": {
         "description": "Value of the Application Insights instrumentation key."
@@ -59,7 +65,7 @@
       },
       "kind": "app",
       "name": "[parameters('applicationPlanName')]",
-      "apiVersion": "2015-08-01",
+      "apiVersion": "2016-09-01",
       "location": "[resourceGroup().location]",
       "tags": {
         "ReleaseId": "[parameters('releaseId')]"
@@ -71,7 +77,7 @@
       "type": "Microsoft.Web/sites",
       "kind": "api",
       "name": "[parameters('fixedQueryName')]",
-      "apiVersion": "2015-08-01",
+      "apiVersion": "2016-08-01",
       "location": "[resourceGroup().location]",
       "tags": {
         "ReleaseId": "[parameters('releaseId')]"
@@ -113,8 +119,8 @@
           "properties": {
             "WEBSITE_NODE_DEFAULT_VERSION": "6.9.1",
             "ApplicationInsightsInstrumentationKey": "[reference(resourceId(subscription().subscriptionId,parameters('operationsResourceGroupName'),'Microsoft.Insights/Components',parameters('applicationInsightsName')),'2014-04-01').InstrumentationKey]",
-            "SparqlEndpoint": "[parameters('sparqlEndpoint')]",
-            "SubscriptionKey": "[parameters('subscriptionKey')]"
+            "SparqlEndpoint": "[concat('https://',parameters('apiManagementName'),'.azure-api.net/',parameters('apiPrefix'),'/sparql-endpoint/master')]",
+            "SubscriptionKey": "[parameters('subscriptionKeyFixedQuery')]"
           }
         }
       ],
