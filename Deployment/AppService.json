@@ -59,7 +59,7 @@
       },
       "kind": "app",
       "name": "[parameters('applicationPlanName')]",
-      "apiVersion": "2015-08-01",
+      "apiVersion": "2016-09-01",
       "location": "[resourceGroup().location]",
       "tags": {
         "ReleaseId": "[parameters('releaseId')]"
@@ -71,7 +71,7 @@
       "type": "Microsoft.Web/sites",
       "kind": "api",
       "name": "[parameters('fixedQueryName')]",
-      "apiVersion": "2015-08-01",
+      "apiVersion": "2016-08-01",
       "location": "[resourceGroup().location]",
       "tags": {
         "ReleaseId": "[parameters('releaseId')]"
