@@ -20,6 +20,7 @@
             var pipeline = HttpClientFactory.CreatePipeline(
                 new HttpControllerDispatcher(config),
                 new DelegatingHandler[] {
+                    new CompressionHandler(),
                     new NotAcceptablePayloadHandler()
             });
             var constraints = new

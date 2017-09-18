@@ -12,20 +12,21 @@
         {
             controllerSettings.Services.Replace(typeof(IContentNegotiator), new DefaultContentNegotiator(true));
 
-            var definitions = MimeTypesHelper.Definitions.Where(x => x.CanWriteRdf);
+            var definitions = MimeTypesHelper.Definitions.Where(definition => definition.CanWriteRdf);
+            
             var mappings =
                 // First add all the extension mappings.
                 definitions
-                    .SelectMany(definition => definition.FileExtensions
+                    .SelectMany(definition => definition.FileExtensions.Where(extension => !extension.Contains("."))
                         .Select(extension => new UriPathExtensionMapping(extension, definition.CanonicalMimeType) as MediaTypeMapping))
                 // Then add the query string mappings.
                 .Union(definitions
-                    .SelectMany(definition => definition.MimeTypes
-                        .Select(mimeType => new QueryStringMapping("format", mimeType, definition.CanonicalMimeType) as MediaTypeMapping)))
+                    .Select(x => x.CanonicalMimeType).Distinct()
+                    .Select(definition => new QueryStringMapping("format", definition, definition) as MediaTypeMapping))
                 // Finally add the accept header mappings.
                 .Union(definitions
-                    .SelectMany(definition => definition.MimeTypes
-                        .Select(mimeType => new RequestHeaderMapping("Accept", mimeType, StringComparison.OrdinalIgnoreCase, false, definition.CanonicalMimeType) as MediaTypeMapping)))
+                    .Select(x => x.CanonicalMimeType).Distinct()
+                    .Select(definition => new RequestHeaderMapping("Accept", definition, StringComparison.OrdinalIgnoreCase, false, definition) as MediaTypeMapping))
                 .Select(mapping => new GraphFormatter(mapping));
 
             controllerSettings.Formatters.AddRange(mappings);

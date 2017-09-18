@@ -3,14 +3,12 @@
     using System;
     using System.IO;
     using System.Linq;
-    using System.Net;
     using System.Net.Http;
     using System.Net.Http.Formatting;
-    using System.Threading.Tasks;
     using VDS.RDF;
     using VDS.RDF.Writing;
 
-    public class GraphFormatter : MediaTypeFormatter
+    public class GraphFormatter : BufferedMediaTypeFormatter
     {
         public GraphFormatter(MediaTypeMapping mapping)
         {
@@ -33,23 +31,28 @@
             return typeof(IGraph).IsAssignableFrom(type);
         }
 
-        public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext)
+        public override void WriteToStream(Type type, object value, Stream writeStream, HttpContent content)
         {
-            var mediaType = this.SupportedMediaTypes.Single().MediaType;
-            var writer = GetWriter(mediaType);
+            var mapping = this.MediaTypeMappings.Single();
+            var rdfWriter = GetWriter(mapping);
+            var streamWriter = new StreamWriter(writeStream);
+            var graph = value as IGraph;
 
-            return Task.Factory.StartNew(() =>
-            {
-                using (var sw = new StreamWriter(writeStream))
-                {
-                    (value as IGraph).SaveToStream(sw, writer);
-                }
-            });
+            rdfWriter.Save(graph, streamWriter);
         }
 
-        private static IRdfWriter GetWriter(string mediaType)
+        private static IRdfWriter GetWriter(MediaTypeMapping mapping)
         {
-            var writer = MimeTypesHelper.GetWriter(mediaType);
+            var writer = null as IRdfWriter;
+            if (mapping is UriPathExtensionMapping)
+            {
+                var extensionMapping = mapping as UriPathExtensionMapping;
+                writer = MimeTypesHelper.GetWriterByFileExtension(extensionMapping.UriPathExtension);
+            }
+            else
+            {
+                writer = MimeTypesHelper.GetWriter(mapping.MediaType.MediaType);
+            }
 
             if (writer is HtmlWriter)
             {
