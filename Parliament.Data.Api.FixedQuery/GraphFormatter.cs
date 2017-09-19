@@ -44,9 +44,9 @@
         private static IRdfWriter GetWriter(MediaTypeMapping mapping)
         {
             var writer = null as IRdfWriter;
-            if (mapping is UriPathExtensionMapping)
+            var extensionMapping = mapping as UriPathExtensionMapping;
+            if (extensionMapping != null)
             {
-                var extensionMapping = mapping as UriPathExtensionMapping;
                 writer = MimeTypesHelper.GetWriterByFileExtension(extensionMapping.UriPathExtension);
             }
             else
@@ -54,9 +54,10 @@
                 writer = MimeTypesHelper.GetWriter(mapping.MediaType.MediaType);
             }
 
-            if (writer is HtmlWriter)
+            var htmlWriter = writer as HtmlWriter;
+            if (htmlWriter != null)
             {
-                (writer as HtmlWriter).UriPrefix = "resource_by_id?resource_id=";
+                htmlWriter.UriPrefix = "resource_by_id?resource_id=";
             }
 
             return writer;

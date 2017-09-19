@@ -17,7 +17,9 @@
         {
             var response = await base.SendAsync(request, cancellationToken);
 
-            var chosenCompressor = request.Headers.AcceptEncoding
+            if (response.Content != null)
+            {
+                var chosenCompressor = request.Headers.AcceptEncoding
                 .Join(
                     compressors,
                     acceptHeader => acceptHeader.Value,
@@ -25,9 +27,10 @@
                     (acceptHeader, compressor) => compressor)
                 .FirstOrDefault();
 
-            if (chosenCompressor != null)
-            {
-                response.Content = new CompressedContent(response.Content, chosenCompressor);
+                if (chosenCompressor != null)
+                {
+                    response.Content = new CompressedContent(response.Content, chosenCompressor);
+                }
             }
 
             return response;

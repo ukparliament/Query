@@ -10,5 +10,4 @@
             return new ReflectedHttpActionDescriptor(controllerContext.ControllerDescriptor, defaultMethod);
         }
     }
-
 }

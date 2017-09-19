@@ -6,14 +6,15 @@
     using System.Web.Http.Controllers;
     using VDS.RDF;
 
-    public class FixedQueryControllerConfigurationAttribute : Attribute, IControllerConfiguration
+    [AttributeUsage(AttributeTargets.Class)]
+    public sealed class FixedQueryControllerConfigurationAttribute : Attribute, IControllerConfiguration
     {
         public void Initialize(HttpControllerSettings controllerSettings, HttpControllerDescriptor controllerDescriptor)
         {
             controllerSettings.Services.Replace(typeof(IContentNegotiator), new DefaultContentNegotiator(true));
 
             var definitions = MimeTypesHelper.Definitions.Where(definition => definition.CanWriteRdf);
-            
+
             var mappings =
                 // First add all the extension mappings.
                 definitions

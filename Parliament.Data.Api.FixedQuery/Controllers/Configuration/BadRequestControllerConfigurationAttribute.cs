@@ -3,7 +3,8 @@
     using System;
     using System.Web.Http.Controllers;
 
-    public class BadRequestControllerConfigurationAttribute : Attribute, IControllerConfiguration
+    [AttributeUsage(AttributeTargets.Class)]
+    public sealed class BadRequestControllerConfigurationAttribute : Attribute, IControllerConfiguration
     {
         public void Initialize(HttpControllerSettings controllerSettings, HttpControllerDescriptor controllerDescriptor)
         {
