@@ -20,12 +20,14 @@
             if (response.Content != null)
             {
                 var chosenCompressor = request.Headers.AcceptEncoding
-                .Join(
-                    compressors,
-                    acceptHeader => acceptHeader.Value,
-                    compressor => compressor.EncodingType,
-                    (acceptHeader, compressor) => compressor)
-                .FirstOrDefault();
+                    .OrderByDescending(acceptHeader => acceptHeader.Quality)
+                    .Join(
+                        this.compressors,
+                        acceptHeader => acceptHeader.Value,
+                        compressor => compressor.EncodingType,
+                        (acceptHeader, compressor) => compressor,
+                        new CompressionHandler.Comparer())
+                    .FirstOrDefault();
 
                 if (chosenCompressor != null)
                 {
@@ -34,6 +36,21 @@
             }
 
             return response;
+        }
+
+        private class Comparer : IEqualityComparer<string>
+        {
+            private const string all = "*";
+
+            public bool Equals(string x, string y)
+            {
+                return EqualityComparer<string>.Default.Equals(x, y) || x == Comparer.all || y == Comparer.all;
+            }
+
+            public int GetHashCode(string obj)
+            {
+                return Comparer.all.GetHashCode();
+            }
         }
     }
 }
