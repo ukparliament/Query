@@ -41,5 +41,6 @@ foreach($set in $webAppSettings){
 Log "Sets new subscription key"
 $settings["SubscriptionKey"]=$subscription.PrimaryKey
 $settings["SparqlEndpoint"]="https://$APIManagementName.azure-api.net/$APIPrefix/sparql-endpoint/master"
+Set-AzureRmWebApp -ResourceGroupName $APIResourceGroupName -Name $FixedQueryName -AppSettings $settings
 
 Log "Job well done!"
