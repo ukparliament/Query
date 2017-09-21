@@ -14,7 +14,6 @@
         {
             get
             {
-                return JsonConvert.DeserializeObject<DB>(Resources.EndpointsJson);
                 if (Resources.db == null)
                 {
                     Resources.db = JsonConvert.DeserializeObject<DB>(Resources.EndpointsJson);
