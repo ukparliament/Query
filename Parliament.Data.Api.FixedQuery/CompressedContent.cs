@@ -1,5 +1,7 @@
 ﻿namespace Parliament.Data.Api.FixedQuery
 {
+    using Microsoft.ApplicationInsights;
+    using System.Collections.Generic;
     using System.IO;
     using System.Net;
     using System.Net.Http;
@@ -26,6 +28,12 @@
                 var contentStream = await this.content.ReadAsStreamAsync();
 
                 await this.compressor.Compress(contentStream, stream);
+
+                new TelemetryClient().TrackEvent(
+                    "Compressed",
+                    new Dictionary<string, string> {{
+                        "encodingType",
+                        this.compressor.EncodingType } });
             }
         }
 

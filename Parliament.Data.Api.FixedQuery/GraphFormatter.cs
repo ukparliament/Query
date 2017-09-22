@@ -1,5 +1,8 @@
 ﻿namespace Parliament.Data.Api.FixedQuery
 {
+    using Microsoft.ApplicationInsights;
+    using Microsoft.ApplicationInsights.DataContracts;
+    using Microsoft.ApplicationInsights.Extensibility;
     using System;
     using System.IO;
     using System.Linq;
@@ -10,6 +13,8 @@
 
     public class GraphFormatter : BufferedMediaTypeFormatter
     {
+        private TelemetryClient telemetry = new TelemetryClient();
+
         public GraphFormatter(MediaTypeMapping mapping)
         {
             if (mapping == null)
@@ -39,6 +44,8 @@
             var graph = value as IGraph;
 
             rdfWriter.Save(graph, streamWriter);
+
+            GraphFormatter.TrackWriteEvent(mapping.MediaType.MediaType);
         }
 
         private static IRdfWriter GetWriter(MediaTypeMapping mapping)
@@ -61,6 +68,17 @@
             }
 
             return writer;
+        }
+
+        private static void TrackWriteEvent(string format)
+        {
+            var telemetry = new EventTelemetry("Write");
+            telemetry.Properties.Add("format", format);
+
+            // This makes the event part of the overall request context.
+            new OperationCorrelationTelemetryInitializer().Initialize(telemetry);
+
+            new TelemetryClient().TrackEvent(telemetry);
         }
     }
 }
