@@ -1,5 +1,6 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
+    using Microsoft.ApplicationInsights;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -15,11 +16,13 @@
         public Graph Get(string name)
         {
             var parameters = this.Request.GetQueryNameValuePairs().ToDictionary(parameter => parameter.Key, parameter => parameter.Value);
-            return FixedQueryController.Get(name, parameters);
+            return this.Get(name, parameters);
         }
 
-        internal static Graph Get(string name, Dictionary<string, string> values)
+        internal Graph Get(string name, Dictionary<string, string> values)
         {
+            new TelemetryClient().TrackEvent(name, values);
+
             var endpoint = Resources.DB.Endpoints[name];
             if (endpoint.Type == EndpointType.HardCoded)
             {
