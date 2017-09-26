@@ -11,7 +11,8 @@ CONSTRUCT {
         :memberHasMemberImage ?image ;
         :partyMemberHasPartyMembership ?partyMembership ;
         :memberHasIncumbency ?incumbency ;
-        :personHasFormalBodyMembership ?formalBodyMembership .
+        :personHasFormalBodyMembership ?formalBodyMembership ;
+		:personHasPersonWebLink <http://example.com/person_page> .
     ?image
         a :MemberImage .
     ?contactPoint
