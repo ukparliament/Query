@@ -16,12 +16,15 @@ WHERE {
       ?house
           a :House ;
           :houseName ?houseName .
-      ?formalBody
-        a :FormalBody ;
-        :formalBodyName ?formalBodyName ;
-        :formalBodyStartDate ?formalBodyStartDate .
-      FILTER NOT EXISTS { ?formalBody :formalBodyEndDate ?formalBodyEndDate . }
-      FILTER STRSTARTS(LCASE(?formalBodyName), LCASE(@initial))
+      OPTIONAL {
+        ?house :houseHasFormalBody ?formalBody .
+        ?formalBody
+          a :FormalBody ;
+          :formalBodyName ?formalBodyName ;
+          :formalBodyStartDate ?formalBodyStartDate .
+        FILTER NOT EXISTS { ?formalBody :formalBodyEndDate ?formalBodyEndDate . }
+        FILTER STRSTARTS(LCASE(?formalBodyName), LCASE(@initial))
+      }
   }
   UNION
   {
@@ -32,6 +35,7 @@ WHERE {
             a :House ;
             :houseName ?houseName .
         OPTIONAL {
+            ?house :houseHasFormalBody ?formalBody .
             ?formalBody
               a :FormalBody ;
               :formalBodyName ?formalBodyName .
