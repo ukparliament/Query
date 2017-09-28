@@ -16,6 +16,7 @@ WHERE {
       ?house
           a :House ;
           :houseName ?houseName .
+      OPTIONAL { ?house :houseHasFormalBody ?formalBody . }
       ?formalBody
         a :FormalBody ;
         :formalBodyName ?formalBodyName ;
@@ -31,6 +32,7 @@ WHERE {
         ?house
             a :House ;
             :houseName ?houseName .
+        OPTIONAL { ?house :houseHasFormalBody ?formalBody . }
         OPTIONAL {
             ?formalBody
               a :FormalBody ;

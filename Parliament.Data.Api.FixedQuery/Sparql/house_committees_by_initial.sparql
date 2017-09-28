@@ -18,8 +18,8 @@ WHERE {
 	        BIND(@house_id AS ?house)
 	        ?house
 	            a :House ;
-	            :houseName ?houseName ;
-              :houseHasFormalBody ?formalBody .
+	            :houseName ?houseName .
+          OPTIONAL { ?house :houseHasFormalBody ?formalBody . }
           ?formalBody
             a :FormalBody ;
             :formalBodyName ?formalBodyName .
