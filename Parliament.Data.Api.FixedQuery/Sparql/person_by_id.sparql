@@ -12,7 +12,7 @@ CONSTRUCT {
         :partyMemberHasPartyMembership ?partyMembership ;
         :memberHasIncumbency ?incumbency ;
         :personHasFormalBodyMembership ?formalBodyMembership ;
-		:personHasPersonWebLink <http://example.com/person_page> .
+        :personHasPersonWebLink ?personWebLink .
     ?image
         a :MemberImage .
     ?contactPoint
@@ -70,8 +70,8 @@ CONSTRUCT {
         :formalBodyMembershipEndDate ?formalBodyMembershipEndDate ;
         :formalBodyMembershipHasFormalBody ?formalBody .
     ?formalBody
-    	a :FormalBody ;
-    	:formalBodyName ?formalBodyName .
+        a :FormalBody ;
+        :formalBodyName ?formalBodyName .
 }
 WHERE {
     BIND(@person_id AS ?person)
@@ -129,10 +129,14 @@ WHERE {
         ?party :partyName ?partyName .
     }
     OPTIONAL {
-    	?person :personHasFormalBodyMembership ?formalBodyMembership .
-    	?formalBodyMembership :formalBodyMembershipStartDate ?formalBodyMembershipStartDate .
-    	OPTIONAL { ?formalBodyMembership :formalBodyMembershipEndDate ?formalBodyMembershipEndDate . }
-    	?formalBodyMembership :formalBodyMembershipHasFormalBody ?formalBody .
-    	?formalBody :formalBodyName ?formalBodyName .
+        ?person :personHasFormalBodyMembership ?formalBodyMembership .
+        ?formalBodyMembership :formalBodyMembershipStartDate ?formalBodyMembershipStartDate .
+        OPTIONAL { ?formalBodyMembership :formalBodyMembershipEndDate ?formalBodyMembershipEndDate . }
+        ?formalBodyMembership :formalBodyMembershipHasFormalBody ?formalBody .
+        ?formalBody :formalBodyName ?formalBodyName .
+    }
+    OPTIONAL {
+        ?person :personHasPersonWebLink ?personWebLink .
+        ?personWebLink :webLinkHasWebLinkedThing ?WebLinkedThing .
     }
 }
