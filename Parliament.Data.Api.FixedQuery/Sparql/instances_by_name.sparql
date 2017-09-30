@@ -1,0 +1,4 @@
+﻿SELECT ?s {
+	BIND(@class_name AS ?class)
+	?s a ?class .
+}

@@ -9,6 +9,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using VDS.RDF;
+    using VDS.RDF.Query;
 
     public class NotAcceptablePayloadHandler : DelegatingHandler
     {
@@ -23,7 +24,7 @@
                 var graphFormatters = request
                     .GetConfiguration()
                     .Formatters
-                    .Where(formatter => formatter.CanWriteType(typeof(IGraph)));
+                    .OfType<GraphFormatter>();
 
                 var extensionMappings = graphFormatters
                     .Where(formatter => formatter.MediaTypeMappings.Single() is UriPathExtensionMapping)
@@ -32,12 +33,14 @@
                     {
                         extension = formatter.UriPathExtension,
                         mimeType = formatter.MediaType.MediaType
-                    });
+                    })
+                    .Distinct();
 
                 var headerMappings = graphFormatters
                     .Where(formatter => formatter.MediaTypeMappings.Single() is RequestHeaderMapping)
                     .Select(formatter => formatter.MediaTypeMappings.Single() as RequestHeaderMapping)
-                    .Select(formatter => formatter.MediaType.MediaType);
+                    .Select(formatter => formatter.MediaType.MediaType)
+                    .Distinct();
 
 
                 var responseText = new JObject(new JProperty(
