@@ -43,14 +43,18 @@ WHERE {
     BIND( @constituency_id AS ?constituencyGroup )
 
     SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
-        ?OrdnanceSurveyConstituency
-            admingeo:gssCode ?onsCode ;
-            admingeo:inEuropeanRegion ?region .
-        ?region
-            a admingeo:EuropeanRegion ;
-            admingeo:gssCode ?regionCode ;
-            skos:prefLabel ?regionName .
-    }
+      ?OrdnanceSurveyConstituency
+          admingeo:gssCode ?onsCode ;
+		  a admingeo:WestminsterConstituency .
+      OPTIONAL {
+      ?OrdnanceSurveyConstituency
+          admingeo:inEuropeanRegion ?region .
+      ?region
+          a admingeo:EuropeanRegion ;
+          admingeo:gssCode ?regionCode ;
+          skos:prefLabel ?regionName .
+      }
+  }
 
     ?constituencyGroup
         :constituencyGroupName ?name ;

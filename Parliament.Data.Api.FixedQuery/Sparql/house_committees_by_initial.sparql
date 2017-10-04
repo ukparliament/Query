@@ -18,11 +18,13 @@ WHERE {
 	        BIND(@house_id AS ?house)
 	        ?house
 	            a :House ;
-	            :houseName ?houseName ;
-              :houseHasFormalBody ?formalBody .
-          ?formalBody
-            a :FormalBody ;
-            :formalBodyName ?formalBodyName .
+	            :houseName ?houseName .
+          OPTIONAL {
+            ?house :houseHasFormalBody ?formalBody .
+            ?formalBody
+              a :FormalBody ;
+              :formalBodyName ?formalBodyName .
+          }
           BIND(UCASE(SUBSTR(?formalBodyName, 1, 1)) as ?firstLetter)
     	}
 	}
@@ -33,6 +35,7 @@ WHERE {
           a :House ;
           :houseName ?houseName .
       OPTIONAL {
+          ?house :houseHasFormalBody ?formalBody .
           ?formalBody
             a :FormalBody ;
             :formalBodyName ?formalBodyName ;

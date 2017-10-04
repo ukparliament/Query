@@ -36,6 +36,7 @@ WHERE {
           ?formalBody
             a :FormalBody ;
             :formalBodyName ?formalBodyName .
+            FILTER NOT EXISTS { ?formalBody :formalBodyEndDate ?formalBodyEndDate . }
           BIND(UCASE(SUBSTR(?formalBodyName, 1, 1)) as ?firstLetter)
         }
     }
