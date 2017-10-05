@@ -12,7 +12,7 @@
     // TODO: Eliminate
     public class HardCoded : BaseController
     {
-        public static Graph constituency_lookup_by_postcode(string postcode)
+        public static object constituency_lookup_by_postcode(string postcode)
         {
             var externalQueryString = Resources.GetSparql("constituency_lookup_by_postcode-external");
             var queryString = Resources.GetSparql("constituency_lookup_by_postcode");
@@ -23,6 +23,7 @@
 
             var query = new SparqlParameterizedString(queryString);
 
+            query.SetUri("schemaUri", Schema);
             query.SetLiteral("longitude", longitude);
             query.SetLiteral("latitude", latitude);
 
@@ -54,7 +55,7 @@
             {
                 var externalQuery = new SparqlParameterizedString(externalQueryString);
                 externalQuery.SetUri("postcode", new Uri(new Uri("http://data.ordnancesurvey.co.uk/id/postcodeunit/"), postcode));
-                var externalResults = BaseController.ExecuteList(externalQuery, "http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql");
+                var externalResults = BaseController.ExecuteList(externalQuery, "http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql") as IGraph;
 
                 if (externalResults.Triples.Any())
                 {

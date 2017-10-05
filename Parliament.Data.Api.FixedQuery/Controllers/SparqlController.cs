@@ -11,7 +11,7 @@
     public class SparqlController : BaseController
     {
         [Route]
-        public Graph Post(QueryWrapper wrapper)
+        public object Post(QueryWrapper wrapper)
         {
             if (wrapper == null || string.IsNullOrWhiteSpace(wrapper.Query))
             {

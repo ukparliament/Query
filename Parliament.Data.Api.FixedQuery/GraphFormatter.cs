@@ -9,11 +9,35 @@
     using System.Net.Http;
     using System.Net.Http.Formatting;
     using VDS.RDF;
+    using VDS.RDF.Query;
     using VDS.RDF.Writing;
 
     public class GraphFormatter : BufferedMediaTypeFormatter
     {
-        private TelemetryClient telemetry = new TelemetryClient();
+        private MimeTypeDefinition definition;
+
+        private MimeTypeDefinition Definition
+        {
+            get
+            {
+                if (definition == null)
+                {
+                    var mapping = this.MediaTypeMappings.Single();
+
+                    var extensionMapping = mapping as UriPathExtensionMapping;
+                    if (extensionMapping != null)
+                    {
+                        this.definition = MimeTypesHelper.GetDefinitionsByFileExtension(extensionMapping.UriPathExtension).First();
+                    }
+                    else
+                    {
+                        this.definition = MimeTypesHelper.GetDefinitions(mapping.MediaType.MediaType).First();
+                    }
+                }
+
+                return this.definition;
+            }
+        }
 
         public GraphFormatter(MediaTypeMapping mapping)
         {
@@ -33,41 +57,38 @@
 
         public override bool CanWriteType(Type type)
         {
-            return typeof(IGraph).IsAssignableFrom(type);
+            return (this.Definition.CanWriteRdf || this.Definition.CanWriteRdfDatasets) && typeof(IGraph).IsAssignableFrom(type)
+                || this.Definition.CanWriteSparqlResults && typeof(SparqlResultSet).IsAssignableFrom(type);
         }
 
         public override void WriteToStream(Type type, object value, Stream writeStream, HttpContent content)
         {
-            var mapping = this.MediaTypeMappings.Single();
-            var rdfWriter = GetWriter(mapping);
             var streamWriter = new StreamWriter(writeStream);
-            var graph = value as IGraph;
 
-            rdfWriter.Save(graph, streamWriter);
-
-            GraphFormatter.TrackWriteEvent(mapping.MediaType.MediaType);
-        }
-
-        private static IRdfWriter GetWriter(MediaTypeMapping mapping)
-        {
-            var writer = null as IRdfWriter;
-            var extensionMapping = mapping as UriPathExtensionMapping;
-            if (extensionMapping != null)
+            if (this.Definition.CanWriteRdf)
             {
-                writer = MimeTypesHelper.GetWriterByFileExtension(extensionMapping.UriPathExtension);
+                var writer = this.Definition.GetRdfWriter();
+
+                if (writer is HtmlWriter)
+                {
+                    (writer as HtmlWriter).UriPrefix = "resource_by_id?resource_id=";
+                }
+
+                writer.Save(value as IGraph, streamWriter);
             }
-            else
+            else if (this.Definition.CanWriteSparqlResults)
             {
-                writer = MimeTypesHelper.GetWriter(mapping.MediaType.MediaType);
+                this.Definition.GetSparqlResultsWriter().Save(value as SparqlResultSet, streamWriter);
             }
-
-            var htmlWriter = writer as HtmlWriter;
-            if (htmlWriter != null)
+            else if (this.Definition.CanWriteRdfDatasets)
             {
-                htmlWriter.UriPrefix = "resource_by_id?resource_id=";
+                var store = new TripleStore();
+                store.Add(value as IGraph);
+
+                this.Definition.GetRdfDatasetWriter().Save(store, streamWriter);
             }
 
-            return writer;
+            GraphFormatter.TrackWriteEvent(this.SupportedMediaTypes.Single().MediaType);
         }
 
         private static void TrackWriteEvent(string format)

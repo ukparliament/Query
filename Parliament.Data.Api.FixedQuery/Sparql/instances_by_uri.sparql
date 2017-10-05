@@ -1,0 +1,4 @@
+﻿SELECT ?s {
+	BIND(@class_uri AS ?class)
+	?s a ?class .
+}

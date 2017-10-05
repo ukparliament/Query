@@ -169,7 +169,6 @@
     <Compile Include="Controllers\SparqlController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="ConstructOnlyRemoteEndpoint.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

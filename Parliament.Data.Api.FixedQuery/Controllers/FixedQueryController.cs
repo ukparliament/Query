@@ -13,32 +13,42 @@
     [FixedQueryControllerConfiguration]
     public class FixedQueryController : BaseController
     {
-        public Graph Get(string name)
+        public HttpResponseMessage Get(string name)
         {
             var parameters = this.Request.GetQueryNameValuePairs().ToDictionary(parameter => parameter.Key, parameter => parameter.Value);
+
             return this.Get(name, parameters);
         }
 
-        internal Graph Get(string name, Dictionary<string, string> values)
+        internal HttpResponseMessage Get(string name, Dictionary<string, string> values)
         {
             new TelemetryClient().TrackEvent(name, values);
 
             var endpoint = Resources.DB.Endpoints[name];
+
             if (endpoint.Type == EndpointType.HardCoded)
             {
-                var method = typeof(HardCoded).GetMethod(name, BindingFlags.Public | BindingFlags.Static);
-                return method.Invoke(null, values.Values.Cast<object>().ToArray()) as Graph;
+                return CreateHardcodedResponse(name, values);
             }
 
             var queryString = Resources.GetSparql(name);
             var query = new SparqlParameterizedString(queryString);
+
+            query.SetUri("schemaUri", Schema);
 
             if (endpoint.Parameters != null)
             {
                 FixedQueryController.SetParameters(query, endpoint.Parameters, values);
             }
 
-            switch (endpoint.Type)
+            var result = ExecuteQuery(query, endpoint.Type);
+
+            return CreateResponse(result);
+        }
+
+        private static object ExecuteQuery(SparqlParameterizedString query, EndpointType type)
+        {
+            switch (type)
             {
                 case EndpointType.Single:
                     return BaseController.ExecuteSingle(query);
@@ -47,8 +57,28 @@
                     return BaseController.ExecuteList(query);
 
                 default:
-                    throw new Exception($"unknown query type {endpoint.Type}");
+                    throw new Exception($"unknown query type {type}");
             }
+        }
+
+        private HttpResponseMessage CreateResponse(object result)
+        {
+            if (result is IGraph)
+            {
+                return this.Request.CreateResponse<IGraph>(result as IGraph);
+            }
+            else
+            {
+                return this.Request.CreateResponse<SparqlResultSet>(result as SparqlResultSet);
+            }
+        }
+
+        private HttpResponseMessage CreateHardcodedResponse(string name, Dictionary<string, string> values)
+        {
+            var method = typeof(HardCoded).GetMethod(name, BindingFlags.Public | BindingFlags.Static);
+            var result = method.Invoke(null, values.Values.Cast<object>().ToArray()) as Graph;
+
+            return this.Request.CreateResponse<IGraph>(result);
         }
 
         public static void SetParameters(SparqlParameterizedString query, Dictionary<string, ParameterType> parameters, Dictionary<string, string> values)

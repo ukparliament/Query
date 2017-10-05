@@ -284,6 +284,18 @@
         "image_id": "instanceUri"
       }
     },
+    "instances_by_name": {
+      "type": "list",
+      "parameters": {
+        "class_name": "schemaUri"
+      }
+    },
+    "instances_by_uri": {
+      "type": "list",
+      "parameters": {
+        "class_uri": "uri"
+      }
+    },
     "member_a_to_z": {
       "type": "list",
       "parameters": {}
