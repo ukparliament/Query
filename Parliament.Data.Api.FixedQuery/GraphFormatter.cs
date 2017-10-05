@@ -65,27 +65,36 @@
         {
             var streamWriter = new StreamWriter(writeStream);
 
-            if (this.Definition.CanWriteRdf)
+            var graph = value as IGraph;
+            if (graph != null)
             {
-                var writer = this.Definition.GetRdfWriter();
-
-                if (writer is HtmlWriter)
+                if (this.Definition.CanWriteRdfDatasets)
                 {
-                    (writer as HtmlWriter).UriPrefix = "resource_by_id?resource_id=";
-                }
+                    var store = new TripleStore();
+                    store.Add(graph);
 
-                writer.Save(value as IGraph, streamWriter);
+                    this.Definition.GetRdfDatasetWriter().Save(store, streamWriter);
+                }
+                else
+                {
+                    var writer = this.Definition.GetRdfWriter();
+                    if (writer is HtmlWriter)
+                    {
+                        (writer as HtmlWriter).UriPrefix = "resource?uri=";
+                    }
+
+                    writer.Save(graph, streamWriter);
+                }
             }
             else if (this.Definition.CanWriteSparqlResults)
             {
-                this.Definition.GetSparqlResultsWriter().Save(value as SparqlResultSet, streamWriter);
-            }
-            else if (this.Definition.CanWriteRdfDatasets)
-            {
-                var store = new TripleStore();
-                store.Add(value as IGraph);
+                var writer = this.Definition.GetSparqlResultsWriter();
+                if (writer is HtmlWriter)
+                {
+                    (writer as HtmlWriter).UriPrefix = "resource?uri=";
+                }
 
-                this.Definition.GetRdfDatasetWriter().Save(store, streamWriter);
+                writer.Save(value as SparqlResultSet, streamWriter);
             }
 
             GraphFormatter.TrackWriteEvent(this.SupportedMediaTypes.Single().MediaType);
