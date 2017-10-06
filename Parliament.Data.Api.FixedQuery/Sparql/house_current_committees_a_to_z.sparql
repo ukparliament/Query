@@ -23,7 +23,8 @@ WHERE {
               a :FormalBody ;
               :formalBodyName ?formalBodyName .
 	        BIND(UCASE(SUBSTR(?formalBodyName, 1, 1)) as ?firstLetter)
-    	}
+          FILTER NOT EXISTS { ?formalBody :formalBodyEndDate ?formalBodyEndDate . }
+      }
 	}
   UNION
   {
@@ -35,6 +36,6 @@ WHERE {
           a :FormalBody ;
           :formalBodyName ?formalBodyName ;
           :formalBodyStartDate ?formalBodyStartDate .
-      FILTER NOT EXISTS { ?formalBody :formalBodyEndDate ?formalBodyEndDate . }
+
   }
 }

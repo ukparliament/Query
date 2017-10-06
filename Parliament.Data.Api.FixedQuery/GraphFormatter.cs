@@ -1,15 +1,44 @@
 ﻿namespace Parliament.Data.Api.FixedQuery
 {
+    using Microsoft.ApplicationInsights;
+    using Microsoft.ApplicationInsights.DataContracts;
+    using Microsoft.ApplicationInsights.Extensibility;
     using System;
     using System.IO;
     using System.Linq;
     using System.Net.Http;
     using System.Net.Http.Formatting;
     using VDS.RDF;
+    using VDS.RDF.Query;
     using VDS.RDF.Writing;
 
     public class GraphFormatter : BufferedMediaTypeFormatter
     {
+        private MimeTypeDefinition definition;
+
+        private MimeTypeDefinition Definition
+        {
+            get
+            {
+                if (definition == null)
+                {
+                    var mapping = this.MediaTypeMappings.Single();
+
+                    var extensionMapping = mapping as UriPathExtensionMapping;
+                    if (extensionMapping != null)
+                    {
+                        this.definition = MimeTypesHelper.GetDefinitionsByFileExtension(extensionMapping.UriPathExtension).First();
+                    }
+                    else
+                    {
+                        this.definition = MimeTypesHelper.GetDefinitions(mapping.MediaType.MediaType).First();
+                    }
+                }
+
+                return this.definition;
+            }
+        }
+
         public GraphFormatter(MediaTypeMapping mapping)
         {
             if (mapping == null)
@@ -28,39 +57,58 @@
 
         public override bool CanWriteType(Type type)
         {
-            return typeof(IGraph).IsAssignableFrom(type);
+            return (this.Definition.CanWriteRdf || this.Definition.CanWriteRdfDatasets) && typeof(IGraph).IsAssignableFrom(type)
+                || this.Definition.CanWriteSparqlResults && typeof(SparqlResultSet).IsAssignableFrom(type);
         }
 
         public override void WriteToStream(Type type, object value, Stream writeStream, HttpContent content)
         {
-            var mapping = this.MediaTypeMappings.Single();
-            var rdfWriter = GetWriter(mapping);
             var streamWriter = new StreamWriter(writeStream);
-            var graph = value as IGraph;
 
-            rdfWriter.Save(graph, streamWriter);
+            var graph = value as IGraph;
+            if (graph != null)
+            {
+                if (this.Definition.CanWriteRdfDatasets)
+                {
+                    var store = new TripleStore();
+                    store.Add(graph);
+
+                    this.Definition.GetRdfDatasetWriter().Save(store, streamWriter);
+                }
+                else
+                {
+                    var writer = this.Definition.GetRdfWriter();
+                    if (writer is HtmlWriter)
+                    {
+                        (writer as HtmlWriter).UriPrefix = "resource?uri=";
+                    }
+
+                    writer.Save(graph, streamWriter);
+                }
+            }
+            else if (this.Definition.CanWriteSparqlResults)
+            {
+                var writer = this.Definition.GetSparqlResultsWriter();
+                if (writer is HtmlWriter)
+                {
+                    (writer as HtmlWriter).UriPrefix = "resource?uri=";
+                }
+
+                writer.Save(value as SparqlResultSet, streamWriter);
+            }
+
+            GraphFormatter.TrackWriteEvent(this.SupportedMediaTypes.Single().MediaType);
         }
 
-        private static IRdfWriter GetWriter(MediaTypeMapping mapping)
+        private static void TrackWriteEvent(string format)
         {
-            var writer = null as IRdfWriter;
-            var extensionMapping = mapping as UriPathExtensionMapping;
-            if (extensionMapping != null)
-            {
-                writer = MimeTypesHelper.GetWriterByFileExtension(extensionMapping.UriPathExtension);
-            }
-            else
-            {
-                writer = MimeTypesHelper.GetWriter(mapping.MediaType.MediaType);
-            }
+            var telemetry = new EventTelemetry("Write");
+            telemetry.Properties.Add("format", format);
 
-            var htmlWriter = writer as HtmlWriter;
-            if (htmlWriter != null)
-            {
-                htmlWriter.UriPrefix = "resource_by_id?resource_id=";
-            }
+            // This makes the event part of the overall request context.
+            new OperationCorrelationTelemetryInitializer().Initialize(telemetry);
 
-            return writer;
+            new TelemetryClient().TrackEvent(telemetry);
         }
     }
 }
