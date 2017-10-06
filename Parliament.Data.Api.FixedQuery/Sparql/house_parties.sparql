@@ -14,9 +14,9 @@ WHERE {
         :houseName ?houseName .
     ?person a :Member .
     ?incumbency
-        :incumbencyHasMember ?person ;
-        :incumbencyStartDate ?incStartDate .
-    OPTIONAL { ?incumbency :incumbencyEndDate ?incumbencyEndDate . }
+        :parliamentaryIncumbencyHasMember ?person ;
+        :parliamentaryIncumbencyStartDate ?incStartDate .
+    OPTIONAL { ?incumbency :parliamentaryIncumbencyEndDate ?incumbencyEndDate . }
     {
         ?incumbency :houseIncumbencyHasHouse ?house .
 	}

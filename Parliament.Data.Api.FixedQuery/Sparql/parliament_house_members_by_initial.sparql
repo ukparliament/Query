@@ -9,15 +9,15 @@ CONSTRUCT {
         :memberHasMemberImage ?image ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
-        :memberHasIncumbency ?seatIncumbency ;
+        :memberHasParliamentaryIncumbency ?seatIncumbency ;
         :partyMemberHasPartyMembership ?partyMembership .
     ?image
         a :MemberImage .
     ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
-        :incumbencyStartDate ?incStartDate ;
-        :incumbencyEndDate ?seatIncumbencyEndDate .
+        :parliamentaryIncumbencyStartDate ?incStartDate ;
+        :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate .
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;
@@ -63,11 +63,11 @@ WHERE {
 
         OPTIONAL {
             ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
-            ?seatIncumbency :incumbencyHasMember ?person ;
-                            :incumbencyStartDate ?seatIncumbencyStartDate ;
+            ?seatIncumbency :parliamentaryIncumbencyHasMember ?person ;
+                            :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate ;
                             :seatIncumbencyHasHouseSeat ?houseSeat .
             ?houseSeat :houseSeatHasHouse ?house .
-            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+            OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
             ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
             ?constituencyGroup :constituencyGroupName ?constituencyName .
 
@@ -107,7 +107,7 @@ WHERE {
         ?house a :House .
         OPTIONAL {
             ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
-         	?seatIncumbency :incumbencyHasMember ?person ;
+         	?seatIncumbency :parliamentaryIncumbencyHasMember ?person ;
                           	:seatIncumbencyHasHouseSeat ?houseSeat .
             ?houseSeat :houseSeatHasHouse ?house .
         }
@@ -122,7 +122,7 @@ WHERE {
           ?parliament a :ParliamentPeriod.
           ?house a :House.
           ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
-          ?seatIncumbency :incumbencyHasMember ?person ;
+          ?seatIncumbency :parliamentaryIncumbencyHasMember ?person ;
           				  :seatIncumbencyHasHouseSeat ?houseSeat.
           ?houseSeat :houseSeatHasHouse ?house .
           ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .

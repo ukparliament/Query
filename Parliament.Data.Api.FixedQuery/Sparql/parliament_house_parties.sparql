@@ -33,12 +33,12 @@ WHERE {
 
     OPTIONAL {
         ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
-        ?seatIncumbency :incumbencyHasMember ?member ;
-                        :incumbencyStartDate ?seatIncumbencyStartDate ;
+        ?seatIncumbency :parliamentaryIncumbencyHasMember ?member ;
+                        :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate ;
                         :seatIncumbencyHasHouseSeat ?houseSeat .
         ?houseSeat :houseSeatHasHouse ?house .
         ?house :houseName ?houseName .
-        OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+        OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
         ?member :partyMemberHasPartyMembership ?partyMembership .
         ?partyMembership :partyMembershipHasParty ?party ;
         				 :partyMembershipStartDate ?partyMembershipStartDate .

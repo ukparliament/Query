@@ -12,13 +12,13 @@
         {
             var helpIds = new Dictionary<string, string>()
             {
-                { "House Of Commons", "vmZcapuy" },
-                { "Ken Clarke", "6WNCiBnW" },
-                { "Vale of Glamorgan", "azPC0tN9" },
-                { "Labour", "2CpNNZC9" },
-                { "Yeovil Lib Dems Contact", "fbEChn1E" },
-                { "56th Parliament", "5Ugoy17J"},
-                { "Treasury Committee", "6QQChzLI"}
+                { "House Of Commons", "p7P4nXy6" },
+                { "Ken Clarke", "ztGWb8jm" },
+                { "Vale of Glamorgan", "nwcYM2Fw" },
+                { "Labour", "xRTmmI8e" },
+                { "Yeovil Lib Dems Contact", "L5WuLk5A" },
+                { "56th Parliament", "SUVcnu3f"},
+                { "Treasury Committee", "zlERCrSI"}
             };
 
             var links = new string[] {

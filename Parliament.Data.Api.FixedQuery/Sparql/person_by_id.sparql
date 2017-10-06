@@ -10,7 +10,7 @@ CONSTRUCT {
         <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitle ;
         :memberHasMemberImage ?image ;
         :partyMemberHasPartyMembership ?partyMembership ;
-        :memberHasIncumbency ?incumbency ;
+        :memberHasParliamentaryIncumbency ?incumbency ;
         :personHasFormalBodyMembership ?formalBodyMembership ;
         :personHasPersonWebLink ?personWebLink .
     ?image
@@ -36,16 +36,16 @@ CONSTRUCT {
         :constituencyGroupEndDate ?constituencyEndDate .
     ?seatIncumbency
         a :SeatIncumbency ;
-        :incumbencyEndDate ?seatIncumbencyEndDate ;
-        :incumbencyStartDate ?seatIncumbencyStartDate ;
+        :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate ;
+        :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate ;
         :seatIncumbencyHasHouseSeat ?seat ;
-        :incumbencyHasContactPoint ?contactPoint .
+        :parliamentaryIncumbencyHasContactPoint ?contactPoint .
     ?houseIncumbency
         a :HouseIncumbency ;
-        :incumbencyEndDate ?houseIncumbencyEndDate ;
-        :incumbencyStartDate ?houseIncumbencyStartDate ;
+        :parliamentaryIncumbencyEndDate ?houseIncumbencyEndDate ;
+        :parliamentaryIncumbencyStartDate ?houseIncumbencyStartDate ;
         :houseIncumbencyHasHouse ?house1 ;
-        :incumbencyHasContactPoint ?contactPoint .
+        :parliamentaryIncumbencyHasContactPoint ?contactPoint .
     ?seat
         a :HouseSeat ;
         :houseSeatHasConstituencyGroup ?constituency ;
@@ -83,14 +83,14 @@ WHERE {
     OPTIONAL { ?person <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitle } .
     OPTIONAL { ?person :memberHasMemberImage ?image } .
     OPTIONAL {
-        ?person :memberHasIncumbency ?incumbency .
+        ?person :memberHasParliamentaryIncumbency ?incumbency .
         OPTIONAL {
             ?incumbency a :HouseIncumbency .
             BIND(?incumbency AS ?houseIncumbency)
             ?houseIncumbency :houseIncumbencyHasHouse ?house1 .
             ?house1 :houseName ?houseName1 .
-            ?houseIncumbency :incumbencyStartDate ?houseIncumbencyStartDate .
-            OPTIONAL { ?houseIncumbency :incumbencyEndDate ?houseIncumbencyEndDate . }
+            ?houseIncumbency :parliamentaryIncumbencyStartDate ?houseIncumbencyStartDate .
+            OPTIONAL { ?houseIncumbency :parliamentaryIncumbencyEndDate ?houseIncumbencyEndDate . }
         }
         OPTIONAL {
             ?incumbency a :SeatIncumbency .
@@ -102,11 +102,11 @@ WHERE {
             ?constituency :constituencyGroupName ?constituencyName .
             ?constituency :constituencyGroupStartDate ?constituencyStartDate .
             OPTIONAL { ?constituency :constituencyGroupEndDate ?constituencyEndDate . }
-            ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate .
-            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+            ?seatIncumbency :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate .
+            OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
         }
         OPTIONAL {
-            ?incumbency :incumbencyHasContactPoint ?contactPoint .
+            ?incumbency :parliamentaryIncumbencyHasContactPoint ?contactPoint .
             OPTIONAL { ?contactPoint :phoneNumber ?phoneNumber . }
             OPTIONAL { ?contactPoint :email ?email . }
             OPTIONAL {

@@ -10,7 +10,7 @@ CONSTRUCT {
         :memberHasMemberImage ?image ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
-        :memberHasIncumbency ?incumbency ;
+        :memberHasParliamentaryIncumbency ?incumbency ;
         :partyMemberHasPartyMembership ?partyMembership .
     ?image
         a :MemberImage .
@@ -24,10 +24,10 @@ CONSTRUCT {
     ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
-        :incumbencyEndDate ?seatIncumbencyEndDate .
+        :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate .
     ?houseIncumbency
         a :HouseIncumbency ;
-        :incumbencyEndDate ?houseIncumbencyEndDate .
+        :parliamentaryIncumbencyEndDate ?houseIncumbencyEndDate .
     ?constituencyGroup
         a :ConstituencyGroup ;
         :constituencyGroupName ?constituencyName .
@@ -49,19 +49,19 @@ WHERE {
             OPTIONAL { ?person :memberHasMemberImage ?image . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
-                	:memberHasIncumbency ?incumbency .
-            FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+                	:memberHasParliamentaryIncumbency ?incumbency .
+            FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
             OPTIONAL
             {
                 ?incumbency a :HouseIncumbency .
                 BIND(?incumbency AS ?houseIncumbency)
-                OPTIONAL { ?houseIncumbency :incumbencyEndDate ?houseIncumbencyEndDate . }
+                OPTIONAL { ?houseIncumbency :parliamentaryIncumbencyEndDate ?houseIncumbencyEndDate . }
         	}
         	OPTIONAL {
                 ?incumbency a :SeatIncumbency .
                 BIND(?incumbency AS ?seatIncumbency)
                 ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
-                OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+                OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
                 OPTIONAL { ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
                     ?constituencyGroup :constituencyGroupName ?constituencyName .
                     FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
@@ -78,8 +78,8 @@ WHERE {
                    :partyHasPartyMembership ?partyMembership .
             FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
             ?partyMembership :partyMembershipHasPartyMember ?person .
-            ?person :memberHasIncumbency ?incumbency .
-            FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+            ?person :memberHasParliamentaryIncumbency ?incumbency .
+            FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
             BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)

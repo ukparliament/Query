@@ -25,8 +25,8 @@ WHERE {
             :partyMemberHasPartyMembership ?partyMembership .
         FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
         ?partyMembership :partyMembershipHasParty ?party .
-        ?incumbency :incumbencyHasMember ?person .
-        FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+        ?incumbency :parliamentaryIncumbencyHasMember ?person .
+        FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
 
         {
             ?incumbency :houseIncumbencyHasHouse ?house .

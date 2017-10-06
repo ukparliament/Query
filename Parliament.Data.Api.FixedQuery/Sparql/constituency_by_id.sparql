@@ -21,9 +21,9 @@ CONSTRUCT{
         :houseSeatHasSeatIncumbency ?seatIncumbency .
     ?seatIncumbency
         a :SeatIncumbency ;
-        :incumbencyHasMember ?member ;
-        :incumbencyEndDate ?seatIncumbencyEndDate ;
-        :incumbencyStartDate ?seatIncumbencyStartDate .
+        :parliamentaryIncumbencyHasMember ?member ;
+        :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate ;
+        :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate .
     ?member
         a :Person ;
         :personGivenName ?givenName ;
@@ -67,10 +67,10 @@ WHERE {
                 ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
                 ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
                 ?seatIncumbency a :SeatIncumbency ;
-                                OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
-                OPTIONAL { ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate . }
+                                OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+                OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate . }
                 OPTIONAL {
-                    ?seatIncumbency :incumbencyHasMember ?member .
+                    ?seatIncumbency :parliamentaryIncumbencyHasMember ?member .
                     OPTIONAL { ?member :personGivenName ?givenName . }
                     OPTIONAL { ?member :personOtherName ?personOtherName . }
                     OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
@@ -97,10 +97,10 @@ WHERE {
                 ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
                 ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
                 ?seatIncumbency a :SeatIncumbency ;
-                                OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
-                OPTIONAL { ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate . }
+                                OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+                OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate . }
                 OPTIONAL {
-                    ?seatIncumbency :incumbencyHasMember ?member .
+                    ?seatIncumbency :parliamentaryIncumbencyHasMember ?member .
                     OPTIONAL { ?member :personGivenName ?givenName . }
                     OPTIONAL { ?member :personOtherName ?personOtherName . }
                     OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .

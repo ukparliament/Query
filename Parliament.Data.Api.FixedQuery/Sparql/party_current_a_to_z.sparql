@@ -5,9 +5,9 @@ CONSTRUCT {
 WHERE {
     SELECT DISTINCT ?firstLetter
     WHERE {
-        ?incumbency a :Incumbency .
-        FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
-        ?incumbency :incumbencyHasMember ?person .
+        ?incumbency a :ParliamentaryIncumbency .
+        FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
+        ?incumbency :parliamentaryIncumbencyHasMember ?person .
         ?person :partyMemberHasPartyMembership ?partyMembership .
         FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
         ?partyMembership :partyMembershipHasParty ?party .

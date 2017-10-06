@@ -11,20 +11,20 @@ CONSTRUCT {
         :memberHasMemberImage ?image ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
-        :memberHasIncumbency ?incumbency ;
+        :memberHasParliamentaryIncumbency ?incumbency ;
         :partyMemberHasPartyMembership ?partyMembership .
     ?image
         a :MemberImage .    
     ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
-        :incumbencyStartDate ?seatIncumbencyStartDate ;
-        :incumbencyEndDate ?seatIncumbencyEndDate .
+        :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate ;
+        :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate .
     ?houseIncumbency
         a :HouseIncumbency ;
         :houseIncumbencyHasHouse ?house ;
-        :incumbencyStartDate ?houseIncumbencyStartDate ;
-        :incumbencyEndDate ?houseIncumbencyEndDate .
+        :parliamentaryIncumbencyStartDate ?houseIncumbencyStartDate ;
+        :parliamentaryIncumbencyEndDate ?houseIncumbencyEndDate .
     ?house
         a :House ;
         :houseName ?houseName .
@@ -44,7 +44,7 @@ CONSTRUCT {
 WHERE {
     { SELECT * WHERE {
         ?person a :Person ;
-        :memberHasIncumbency ?incumbency .
+        :memberHasParliamentaryIncumbency ?incumbency .
         OPTIONAL { ?person :personGivenName ?givenName . }
         OPTIONAL { ?person :personFamilyName ?familyName . }
         OPTIONAL { ?person :memberHasMemberImage ?image . }
@@ -55,16 +55,16 @@ WHERE {
             BIND(?incumbency AS ?houseIncumbency)
             ?houseIncumbency :houseIncumbencyHasHouse ?house .
             ?house :houseName ?houseName .
-            ?houseIncumbency :incumbencyStartDate ?houseIncumbencyStartDate .
-            OPTIONAL { ?houseIncumbency :incumbencyEndDate ?houseIncumbencyEndDate . }
+            ?houseIncumbency :parliamentaryIncumbencyStartDate ?houseIncumbencyStartDate .
+            OPTIONAL { ?houseIncumbency :parliamentaryIncumbencyEndDate ?houseIncumbencyEndDate . }
         }
         UNION {
             ?incumbency a :SeatIncumbency .
             BIND(?incumbency AS ?seatIncumbency)
             ?seatIncumbency 
                 :seatIncumbencyHasHouseSeat ?houseSeat ;
-                :incumbencyStartDate ?seatIncumbencyStartDate .
-            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+                :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate .
+            OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
             ?houseSeat :houseSeatHasHouse ?house .
             ?house :houseName ?houseName .
             OPTIONAL { 
@@ -84,8 +84,8 @@ WHERE {
     UNION {
         SELECT DISTINCT ?firstLetter WHERE {
 
-            ?incumbency a :Incumbency ;
-                        :incumbencyHasMember ?person.
+            ?incumbency a :ParliamentaryIncumbency ;
+                        :parliamentaryIncumbencyHasMember ?person.
           ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
           BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)

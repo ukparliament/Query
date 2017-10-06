@@ -23,7 +23,7 @@ WHERE {
 
     OPTIONAL {
         ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
-        ?seatIncumbency :incumbencyHasMember ?person ;
+        ?seatIncumbency :parliamentaryIncumbencyHasMember ?person ;
                         :seatIncumbencyHasHouseSeat ?houseSeat .
         ?houseSeat :houseSeatHasHouse ?house .
         ?house :houseName ?houseName .

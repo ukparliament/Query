@@ -6,12 +6,12 @@ CONSTRUCT {
         :personFamilyName ?familyName ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         :memberHasMemberImage ?image ;
-        :memberHasIncumbency ?incumbency .
+        :memberHasParliamentaryIncumbency ?incumbency .
     ?image
         a :MemberImage .
     ?incumbency
-        a :Incumbency ;
-        :incumbencyHasContactPoint ?contactPoint .
+        a :ParliamentaryIncumbency ;
+        :parliamentaryIncumbencyHasContactPoint ?contactPoint .
     ?contactPoint
         a :ContactPoint ;
         :email ?email ;
@@ -35,9 +35,9 @@ WHERE {
     OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
     OPTIONAL { ?person :memberHasMemberImage ?image } .
     OPTIONAL {
-        ?person :memberHasIncumbency ?incumbency .
-        FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
-        ?incumbency :incumbencyHasContactPoint ?contactPoint .
+        ?person :memberHasParliamentaryIncumbency ?incumbency .
+        FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
+        ?incumbency :parliamentaryIncumbencyHasContactPoint ?contactPoint .
         OPTIONAL { ?contactPoint :phoneNumber ?phoneNumber . }
         OPTIONAL { ?contactPoint :email ?email . }
         OPTIONAL { ?contactPoint :faxNumber ?faxNumber . }

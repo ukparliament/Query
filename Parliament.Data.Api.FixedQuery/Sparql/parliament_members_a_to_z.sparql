@@ -8,7 +8,7 @@ WHERE {
 
         ?parliament a :ParliamentPeriod ;
         			:parliamentPeriodHasSeatIncumbency ?seatIncumbency .
-        ?seatIncumbency :incumbencyHasMember ?person .
+        ?seatIncumbency :parliamentaryIncumbencyHasMember ?person .
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
         BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
     }

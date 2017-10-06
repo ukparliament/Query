@@ -11,15 +11,15 @@ construct {
         :houseSeatHasConstituencyGroup ?constituencyGroup .
     ?seatIncumbency
         a :SeatIncumbency ;
-        :incumbencyStartDate ?incStartDate ;
-        :incumbencyEndDate ?incEndDate ;
+        :parliamentaryIncumbencyStartDate ?incStartDate ;
+        :parliamentaryIncumbencyEndDate ?incEndDate ;
         :seatIncumbencyHasHouseSeat ?houseSeat .
     ?member
         a :Person ;
         :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
-        :memberHasIncumbency ?seatIncumbency ;
+        :memberHasParliamentaryIncumbency ?seatIncumbency ;
         :partyMemberHasPartyMembership ?partyMembership .
     ?partyMembership
         a :PartyMembership ;
@@ -41,10 +41,10 @@ where {
     optional {
         ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
         ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
-        filter not exists { ?seatIncumbency a :PastIncumbency . }
-        ?seatIncumbency :incumbencyStartDate ?incStartDate .
-        optional { ?seatIncumbency :incumbencyEndDate ?incEndDate . }
-        optional { ?seatIncumbency :incumbencyHasMember ?member . }
+        filter not exists { ?seatIncumbency a :PastParliamentaryIncumbency . }
+        ?seatIncumbency :parliamentaryIncumbencyStartDate ?incStartDate .
+        optional { ?seatIncumbency :parliamentaryIncumbencyEndDate ?incEndDate . }
+        optional { ?seatIncumbency :parliamentaryIncumbencyHasMember ?member . }
         optional { ?member :personGivenName ?givenName . }
         optional { ?member :personFamilyName ?familyName . }
         optional { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .

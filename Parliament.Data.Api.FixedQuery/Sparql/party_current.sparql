@@ -8,20 +8,20 @@ CONSTRUCT {
 }
 WHERE {
     SELECT ?party ?partyName (COUNT(?mp) AS ?commonsCount) (COUNT(?lord) AS ?lordsCount) WHERE {
-        ?incumbency a :Incumbency .
-        FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
-        ?incumbency :incumbencyHasMember ?person .
+        ?incumbency a :ParliamentaryIncumbency .
+        FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
+        ?incumbency :parliamentaryIncumbencyHasMember ?person .
         ?person :partyMemberHasPartyMembership ?partyMembership .
         FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
         ?partyMembership :partyMembershipHasParty ?party .
         ?party :partyName ?partyName .
         OPTIONAL {
 	        ?incumbency a :SeatIncumbency ;
-                	    :incumbencyHasMember ?mp .
+                	    :parliamentaryIncumbencyHasMember ?mp .
         }
         OPTIONAL {
 		    ?incumbency a :HouseIncumbency ;
-                		:incumbencyHasMember ?lord .
+                		:parliamentaryIncumbencyHasMember ?lord .
         }
     }
     GROUP BY ?party ?partyName

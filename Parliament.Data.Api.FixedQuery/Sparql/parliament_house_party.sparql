@@ -6,8 +6,8 @@ CONSTRUCT {
         :parliamentPeriodStartDate ?startDate ;
         :parliamentPeriodEndDate ?endDate ;
         :parliamentPeriodNumber ?parliamentNumber ;
-         :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament ;
-    	 :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament .
+        :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament ;
+    	:parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament .
     ?party
         a :Party ;
         :partyName ?partyName .
@@ -37,11 +37,11 @@ WHERE {
         	a :Party ;
          	:partyName ?partyName .
         ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
-        ?seatIncumbency :incumbencyHasMember ?member ;
-                        :incumbencyStartDate ?seatIncumbencyStartDate ;
+        ?seatIncumbency :parliamentaryIncumbencyHasMember ?member ;
+                        :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate ;
                         :seatIncumbencyHasHouseSeat ?houseSeat .
         ?houseSeat :houseSeatHasHouse ?house .
-        OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+        OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
         ?member :partyMemberHasPartyMembership ?partyMembership .
         ?partyMembership :partyMembershipHasParty ?party ;
         				 :partyMembershipStartDate ?partyMembershipStartDate .

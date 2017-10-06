@@ -9,7 +9,7 @@ CONSTRUCT {
         :houseSeatHasSeatIncumbency ?incumbency .
     ?incumbency
         a :SeatIncumbency ;
-        :incumbencyHasContactPoint ?contactPoint .
+        :parliamentaryIncumbencyHasContactPoint ?contactPoint .
     ?contactPoint
         a :ContactPoint ;
         :email ?email ;
@@ -33,9 +33,9 @@ WHERE {
         ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
         OPTIONAL {
             ?houseSeat :houseSeatHasSeatIncumbency ?incumbency .
-            FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+            FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
             OPTIONAL {
-                ?incumbency :incumbencyHasContactPoint ?contactPoint .
+                ?incumbency :parliamentaryIncumbencyHasContactPoint ?contactPoint .
                 OPTIONAL{ ?contactPoint :email ?email . }
                 OPTIONAL{ ?contactPoint :phoneNumber ?phoneNumber . }
                 OPTIONAL{ ?contactPoint :faxNumber ?faxNumber . }

@@ -16,15 +16,15 @@ WHERE {
         OPTIONAL {
             ?partyMembership :partyMembershipHasPartyMember ?person .
             FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
-            ?person :memberHasIncumbency ?incumbency .
-            FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+            ?person :memberHasParliamentaryIncumbency ?incumbency .
+            FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
             OPTIONAL {
 			    ?incumbency a :SeatIncumbency ;
-                			:incumbencyHasMember ?mp .
+                			:parliamentaryIncumbencyHasMember ?mp .
             }
             OPTIONAL {
 			    ?incumbency a :HouseIncumbency ;
-                  			:incumbencyHasMember ?lord .
+                  			:parliamentaryIncumbencyHasMember ?lord .
             }
         }
         FILTER CONTAINS(LCASE(?partyName), LCASE(@substring))

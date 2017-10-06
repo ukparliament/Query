@@ -15,13 +15,13 @@ CONSTRUCT {
         :houseHasHouseIncumbency ?houseIncumbency .
     ?seatIncumbency
         a :SeatIncumbency ;
-        :incumbencyStartDate ?incumbencyStartDate .
+        :parliamentaryIncumbencyStartDate ?incumbencyStartDate .
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasSeatIncumbency ?seatIncumbency .
     ?houseIncumbency
         a :HouseIncumbency ;
-        :incumbencyStartDate ?incumbencyStartDate .
+        :parliamentaryIncumbencyStartDate ?incumbencyStartDate .
 }
 WHERE {
     BIND(@person_id AS ?person)
@@ -31,9 +31,9 @@ WHERE {
     OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
     OPTIONAL { ?person :memberHasMemberImage ?image } .
     OPTIONAL {
-        ?person :memberHasIncumbency ?incumbency .
-        FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
-        ?incumbency :incumbencyStartDate ?incumbencyStartDate .
+        ?person :memberHasParliamentaryIncumbency ?incumbency .
+        FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
+        ?incumbency :parliamentaryIncumbencyStartDate ?incumbencyStartDate .
         OPTIONAL {
             ?incumbency a :HouseIncumbency .
             BIND(?incumbency AS ?houseIncumbency )

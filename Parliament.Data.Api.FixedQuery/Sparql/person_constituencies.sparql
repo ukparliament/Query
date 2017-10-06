@@ -18,8 +18,8 @@ CONSTRUCT {
         :houseSeatHasConstituencyGroup ?constituency .
     ?seatIncumbency
         a :SeatIncumbency ;
-        :incumbencyEndDate ?seatIncumbencyEndDate ;
-        :incumbencyStartDate ?seatIncumbencyStartDate ;
+        :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate ;
+        :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate ;
         :seatIncumbencyHasHouseSeat ?seat .
 }
 WHERE {
@@ -30,12 +30,12 @@ WHERE {
     OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
     OPTIONAL { ?person :memberHasMemberImage ?image } .
     OPTIONAL {
-        ?person :memberHasIncumbency ?seatIncumbency .
+        ?person :memberHasParliamentaryIncumbency ?seatIncumbency .
         ?seatIncumbency a :SeatIncumbency .
         ?seatIncumbency :seatIncumbencyHasHouseSeat ?seat .
         ?seat :houseSeatHasConstituencyGroup ?constituency .
-        OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
-        ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate .
+        OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+        ?seatIncumbency :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate .
         ?constituency :constituencyGroupName ?constituencyName .
         ?constituency :constituencyGroupStartDate ?constituencyStartDate .
         OPTIONAL { ?constituency :constituencyGroupEndDate ?constituencyEndDate . }

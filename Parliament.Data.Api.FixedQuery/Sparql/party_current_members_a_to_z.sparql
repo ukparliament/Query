@@ -16,8 +16,8 @@ WHERE {
             :partyHasPartyMembership ?partyMembership .
         FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
         ?partyMembership :partyMembershipHasPartyMember ?person .
-        ?person :memberHasIncumbency ?incumbency .
-        FILTER NOT EXISTS { ?incumbency a :PastIncumbency . }
+        ?person :memberHasParliamentaryIncumbency ?incumbency .
+        FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
         BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
     }

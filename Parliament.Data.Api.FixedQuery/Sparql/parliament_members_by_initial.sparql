@@ -8,15 +8,15 @@ CONSTRUCT {
         :memberHasMemberImage ?image ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
-        :memberHasIncumbency ?seatIncumbency ;
+        :memberHasParliamentaryIncumbency ?seatIncumbency ;
         :partyMemberHasPartyMembership ?partyMembership .
     ?image
         a :MemberImage .
     ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
-        :incumbencyStartDate ?incStartDate ;
-        :incumbencyEndDate ?seatIncumbencyEndDate .
+        :parliamentaryIncumbencyStartDate ?incStartDate ;
+        :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate .
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;
@@ -58,10 +58,10 @@ WHERE {
 
         OPTIONAL {
             ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
-            ?seatIncumbency :incumbencyHasMember ?person ;
+            ?seatIncumbency :parliamentaryIncumbencyHasMember ?person ;
                             :seatIncumbencyHasHouseSeat ?houseSeat ;
-                			:incumbencyStartDate ?seatIncumbencyStartDate .
-            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+                			:parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate .
+            OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
             ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup ;
                        :houseSeatHasHouse ?house .
             ?house :houseName ?houseName .
@@ -100,7 +100,7 @@ UNION {
         ?parliament a :ParliamentPeriod .
         OPTIONAL {
             ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
-         	?seatIncumbency :incumbencyHasMember ?person .
+         	?seatIncumbency :parliamentaryIncumbencyHasMember ?person .
         }
       }
     GROUP BY ?parliament
@@ -111,7 +111,7 @@ UNION {
 
         ?parliament a :ParliamentPeriod ;
         			:parliamentPeriodHasSeatIncumbency ?seatIncumbency.
-        ?seatIncumbency :incumbencyHasMember ?person .
+        ?seatIncumbency :parliamentaryIncumbencyHasMember ?person .
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
         BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
     }

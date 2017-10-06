@@ -6,10 +6,10 @@ CONSTRUCT {
         :phoneNumber ?phoneNumber ;
         :faxNumber ?faxNumber ;
         :contactPointHasPostalAddress ?postalAddress ;
-        :contactPointHasIncumbency ?incumbency .
+        :contactPointHasParliamentaryIncumbency ?incumbency .
     ?incumbency
-        a :Incumbency ;
-        :incumbencyHasMember ?person .
+        a :ParliamentaryIncumbency ;
+        :parliamentaryIncumbencyHasMember ?person .
     ?postalAddress
         a :PostalAddress ;
         :postCode ?postCode ;
@@ -40,8 +40,8 @@ WHERE {
         OPTIONAL{ ?postalAddress :addressLine5 ?addressLine5 . }
 	}
     OPTIONAL{
-        ?contactPoint :contactPointHasIncumbency ?incumbency .
-        ?incumbency :incumbencyHasMember ?person .
+        ?contactPoint :contactPointHasParliamentaryIncumbency ?incumbency .
+        ?incumbency :parliamentaryIncumbencyHasMember ?person .
         OPTIONAL { ?person :personFamilyName ?familyName . }
         OPTIONAL { ?person :personGivenName ?givenName . }
         OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .

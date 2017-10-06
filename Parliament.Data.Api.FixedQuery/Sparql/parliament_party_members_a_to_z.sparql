@@ -11,9 +11,9 @@ WHERE {
         ?parliament a :ParliamentPeriod .
         ?party a :Party .
         ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
-        ?seatIncumbency :incumbencyHasMember ?person ;
-    					:incumbencyStartDate ?seatIncumbencyStartDate .
-        OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
+        ?seatIncumbency :parliamentaryIncumbencyHasMember ?person ;
+    					:parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate .
+        OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
         ?person :partyMemberHasPartyMembership ?partyMembership .
         ?partyMembership :partyMembershipHasParty ?party ;
                          :partyMembershipStartDate ?partyMembershipStartDate .

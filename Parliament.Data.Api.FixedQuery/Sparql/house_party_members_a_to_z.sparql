@@ -24,7 +24,7 @@ WHERE {
             <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
             :partyMemberHasPartyMembership ?partyMembership .
         ?partyMembership :partyMembershipHasParty ?party .
-        ?incumbency :incumbencyHasMember ?person .
+        ?incumbency :parliamentaryIncumbencyHasMember ?person .
 
         {
             ?incumbency :houseIncumbencyHasHouse ?house .

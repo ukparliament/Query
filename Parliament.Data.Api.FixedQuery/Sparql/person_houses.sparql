@@ -15,17 +15,17 @@ CONSTRUCT {
         a :House ;
         :houseName ?houseName2 .
     ?seatIncumbency
-        a :Incumbency ;
-        :incumbencyEndDate ?incumbencyEndDate ;
-        :incumbencyStartDate ?incumbencyStartDate ;
+        a :ParliamentaryIncumbency ;
+        :parliamentaryIncumbencyEndDate ?incumbencyEndDate ;
+        :parliamentaryIncumbencyStartDate ?incumbencyStartDate ;
         :seatIncumbencyHasHouseSeat ?houseSeat .
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house1 .
     ?houseIncumbency
-        a :Incumbency ;
-        :incumbencyEndDate ?incumbencyEndDate ;
-        :incumbencyStartDate ?incumbencyStartDate ;
+        a :ParliamentaryIncumbency ;
+        :parliamentaryIncumbencyEndDate ?incumbencyEndDate ;
+        :parliamentaryIncumbencyStartDate ?incumbencyStartDate ;
         :houseIncumbencyHasHouse ?house2 .
 }
 WHERE {
@@ -36,9 +36,9 @@ WHERE {
     OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
     OPTIONAL { ?person :memberHasMemberImage ?image } .
     OPTIONAL {
-        ?person :memberHasIncumbency ?incumbency .
-        OPTIONAL { ?incumbency :incumbencyEndDate ?incumbencyEndDate . }
-        ?incumbency :incumbencyStartDate ?incumbencyStartDate .
+        ?person :memberHasParliamentaryIncumbency ?incumbency .
+        OPTIONAL { ?incumbency :parliamentaryIncumbencyEndDate ?incumbencyEndDate . }
+        ?incumbency :parliamentaryIncumbencyStartDate ?incumbencyStartDate .
         OPTIONAL {
             ?incumbency a :HouseIncumbency .
             BIND(?incumbency AS ?houseIncumbency )

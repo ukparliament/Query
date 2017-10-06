@@ -11,9 +11,9 @@ CONSTRUCT{
         :houseSeatHasSeatIncumbency ?seatIncumbency .
     ?seatIncumbency
         a :SeatIncumbency ;
-        :incumbencyHasMember ?member ;
-        :incumbencyEndDate ?seatIncumbencyEndDate ;
-        :incumbencyStartDate ?seatIncumbencyStartDate .
+        :parliamentaryIncumbencyHasMember ?member ;
+        :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate ;
+        :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate .
     ?member
         a :Person ;
         :personGivenName ?givenName ;
@@ -30,11 +30,11 @@ WHERE {
     OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?constituencyGroupEndDate . }
     OPTIONAL {
         ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
-        FILTER NOT EXISTS { ?seatIncumbency a :PastIncumbency . }
+        FILTER NOT EXISTS { ?seatIncumbency a :PastParliamentaryIncumbency . }
         OPTIONAL {
-            ?seatIncumbency :incumbencyHasMember ?member .
-            OPTIONAL { ?seatIncumbency :incumbencyEndDate ?seatIncumbencyEndDate . }
-            OPTIONAL { ?seatIncumbency :incumbencyStartDate ?seatIncumbencyStartDate . }
+            ?seatIncumbency :parliamentaryIncumbencyHasMember ?member .
+            OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+            OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate . }
             OPTIONAL { ?member :personGivenName ?givenName . }
             OPTIONAL { ?member :personFamilyName ?familyName . }
             OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .

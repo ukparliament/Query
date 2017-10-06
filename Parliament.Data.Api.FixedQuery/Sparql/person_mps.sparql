@@ -18,9 +18,9 @@ WHERE {
     	:partyHasPartyMembership ?partyMembership .
         FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
         ?partyMembership :partyMembershipHasPartyMember ?member .
-        ?member :memberHasIncumbency ?seatIncumbency .
+        ?member :memberHasParliamentaryIncumbency ?seatIncumbency .
         ?seatIncumbency a :SeatIncumbency .
-        FILTER NOT EXISTS { ?seatIncumbency a :PastIncumbency . }
+        FILTER NOT EXISTS { ?seatIncumbency a :PastParliamentaryIncumbency . }
 	}
     GROUP BY ?party ?partyName
 }
