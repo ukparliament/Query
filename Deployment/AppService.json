@@ -26,6 +26,12 @@
         "description": "Name of the Application Insights."
       }
     },
+    "apiManagementIP": {
+      "type": "string",
+      "metadata": {
+        "description": "IP address of the API Management."
+      }
+    },
     "releaseId": {
       "type": "int",
       "metadata": {
@@ -65,6 +71,13 @@
         "ReleaseId": "[parameters('releaseId')]"
       },
       "properties": {
+        "siteConfig": {
+          "ipSecurityRestrictions": [
+            {
+              "ipAddress": "[parameters('apiManagementIP')]"
+            }
+          ]
+        },
         "name": "[parameters('fixedQueryName')]",
         "hostNames": [
           "[concat(parameters('fixedQueryName'),'.azurewebsites.net')]"
