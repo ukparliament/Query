@@ -96,6 +96,12 @@
       "type": "list",
       "parameters": {}
     },
+    "exists": {
+      "type": "single",
+      "parameters": {
+        "uri": "uri"
+      }
+    },
     "find_your_constituency": {
       "type": "single",
       "parameters": {}
@@ -724,10 +730,10 @@
       "type": "single",
       "parameters": {}
     },
-    "resource_by_id": {
+    "resource": {
       "type": "single",
       "parameters": {
-        "resource_id": "uri"
+        "uri": "uri"
       }
     }
   }
