@@ -10,15 +10,16 @@
     {
         public HttpResponseMessage Get()
         {
+            //IDs correspond to the Staging environment generally used for both local development and devci.parliament.uk
             var helpIds = new Dictionary<string, string>()
             {
-                { "House Of Commons", "p7P4nXy6" },
-                { "Ken Clarke", "ztGWb8jm" },
-                { "Vale of Glamorgan", "nwcYM2Fw" },
-                { "Labour", "xRTmmI8e" },
-                { "Yeovil Lib Dems Contact", "L5WuLk5A" },
-                { "56th Parliament", "SUVcnu3f"},
-                { "Treasury Committee", "zlERCrSI"}
+                { "House Of Commons", "1AFu55Hs" },
+                { "Ken Clarke", "TyNGhslR" },
+                { "Vale of Glamorgan", "AEyWGYaP" },
+                { "Labour", "LEYIBvV9" },
+                { "Yeovil Lib Dems Contact", "wk1atnfh" },
+                { "56th Parliament", "b0t56VVL"},
+                { "Treasury Committee", "cLjFRjRt"}
             };
 
             var links = new string[] {
