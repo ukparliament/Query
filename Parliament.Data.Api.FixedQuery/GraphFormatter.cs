@@ -80,7 +80,7 @@
                     var writer = this.Definition.GetRdfWriter();
                     if (writer is HtmlWriter)
                     {
-                        (writer as HtmlWriter).UriPrefix = "resource?uri=";
+                        (writer as HtmlWriter).UriPrefix = "resource?stay&uri=";
                     }
 
                     writer.Save(graph, streamWriter);

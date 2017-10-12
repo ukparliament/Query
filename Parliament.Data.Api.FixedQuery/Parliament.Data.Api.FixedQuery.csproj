@@ -152,6 +152,7 @@
     <Compile Include="Compressor.cs" />
     <Compile Include="DeflateCompressor.cs" />
     <Compile Include="GzipCompressor.cs" />
+    <Compile Include="HtmlResourceRedirectHandler.cs" />
     <Compile Include="NotAcceptablePayloadHandler.cs" />
     <Compile Include="Controllers\BadRequestController.cs" />
     <Compile Include="Controllers\Configuration\BadRequestControllerConfigurationAttribute.cs" />

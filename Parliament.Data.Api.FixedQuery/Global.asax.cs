@@ -21,7 +21,8 @@
                 new HttpControllerDispatcher(config),
                 new DelegatingHandler[] {
                     new CompressionHandler(),
-                    new NotAcceptablePayloadHandler()
+                    new NotAcceptablePayloadHandler(),
+                    new HtmlResourceRedirectHandler()
             });
             var constraints = new
             {
