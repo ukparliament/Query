@@ -1,0 +1,16 @@
+﻿PREFIX : @schemaUri
+
+SELECT ?member ?givenName ?familyName ?x ?y
+WHERE {
+    BIND (@photo_id AS ?image)
+
+    ?image
+        :memberImageHasMember ?member ;
+        :personImageFaceCentrePoint ?point .
+    ?member
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName .
+
+    BIND(STRBEFORE(STRAFTER(STR(?point), "("), " ") AS ?x)
+    BIND(STRBEFORE(STRAFTER(STR(?point), " "), ")") AS ?y)
+}
