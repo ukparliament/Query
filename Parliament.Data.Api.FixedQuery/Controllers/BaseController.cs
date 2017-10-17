@@ -15,7 +15,7 @@
         private static readonly string subscriptionKey = ConfigurationManager.AppSettings["SubscriptionKey"];
         private static readonly string endpointUri = $"{sparqlEndpoint}?subscription-key={subscriptionKey}";
         // TODO: Extract to config or elsewhere
-        protected static readonly Uri Instance = new Uri("http://id.ukpds.org/");
+        protected static readonly Uri Instance = new Uri("https://id.parliament.uk/");
         protected static readonly Uri Schema = new Uri(Instance, "schema/");
 
         protected static object ExecuteSingle(SparqlParameterizedString query)
