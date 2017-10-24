@@ -13,7 +13,9 @@ CONSTRUCT {
         :memberHasParliamentaryIncumbency ?incumbency ;
         :personHasFormalBodyMembership ?formalBodyMembership ;
         :governmentPersonHasGovernmentIncumbency ?governmentIncumbency ;
-        :personHasPersonWebLink ?personWebLink .
+        :personHasPersonalWebLink ?personalWebLink ;
+        :personHasTwitterWebLink ?twitterWebLink ;
+        :personHasFacebookWebLink ?facebookWebLink .
     ?image
         a :MemberImage .
     ?contactPoint
@@ -145,14 +147,23 @@ WHERE {
         ?formalBody :formalBodyName ?formalBodyName .
     }
     OPTIONAL {
-  	    ?person :governmentPersonHasGovernmentIncumbency ?governmentIncumbency .
-  	    ?governmentIncumbency :incumbencyStartDate ?incumbencyStartDate .
-  	    OPTIONAL { ?governmentIncumbency :incumbencyEndDate ?incumbencyEndDate . }
-  	    ?governmentIncumbency :governmentIncumbencyHasGovernmentPosition ?governmentPosition .
-  	    ?governmentPosition :positionName ?positionName .
+        ?person :governmentPersonHasGovernmentIncumbency ?governmentIncumbency .
+        ?governmentIncumbency :incumbencyStartDate ?incumbencyStartDate .
+        OPTIONAL { ?governmentIncumbency :incumbencyEndDate ?incumbencyEndDate . }
+        ?governmentIncumbency :governmentIncumbencyHasGovernmentPosition ?governmentPosition .
+        ?governmentPosition :positionName ?positionName .
     }
     OPTIONAL {
-        ?person :personHasPersonWebLink ?personWebLink .
-        ?personWebLink :webLinkHasWebLinkedThing ?WebLinkedThing .
+    	?person :personHasPersonWebLink ?twitterWebLink .
+    	FILTER regex(str(?twitterWebLink), "twitter") .
+    }
+    OPTIONAL {
+    	?person :personHasPersonWebLink ?facebookWebLink .
+    	FILTER regex(str(?facebookWebLink), "facebook") .
+    }
+    OPTIONAL {
+    	?person :personHasPersonWebLink ?personalWebLink .
+    	FILTER (!regex(str(?personalWebLink), "facebook")) .
+    	FILTER (!regex(str(?personalWebLink), "twitter")) .
     }
 }
