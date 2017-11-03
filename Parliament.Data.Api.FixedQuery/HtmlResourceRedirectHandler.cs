@@ -12,7 +12,7 @@
     internal class HtmlResourceRedirectHandler : DelegatingHandler
     {
         private const string resourceEndpointTemplate = "https://beta.parliament.uk/resource/{0}";
-        private const string namespaceBase = "http://id.ukpds.org/";
+        private const string namespaceBase = "https://id.parliament.uk/";
         private const string resourceEndpointName = "resource";
         private const string endpointNameRouteParameter = "name";
 
