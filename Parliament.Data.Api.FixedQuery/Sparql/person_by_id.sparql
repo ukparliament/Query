@@ -13,6 +13,7 @@ CONSTRUCT {
         :memberHasParliamentaryIncumbency ?incumbency ;
         :personHasFormalBodyMembership ?formalBodyMembership ;
         :governmentPersonHasGovernmentIncumbency ?governmentIncumbency ;
+        :oppositionPersonHasOppositionIncumbency ?oppositionIncumbency ;
         :personHasPersonalWebLink ?personalWebLink ;
         :personHasTwitterWebLink ?twitterWebLink ;
         :personHasFacebookWebLink ?facebookWebLink .
@@ -82,6 +83,14 @@ CONSTRUCT {
         :governmentIncumbencyHasGovernmentPosition ?governmentPosition .
     ?governmentPosition
         a :GovernmentPosition ;
+        :positionName ?positionName .
+    ?oppositionIncumbency
+        a :OppositionIncumbency ;
+        :incumbencyStartDate ?incumbencyStartDate ;
+        :incumbencyEndDate ?incumbencyEndDate ;
+        :oppositionIncumbencyHasOppositionPosition ?oppositionPosition .
+    ?oppositionPosition
+        a :OppositionPosition ;
         :positionName ?positionName .
 }
 WHERE {
@@ -154,16 +163,23 @@ WHERE {
         ?governmentPosition :positionName ?positionName .
     }
     OPTIONAL {
-    	?person :personHasPersonWebLink ?twitterWebLink .
-    	FILTER regex(str(?twitterWebLink), "twitter") .
+        ?person :oppositionPersonHasOppositionIncumbency ?oppositionIncumbency .
+        ?oppositionIncumbency :incumbencyStartDate ?incumbencyStartDate .
+        OPTIONAL { ?oppositionIncumbency :incumbencyEndDate ?incumbencyEndDate . }
+        ?oppositionIncumbency :oppositionIncumbencyHasOppositionPosition ?oppositionPosition .
+        ?oppositionPosition :positionName ?positionName .
     }
     OPTIONAL {
-    	?person :personHasPersonWebLink ?facebookWebLink .
-    	FILTER regex(str(?facebookWebLink), "facebook") .
+        ?person :personHasPersonWebLink ?twitterWebLink .
+        FILTER regex(str(?twitterWebLink), "twitter") .
     }
     OPTIONAL {
-    	?person :personHasPersonWebLink ?personalWebLink .
-    	FILTER (!regex(str(?personalWebLink), "facebook")) .
-    	FILTER (!regex(str(?personalWebLink), "twitter")) .
+        ?person :personHasPersonWebLink ?facebookWebLink .
+        FILTER regex(str(?facebookWebLink), "facebook") .
+    }
+    OPTIONAL {
+        ?person :personHasPersonWebLink ?personalWebLink .
+        FILTER (!regex(str(?personalWebLink), "facebook")) .
+        FILTER (!regex(str(?personalWebLink), "twitter")) .
     }
 }
