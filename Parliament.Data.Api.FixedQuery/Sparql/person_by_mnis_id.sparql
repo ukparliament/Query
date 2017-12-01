@@ -9,7 +9,6 @@ CONSTRUCT {
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitle ;
         :memberHasMemberImage ?image ;
-        :partyMemberHasPartyMembership ?partyMembership ;
         :memberHasParliamentaryIncumbency ?incumbency ;
         :personHasFormalBodyMembership ?formalBodyMembership ;
         :governmentPersonHasGovernmentIncumbency ?governmentIncumbency ;
@@ -54,14 +53,6 @@ CONSTRUCT {
         a :HouseSeat ;
         :houseSeatHasConstituencyGroup ?constituency ;
         :houseSeatHasHouse ?house2 .
-    ?party
-        a :Party ;
-        :partyName ?partyName .
-    ?partyMembership
-        a :PartyMembership ;
-        :partyMembershipStartDate ?partyMembershipStartDate ;
-        :partyMembershipEndDate ?partyMembershipEndDate ;
-        :partyMembershipHasParty ?party .
     ?house1
         a :House ;
         :houseName ?houseName1 .
@@ -92,6 +83,9 @@ CONSTRUCT {
     ?oppositionPosition
         a :OppositionPosition ;
         :positionName ?positionName .
+    ?person :personHasCurrentParty ?currentPartyName.    
+    ?person :personHasMostRecentParty ?mostRecentPartyName.    
+
 }
 WHERE {
     BIND(@person_mnis_id AS ?mnis)
@@ -144,13 +138,6 @@ WHERE {
         }
     }
     OPTIONAL {
-        ?person :partyMemberHasPartyMembership ?partyMembership .
-        ?partyMembership :partyMembershipHasParty ?party .
-        ?partyMembership :partyMembershipStartDate ?partyMembershipStartDate .
-        OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
-        ?party :partyName ?partyName .
-    }
-    OPTIONAL {
         ?person :personHasFormalBodyMembership ?formalBodyMembership .
         ?formalBodyMembership :formalBodyMembershipStartDate ?formalBodyMembershipStartDate .
         OPTIONAL { ?formalBodyMembership :formalBodyMembershipEndDate ?formalBodyMembershipEndDate . }
@@ -183,5 +170,21 @@ WHERE {
         ?person :personHasPersonWebLink ?personalWebLink .
         FILTER (!regex(str(?personalWebLink), "facebook")) .
         FILTER (!regex(str(?personalWebLink), "twitter")) .
+    }
+    OPTIONAL {
+        ?person :partyMemberHasPartyMembership ?currentPartyMembership .
+        ?currentPartyMembership :partyMembershipHasParty ?currentParty .
+		filter not exists {?currentPartyMembership a :PastPartyMembership.}
+        ?currentParty :partyName ?currentPartyName .
+    }
+    OPTIONAL {
+        ?person :partyMemberHasPartyMembership ?mostRecentPartyMembership .
+        ?mostRecentPartyMembership :partyMembershipStartDate ?mostRecentPartyMembershipStartDate .
+        filter not exists {
+        	?person :partyMemberHasPartyMembership/:partyMembershipStartDate ?mostRecentPartyMembershipStartDate2
+        	filter (?mostRecentPartyMembershipStartDate2 > ?mostRecentPartyMembershipStartDate)
+        }
+        ?mostRecentPartyMembership :partyMembershipHasParty ?mostRecentParty .
+        ?mostRecentParty :partyName ?mostRecentPartyName .
     }
 }
