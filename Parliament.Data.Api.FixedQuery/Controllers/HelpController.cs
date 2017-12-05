@@ -152,7 +152,9 @@
                 this.Url.Route("WithoutExtension", new { name = "formal_body_by_id", formal_body_id = helpIds["Treasury Committee"] }),
                 this.Url.Route("WithoutExtension", new { name = "formal_body_membership", formal_body_id = helpIds["Treasury Committee"] }),
 
-                this.Url.Route("WithoutExtension", new { name = "person_by_mnis_id", person_mnis_id = "185" })
+                this.Url.Route("WithoutExtension", new { name = "person_by_mnis_id", person_mnis_id = "185" }),
+                this.Url.Route("WithoutExtension", new { name = "constituency_current_by_proximity_to_point", border_range = "10", centre_point_range = "20", latitude = "51.496130", longitude = "-0.125718" })
+
             } as IEnumerable<string>;
 
             // Make links relative, remove application virtual path (in this case, a trailing forward slash).

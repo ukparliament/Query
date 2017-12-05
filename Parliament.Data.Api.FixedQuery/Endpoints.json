@@ -53,6 +53,15 @@
         "initial": "literal"
       }
     },
+    "constituency_current_by_proximity_to_point": {
+      "type": "list",
+      "parameters": {
+        "border_range": "literal",
+        "centre_point_range": "literal",
+        "latitude": "literal",
+        "longitude": "literal"
+      }
+    },
     "constituency_current_member": {
       "type": "list",
       "parameters": {

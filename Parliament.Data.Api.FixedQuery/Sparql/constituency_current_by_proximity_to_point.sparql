@@ -1,0 +1,65 @@
+﻿PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+PREFIX units: <http://www.opengis.net/def/uom/OGC/1.0/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+
+CONSTRUCT{
+	?constituencyGroup
+		a :ConstituencyGroup ;
+		:constituencyGroupName ?name ;
+		:constituencyGroupHasHouseSeat ?seat .
+	?seat
+		a :HouseSeat ;
+		:houseSeatHasSeatIncumbency ?seatIncumbency .
+	?seatIncumbency
+		a :SeatIncumbency ;
+		:parliamentaryIncumbencyHasMember ?member .
+	?member
+		a :Person ;
+		:personGivenName ?givenName ;
+		:personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+		:partyMemberHasPartyMembership ?partyMembership .
+	?partyMembership
+		a :PartyMembership ;
+		:partyMembershipHasParty ?party .
+	?party
+		a :Party ;
+		:partyName ?partyName .
+}
+WHERE {
+	BIND(@border_range as ?borderRange)
+	BIND(@centre_point_range as ?centrePointRange)
+	BIND(strdt(concat("Point(",xsd:string(@longitude)," ",xsd:string(@latitude),")"),geo:wktLiteral) as ?pointOfInterest)
+	{
+		?constituencyArea
+			:longitude ?constituencyLongitude;
+			:latitude ?constituencyLatitude;
+		.
+		bind(strdt(concat("Point(",xsd:string(?constituencyLongitude)," ",xsd:string(?constituencyLatitude),")"),geo:wktLiteral) as ?constituencyCentrePoint)
+		bind((geof:distance(?constituencyCentrePoint,?pointOfInterest,units:metre)/1000) as ?constituencyCentrePointDistance)
+		filter (?constituencyCentrePointDistance <= xsd:integer(?centrePointRange))
+	}
+	?constituencyArea
+		:constituencyAreaExtent ?constituencyExtent;
+		:constituencyAreaHasConstituencyGroup ?constituencyGroup;
+	.
+	FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
+      	OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+      	OPTIONAL {
+          	?constituencyGroup :constituencyGroupHasHouseSeat ?seat .
+          	?seat :houseSeatHasSeatIncumbency ?seatIncumbency .
+          	FILTER NOT EXISTS { ?seatIncumbency a :PastParliamentaryIncumbency . }
+          	?seatIncumbency :parliamentaryIncumbencyHasMember ?member .
+          	OPTIONAL { ?member :personGivenName ?givenName . }
+          	OPTIONAL { ?member :personFamilyName ?familyName . }
+          	OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+          	?member :partyMemberHasPartyMembership ?partyMembership .
+          	FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+          	?partyMembership :partyMembershipHasParty ?party .
+          	?party :partyName ?partyName .
+      	}
+	BIND((geof:distance(?constituencyExtent,?pointOfInterest,units:metre)/1000) as ?distance)
+	FILTER (?distance <= xsd:integer(?borderRange))
+}
