@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Net.Http;
     using System.Reflection;
+    using System.Web.Http;
     using VDS.RDF;
     using VDS.RDF.Query;
 
@@ -17,20 +18,30 @@
         {
             var parameters = this.Request.GetQueryNameValuePairs().ToDictionary(parameter => parameter.Key, parameter => parameter.Value);
 
-            return this.Get(name, parameters);
+            new TelemetryClient().TrackEvent(name, parameters);
+
+            var result = FixedQueryController.Execute(name, parameters);
+
+            return this.CreateResponse(result);
         }
 
-        internal HttpResponseMessage Get(string name, Dictionary<string, string> values)
+        private static object Execute(string name, Dictionary<string, string> values)
         {
-            new TelemetryClient().TrackEvent(name, values);
-
             var endpoint = Resources.DB.Endpoints[name];
 
             if (endpoint.Type == EndpointType.HardCoded)
             {
-                return CreateHardcodedResponse(name, values);
+                return FixedQueryController.ExecuteHardCoded(name, values);
             }
+            else
+            {
+                return FixedQueryController.ExecuteNamedSparql(name, values);
+            }
+        }
 
+        internal static object ExecuteNamedSparql(string name, Dictionary<string, string> values)
+        {
+            var endpoint = Resources.DB.Endpoints[name];
             var queryString = Resources.GetSparql(name);
             var query = new SparqlParameterizedString(queryString);
 
@@ -41,9 +52,7 @@
                 FixedQueryController.SetParameters(query, endpoint.Parameters, values);
             }
 
-            var result = ExecuteQuery(query, endpoint.Type);
-
-            return CreateResponse(result);
+            return FixedQueryController.ExecuteQuery(query, endpoint.Type);
         }
 
         private static object ExecuteQuery(SparqlParameterizedString query, EndpointType type)
@@ -73,12 +82,17 @@
             }
         }
 
-        private HttpResponseMessage CreateHardcodedResponse(string name, Dictionary<string, string> values)
+        private static object ExecuteHardCoded(string name, Dictionary<string, string> values)
         {
             var method = typeof(HardCoded).GetMethod(name, BindingFlags.Public | BindingFlags.Static);
-            var result = method.Invoke(null, values.Values.Cast<object>().ToArray()) as Graph;
-
-            return this.Request.CreateResponse<IGraph>(result);
+            try
+            {
+                return method.Invoke(null, values.Values.Cast<object>().ToArray()) as Graph;
+            }
+            catch (TargetInvocationException e) when (e.InnerException is HttpResponseException)
+            {
+                throw e.InnerException;
+            }
         }
 
         public static void SetParameters(SparqlParameterizedString query, Dictionary<string, ParameterType> parameters, Dictionary<string, string> values)

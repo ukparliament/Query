@@ -2,6 +2,7 @@
 {
     using Newtonsoft.Json;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -28,6 +29,25 @@
             query.SetLiteral("latitude", latitude);
 
             return BaseController.ExecuteSingle(query);
+        }
+
+        public static IGraph webarticle_by_id(string webarticle_id)
+        {
+            var uri = new Uri(BaseController.Instance, webarticle_id).AbsoluteUri;
+            var articleExists = FixedQueryController.ExecuteNamedSparql("exists", new Dictionary<string, string> { { "uri", uri } }) as SparqlResultSet;
+            if (!articleExists.Result)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            try
+            {
+                return Contentful.Engine.GetArticle(webarticle_id);
+            }
+            catch (Contentful.EntryNotFoundException)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
         }
 
         private static void GetCoordinates(string postcode, string externalQueryString, out string latitude, out string longitude)

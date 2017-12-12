@@ -316,4 +316,6 @@
 	<http://id.ukpds.org/yKbi7ikQ> <http://id.ukpds.org/schema/seatIncumbencyHasHouseSeat> <http://id.ukpds.org/VKUYDXoa> .
 	<http://id.ukpds.org/yKbi7ikQ> <http://id.ukpds.org/schema/incumbencyHasContactPoint> <http://id.ukpds.org/FeCebO0j> .
 }
-WHERE {}
+WHERE {
+    BIND( @committee_id AS ?committee_id )
+}

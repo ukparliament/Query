@@ -611,16 +611,16 @@
         "person_id": "instanceUri"
       }
     },
-    "person_by_mnis_id": {
-      "type": "list",
-      "parameters": {
-        "person_mnis_id": "literal"
-      }
-    },
     "person_by_id_mock": {
       "type": "single",
       "parameters": {
         "person_id": "instanceUri"
+      }
+    },
+    "person_by_mnis_id": {
+      "type": "list",
+      "parameters": {
+        "person_mnis_id": "literal"
       }
     },
     "person_by_initial": {
@@ -755,6 +755,12 @@
       "type": "single",
       "parameters": {
         "uri": "uri"
+      }
+    },
+    "webarticle_by_id": {
+      "type": "hardCoded",
+      "parameters": {
+        "webarticle_id": "instanceUri"
       }
     }
   }
