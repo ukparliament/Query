@@ -35,12 +35,6 @@ WHERE {
         OPTIONAL { ?incumbency :parliamentaryIncumbencyEndDate ?incumbencyEndDate . }
         ?incumbency :parliamentaryIncumbencyStartDate ?incumbencyStartDate .
         OPTIONAL {
-            ?incumbency a :HouseIncumbency .
-            BIND(?incumbency AS ?houseIncumbency )
-            ?houseIncumbency :houseIncumbencyHasHouse ?house2 .
-            ?house2 :houseName ?houseName2 .
-        }
-        OPTIONAL {
             ?incumbency a :SeatIncumbency .
             BIND(?incumbency AS ?seatIncumbency )
             ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .

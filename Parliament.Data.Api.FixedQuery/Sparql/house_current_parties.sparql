@@ -16,16 +16,7 @@ WHERE {
         SELECT ?party ?partyName (COUNT(?membership) AS ?memberCount)
         WHERE {
             BIND(@house_id AS ?house) # Route parameter
-            # The relatioship between a house and an incumbency is either via a seat or direct ("lords bypass")
-            {
-                # Commons
-                ?house :houseHasHouseSeat/:houseSeatHasSeatIncumbency ?incumbency .
-            }
-            UNION
-            {
-                # Lords
-                ?house :houseHasHouseIncumbency ?incumbency .
-            }
+            ?house :houseHasHouseSeat/:houseSeatHasSeatIncumbency ?incumbency .
             FILTER NOT EXISTS {
                 ?incumbency a :PastParliamentaryIncumbency .
             }

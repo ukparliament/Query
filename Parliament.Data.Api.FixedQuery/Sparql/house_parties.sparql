@@ -17,13 +17,8 @@ WHERE {
         :parliamentaryIncumbencyHasMember ?person ;
         :parliamentaryIncumbencyStartDate ?incStartDate .
     OPTIONAL { ?incumbency :parliamentaryIncumbencyEndDate ?incumbencyEndDate . }
-    {
-        ?incumbency :houseIncumbencyHasHouse ?house .
-	}
-    UNION {
-        ?incumbency :seatIncumbencyHasHouseSeat ?houseSeat .
-        ?houseSeat :houseSeatHasHouse ?house .
-	}
+    ?incumbency :seatIncumbencyHasHouseSeat ?houseSeat .
+    ?houseSeat :houseSeatHasHouse ?house .
     ?partyMembership
         :partyMembershipHasPartyMember ?person ;
         :partyMembershipHasParty ?party ;

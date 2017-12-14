@@ -53,18 +53,12 @@ WHERE {
             OPTIONAL { ?person :memberHasMemberImage ?image . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
-            {
-                ?incumbency :houseIncumbencyHasHouse ?house .
-                BIND(?incumbency AS ?houseIncumbency)
-            }
-            UNION {
-                ?incumbency :seatIncumbencyHasHouseSeat ?houseSeat .
-                ?houseSeat :houseSeatHasHouse ?house .
-                BIND(?incumbency AS ?seatIncumbency)
-                OPTIONAL { ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
-                    ?constituencyGroup :constituencyGroupName ?constituencyName .
-                    FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
-                }
+            ?incumbency :seatIncumbencyHasHouseSeat ?houseSeat .
+            ?houseSeat :houseSeatHasHouse ?house .
+            BIND(?incumbency AS ?seatIncumbency)
+            OPTIONAL { ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+                ?constituencyGroup :constituencyGroupName ?constituencyName .
+                FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
             }
             FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))
          }
@@ -85,13 +79,8 @@ WHERE {
           ?partyMembership :partyMembershipHasParty ?party .
      	  ?incumbency :parliamentaryIncumbencyHasMember ?person .
           FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
-    	  {
-              ?incumbency :houseIncumbencyHasHouse ?house .
-    	  }
-    	  UNION {
-                ?incumbency :seatIncumbencyHasHouseSeat ?seat .
-             	?seat :houseSeatHasHouse ?house .
-    	    }
+          ?incumbency :seatIncumbencyHasHouseSeat ?seat .
+       	  ?seat :houseSeatHasHouse ?house .
           BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
         }
       }

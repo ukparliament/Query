@@ -22,10 +22,6 @@ WHERE {
 		        ?incumbency a :SeatIncumbency ;
                 			:parliamentaryIncumbencyHasMember ?mp .
             }
-            OPTIONAL {
-                ?incumbency a :HouseIncumbency ;
-                            :parliamentaryIncumbencyHasMember ?lord .
-            }
         }
     }
     GROUP BY ?party ?name

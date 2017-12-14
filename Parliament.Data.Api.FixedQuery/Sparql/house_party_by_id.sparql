@@ -22,13 +22,8 @@ WHERE {
                 ?partyMembership :partyMembershipHasParty ?party .
                 ?party :partyName ?partyName .
                 ?incumbency :parliamentaryIncumbencyHasMember ?person .
-                {
-                	?incumbency :houseIncumbencyHasHouse ?house .
-        		}
-                UNION {
-                	?incumbency :seatIncumbencyHasHouseSeat ?seat .
-                	?seat :houseSeatHasHouse ?house .
-        		}
+                ?incumbency :seatIncumbencyHasHouseSeat ?seat .
+                ?seat :houseSeatHasHouse ?house .
         	}
         }
     }
@@ -45,13 +40,8 @@ WHERE {
                 ?partyMembership :partyMembershipHasPartyMember ?currentMember .
                 ?currentMember :memberHasParliamentaryIncumbency ?incumbency .
                 FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
-                {
-                	?incumbency :houseIncumbencyHasHouse ?house .
-        		}
-                UNION {
-                	?incumbency :seatIncumbencyHasHouseSeat ?seat .
-                	?seat :houseSeatHasHouse ?house .
-        		}
+                ?incumbency :seatIncumbencyHasHouseSeat ?seat .
+                ?seat :houseSeatHasHouse ?house .
         	}
         }
         GROUP BY ?party

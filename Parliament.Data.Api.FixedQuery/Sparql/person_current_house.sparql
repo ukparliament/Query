@@ -11,8 +11,7 @@ CONSTRUCT {
     ?house
         a :House ;
         :houseName ?houseName ;
-        :houseHasHouseSeat ?houseSeat ;
-        :houseHasHouseIncumbency ?houseIncumbency .
+        :houseHasHouseSeat ?houseSeat.
     ?seatIncumbency
         a :SeatIncumbency ;
         :parliamentaryIncumbencyStartDate ?incumbencyStartDate .
@@ -31,12 +30,6 @@ WHERE {
         ?person :memberHasParliamentaryIncumbency ?incumbency .
         FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
         ?incumbency :parliamentaryIncumbencyStartDate ?incumbencyStartDate .
-        OPTIONAL {
-            ?incumbency a :HouseIncumbency .
-            BIND(?incumbency AS ?houseIncumbency )
-            ?houseIncumbency :houseIncumbencyHasHouse ?house .
-            ?house :houseName ?houseName .
-        }
         OPTIONAL {
             ?incumbency a :SeatIncumbency .
             BIND(?incumbency AS ?seatIncumbency )

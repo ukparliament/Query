@@ -48,12 +48,6 @@ WHERE {
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
                 	:memberHasParliamentaryIncumbency ?incumbency .
             FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
-            OPTIONAL
-            {
-                ?incumbency a :HouseIncumbency .
-                BIND(?incumbency AS ?houseIncumbency)
-                OPTIONAL { ?houseIncumbency :parliamentaryIncumbencyEndDate ?houseIncumbencyEndDate . }
-        	}
         	OPTIONAL {
                 ?incumbency a :SeatIncumbency .
                 BIND(?incumbency AS ?seatIncumbency)

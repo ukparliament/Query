@@ -27,14 +27,8 @@ WHERE {
         ?partyMembership :partyMembershipHasParty ?party .
         ?incumbency :parliamentaryIncumbencyHasMember ?person .
         FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
-
-        {
-            ?incumbency :houseIncumbencyHasHouse ?house .
-        }
-        UNION {
-            ?incumbency :seatIncumbencyHasHouseSeat ?seat .
-            ?seat :houseSeatHasHouse ?house .
-        }
+        ?incumbency :seatIncumbencyHasHouseSeat ?seat .
+        ?seat :houseSeatHasHouse ?house .
 
         BIND(UCASE(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
     }

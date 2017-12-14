@@ -55,20 +55,13 @@ WHERE {
             OPTIONAL { ?person :memberHasMemberImage ?image . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
-            {
-                ?incumbency :houseIncumbencyHasHouse ?house .
-                OPTIONAL { ?incumbency :parliamentaryIncumbencyEndDate ?houseIncumbencyEndDate . }
-                BIND(?incumbency AS ?houseIncumbency)
-            }
-            UNION {
-                ?incumbency :seatIncumbencyHasHouseSeat ?houseSeat .
-                OPTIONAL { ?incumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
-                ?houseSeat :houseSeatHasHouse ?house .
-                BIND(?incumbency AS ?seatIncumbency)
-                OPTIONAL { ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
-                    ?constituencyGroup :constituencyGroupName ?constituencyName .
-                    FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
-                }
+            ?incumbency :seatIncumbencyHasHouseSeat ?houseSeat .
+            OPTIONAL { ?incumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+            ?houseSeat :houseSeatHasHouse ?house .
+            BIND(?incumbency AS ?seatIncumbency)
+            OPTIONAL { ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+                ?constituencyGroup :constituencyGroupName ?constituencyName .
+                FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
             }
             FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))
           }
@@ -84,17 +77,10 @@ WHERE {
           ?person a :Member ;
           		<http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
     	    	:partyMemberHasPartyMembership ?partyMembership.
-    	    ?partyMembership :partyMembershipHasParty ?party .
-    	    ?incumbency :parliamentaryIncumbencyHasMember ?person .
-
-            {
-    	        ?incumbency :houseIncumbencyHasHouse ?house .
-            }
-            UNION {
-                ?incumbency :seatIncumbencyHasHouseSeat ?seat.
-             	?seat :houseSeatHasHouse ?house .
-    	    }
-
+    	  ?partyMembership :partyMembershipHasParty ?party .
+    	  ?incumbency :parliamentaryIncumbencyHasMember ?person .
+          ?incumbency :seatIncumbencyHasHouseSeat ?seat.
+          ?seat :houseSeatHasHouse ?house .
           BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
         }
     }

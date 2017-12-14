@@ -25,14 +25,8 @@ WHERE {
             :partyMemberHasPartyMembership ?partyMembership .
         ?partyMembership :partyMembershipHasParty ?party .
         ?incumbency :parliamentaryIncumbencyHasMember ?person .
-
-        {
-            ?incumbency :houseIncumbencyHasHouse ?house .
-        }
-        UNION {
-            ?incumbency :seatIncumbencyHasHouseSeat ?seat .
-            ?seat :houseSeatHasHouse ?house .
-        }
+        ?incumbency :seatIncumbencyHasHouseSeat ?seat .
+        ?seat :houseSeatHasHouse ?house .
 
         BIND(UCASE(SUBSTR(?listAs, 1, 1)) AS ?firstLetter)
     }
