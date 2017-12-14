@@ -17,9 +17,6 @@ CONSTRUCT {
    ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat .
-    ?houseIncumbency
-        a :HouseIncumbency ;
-        :houseIncumbencyHasHouse ?house .
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house ;

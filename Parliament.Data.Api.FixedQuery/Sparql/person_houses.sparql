@@ -22,11 +22,6 @@ CONSTRUCT {
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house1 .
-    ?houseIncumbency
-        a :ParliamentaryIncumbency ;
-        :parliamentaryIncumbencyEndDate ?incumbencyEndDate ;
-        :parliamentaryIncumbencyStartDate ?incumbencyStartDate ;
-        :houseIncumbencyHasHouse ?house2 .
 }
 WHERE {
     BIND(@person_id AS ?person)

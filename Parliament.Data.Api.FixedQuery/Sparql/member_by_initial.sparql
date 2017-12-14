@@ -20,11 +20,6 @@ CONSTRUCT {
         :seatIncumbencyHasHouseSeat ?houseSeat ;
         :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate ;
         :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate .
-    ?houseIncumbency
-        a :HouseIncumbency ;
-        :houseIncumbencyHasHouse ?house ;
-        :parliamentaryIncumbencyStartDate ?houseIncumbencyStartDate ;
-        :parliamentaryIncumbencyEndDate ?houseIncumbencyEndDate .
     ?house
         a :House ;
         :houseName ?houseName .

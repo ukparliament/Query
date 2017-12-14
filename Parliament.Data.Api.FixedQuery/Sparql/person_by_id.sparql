@@ -44,12 +44,6 @@ CONSTRUCT {
         :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate ;
         :seatIncumbencyHasHouseSeat ?seat ;
         :parliamentaryIncumbencyHasContactPoint ?contactPoint .
-    ?houseIncumbency
-        a :HouseIncumbency ;
-        :parliamentaryIncumbencyEndDate ?houseIncumbencyEndDate ;
-        :parliamentaryIncumbencyStartDate ?houseIncumbencyStartDate ;
-        :houseIncumbencyHasHouse ?house1 ;
-        :parliamentaryIncumbencyHasContactPoint ?contactPoint .
     ?seat
         a :HouseSeat ;
         :houseSeatHasConstituencyGroup ?constituency ;
