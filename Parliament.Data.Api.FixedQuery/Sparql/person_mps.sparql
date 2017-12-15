@@ -20,6 +20,9 @@ WHERE {
         ?partyMembership :partyMembershipHasPartyMember ?member .
         ?member :memberHasParliamentaryIncumbency ?seatIncumbency .
         ?seatIncumbency a :SeatIncumbency .
+		?seatIncumbency :seatIncumbencyHasHouseSeat ?seat.
+		?seat :houseSeatHasHouse ?house.
+		?house :houseName "House of Commons".
         FILTER NOT EXISTS { ?seatIncumbency a :PastParliamentaryIncumbency . }
 	}
     GROUP BY ?party ?partyName
