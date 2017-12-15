@@ -95,8 +95,8 @@ WHERE {
     OPTIONAL { ?person :memberHasMemberImage ?image } .
     OPTIONAL {
         ?person :memberHasParliamentaryIncumbency ?incumbency .
+		?incumbency a :SeatIncumbency .
         OPTIONAL {
-            ?incumbency a :SeatIncumbency .
             BIND(?incumbency AS ?seatIncumbency)
             ?seatIncumbency :seatIncumbencyHasHouseSeat ?seat .
 			?seat :houseSeatHasHouse ?house.
