@@ -47,7 +47,7 @@ CONSTRUCT {
     ?seat
         a :HouseSeat ;
         :houseSeatHasConstituencyGroup ?constituency ;
-        :houseSeatHasHouse ?house2 .
+        :houseSeatHasHouse ?house .
     ?party
         a :Party ;
         :partyName ?partyName .
@@ -56,12 +56,9 @@ CONSTRUCT {
         :partyMembershipStartDate ?partyMembershipStartDate ;
         :partyMembershipEndDate ?partyMembershipEndDate ;
         :partyMembershipHasParty ?party .
-    ?house1
+    ?house
         a :House ;
-        :houseName ?houseName1 .
-    ?house2
-        a :House ;
-        :houseName ?houseName2 .
+        :houseName ?houseName.
     ?formalBodyMembership
         a :FormalBodyMembership ;
         :formalBodyMembershipStartDate ?formalBodyMembershipStartDate ;
@@ -102,14 +99,15 @@ WHERE {
             ?incumbency a :SeatIncumbency .
             BIND(?incumbency AS ?seatIncumbency)
             ?seatIncumbency :seatIncumbencyHasHouseSeat ?seat .
-            ?seat :houseSeatHasConstituencyGroup ?constituency .
-            ?seat :houseSeatHasHouse ?house2 .
-            ?house2 :houseName ?houseName2 .
-            ?constituency :constituencyGroupName ?constituencyName .
-            ?constituency :constituencyGroupStartDate ?constituencyStartDate .
-            OPTIONAL { ?constituency :constituencyGroupEndDate ?constituencyEndDate . }
+			?seat :houseSeatHasHouse ?house.
+            ?house :houseName ?houseName .
             ?seatIncumbency :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate .
             OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+            OPTIONAL { ?seat :houseSeatHasConstituencyGroup ?constituency .
+				?constituency :constituencyGroupName ?constituencyName .
+				?constituency :constituencyGroupStartDate ?constituencyStartDate .
+				OPTIONAL { ?constituency :constituencyGroupEndDate ?constituencyEndDate . }
+			}
         }
         OPTIONAL {
             ?incumbency :parliamentaryIncumbencyHasContactPoint ?contactPoint .
