@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    [Class("https://id.parliament.uk/schema/Article")]
+    [Class("https://id.parliament.uk/schema/WebArticle")]
     [BaseUri("https://id.parliament.uk/")]
     public class Article : ContentfulClass, IUriEntry
     {
