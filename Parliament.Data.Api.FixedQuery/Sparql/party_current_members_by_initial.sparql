@@ -20,7 +20,13 @@ CONSTRUCT {
         :partyMembershipHasParty ?party .
     ?houseSeat
         a :HouseSeat ;
-        :houseSeatHasConstituencyGroup ?constituencyGroup .
+        :houseSeatHasConstituencyGroup ?constituencyGroup ;
+		:houseSeatHasHouse ?house ;
+	.
+	?house
+		a :House ;
+		:houseName ?houseName ;
+	.
     ?seatIncumbency
         a :SeatIncumbency ;
         :seatIncumbencyHasHouseSeat ?houseSeat ;
@@ -52,6 +58,8 @@ WHERE {
                 ?incumbency a :SeatIncumbency .
                 BIND(?incumbency AS ?seatIncumbency)
                 ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
+				?houseSeat :houseSeatHasHouse ?house .
+				?house :houseName ?houseName .
                 OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
                 OPTIONAL { ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
                     ?constituencyGroup :constituencyGroupName ?constituencyName .
