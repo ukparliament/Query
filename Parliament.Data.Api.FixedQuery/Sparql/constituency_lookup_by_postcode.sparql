@@ -8,7 +8,11 @@ construct {
         :constituencyGroupHasHouseSeat ?houseSeat .
     ?houseSeat
         a :HouseSeat ;
-        :houseSeatHasConstituencyGroup ?constituencyGroup .
+        :houseSeatHasConstituencyGroup ?constituencyGroup ;
+        :houseSeatHasHouse ?house .
+    ?house
+        a :House ;
+        :houseName ?houseName .
     ?seatIncumbency
         a :SeatIncumbency ;
         :parliamentaryIncumbencyStartDate ?incStartDate ;
@@ -41,6 +45,8 @@ where {
     optional {
         ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
         ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
+        ?houseSeat :houseSeatHasHouse ?house .
+        ?house :houseName ?houseName .
         filter not exists { ?seatIncumbency a :PastParliamentaryIncumbency . }
         ?seatIncumbency :parliamentaryIncumbencyStartDate ?incStartDate .
         optional { ?seatIncumbency :parliamentaryIncumbencyEndDate ?incEndDate . }
