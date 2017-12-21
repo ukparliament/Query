@@ -52,18 +52,16 @@ WHERE {
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
                 	:memberHasParliamentaryIncumbency ?incumbency .
             FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
-        	OPTIONAL {
-                ?incumbency a :SeatIncumbency .
-                BIND(?incumbency AS ?seatIncumbency)
-                ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
-				?houseSeat :houseSeatHasHouse ?house .
-				?house :houseName ?houseName .
-                OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
-                OPTIONAL { ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
-                    ?constituencyGroup :constituencyGroupName ?constituencyName .
-                    FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
-                }
-          }
+            ?incumbency a :SeatIncumbency .
+            BIND(?incumbency AS ?seatIncumbency)
+            ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
+			?houseSeat :houseSeatHasHouse ?house .
+			?house :houseName ?houseName .
+            OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+            OPTIONAL { ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+				?constituencyGroup :constituencyGroupName ?constituencyName .
+                  FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
+            }
 	    }
       }
     }
