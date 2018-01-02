@@ -32,6 +32,18 @@
         "description": "IP address of the API Management."
       }
     },
+    "contentfulDeliveryApiKey": {
+      "type": "string",
+      "metadata": {
+        "description": "API key for Contentful CMS."
+      }
+    },
+    "contentfulSpaceId": {
+      "type": "string",
+      "metadata": {
+        "description": "Space Id for Contentful CMS."
+      }
+    },
     "releaseId": {
       "type": "int",
       "metadata": {
@@ -116,8 +128,8 @@
             "ApplicationInsightsInstrumentationKey": "[reference(resourceId(subscription().subscriptionId,parameters('operationsResourceGroupName'),'Microsoft.Insights/Components',parameters('applicationInsightsName')),'2014-04-01').InstrumentationKey]",
             "SparqlEndpoint": "",
             "SubscriptionKey": "",
-            "ContentfulDeliveryApiKey": "",
-            "ContentfulSpaceId": ""
+            "ContentfulDeliveryApiKey": "[parameters('contentfulDeliveryApiKey')]",
+            "ContentfulSpaceId": "[parameters('contentfulSpaceId')]"
           }
         }
       ],
