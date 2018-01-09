@@ -4,6 +4,7 @@ CONSTRUCT {
     ?party
     	a :Party ;
     	:partyName ?partyName .
+		:hkjhkj :jggjhg :sidtya .
 }
 WHERE {
 	{
@@ -17,6 +18,7 @@ WHERE {
         FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
         ?partyMembership :partyMembershipHasPartyMember ?person .
         ?person :memberHasParliamentaryIncumbency ?incumbency .
+		?incumbency a :SeatIncumbency .
         FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
         BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)

@@ -187,6 +187,12 @@
         "house_id": "instanceUri"
       }
     },
+    "house_current_members_with_mnis_id": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri"
+      }
+    },
     "house_current_members_a_to_z": {
       "type": "list",
       "parameters": {
