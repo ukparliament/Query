@@ -4,7 +4,6 @@ CONSTRUCT {
     ?party
     	a :Party ;
     	:partyName ?partyName .
-		:hkjhkj :jggjhg :sidtya .
 }
 WHERE {
 	{
