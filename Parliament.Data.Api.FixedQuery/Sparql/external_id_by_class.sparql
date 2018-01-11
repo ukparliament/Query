@@ -1,0 +1,14 @@
+﻿PREFIX : <https://id.parliament.uk/schema/>
+CONSTRUCT {
+	?class :classHasExternalIdentifier ?externalIdentifierSubclasses
+}
+WHERE {
+	SELECT DISTINCT ?class ?externalIdentifierSubclasses
+	where
+	{
+		BIND(@class as ?class)
+		?instance a ?class.
+		?instance :externalIdentifier ?id.
+		?instance ?externalIdentifierSubclasses ?id.
+	}
+}

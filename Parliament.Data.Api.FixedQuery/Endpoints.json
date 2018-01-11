@@ -111,6 +111,12 @@
         "uri": "uri"
       }
     },
+    "external_id_by_class": {
+      "type": "list",
+      "parameters": {
+        "class": "uri"
+      }
+    },
     "find_your_constituency": {
       "type": "single",
       "parameters": {}
