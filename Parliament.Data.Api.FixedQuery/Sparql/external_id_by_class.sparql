@@ -1,10 +1,11 @@
-﻿PREFIX : <https://id.parliament.uk/schema/>
+﻿PREFIX ex: <http://example.com/>
+PREFIX : @schemaUri
 CONSTRUCT {
-	?class :classHasExternalIdentifier ?externalIdentifierSubclasses
+	?class ex:classHasExternalIdentifier ?externalIdentifierSubclasses
 }
 WHERE {
 	SELECT DISTINCT ?class ?externalIdentifierSubclasses
-	where
+	WHERE
 	{
 		BIND(@class as ?class)
 		?instance a ?class.

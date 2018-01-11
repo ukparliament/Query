@@ -114,7 +114,7 @@
     "external_id_by_class": {
       "type": "list",
       "parameters": {
-        "class": "uri"
+        "class": "schemaUri"
       }
     },
     "find_your_constituency": {
