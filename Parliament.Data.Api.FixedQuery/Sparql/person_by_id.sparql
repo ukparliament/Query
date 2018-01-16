@@ -14,6 +14,8 @@ CONSTRUCT {
         :personHasFormalBodyMembership ?formalBodyMembership ;
         :governmentPersonHasGovernmentIncumbency ?governmentIncumbency ;
         :oppositionPersonHasOppositionIncumbency ?oppositionIncumbency ;
+        :personPimsId ?pimsId ;
+        :personMnisId ?mnisId ;
         :personHasPersonalWebLink ?personalWebLink ;
         :personHasTwitterWebLink ?twitterWebLink ;
         :personHasFacebookWebLink ?facebookWebLink .
@@ -152,6 +154,12 @@ WHERE {
         OPTIONAL { ?oppositionIncumbency :incumbencyEndDate ?incumbencyEndDate . }
         ?oppositionIncumbency :oppositionIncumbencyHasOppositionPosition ?oppositionPosition .
         ?oppositionPosition :positionName ?positionName .
+    }
+    OPTIONAL {
+        ?person :personPimsId ?pimsId .
+    }
+    OPTIONAL {
+        ?person :personMnisId ?mnisId .
     }
     OPTIONAL {
         ?person :personHasPersonWebLink ?twitterWebLink .
