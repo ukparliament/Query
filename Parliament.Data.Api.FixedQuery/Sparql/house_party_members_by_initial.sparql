@@ -40,9 +40,6 @@ WHERE {
         ?house a :House ;
                :houseName ?houseName .
          OPTIONAL {
-            BIND(@party_id AS ?party)
-            ?party a :Party ;
-                   :partyName ?partyName .
             ?person
                 a :Member ;
                 :partyMemberHasPartyMembership ?partyMembership .
@@ -83,5 +80,10 @@ WHERE {
           ?seat :houseSeatHasHouse ?house .
           BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
         }
+    }
+    UNION {
+        BIND(@party_id AS ?party)
+        ?party a :Party ;
+            :partyName .
     }
 }
