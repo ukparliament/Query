@@ -84,6 +84,6 @@ WHERE {
     UNION {
         BIND(@party_id AS ?party)
         ?party a :Party ;
-            :partyName .
+            :partyName ?partyName.
     }
 }
