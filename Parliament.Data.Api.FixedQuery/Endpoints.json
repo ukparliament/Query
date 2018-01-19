@@ -722,6 +722,10 @@
         "person_id": "instanceUri"
       }
     },
+    "person_photo_index": {
+      "type": "list",
+      "parameters": {}
+    },
     "photo_details": {
       "type": "single",
       "parameters": {
