@@ -64,13 +64,13 @@ WHERE {
         ?seatIncumbency :parliamentaryIncumbencyHasMember ?person ;
                         :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate ;
                         :seatIncumbencyHasHouseSeat ?houseSeat .
-        OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
-
-        ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup ;
-                    :houseSeatHasHouse ?house .
+        ?houseSeat :houseSeatHasHouse ?house .
         ?house :houseName ?houseName .
-        ?constituencyGroup :constituencyGroupName ?constituencyName .
-
+        OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+        OPTIONAL {
+            ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+            ?constituencyGroup :constituencyGroupName ?constituencyName .
+        }
         OPTIONAL { ?person :personGivenName ?givenName . }
         OPTIONAL { ?person :personFamilyName ?familyName . }
         OPTIONAL { ?person :memberHasMemberImage ?image . }

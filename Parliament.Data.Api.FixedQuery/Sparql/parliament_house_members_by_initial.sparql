@@ -68,9 +68,10 @@ WHERE {
                             :seatIncumbencyHasHouseSeat ?houseSeat .
             ?houseSeat :houseSeatHasHouse ?house .
             OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
-            ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
-            ?constituencyGroup :constituencyGroupName ?constituencyName .
-
+            OPTIONAL {
+                ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+                ?constituencyGroup :constituencyGroupName ?constituencyName .
+            }
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
             OPTIONAL { ?person :memberHasMemberImage ?image . }
