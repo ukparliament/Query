@@ -1,0 +1,67 @@
+PREFIX : @schemaUri
+CONSTRUCT {
+    ?group
+        a :Group ;
+        :groupName ?groupName ;
+        :formalBodyHasFormalBodyChair ?formalBodyChair .
+    ?formalBodyChair
+      	a :FormalBodyChair ;
+      	:positionName ?positionName ;
+      	:positionHasIncumbency ?incumbency .
+    ?incumbency
+      	a :Incumbency ;
+      	:incumbencyStartDate ?incumbencyStartDate ;
+      	:incumbencyEndDate ?incumbencyEndDate ;
+      	:incumbencyHasPerson ?person .
+    ?person
+        a :Person ;
+        :personGivenName ?personGivenName ;
+        :personFamilyName ?personFamilyName ;
+        :personOtherNames ?personOtherNames ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+    _:x :value ?firstLetter .
+}
+WHERE {
+    {
+    BIND(@group_id AS ?group)
+    ?group a :Group .
+    OPTIONAL { ?group :groupName ?groupName } .
+    OPTIONAL {
+          ?group :formalBodyHasFormalBodyChair ?formalBodyChair .
+          ?formalBodyChair a :FormalBodyChair ;
+          OPTIONAL { ?formalBodyChair :positionName ?positionName } .
+          OPTIONAL {
+              ?formalBodyChair :positionHasIncumbency ?incumbency .
+              ?incumbency
+                  a :Incumbency ;
+                  OPTIONAL { ?incumbency :incumbencyStartDate ?incumbencyStartDate } .
+                  OPTIONAL { ?incumbency :incumbencyEndDate ?incumbencyEndDate } .
+                  OPTIONAL {
+                      ?incumbency :incumbencyHasPerson ?person .
+                      ?person
+                          a :Person ;
+                          OPTIONAL { ?person :personGivenName ?personGivenName } .
+                          OPTIONAL { ?person :personFamilyName ?personFamilyName } .
+                          OPTIONAL { ?person :personOtherNames ?personOtherNames } .
+                          OPTIONAL {
+                              ?person :partyMemberHasPartyMembership ?partyMembership .
+                              ?partyMembership
+                                  a :PartyMembership ;
+                                  OPTIONAL {
+                                      ?partyMembership :partyMembershipHasParty ?party .
+                                      ?party
+                                          a :Party ;
+                                          OPTIONAL { ?party :partyName ?partyName } .
+                                  }
+                          }
+                    }
+            }
+        }
+    }
+}

@@ -1,0 +1,14 @@
+PREFIX : @schemaUri
+CONSTRUCT {
+    ?governmentDepartment
+        a :GovRegisterGovernmentOrganisation ;
+        :groupStartDate ?startDate ;
+        :groupEndDate ?endDate ;
+        :groupName ?groupName .
+}
+WHERE {
+    ?governmentDepartment a :GovRegisterGovernmentOrganisation .
+    OPTIONAL { ?governmentDepartment :groupName ?groupName } .
+    OPTIONAL { ?governmentDepartment :groupStartDate ?startDate } .
+    OPTIONAL { ?governmentDepartment :groupEndDate ?endDate } .
+}
