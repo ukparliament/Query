@@ -9,7 +9,7 @@ CONSTRUCT {
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
         :memberHasParliamentaryIncumbency ?incumbency ;
         :partyMemberHasPartyMembership ?partyMembership ;
-		:personMnisId ?personMnisId ;
+		:memberMnisId ?memberMnisId ;
 	.
     ?image
         a :MemberImage .
@@ -48,7 +48,7 @@ WHERE {
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
             OPTIONAL { ?person :memberHasMemberImage ?image . }
-			OPTIONAL { ?person :personMnisId ?personMnisId . }
+			OPTIONAL { ?person :memberMnisId ?memberMnisId . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
             ?incumbency :seatIncumbencyHasHouseSeat ?houseSeat .

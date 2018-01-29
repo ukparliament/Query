@@ -85,7 +85,7 @@ WHERE {
     BIND(@person_mnis_id AS ?mnis)
     ?person 
 		a :Person ;
-		:personMnisId ?mnis .
+		:memberMnisId ?mnis .
     OPTIONAL { ?person :personGivenName ?givenName } .
     OPTIONAL { ?person :personOtherNames ?otherName } .
     OPTIONAL { ?person :personFamilyName ?familyName } .
