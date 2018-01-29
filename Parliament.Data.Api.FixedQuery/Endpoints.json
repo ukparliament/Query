@@ -778,6 +778,18 @@
       "parameters": {
         "webarticle_id": "instanceUri"
       }
+    },
+    "concept_by_id": {
+      "type": "hardCoded",
+      "parameters": {
+        "concept_id": "instanceUri"
+      }
+    },
+    "concept_index": {
+      "type": "hardCoded",
+      "parameters": {
+        "concept_id": "instanceUri"
+      }
     }
   }
 }

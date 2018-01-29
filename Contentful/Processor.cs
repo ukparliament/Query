@@ -1,5 +1,6 @@
 ﻿namespace Contentful
 {
+    using Contentful.Core.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -11,11 +12,16 @@
     {
         public IGraph Graph { get; private set; }
 
-        public Processor(ContentfulClass instance)
+        public Processor(ContentfulClass instance) : this(instance.AsEnumerable()) { }
+
+        public Processor(IEnumerable<ContentfulClass> instance)
         {
             this.Graph = new Graph();
 
-            this.VisitSubject(instance);
+            foreach (ContentfulClass item in instance)
+            {
+                this.VisitSubject(item);
+            }
 
             this.CleanGraph();
         }

@@ -6,6 +6,8 @@
     [BaseUri("https://id.parliament.uk/")]
     public class Article : ContentfulClass, IUriEntry
     {
+        public static string ContentTypeName => "article";
+
         [Predicate("http://example.com/content/schema/title")]
         public string Title { get; set; }
 
@@ -18,8 +20,8 @@
         [Predicate("http://example.com/content/schema/relatedArticle")]
         public IEnumerable<Article> RelatedArticle { get; set; }
 
-        [Predicate("http://example.com/content/schema/topic")]
-        public IEnumerable<Topic> Topic { get; set; }
+        [Predicate("https://id.parliament.uk/schema/Concept")]
+        public IEnumerable<Concept> Concept { get; set; }
 
         [Predicate("http://example.com/content/schema/articleType")]
         public IEnumerable<ArticleType> ArticleType { get; set; }

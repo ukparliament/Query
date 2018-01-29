@@ -10,7 +10,6 @@
     {
         public HttpResponseMessage Get()
         {
-            //IDs correspond to the Staging environment generally used for both local development and devci.parliament.uk
             var helpIds = new Dictionary<string, string>()
             {
                 { "House Of Commons", "1AFu55Hs" },
@@ -19,7 +18,9 @@
                 { "Labour", "LEYIBvV9" },
                 { "Yeovil Lib Dems Contact", "wk1atnfh" },
                 { "56th Parliament", "b0t56VVL"},
-                { "Treasury Committee", "cLjFRjRt"}
+                { "Treasury Committee", "cLjFRjRt"},
+                { "How to submit a written question online","8MHJ9zSp"},
+                { "Oral questions", "yDYJSViV"}
             };
 
             var links = new string[] {
@@ -153,8 +154,10 @@
                 this.Url.Route("WithoutExtension", new { name = "formal_body_membership", formal_body_id = helpIds["Treasury Committee"] }),
 
                 this.Url.Route("WithoutExtension", new { name = "person_by_mnis_id", person_mnis_id = "185" }),
-                this.Url.Route("WithoutExtension", new { name = "constituency_current_by_proximity_to_point", border_range = "10", centre_point_range = "20", latitude = "51.496130", longitude = "-0.125718" })
-
+                this.Url.Route("WithoutExtension", new { name = "constituency_current_by_proximity_to_point", border_range = "10", centre_point_range = "20", latitude = "51.496130", longitude = "-0.125718" }),
+                this.Url.Route("WithoutExtension", new { name = "webarticle_by_id", webarticle_id = helpIds["How to submit a written question online"]}),
+                this.Url.Route("WithoutExtension", new { name = "concept_by_id", concept_id = helpIds["Oral questions"]}),
+                this.Url.Route("WithoutExtension", new { name = "concept_index"})
             } as IEnumerable<string>;
 
             // Make links relative, remove application virtual path (in this case, a trailing forward slash).

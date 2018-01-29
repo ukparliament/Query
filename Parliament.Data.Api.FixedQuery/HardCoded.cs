@@ -50,6 +50,44 @@
             }
         }
 
+        public static IGraph concept_by_id(string concept_id)
+        {
+            //var uri = new Uri(BaseController.Instance, topic_id).AbsoluteUri;
+           // var articleExists = FixedQueryController.ExecuteNamedSparql("exists", new Dictionary<string, string> { { "uri", uri } }) as SparqlResultSet;
+            //if (!articleExists.Result)
+            //{
+             //   throw new HttpResponseException(HttpStatusCode.NotFound);
+            //}
+
+            try
+            {
+                return Contentful.Engine.GetConcept(concept_id);
+            }
+            catch (Contentful.EntryNotFoundException)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+        }
+
+        public static IGraph concept_index()
+        {
+            //var uri = new Uri(BaseController.Instance, topic_id).AbsoluteUri;
+            // var articleExists = FixedQueryController.ExecuteNamedSparql("exists", new Dictionary<string, string> { { "uri", uri } }) as SparqlResultSet;
+            //if (!articleExists.Result)
+            //{
+            //   throw new HttpResponseException(HttpStatusCode.NotFound);
+            //}
+
+            try
+            {
+                return Contentful.Engine.GetConcepts();
+            }
+            catch (Contentful.EntryNotFoundException)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+        }
+
         private static void GetCoordinates(string postcode, string externalQueryString, out string latitude, out string longitude)
         {
             if (postcode.StartsWith("BT"))

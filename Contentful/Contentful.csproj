@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Content types\Collection.cs" />
-    <Compile Include="Content types\Topic.cs" />
+    <Compile Include="Content types\Concept.cs" />
     <Compile Include="Mapping attributes\BaseUriAttribute.cs" />
     <Compile Include="Mapping attributes\ClassAttribute.cs" />
     <Compile Include="Content types\Article.cs" />
