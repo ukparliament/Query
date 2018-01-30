@@ -20,8 +20,8 @@
         [Predicate("http://example.com/content/schema/relatedArticle")]
         public IEnumerable<Article> RelatedArticle { get; set; }
 
-        [Predicate("https://id.parliament.uk/schema/Concept")]
-        public IEnumerable<Concept> Concept { get; set; }
+        [Predicate("https://id.parliament.uk/schema/subjectTaggedThingHasConcept")]
+        public IEnumerable<Concept> Topic { get; set; }
 
         [Predicate("http://example.com/content/schema/articleType")]
         public IEnumerable<ArticleType> ArticleType { get; set; }
