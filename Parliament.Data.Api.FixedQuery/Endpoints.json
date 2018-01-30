@@ -787,9 +787,7 @@
     },
     "concept_index": {
       "type": "hardCoded",
-      "parameters": {
-        "concept_id": "instanceUri"
-      }
+      "parameters": {}
     }
   }
 }
