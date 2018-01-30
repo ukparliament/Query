@@ -57,8 +57,9 @@
 
         public static IGraph GetConcepts()
         {
-            var conceptBuilder = QueryBuilder<Concept>.New.ContentTypeIs(Concept.ContentTypeName);
+            var conceptBuilder = QueryBuilder<Concept>.New.ContentTypeIs(Concept.ContentTypeName).Include(10);
             var concepts = Engine.client.GetEntries(conceptBuilder).Result;
+
 
             return new Processor(concepts).Graph;
         }
