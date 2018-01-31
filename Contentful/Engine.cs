@@ -57,7 +57,7 @@
 
         public static IGraph GetConcepts()
         {
-            var conceptBuilder = QueryBuilder<Concept>.New.ContentTypeIs(Concept.ContentTypeName).Include(10);
+            var conceptBuilder = QueryBuilder<Concept>.New.ContentTypeIs(Concept.ContentTypeName).Include(3).Limit(2147483647);
             var concepts = Engine.client.GetEntries(conceptBuilder).Result;
 
 
