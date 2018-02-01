@@ -57,11 +57,11 @@
 
         public static IGraph GetConcepts()
         {
-            var conceptBuilder = QueryBuilder<Concept>.New.ContentTypeIs(Concept.ContentTypeName).Include(3).Limit(1000);
+            var conceptBuilder = QueryBuilder<Concept>.New.ContentTypeIs(Concept.ContentTypeName).Limit(1000);
             var concepts = Engine.client.GetEntries(conceptBuilder).Result;
-
-
-            return new Processor(concepts).Graph;
+            var conceptArray = concepts.ToArray();
+            foreach (var concept in conceptArray) { concept.BroaderConcept = null; }
+            return new Processor(conceptArray).Graph;
         }
     }
 }
