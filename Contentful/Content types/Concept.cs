@@ -14,6 +14,9 @@
         [Predicate("https://id.parliament.uk/schema/conceptLabel")]
         public string Name { get; set; }
 
+        [Predicate("https://id.parliament.uk/schema/conceptDefinition")]
+        public string Definition { get; set; }
+
         [Predicate("https://id.parliament.uk/schema/conceptScopeNote")]
         public string Description { get; set; }
 
