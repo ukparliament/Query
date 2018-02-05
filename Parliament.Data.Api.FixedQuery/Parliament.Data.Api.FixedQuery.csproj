@@ -52,10 +52,14 @@
       <Project>{f731b8a2-eb33-4b09-9fcd-9308fde343fa}</Project>
       <Name>Contentful</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FriendlyHierarchy\FriendlyHierarchy.csproj">
+      <Project>{042aaa55-9b7b-4c75-aa9d-7c53f193677e}</Project>
+      <Name>FriendlyHierarchy</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="dotNetRDF, Version=0.0.0.0, Culture=neutral, PublicKeyToken=6055ffe4c97cc780, processorArchitecture=MSIL">
-      <HintPath>..\packages\dotNetRDF.2.0.0\lib\net40\dotNetRDF.dll</HintPath>
+    <Reference Include="dotNetRDF, Version=2.0.1.0, Culture=neutral, PublicKeyToken=6055ffe4c97cc780, processorArchitecture=MSIL">
+      <HintPath>..\packages\dotNetRDF.2.0.1\lib\net40\dotNetRDF.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.6.0.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.6.0\lib\Net45\HtmlAgilityPack.dll</HintPath>
@@ -173,6 +177,7 @@
     <Compile Include="DeflateCompressor.cs" />
     <Compile Include="GzipCompressor.cs" />
     <Compile Include="HtmlResourceRedirectHandler.cs" />
+    <Compile Include="MimeMapping.cs" />
     <Compile Include="NotAcceptablePayloadHandler.cs" />
     <Compile Include="Controllers\BadRequestController.cs" />
     <Compile Include="Controllers\Configuration\BadRequestControllerConfigurationAttribute.cs" />

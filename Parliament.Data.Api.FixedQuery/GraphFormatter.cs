@@ -14,25 +14,20 @@
 
     public class GraphFormatter : BufferedMediaTypeFormatter
     {
-        private MimeTypeDefinition definition;
+        private MimeMapping definition;
 
-        private MimeTypeDefinition Definition
+        private MimeMapping Definition
         {
             get
             {
-                if (definition == null)
+                var mapping = this.MediaTypeMappings.Single();
+                if (mapping is UriPathExtensionMapping extensionMapping)
                 {
-                    var mapping = this.MediaTypeMappings.Single();
-
-                    var extensionMapping = mapping as UriPathExtensionMapping;
-                    if (extensionMapping != null)
-                    {
-                        this.definition = MimeTypesHelper.GetDefinitionsByFileExtension(extensionMapping.UriPathExtension).First();
-                    }
-                    else
-                    {
-                        this.definition = MimeTypesHelper.GetDefinitions(mapping.MediaType.MediaType).First();
-                    }
+                    this.definition = Global.MimeTypeDefinitions.Single(x => x.Extensions.Contains(extensionMapping.UriPathExtension));
+                }
+                else
+                {
+                    this.definition = Global.MimeTypeDefinitions.Single(x => x.MimeTypes.Contains(mapping.MediaType.MediaType));
                 }
 
                 return this.definition;
@@ -57,41 +52,41 @@
 
         public override bool CanWriteType(Type type)
         {
-            return (this.Definition.CanWriteRdf || this.Definition.CanWriteRdfDatasets) && typeof(IGraph).IsAssignableFrom(type)
-                || this.Definition.CanWriteSparqlResults && typeof(SparqlResultSet).IsAssignableFrom(type);
+            return (this.Definition.CanWriteRdf || this.Definition.CanWriteStore) && typeof(IGraph).IsAssignableFrom(type)
+                || this.Definition.CanWriteSparql && typeof(SparqlResultSet).IsAssignableFrom(type);
         }
 
         public override void WriteToStream(Type type, object value, Stream writeStream, HttpContent content)
         {
             var streamWriter = new StreamWriter(writeStream);
 
-            var graph = value as IGraph;
-            if (graph != null)
+            if (value is IGraph graph)
             {
-                if (this.Definition.CanWriteRdfDatasets)
+                if (this.Definition.CanWriteStore)
                 {
                     var store = new TripleStore();
                     store.Add(graph);
 
-                    this.Definition.GetRdfDatasetWriter().Save(store, streamWriter);
+                    this.Definition.StoreWriter().Save(store, streamWriter);
                 }
                 else
                 {
-                    var writer = this.Definition.GetRdfWriter();
-                    if (writer is HtmlWriter)
+                    var writer = this.Definition.RdfWriter();
+
+                    if (writer is HtmlWriter htmlWriter)
                     {
-                        (writer as HtmlWriter).UriPrefix = "resource?stay&uri=";
+                        htmlWriter.UriPrefix = "resource?stay&uri=";
                     }
 
                     writer.Save(graph, streamWriter);
                 }
             }
-            else if (this.Definition.CanWriteSparqlResults)
+            else if (this.Definition.CanWriteSparql)
             {
-                var writer = this.Definition.GetSparqlResultsWriter();
-                if (writer is HtmlWriter)
+                var writer = this.Definition.SparqlWriter();
+                if (writer is HtmlWriter htmlWriter)
                 {
-                    (writer as HtmlWriter).UriPrefix = "resource?uri=";
+                    htmlWriter.UriPrefix = "resource?stay&uri=";
                 }
 
                 writer.Save(value as SparqlResultSet, streamWriter);
