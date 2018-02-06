@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <TestRunParameters>
+    <Parameter name="AIApp" value="" />
+    <Parameter name="AIKey" value="" />
+    <Parameter name="AIHours" value="" />
+    <Parameter name="FixedQueryCloudRoleName" value="" />
+    <Parameter name="FixedQueryEndpoint" value="" />
+  </TestRunParameters>
+</RunSettings>
