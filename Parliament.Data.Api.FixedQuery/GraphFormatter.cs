@@ -92,6 +92,8 @@
                 writer.Save(value as SparqlResultSet, streamWriter);
             }
 
+            streamWriter.Close();
+
             GraphFormatter.TrackWriteEvent(this.SupportedMediaTypes.Single().MediaType);
         }
 
