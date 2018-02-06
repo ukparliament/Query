@@ -9,6 +9,7 @@
     using VDS.RDF.Writing;
 
     [TestClass]
+    [TestCategory("LocalOnly")]
     public class UsageBasedJson
     {
         [ClassInitialize]

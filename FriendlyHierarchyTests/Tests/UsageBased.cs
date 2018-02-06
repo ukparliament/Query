@@ -7,6 +7,7 @@
     using VDS.RDF.Writing;
 
     [TestClass]
+    [TestCategory("LocalOnly")]
     public class UsageBased
     {
         [ClassInitialize]
