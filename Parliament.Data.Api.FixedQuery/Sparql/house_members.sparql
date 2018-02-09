@@ -51,8 +51,9 @@ WHERE {
             ?incumbency :seatIncumbencyHasHouseSeat ?houseSeat .
             OPTIONAL { ?incumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
             ?houseSeat :houseSeatHasHouse ?house .
+            ?house :houseName ?houseName .
             BIND(?incumbency AS ?seatIncumbency)
-            OPTIONAL { 
+            OPTIONAL {
 				?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
                 ?constituencyGroup :constituencyGroupName ?constituencyName .
                 FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
