@@ -1,0 +1,15 @@
+PREFIX : @schemaUri
+CONSTRUCT {
+    ?group
+        a :Group ;
+        :groupName ?groupName ;
+        :groupStartDate ?startDate ;
+        :groupEndDate ?endDate .
+}
+WHERE {
+    BIND(@group_id AS ?group)
+    ?group a :Group .
+    OPTIONAL { ?group :groupName ?groupName } .
+    OPTIONAL { ?group :groupStartDate ?startDate } .
+    OPTIONAL { ?group :groupEndDate ?endDate } .
+}
