@@ -83,6 +83,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Comparison.cs" />
     <Compile Include="EndpointTests.cs" />
     <Compile Include="SparqlTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
