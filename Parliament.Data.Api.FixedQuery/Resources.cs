@@ -1,7 +1,10 @@
 ﻿namespace Parliament.Data.Api.FixedQuery
 {
     using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
 
     public static class Resources
@@ -42,6 +45,23 @@
         public static string GetSparql(string name)
         {
             return Resources.GetFile($"{BaseName}.Sparql.{name}.sparql");
+        }
+
+        public static IEnumerable<string> SparqlFileNames
+        {
+            get
+            {
+                var prefix = $"{BaseName}.Sparql.";
+                var suffix = ".sparql";
+
+                return Assembly.GetExecutingAssembly()
+                    .GetManifestResourceNames()
+                    .Where(resourceName => resourceName.StartsWith(prefix))
+                    .Where(resourceName => resourceName.EndsWith(suffix))
+                    .Select(resourceName => resourceName.Split(new[] { prefix, suffix }, StringSplitOptions.None))
+                    .Select(components => components[1])
+                    .Except(new[] { "constituency_lookup_by_postcode-external" });
+            }
         }
 
         private static string GetFile(string resourceName)

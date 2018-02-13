@@ -19,8 +19,16 @@
             }
         }
 
+        private static IEnumerable<object[]> SparqlFileNames
+        {
+            get
+            {
+                return Resources.SparqlFileNames.Select(fileName => new[] { fileName });
+            }
+        }
+
         [TestMethod]
-        [DynamicData("Endpoints")]
+        [DynamicData(nameof(Endpoints))]
         public void EndpointsHaveImplementation(string endpointName)
         {
             var endpoint = Resources.DB.Endpoints[endpointName];
@@ -62,6 +70,13 @@
             var result = endpointsJson.IsValid(endpointsSchema, out IList<string> errors);
 
             Assert.IsTrue(result, string.Join(",", errors));
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(SparqlFileNames))]
+        public void ImplementationHasEndpoint(string sparqlName)
+        {
+            CollectionAssert.Contains(Resources.DB.Endpoints.Keys, sparqlName);
         }
     }
 }

@@ -11,6 +11,16 @@
       "type": "list",
       "parameters": {}
     },
+    "concept_by_id": {
+      "type": "hardCoded",
+      "parameters": {
+        "concept_id": "instanceUri"
+      }
+    },
+    "concept_index": {
+      "type": "hardCoded",
+      "parameters": {}
+    },
     "constituency_a_to_z": {
       "type": "list",
       "parameters": {}
@@ -193,12 +203,6 @@
         "house_id": "instanceUri"
       }
     },
-    "house_current_members_with_mnis_id": {
-      "type": "list",
-      "parameters": {
-        "house_id": "instanceUri"
-      }
-    },
     "house_current_members_a_to_z": {
       "type": "list",
       "parameters": {
@@ -210,6 +214,12 @@
       "parameters": {
         "house_id": "instanceUri",
         "initial": "literal"
+      }
+    },
+    "house_current_members_with_mnis_id": {
+      "type": "list",
+      "parameters": {
+        "house_id": "instanceUri"
       }
     },
     "house_current_parties": {
@@ -629,16 +639,16 @@
         "person_id": "instanceUri"
       }
     },
-    "person_by_mnis_id": {
-      "type": "list",
-      "parameters": {
-        "person_mnis_id": "literal"
-      }
-    },
     "person_by_initial": {
       "type": "list",
       "parameters": {
         "initial": "literal"
+      }
+    },
+    "person_by_mnis_id": {
+      "type": "list",
+      "parameters": {
+        "person_mnis_id": "literal"
       }
     },
     "person_by_substring": {
@@ -773,21 +783,17 @@
         "uri": "uri"
       }
     },
+    "resource_by_id": {
+      "type": "single",
+      "parameters": {
+        "resource_id": "instanceUri"
+      }
+    },
     "webarticle_by_id": {
       "type": "hardCoded",
       "parameters": {
         "webarticle_id": "instanceUri"
       }
-    },
-    "concept_by_id": {
-      "type": "hardCoded",
-      "parameters": {
-        "concept_id": "instanceUri"
-      }
-    },
-    "concept_index": {
-      "type": "hardCoded",
-      "parameters": {}
     }
   }
 }
