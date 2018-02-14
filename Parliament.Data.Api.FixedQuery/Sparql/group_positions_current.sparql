@@ -1,0 +1,78 @@
+PREFIX : @schemaUri
+CONSTRUCT {
+    ?group
+        a :Group ;
+        :groupName ?groupName ;
+        :groupHasPosition ?position .
+    ?position
+        a :Position ;
+      	:positionName ?positionName ;
+      	:positionHasIncumbency ?incumbency ;
+      	:governmentPositionHasGovernmentIncumbency ?governmentIncumbency .
+    ?incumbency
+      	a :Incumbency ;
+      	:incumbencyStartDate ?incumbencyStartDate ;
+      	:incumbencyEndDate ?incumbencyEndDate .
+	 ?governmentIncumbency
+      	a :GovernmentIncumbency ;
+      	:incumbencyStartDate ?incumbencyStartDate ;
+      	:incumbencyEndDate ?incumbencyEndDate .
+    _:x :value ?firstLetter .
+}
+WHERE {
+{
+    BIND(@group_id AS ?group)
+    ?group a :Group .
+    OPTIONAL { ?group :groupName ?groupName } .
+    OPTIONAL {
+          ?group :groupHasPosition ?position .
+          ?position
+              a :Position ;
+              :positionName ?positionName .
+          OPTIONAL {
+          ?position :positionHasIncumbency ?incumbency .
+          ?incumbency
+              a :Incumbency ;
+              OPTIONAL { ?incumbency :incumbencyStartDate ?incumbencyStartDate } .
+              OPTIONAL { ?incumbency :incumbencyEndDate ?incumbencyEndDate } .
+        }
+        OPTIONAL {
+          ?position :governmentPositionHasGovernmentIncumbency ?governmentIncumbency .
+          ?governmentIncumbency
+              a :GovernmentIncumbency ;
+              OPTIONAL { ?governmentIncumbency :incumbencyStartDate ?incumbencyStartDate } .
+              OPTIONAL { ?governmentIncumbency :incumbencyEndDate ?incumbencyEndDate } .
+        }
+        }
+    }
+    UNION {
+    SELECT DISTINCT ?firstLetter
+      WHERE {
+            BIND(@group_id AS ?group)
+            ?group
+                a :Group ;
+                :groupName ?groupName .
+            OPTIONAL {
+                ?group :groupHasPosition ?position .
+                ?position
+                    a :Position ;
+                    :positionName ?positionName .
+                OPTIONAL {
+                ?position :positionHasIncumbency ?incumbency .
+                ?incumbency
+                    a :Incumbency ;
+                    OPTIONAL { ?incumbency :incumbencyStartDate ?incumbencyStartDate } .
+                    OPTIONAL { ?incumbency :incumbencyEndDate ?incumbencyEndDate } .
+                }
+                OPTIONAL {
+                ?position :governmentPositionHasGovernmentIncumbency ?governmentIncumbency .
+                ?governmentIncumbency
+                    a :GovernmentIncumvency ;
+                    OPTIONAL { ?governmentIncumbency :incumbencyStartDate ?incumbencyStartDate } .
+                    OPTIONAL { ?governmentIncumbency :incumbencyEndDate ?incumbencyEndDate } .
+                }
+            }
+            BIND(UCASE(SUBSTR(?positionName, 1, 1)) as ?firstLetter)
+    	  }
+    }
+}

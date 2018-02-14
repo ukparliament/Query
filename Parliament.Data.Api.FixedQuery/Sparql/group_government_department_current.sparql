@@ -1,0 +1,13 @@
+PREFIX : @schemaUri
+CONSTRUCT {
+    ?governmentDepartment
+        a :GovRegisterGovernmentOrganisation ;
+        :groupStartDate ?startDate ;
+        :groupName ?groupName .
+}
+WHERE {
+    ?governmentDepartment a :GovRegisterGovernmentOrganisation .
+    FILTER NOT EXISTS { ?governmentDepartment a :PastGroup . }
+    OPTIONAL { ?governmentDepartment :groupName ?groupName } .
+    OPTIONAL { ?governmentDepartment :groupStartDate ?startDate } .
+}

@@ -147,6 +147,111 @@
         "formal_body_id": "instanceUri"
       }
     },
+    "group_a_to_z": {
+      "type": "list",
+      "parameters": {}
+    },
+    "group_by_id": {
+      "type": "single",
+      "parameters": {
+        "group_id": "instanceUri"
+      }
+    },
+    "group_by_initial": {
+      "type": "list",
+      "parameters": {
+        "initial": "literal"
+      }
+    },
+    "group_by_substring": {
+      "type": "list",
+      "parameters": {
+        "substring": "literal"
+      }
+    },
+    "group_current_a_to_z": {
+      "type": "list",
+      "parameters": {}
+    },
+    "group_current": {
+      "type": "list",
+      "parameters": {}
+    },
+    "group_current_by_initial": {
+      "type": "list",
+      "parameters": {
+        "initial": "literal"
+      }
+    },
+    "group_government_department_a_to_z": {
+      "type": "list",
+      "parameters": {}
+    },
+    "group_government_department_by_initial": {
+      "type": "list",
+      "parameters": {
+        "initial": "literal"
+      }
+    },
+    "group_government_department_current_a_to_z": {
+      "type": "list",
+      "parameters": {}
+    },
+    "group_government_department_current_by_initial": {
+      "type": "list",
+      "parameters": {
+        "initial": "literal"
+      }
+    },
+    "group_government_department_current": {
+      "type": "list",
+      "parameters": {}
+    },
+    "group_government_department_index": {
+      "type": "list",
+      "parameters": {}
+    },
+    "group_houses_index": {
+      "type": "list",
+      "parameters": {
+        "group_id": "instanceUri"
+      }
+    },
+    "group_index": {
+      "type": "list",
+      "parameters": {}
+    },
+    "group_lookup": {
+      "type": "single",
+      "parameters": {
+        "property": "schemaUri",
+        "value": "literal"
+      }
+    },
+    "group_positions_chairs_current": {
+      "type": "list",
+      "parameters": {
+        "group_id": "instanceUri"
+      }
+    },
+    "group_positions_chairs_index": {
+      "type": "list",
+      "parameters": {
+        "group_id": "instanceUri"
+      }
+    },
+    "group_positions_current": {
+      "type": "list",
+      "parameters": {
+        "group_id": "instanceUri"
+      }
+    },
+    "group_positions_index": {
+      "type": "list",
+      "parameters": {
+        "group_id": "instanceUri"
+      }
+    },
     "house_by_id": {
       "type": "single",
       "parameters": {
