@@ -1,4 +1,5 @@
 PREFIX : @schemaUri
+
 CONSTRUCT {
     ?governmentDepartment
         a :GovRegisterGovernmentOrganisation ;

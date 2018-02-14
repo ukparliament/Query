@@ -169,11 +169,11 @@
         "substring": "literal"
       }
     },
-    "group_current_a_to_z": {
+    "group_current": {
       "type": "list",
       "parameters": {}
     },
-    "group_current": {
+    "group_current_a_to_z": {
       "type": "list",
       "parameters": {}
     },
@@ -193,6 +193,10 @@
         "initial": "literal"
       }
     },
+    "group_government_department_current": {
+      "type": "list",
+      "parameters": {}
+    },
     "group_government_department_current_a_to_z": {
       "type": "list",
       "parameters": {}
@@ -202,10 +206,6 @@
       "parameters": {
         "initial": "literal"
       }
-    },
-    "group_government_department_current": {
-      "type": "list",
-      "parameters": {}
     },
     "group_government_department_index": {
       "type": "list",

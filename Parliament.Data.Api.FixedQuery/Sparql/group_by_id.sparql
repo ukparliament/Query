@@ -1,4 +1,5 @@
 PREFIX : @schemaUri
+
 CONSTRUCT {
     ?group
         a :Group ;
@@ -8,6 +9,7 @@ CONSTRUCT {
 }
 WHERE {
     BIND(@group_id AS ?group)
+
     ?group a :Group .
     OPTIONAL { ?group :groupName ?groupName } .
     OPTIONAL { ?group :groupStartDate ?startDate } .

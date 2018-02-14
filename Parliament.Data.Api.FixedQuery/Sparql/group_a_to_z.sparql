@@ -1,12 +1,15 @@
 PREFIX : @schemaUri
+
 CONSTRUCT {
     [ :value ?firstLetter ]
 }
 WHERE {
     SELECT DISTINCT ?firstLetter
     WHERE {
-        ?s a :Group .
-        ?s :groupName ?groupName .
-        BIND(ucase(SUBSTR(?groupName, 1, 1)) as ?firstLetter)
+        ?s
+            a :Group ;
+            :groupName ?groupName .
+
+        BIND(UCASE(SUBSTR(?groupName, 1, 1)) AS ?firstLetter)
     }
 }
