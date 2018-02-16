@@ -183,31 +183,31 @@
         "initial": "literal"
       }
     },
-    "group_government_department_a_to_z": {
+    "group_government_organisation_a_to_z": {
       "type": "list",
       "parameters": {}
     },
-    "group_government_department_by_initial": {
+    "group_government_organisation_by_initial": {
       "type": "list",
       "parameters": {
         "initial": "literal"
       }
     },
-    "group_government_department_current": {
+    "group_government_organisation_current": {
       "type": "list",
       "parameters": {}
     },
-    "group_government_department_current_a_to_z": {
+    "group_government_organisation_current_a_to_z": {
       "type": "list",
       "parameters": {}
     },
-    "group_government_department_current_by_initial": {
+    "group_government_organisation_current_by_initial": {
       "type": "list",
       "parameters": {
         "initial": "literal"
       }
     },
-    "group_government_department_index": {
+    "group_government_organisation_index": {
       "type": "list",
       "parameters": {}
     },
