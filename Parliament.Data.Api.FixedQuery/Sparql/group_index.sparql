@@ -1,15 +1,25 @@
 PREFIX : @schemaUri
-
 CONSTRUCT {
     ?group
         a :Group ;
         :groupStartDate ?startDate ;
         :groupEndDate ?endDate ;
         :groupName ?groupName .
-}
-WHERE {
-    ?group a :Group .
-    OPTIONAL { ?group :groupName ?groupName } .
-    OPTIONAL { ?group :groupStartDate ?startDate } .
-    OPTIONAL { ?group :groupEndDate ?endDate } .
+    _:x :value ?firstLetter .
+}WHERE {
+  { SELECT * WHERE {
+      ?group a :Group .
+      OPTIONAL { ?group :groupName ?groupName } .
+      OPTIONAL { ?group :groupStartDate ?startDate } .
+      OPTIONAL { ?group :groupEndDate ?endDate } .
+      }
+    }
+    UNION {
+            SELECT DISTINCT ?firstLetter
+    WHERE {
+          ?group a :Group .
+          ?group :groupName ?groupName .
+          BIND(ucase(SUBSTR(?groupName, 1, 1)) as ?firstLetter)
+          }
+    }
 }

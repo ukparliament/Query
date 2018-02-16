@@ -5,10 +5,24 @@ CONSTRUCT {
         a :Group ;
         :groupStartDate ?startDate ;
         :groupName ?groupName .
+    _:x :value ?firstLetter .
+
 }
 WHERE {
-    ?group a :Group .
-    FILTER NOT EXISTS { ?group a :PastGroup . }
-    OPTIONAL { ?groups :groupName ?groupName } .
-    OPTIONAL { ?groups :groupStartDate ?startDate } .
+  { SELECT * WHERE {
+      ?group a :Group .
+      FILTER NOT EXISTS { ?group a :PastGroup . }
+      OPTIONAL { ?group :groupName ?groupName } .
+      OPTIONAL { ?group :groupStartDate ?startDate } .
+      }
+    }
+    UNION {
+            SELECT DISTINCT ?firstLetter
+    WHERE {
+          ?group a :Group .
+          FILTER NOT EXISTS { ?group a :PastGroup . }
+          ?group :groupName ?groupName .
+          BIND(ucase(SUBSTR(?groupName, 1, 1)) as ?firstLetter)
+          }
+    }
 }
