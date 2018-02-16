@@ -1,7 +1,7 @@
 PREFIX : @schemaUri
 
 CONSTRUCT {
-    ?governmentDepartment
+    ?governmentOrganisation
         a :GovRegisterGovernmentOrganisation ;
         :groupStartDate ?startDate ;
         :groupEndDate ?endDate ;
@@ -13,10 +13,10 @@ WHERE {
       {
         SELECT *
         WHERE {
-            ?governmentDepartment a :GovRegisterGovernmentOrganisation .
-            OPTIONAL { ?governmentDepartment :groupName ?groupName } .
-            OPTIONAL { ?governmentDepartment :groupStartDate ?startDate } .
-            OPTIONAL { ?governmentDepartment :groupEndDate ?endDate } .
+            ?governmentOrganisation a :GovRegisterGovernmentOrganisation .
+            OPTIONAL { ?governmentOrganisation :groupName ?groupName } .
+            OPTIONAL { ?governmentOrganisation :groupStartDate ?startDate } .
+            OPTIONAL { ?governmentOrganisation :groupEndDate ?endDate } .
 
             FILTER STRSTARTS(LCASE(?groupName), LCASE(@initial))
         }
