@@ -894,6 +894,10 @@
         "resource_id": "instanceUri"
       }
     },
+    "schema": {
+      "type": "single",
+      "parameters": {}
+    },
     "webarticle_by_id": {
       "type": "hardCoded",
       "parameters": {
