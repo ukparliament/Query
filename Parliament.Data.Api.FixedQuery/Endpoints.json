@@ -903,6 +903,13 @@
       "parameters": {
         "webarticle_id": "instanceUri"
       }
+    },
+    "with_schema": {
+      "type": "hardCoded",
+      "parameters": {
+        "endpoint_name": "literal"
+        // Add parameters of original endpoint
+      }
     }
   }
 }

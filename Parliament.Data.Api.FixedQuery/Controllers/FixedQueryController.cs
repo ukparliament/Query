@@ -85,9 +85,10 @@
         private static object ExecuteHardCoded(string name, Dictionary<string, string> values)
         {
             var method = typeof(HardCoded).GetMethod(name, BindingFlags.Public | BindingFlags.Static);
+
             try
             {
-                return method.Invoke(null, values.Values.Cast<object>().ToArray()) as Graph;
+                return method.Invoke(null, new object[] { values }) as Graph;
             }
             catch (TargetInvocationException e) when (e.InnerException is HttpResponseException)
             {
