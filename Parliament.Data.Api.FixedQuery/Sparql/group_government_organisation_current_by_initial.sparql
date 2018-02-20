@@ -13,6 +13,7 @@ WHERE {
         SELECT *
 		WHERE {
             ?governmentOrganisation a :GovRegisterGovernmentOrganisation .
+            FILTER NOT EXISTS { ?governmentOrganisation a :PastGroup. }
             OPTIONAL { ?governmentOrganisation :groupName ?groupName } .
             OPTIONAL { ?governmentOrganisation :groupStartDate ?startDate } .
 
