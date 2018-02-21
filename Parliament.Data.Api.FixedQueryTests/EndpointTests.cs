@@ -36,17 +36,11 @@
             if (endpoint.Type == EndpointType.HardCoded)
             {
                 var method = typeof(HardCoded).GetMethod(endpointName, BindingFlags.Public | BindingFlags.Static);
-
                 Assert.IsNotNull(method, "Method {0} missing", endpointName);
 
-                var methodParameters = method.GetParameters();
-
-                foreach (var parameterName in endpoint.Parameters.Keys)
-                {
-                    var methodParameter = methodParameters.SingleOrDefault(parameterInfo => parameterInfo.Name == parameterName);
-
-                    Assert.IsNotNull(methodParameter, "Parameter {0} missing on method {1}", parameterName, method.Name);
-                }
+                var parameters = method.GetParameters();
+                Assert.AreEqual(1, parameters.Length,"Hard-coded endpoint methods must have a single parameter.");
+                Assert.AreEqual(typeof(Dictionary<string, string>), parameters.Single().ParameterType, "Hard-coded endpoint method parameter must be a Dictionary<string, string>.");
             }
             else
             {
