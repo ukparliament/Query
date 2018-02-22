@@ -1,5 +1,4 @@
 PREFIX : @schemaUri
-
 CONSTRUCT {
     ?group
         a :Group ;
@@ -7,39 +6,56 @@ CONSTRUCT {
         :groupHasPosition ?position .
     ?position
         a :Position ;
-        :positionName ?positionName .
-
-    [ :value ?firstLetter ]
+        :positionName ?positionName ;
+        :positionHasIncumbency ?incumbency .
+    ?incumbency
+        a :Incumbency ;
+        :incumbencyStartDate ?incumbencyStartDate ;
+        :incumbencyEndDate ?incumbencyEndDate ;
+        :incumbencyHasPerson ?person .
+    ?person
+        a :Person ;
+        :personGivenName ?personGivenName ;
+        :personFamilyName ?personFamilyName ;
+        :personOtherNames ?personOtherNames ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
 }
 WHERE {
-    {
-        BIND(@group_id AS ?group)
-
-        ?group a :Group .
-        OPTIONAL { ?group :groupName ?groupName } .
-        OPTIONAL {
-            ?group :groupHasPosition ?position .
-            ?position
-                a :Position ;
-                :positionName ?positionName .
-        }
-    }
-    UNION {
-        SELECT DISTINCT ?firstLetter
-        WHERE {
-            BIND(@group_id AS ?group)
-
-            ?group
-                a :Group ;
-                :groupName ?groupName .
-            OPTIONAL {
-                ?group :groupHasPosition ?position .
-                ?position
-                    a :Position ;
-                    :positionName ?positionName .
-            }
-
-            BIND(UCASE(SUBSTR(?positionName, 1, 1)) AS ?firstLetter)
-        }
-    }
+      BIND(@group_id AS ?group)
+      ?group a :Group .
+      OPTIONAL { ?group :groupName ?groupName } .
+      OPTIONAL {
+          ?group :groupHasPosition ?position .
+          ?position
+              a :Position ;
+          OPTIONAL { ?position :positionName ?positionName } .
+          OPTIONAL {
+              ?position :positionHasIncumbency ?incumbency .
+              ?incumbency a :Incumbency .
+              OPTIONAL { ?incumbency :incumbencyStartDate ?incumbencyStartDate } .
+              OPTIONAL { ?incumbency :incumbencyEndDate ?incumbencyEndDate } .
+              OPTIONAL {
+                  ?incumbency :incumbencyHasPerson ?person .
+                  ?person a :Person .
+                  OPTIONAL { ?person :personGivenName ?personGivenName } .
+                  OPTIONAL { ?person :personFamilyName ?personFamilyName } .
+                  OPTIONAL { ?person :personOtherNames ?personOtherNames } .
+                  OPTIONAL {
+                      ?person :partyMemberHasPartyMembership ?partyMembership .
+                      ?partyMembership a :PartyMembership .
+                      OPTIONAL {
+                          ?partyMembership :partyMembershipHasParty ?party .
+                          ?party a :Party .
+                          OPTIONAL { ?party :partyName ?partyName } .
+                      }
+                  }
+              }
+          }
+      }
 }

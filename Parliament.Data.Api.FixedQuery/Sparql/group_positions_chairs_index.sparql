@@ -1,19 +1,18 @@
 PREFIX : @schemaUri
-
 CONSTRUCT {
     ?group
         a :Group ;
         :groupName ?groupName ;
         :formalBodyHasFormalBodyChair ?formalBodyChair .
     ?formalBodyChair
-          a :FormalBodyChair ;
-          :positionName ?positionName ;
-          :positionHasIncumbency ?incumbency .
+        a :FormalBodyChair ;
+        :positionName ?positionName ;
+        :positionHasIncumbency ?incumbency .
     ?incumbency
-          a :Incumbency ;
-          :incumbencyStartDate ?incumbencyStartDate ;
-          :incumbencyEndDate ?incumbencyEndDate ;
-          :incumbencyHasPerson ?person .
+        a :Incumbency ;
+        :incumbencyStartDate ?incumbencyStartDate ;
+        :incumbencyEndDate ?incumbencyEndDate ;
+        :incumbencyHasPerson ?person .
     ?person
         a :Person ;
         :personGivenName ?personGivenName ;
@@ -31,7 +30,6 @@ CONSTRUCT {
 }
 WHERE {
     BIND(@group_id AS ?group)
-
     ?group a :Group .
     OPTIONAL { ?group :groupName ?groupName } .
     OPTIONAL {
