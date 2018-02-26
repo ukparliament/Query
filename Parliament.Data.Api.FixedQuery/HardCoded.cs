@@ -28,7 +28,7 @@
 
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("schemaUri", Schema);
+            query.SetUri("schemaUri", Global.SchemaUri);
             query.SetLiteral("longitude", longitude);
             query.SetLiteral("latitude", latitude);
 
@@ -39,7 +39,7 @@
         {
             var webarticle_id = values["webarticle_id"];
 
-            var uri = new Uri(BaseController.Instance, webarticle_id).AbsoluteUri;
+            var uri = new Uri(Global.InstanceUri, webarticle_id).AbsoluteUri;
             var articleExists = FixedQueryController.ExecuteNamedSparql("exists", new Dictionary<string, string> { { "uri", uri } }) as SparqlResultSet;
             if (!articleExists.Result)
             {

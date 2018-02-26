@@ -156,8 +156,6 @@
                 }
 
                 nodeUriString = this.Settings.BaseUri.MakeRelativeUri(uri).ToString();
-
-                Console.WriteLine("x: {0}", nodeUriString);
             }
 
             // TODO: @rdf:ID for # URIs?

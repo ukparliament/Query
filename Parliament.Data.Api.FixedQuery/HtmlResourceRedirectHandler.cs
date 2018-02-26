@@ -12,7 +12,6 @@
     internal class HtmlResourceRedirectHandler : DelegatingHandler
     {
         private const string resourceEndpointTemplate = "https://beta.parliament.uk/resource/{0}";
-        private const string namespaceBase = "https://id.parliament.uk/";
         private const string resourceEndpointName = "resource";
         private const string endpointNameRouteParameter = "name";
 
@@ -73,8 +72,7 @@
             {
                 var resourceUri = new Uri(this.Parameters["uri"]);
 
-                var namespaceUri = new Uri(HtmlResourceRedirectHandler.namespaceBase);
-                var resourceId = namespaceUri.MakeRelativeUri(resourceUri);
+                var resourceId = Global.InstanceUri.MakeRelativeUri(resourceUri);
 
                 return resourceId;
             }

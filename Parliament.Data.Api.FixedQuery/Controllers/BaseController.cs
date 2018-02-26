@@ -14,9 +14,6 @@
         private static readonly string sparqlEndpoint = ConfigurationManager.AppSettings["SparqlEndpoint"];
         private static readonly string subscriptionKey = ConfigurationManager.AppSettings["SubscriptionKey"];
         private static readonly string endpointUri = $"{sparqlEndpoint}?subscription-key={subscriptionKey}";
-        // TODO: Extract to config or elsewhere
-        protected static readonly Uri Instance = new Uri("https://id.parliament.uk/");
-        protected static readonly Uri Schema = new Uri(Instance, "schema/");
 
         protected static object ExecuteSingle(SparqlParameterizedString query)
         {
@@ -27,7 +24,7 @@
         {
             var result = ExecuteList(query, endpointUri);
 
-            if (result is IGraph && (result as IGraph).IsEmpty || result is SparqlResultSet && (result as SparqlResultSet).IsEmpty)
+            if (result is IGraph graph && graph.IsEmpty || result is SparqlResultSet resultSet && resultSet.IsEmpty)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
@@ -62,8 +59,8 @@
         {
             graph.NamespaceMap.AddNamespace("owl", new Uri("http://www.w3.org/2002/07/owl#"));
             graph.NamespaceMap.AddNamespace("rdf", new Uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));
-            graph.NamespaceMap.AddNamespace("id", FixedQueryController.Instance);
-            graph.NamespaceMap.AddNamespace("schema", FixedQueryController.Schema);
+            graph.NamespaceMap.AddNamespace("id", Global.InstanceUri);
+            graph.NamespaceMap.AddNamespace("schema", Global.SchemaUri);
         }
     }
 }

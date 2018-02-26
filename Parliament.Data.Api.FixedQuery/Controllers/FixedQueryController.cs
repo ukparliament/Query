@@ -45,7 +45,7 @@
             var queryString = Resources.GetSparql(name);
             var query = new SparqlParameterizedString(queryString);
 
-            query.SetUri("schemaUri", Schema);
+            query.SetUri("schemaUri", Global.SchemaUri);
 
             if (endpoint.Parameters != null)
             {
@@ -121,11 +121,11 @@
                         break;
 
                     case ParameterType.InstanceUri:
-                        query.SetUri(name, new Uri(BaseController.Instance, value));
+                        query.SetUri(name, new Uri(Global.InstanceUri, value));
                         break;
 
                     case ParameterType.SchemaUri:
-                        query.SetUri(name, new Uri(BaseController.Schema, value));
+                        query.SetUri(name, new Uri(Global.SchemaUri, value));
                         break;
 
                     case ParameterType.Literal:

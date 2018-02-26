@@ -1,5 +1,6 @@
 ﻿namespace Parliament.Data.Api.FixedQuery
 {
+    using FriendlyHierarchy;
     using Microsoft.ApplicationInsights.Extensibility;
     using System;
     using System.Collections.Generic;
@@ -10,10 +11,14 @@
     using System.Web.Http.Dispatcher;
     using System.Web.Http.ExceptionHandling;
     using VDS.RDF;
+    using VDS.RDF.Parsing;
     using VDS.RDF.Writing;
 
     public class Global : HttpApplication
     {
+        public static readonly Uri InstanceUri = new Uri("https://id.parliament.uk/");
+        public static readonly Uri SchemaUri = new Uri(InstanceUri, "schema/");
+
         internal static IEnumerable<MimeMapping> MimeTypeDefinitions
         {
             get
@@ -22,59 +27,64 @@
                     new MimeMapping {
                         MimeTypes = new[] { "application/n-triples" },
                         Extensions = new[] { "nt" },
-                        RdfWriter = new Func<IRdfWriter>(() => new NTriplesWriter())
+                        RdfWriter = () => new NTriplesWriter()
                     },
                     new MimeMapping {
                         MimeTypes = new[] { "text/turtle" },
                         Extensions = new[] { "ttl" },
-                        RdfWriter = new Func<IRdfWriter>(() => new CompressingTurtleWriter())
+                        RdfWriter = () => new CompressingTurtleWriter()
                     },
                     new MimeMapping {
                         MimeTypes = new[] { "application/sparql-results+xml" },
                         Extensions = new[] { "srx" },
-                        SparqlWriter = new Func<ISparqlResultsWriter>(() => new SparqlXmlWriter())
+                        SparqlWriter = () => new SparqlXmlWriter()
                     },
                     new MimeMapping {
                         MimeTypes = new[] { "application/sparql-results+json" },
                         Extensions = new[] { "srj" },
-                        SparqlWriter = new Func<ISparqlResultsWriter>(() => new SparqlJsonWriter())
+                        SparqlWriter = () => new SparqlJsonWriter()
                     },
                     new MimeMapping {
                         MimeTypes = new[] { "text/csv" },
                         Extensions = new[] { "csv" },
-                        RdfWriter = new Func<IRdfWriter>(() => new CsvWriter()),
-                        SparqlWriter = new Func<ISparqlResultsWriter>(() => new SparqlCsvWriter()),
-                        StoreWriter = new Func<IStoreWriter>(() => new CsvStoreWriter())
+                        RdfWriter = () => new CsvWriter(),
+                        SparqlWriter = () => new SparqlCsvWriter(),
+                        StoreWriter = () => new CsvStoreWriter()
                     },
                     new MimeMapping {
                         MimeTypes = new[] { "text/tab-separated-values" },
                         Extensions = new[] { "tsv" },
-                        RdfWriter = new Func<IRdfWriter>(() => new TsvWriter()),
-                        SparqlWriter = new Func<ISparqlResultsWriter>(() => new SparqlTsvWriter()),
-                        StoreWriter = new Func<IStoreWriter>(() => new TsvStoreWriter())
+                        RdfWriter = () => new TsvWriter(),
+                        SparqlWriter = () => new SparqlTsvWriter(),
+                        StoreWriter = () => new TsvStoreWriter()
                     },
                     new MimeMapping {
-                        MimeTypes = new[] { "text/html", "application/xhtml+xml" },
+                        MimeTypes = new[] { "application/xhtml+xml", "text/html" },
                         Extensions = new[] { "html", "htm", "xhtml" },
-                        RdfWriter = new Func<IRdfWriter>(() => new HtmlWriter()),
-                        SparqlWriter = new Func<ISparqlResultsWriter>(() => new SparqlHtmlWriter())
+                        RdfWriter = () => new HtmlWriter(),
+                        SparqlWriter = () => new SparqlHtmlWriter()
                     },
                     new MimeMapping {
                         MimeTypes = new[] { "text/vnd.graphviz" },
                         Extensions = new[] { "gv", "dot" },
-                        RdfWriter = new Func<IRdfWriter>(() => new GraphVizWriter())
+                        RdfWriter = () => new GraphVizWriter()
                     },
                     new MimeMapping {
                         MimeTypes = new[] { "application/rdf+xml", "application/xml", "text/xml" },
                         Extensions = new[] { "xml", "rdf", "rdfxml" },
-                        RdfWriter = new Func<IRdfWriter>(() => new FriendlyHierarchy.FriendlyRdfXmlWriter(new FriendlyHierarchy.FriendlyRdfXmlWriterSettings{ BaseUri = new Uri("https://id.parliament.uk/"), VocabularyUri = new Uri("https://id.parliament.uk/schema/") })),
-                        SparqlWriter = new Func<ISparqlResultsWriter>(() => new SparqlXmlWriter())
+                        RdfWriter = () => new FriendlyRdfXmlWriter(new FriendlyRdfXmlWriterSettings{ BaseUri = Global.InstanceUri, VocabularyUri = Global.SchemaUri }),
+                        SparqlWriter = () => new SparqlXmlWriter()
                     },
                     new MimeMapping {
                         MimeTypes = new[] { "application/json+ld", "application/json" },
                         Extensions = new[] { "json", "jsonld" },
-                        RdfWriter = new Func<IRdfWriter>(() => new FriendlyHierarchy.FriendlyJsonLdWriter(new FriendlyHierarchy.FriendlyJsonLDWriterSettings{ BaseUri = new Uri("https://id.parliament.uk/"), VocabularyUri = new Uri("https://id.parliament.uk/schema/") })),
-                        SparqlWriter = new Func<ISparqlResultsWriter>(() => new SparqlJsonWriter())
+                        RdfWriter = () => new FriendlyJsonLdWriter(new FriendlyJsonLDWriterSettings{ BaseUri = Global.InstanceUri, VocabularyUri = Global.SchemaUri }),
+                        SparqlWriter = () => new SparqlJsonWriter()
+                    },
+                    new MimeMapping {
+                        MimeTypes = new[] { "application/json+rdf" },
+                        Extensions = new[] { "rj" },
+                        RdfWriter = () => new RdfJsonWriter()
                     }
                 };
             }
@@ -86,6 +96,11 @@
 
             TelemetryConfiguration.Active.InstrumentationKey = ConfigurationManager.AppSettings["ApplicationInsightsInstrumentationKey"];
 
+            Configure(config);
+        }
+
+        public static void Configure(HttpConfiguration config)
+        {
             var pipeline = HttpClientFactory.CreatePipeline(
                 new HttpControllerDispatcher(config),
                 new DelegatingHandler[] {
