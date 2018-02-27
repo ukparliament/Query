@@ -33,12 +33,11 @@ WHERE {
       OPTIONAL {
           ?group :groupHasPosition ?position .
           ?position
-              a :Position ;
+              a :Position .
           OPTIONAL { ?position :positionName ?positionName } .
           OPTIONAL {
               ?position :positionHasIncumbency ?incumbency .
               minus {?incumbency a :PastIncumbency}.
-              ?incumbency a :Incumbency .
               OPTIONAL { ?incumbency :incumbencyStartDate ?incumbencyStartDate } .
               OPTIONAL { ?incumbency :incumbencyEndDate ?incumbencyEndDate } .
               OPTIONAL {
