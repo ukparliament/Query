@@ -32,8 +32,7 @@ WHERE {
       OPTIONAL { ?group :groupName ?groupName } .
       OPTIONAL {
           ?group :groupHasPosition ?position .
-          ?position
-              a :Position ;
+          ?position a :Position .
           OPTIONAL { ?position :positionName ?positionName } .
           OPTIONAL {
               ?position :positionHasIncumbency ?incumbency .
