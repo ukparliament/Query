@@ -1,12 +1,9 @@
 ﻿namespace Contentful
 {
-    using Contentful.Core.Models;
     using System.Collections.Generic;
 
     [Class("https://id.parliament.uk/schema/Concept")]
     [BaseUri("https://id.parliament.uk/")]
-
-   
     public class Concept : ContentfulClass, IUriEntry
     {
         public static string ContentTypeName => "topic";

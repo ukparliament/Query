@@ -35,6 +35,7 @@
             return BaseController.ExecuteSingle(query);
         }
 
+        #region Contentful
         public static IGraph webarticle_by_id(Dictionary<string, string> values)
         {
             var webarticle_id = values["webarticle_id"];
@@ -95,6 +96,33 @@
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
         }
+
+        public static IGraph collection_index(Dictionary<string, string> values)
+        {
+            try
+            {
+                return Contentful.Engine.GetCollections();
+            }
+            catch (Contentful.EntryNotFoundException)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+        }
+
+        public static IGraph collection_by_id(Dictionary<string, string> values)
+        {
+            var collection_id = values["collection_id"];
+
+            try
+            {
+                return Contentful.Engine.GetCollection(collection_id);
+            }
+            catch (Contentful.EntryNotFoundException)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+        }
+        #endregion
 
         public static IGraph with_schema(Dictionary<string, string> values)
         {

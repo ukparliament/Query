@@ -1,6 +1,16 @@
 ﻿{
   "$schema": "endpointsschema.json#",
   "endpoints": {
+    "collection_by_id": {
+      "type": "hardCoded",
+      "parameters": {
+        "collection_id": "instanceUri"
+      }
+    },
+    "collection_index": {
+      "type": "hardCoded",
+      "parameters": {}
+    },
     "committee_by_id": {
       "type": "single",
       "parameters": {

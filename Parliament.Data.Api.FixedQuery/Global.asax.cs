@@ -59,7 +59,7 @@
                         StoreWriter = () => new TsvStoreWriter()
                     },
                     new MimeMapping {
-                        MimeTypes = new[] { "application/xhtml+xml", "text/html" },
+                        MimeTypes = new[] { "text/html", "application/xhtml+xml" },
                         Extensions = new[] { "html", "htm", "xhtml" },
                         RdfWriter = () => new HtmlWriter(),
                         SparqlWriter = () => new SparqlHtmlWriter()

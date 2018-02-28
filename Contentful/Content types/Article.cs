@@ -32,8 +32,8 @@
         [Predicate("http://example.com/content/schema/publisher")]
         public IEnumerable<Publisher> Publisher { get; set; }
 
-        [Predicate("http://example.com/content/schema/collection")]
-        public IEnumerable<Collection> Collection { get; set; }
+        [Predicate("http://example.com/content/schema/articleHasCollection")]
+        public IEnumerable<Collection> Collections { get; set; }
 
         public string ParliamentId { get; set; }
 
