@@ -130,7 +130,14 @@
             foreach (var collection in collections)
             {
                 collection.Articles = null;
-                collection.Subcollections = null;
+
+                if (collection.Subcollections != null)
+                {
+                    foreach (var subCollection in collection.Subcollections)
+                    {
+                        subCollection.Articles = null;
+                    }
+                }
             }
 
             return new Processor(collections).Graph;
