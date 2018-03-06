@@ -4,6 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Net.Http;
     using System.Reflection;
     using System.Web.Http;
@@ -103,13 +104,13 @@
                 var name = parameterDefinition.Key;
                 if (!values.ContainsKey(name))
                 {
-                    throw new Exception($"missing parameter {name}");
+                    throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent($"missing parameter {name}") });
                 }
 
                 var value = values[name];
                 if (string.IsNullOrEmpty(value))
                 {
-                    throw new Exception($"missing value for {name}");
+                    throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent($"missing value for parameter {name}") });
                 }
 
                 var type = parameterDefinition.Value;
