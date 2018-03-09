@@ -96,20 +96,20 @@
 
         protected virtual void WriteListItem(INode node)
         {
-            this.WriteObject(node, true);
+            this.WriteObject(node);
         }
 
         protected virtual void WriteLiteral(ILiteralNode node)
         {
         }
 
-        protected virtual void WriteObject(INode node, bool isList = false)
+        protected virtual void WriteObject(INode node)
         {
             if (node is ILiteralNode literal)
             {
                 this.WriteLiteral(literal);
             }
-            else if (this.settings.Flat || this.settings.LiftMultiParents && this.multiParents.Contains(node) || !isList && !this.Graph.GetTriplesWithSubject(node).Any())
+            else if (this.settings.Flat || this.settings.LiftMultiParents && this.multiParents.Contains(node))
             {
                 this.WriteObjectId(node);
             }
