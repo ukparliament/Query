@@ -16,9 +16,16 @@ CONSTRUCT {
         :oppositionPersonHasOppositionIncumbency ?oppositionIncumbency ;
         :personPimsId ?pimsId ;
         :memberMnisId ?mnisId ;
+        :personHasGenderIdentity ?genderIdentity ;
         :personHasPersonalWebLink ?personalWebLink ;
         :personHasTwitterWebLink ?twitterWebLink ;
         :personHasFacebookWebLink ?facebookWebLink .
+    ?genderIdentity
+        a :GenderIdentity ;
+        :genderIdentityHasGender ?gender .
+    ?gender
+        a :Gender ;
+        :genderName ?genderName .
     ?image
         a :MemberImage .
     ?contactPoint
@@ -95,6 +102,13 @@ WHERE {
     OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
     OPTIONAL { ?person <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitle } .
     OPTIONAL { ?person :memberHasMemberImage ?image } .
+    OPTIONAL { ?person :personHasGenderIdentity ?genderIdentity .
+      ?genderIdentity a :GenderIdentity .
+      OPTIONAL { ?genderIdentity :genderIdentityHasGender ?gender .
+        ?gender a :Gender .
+        OPTIONAL { ?gender :genderName ?genderName } .
+      }
+    }
     OPTIONAL {
         ?person :memberHasParliamentaryIncumbency ?incumbency .
 		?incumbency a :SeatIncumbency .
