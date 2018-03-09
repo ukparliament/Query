@@ -193,7 +193,7 @@ WHERE {
 UNION
 {      
 
-      SELECT ?group (COUNT(formalBodyMembership) AS ?memberCount)
+      SELECT ?group (COUNT(?formalBodyMembership) AS ?memberCount)
       WHERE {
 
       BIND(@group_id AS ?group)
