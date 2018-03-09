@@ -10,6 +10,7 @@
 
     [TestClass]
     [TestCategory("LocalOnly")]
+    [TestCategory("FriendlyHierarchy")]
     public class UsageBasedJson
     {
         [ClassInitialize]

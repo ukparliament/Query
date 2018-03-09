@@ -9,6 +9,7 @@
     using System.Reflection;
 
     [TestClass]
+    [TestCategory("Endpoint")]
     public class EndpointTests
     {
         private static IEnumerable<object[]> Endpoints

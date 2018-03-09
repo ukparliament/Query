@@ -8,6 +8,7 @@
 
     [TestClass]
     [TestCategory("LocalOnly")]
+    [TestCategory("FriendlyHierarchy")]
     public class UsageBased
     {
         [ClassInitialize]
