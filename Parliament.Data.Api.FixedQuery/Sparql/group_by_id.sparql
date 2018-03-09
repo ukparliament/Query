@@ -104,13 +104,13 @@ WHERE {
     MINUS {?incumbency :incumbencyEndDate ?incumbencyendDate } .
 
     OPTIONAL {
-    {?person :personHasFormalBodyMembership ?formalBodyMembership } .
-    {?person :memberHasParliamentaryIncumbency ?parlIncumbency } .
+    ?person :personHasFormalBodyMembership ?formalBodyMembership  .
+    ?person :memberHasParliamentaryIncumbency ?parlIncumbency  .
              }
     MINUS {?parlIncumbency :parliamentaryIncumbencyEndDate ?parlIncumbencyEndDate } . 
-    { ?formalBodyMembership :formalBodyMembershipStartDate ?membershipStartDate } .
+    ?formalBodyMembership :formalBodyMembershipStartDate ?membershipStartDate .
     MINUS {?formalBodyMembership :formalBodyMembershipEndDate ?membershipEndDate } .
-    { ?formalBodyMembership :formalBodyMembershipHasFormalBody ?formalBody } .
+    ?formalBodyMembership :formalBodyMembershipHasFormalBody ?formalBody .
              }
 
     ?person
@@ -119,10 +119,8 @@ WHERE {
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
-     OPTIONAL {
-     {?person :memberHasMemberImage ?image } .
-              }  
-
+    OPTIONAL { ?person :memberHasMemberImage ?image } .
+   
      ?group
         :groupName ?groupName ;
         :groupStartDate ?startDate ;
@@ -132,16 +130,13 @@ WHERE {
         :formalBodyHasFormalBodyMembership ?formalBodyMembership ;
         :formalBodyHasHouse ?house .
 
-     OPTIONAL {
-     {?group :formalBodyRemit ?bodyRemit} .
-              }
+     OPTIONAL { ?group :formalBodyRemit ?bodyRemit} .
      MINUS {?group :groupEndDate ?endDate } .  
      
      OPTIONAL {
-     {?group :formalBodyHasParentFormalBody ?parentformalBody } .
-     {?group :formalBodyHasChildFormalBody ?childformalBody } .
+     ?group :formalBodyHasParentFormalBody ?parentformalBody  .
+     ?group :formalBodyHasChildFormalBody ?childformalBody  .
               }   
-
      ?house
          :houseName ?houseName ;
          :houseHasContactPoint  ?contactpoint .
@@ -150,9 +145,9 @@ WHERE {
          :contactPointHasPostalAddress ?postalAddress .
 
      OPTIONAL {
-     {?contactpoint :email ?email } .
-     {?contactpoint :phoneNumber ?phoneNumber } .
-               }  
+     ?contactpoint :email ?email  .
+     ?contactpoint :phoneNumber ?phoneNumber  .
+              }  
 
      ?postalAddress
          :addressLine1 ?address1 ;
@@ -160,9 +155,9 @@ WHERE {
          :postCode ?postCode .
 
      OPTIONAL {
-     {?postalAddress :addressLine3 ?address3 } .
-     {?postalAddress :addressLine3 ?address4 } .
-     {?postalAddress :addressLine3 ?address5 } .
+     ?postalAddress :addressLine3 ?address3  .
+     ?postalAddress :addressLine3 ?address4  .
+     ?postalAddress :addressLine3 ?address5  .
               }    
 
      ?formalbodyType
@@ -172,21 +167,21 @@ WHERE {
          :formalBodyMembershipHasPerson ?person .
 
      OPTIONAL {
-     {?person :memberHasParliamentaryIncumbency ?parlIncumbency } .
-     {?parlIncumbency :seatIncumbencyHasHouseSeat ?houseSeat } . 
-     {?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup } .
-     {?constituencyGroup :constituencyGroupName ?constituencyGroupName } .
+     ?person :memberHasParliamentaryIncumbency ?parlIncumbency  .
+     ?parlIncumbency :seatIncumbencyHasHouseSeat ?houseSeat . 
+     ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+     ?constituencyGroup :constituencyGroupName ?constituencyGroupName  .
                }
 
-      MINUS {?parlIncumbency :parliamentaryIncumbencyEndDate ?parlIncumbencyEndDate } . 
-      MINUS {?constituencyGroup :constituencyGroupEndDate ?constituencygroupEndDate } .
-      MINUS {?formalBodyMembership :formalBodyMembershipEndDate ?membershipEndDate } .
+     MINUS {?parlIncumbency :parliamentaryIncumbencyEndDate ?parlIncumbencyEndDate } . 
+     MINUS {?constituencyGroup :constituencyGroupEndDate ?constituencygroupEndDate } .
+     MINUS {?formalBodyMembership :formalBodyMembershipEndDate ?membershipEndDate } .
 
-      ?person :partyMemberHasPartyMembership ?partyMembership .
-      ?partyMembership :partyMembershipHasParty ?party . 
-      ?party :partyName ?partyName .
+     ?person :partyMemberHasPartyMembership ?partyMembership .
+     ?partyMembership :partyMembershipHasParty ?party . 
+     ?party :partyName ?partyName .
 
-      MINUS {?partyMembership :partyMembershipEndDate ?partyMembershipEndDate } .
+     MINUS {?partyMembership :partyMembershipEndDate ?partyMembershipEndDate } .
 
       }                   
 } 
