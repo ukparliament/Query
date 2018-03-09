@@ -31,24 +31,20 @@
 
             var article = articles.Single();
 
-            if (article.RelatedArticle != null)
+            foreach (var relatedArticle in article.RelatedArticle ?? Enumerable.Empty<Article>())
             {
-                foreach (var relatedArticle in article.RelatedArticle)
-                {
-                    relatedArticle.Body = null;
-                    relatedArticle.Summary = null;
-                    relatedArticle.RelatedArticle = null;
-                    relatedArticle.Topic = null;
-                }
+                relatedArticle.ArticleType = null;
+                relatedArticle.Body = null;
+                relatedArticle.Collections = null;
+                relatedArticle.RelatedArticle = null;
+                relatedArticle.Summary = null;
+                relatedArticle.Topic = null;
             }
 
-            if (article.Topic != null)
+            foreach (var concept in article.Topic ?? Enumerable.Empty<Concept>())
             {
-                foreach (var concept in article.Topic)
-                {
-                    concept.Definition = null;
-                    concept.Description = null;
-                }
+                concept.Definition = null;
+                concept.Description = null;
             }
 
             var collectionQuery = QueryBuilder<Collection>.New.ContentTypeIs(Collection.ContentTypeName).LinksToEntry(article.Sys.Id);
@@ -56,8 +52,17 @@
 
             foreach (var collection in article.Collections)
             {
-                collection.Articles = null;
                 collection.Subcollections = null;
+
+                foreach (var siblingArticle in collection.Articles ?? Enumerable.Empty<Article>())
+                {
+                    siblingArticle.ArticleType = null;
+                    siblingArticle.Body = null;
+                    siblingArticle.Collections = null;
+                    siblingArticle.RelatedArticle = null;
+                    siblingArticle.Summary = null;
+                    siblingArticle.Topic = null;
+                }
             }
 
             return new Processor(article).Graph;
@@ -76,12 +81,10 @@
             var concept = concepts.Single();
 
             concept.Description = null;
-            if (concept.BroaderConcept != null)
+
+            foreach (var broaderConcept in concept.BroaderConcept ?? Enumerable.Empty<Concept>())
             {
-                foreach (var broaderConcept in concept.BroaderConcept)
-                {
-                    broaderConcept.Description = null;
-                }
+                broaderConcept.Description = null;
             }
 
             var indexedArticleQuery = QueryBuilder<Article>.New.ContentTypeIs(Article.ContentTypeName).LinksToEntry(concept.Sys.Id);
@@ -89,11 +92,11 @@
 
             foreach (var indexedArticle in concept.IndexedArticles)
             {
-                indexedArticle.Body = null;
-                indexedArticle.Summary = null;
-                indexedArticle.RelatedArticle = null;
-                indexedArticle.Topic = null;
                 indexedArticle.ArticleType = null;
+                indexedArticle.Body = null;
+                indexedArticle.RelatedArticle = null;
+                indexedArticle.Summary = null;
+                indexedArticle.Topic = null;
             }
 
             var narrowerConceptQuery = QueryBuilder<Concept>.New.ContentTypeIs(Concept.ContentTypeName).LinksToEntry(concept.Sys.Id);
@@ -131,12 +134,9 @@
             {
                 collection.Articles = null;
 
-                if (collection.Subcollections != null)
+                foreach (var subCollection in collection.Subcollections ?? Enumerable.Empty<Collection>())
                 {
-                    foreach (var subCollection in collection.Subcollections)
-                    {
-                        subCollection.Articles = null;
-                    }
+                    subCollection.Articles = null;
                 }
             }
 
@@ -155,26 +155,20 @@
 
             var collection = collections.Single();
 
-            if (collection.Subcollections != null)
+            foreach (var subCollection in collection.Subcollections ?? Enumerable.Empty<Collection>())
             {
-                foreach (var subCollection in collection.Subcollections)
-                {
-                    subCollection.Description = null;
-                    subCollection.Articles = null;
-                    subCollection.Subcollections = null;
-                }
+                subCollection.Articles = null;
+                subCollection.Description = null;
+                subCollection.Subcollections = null;
             }
 
-            if (collection.Articles != null)
+            foreach (var article in collection.Articles ?? Enumerable.Empty<Article>())
             {
-                foreach (var article in collection.Articles)
-                {
-                    article.Body = null;
-                    article.Summary = null;
-                    article.RelatedArticle = null;
-                    article.Topic = null;
-                    article.ArticleType = null;
-                }
+                article.Body = null;
+                article.Summary = null;
+                article.RelatedArticle = null;
+                article.Topic = null;
+                article.ArticleType = null;
             }
 
             var parentQuery = QueryBuilder<Collection>.New.ContentTypeIs(Collection.ContentTypeName).LinksToEntry(collection.Sys.Id);
@@ -182,8 +176,8 @@
 
             foreach (var parent in collection.Parents)
             {
-                parent.Description = null;
                 parent.Articles = null;
+                parent.Description = null;
                 parent.Subcollections = null;
             }
 
