@@ -149,6 +149,7 @@ WHERE {
     OPTIONAL              {
     ?person :memberHasMemberImage ?image .
     ?image a :MemberImage .
+    
                            }  
 
     OPTIONAL              {
