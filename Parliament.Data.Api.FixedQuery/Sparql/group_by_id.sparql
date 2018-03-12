@@ -94,8 +94,7 @@ WHERE {
     OPTIONAL {
     ?group :formalBodyHasFormalBodyChair ?bodyChair .
 
-    ?bodyChair
-           :positionHasIncumbency ?incumbency .
+    ?bodyChair :positionHasIncumbency ?incumbency .
 
     ?incumbency
            :incumbencyStartDate ?incumbencystartDate ;
@@ -131,18 +130,20 @@ WHERE {
         :formalBodyHasHouse ?house .
 
      OPTIONAL { ?group :formalBodyRemit ?bodyRemit} .
-     MINUS {?group :groupEndDate ?endDate } .  
+
+     MINUS {?group :groupEndDate ?endDate } .
+     MINUS {?group :formalBodyEndDate  ?formalbodyEndDate } .  
      
      OPTIONAL {
      ?group :formalBodyHasParentFormalBody ?parentformalBody  .
      ?group :formalBodyHasChildFormalBody ?childformalBody  .
               }   
+              
      ?house
          :houseName ?houseName ;
          :houseHasContactPoint  ?contactpoint .
 
-     ?contactpoint
-         :contactPointHasPostalAddress ?postalAddress .
+     ?contactpoint :contactPointHasPostalAddress ?postalAddress .
 
      OPTIONAL {
      ?contactpoint :email ?email  .
@@ -160,12 +161,10 @@ WHERE {
      ?postalAddress :addressLine3 ?address5  .
               }    
 
-     ?formalbodyType
-         :formalBodyTypeName ?formalbodytypeName .
-
-     ?formalBodyMembership
-         :formalBodyMembershipHasPerson ?person .
-
+     ?formalbodyType :formalBodyTypeName ?formalbodytypeName .
+         
+     ?formalBodyMembership :formalBodyMembershipHasPerson ?person .
+         
      OPTIONAL {
      ?person :memberHasParliamentaryIncumbency ?parlIncumbency  .
      ?parlIncumbency :seatIncumbencyHasHouseSeat ?houseSeat . 
