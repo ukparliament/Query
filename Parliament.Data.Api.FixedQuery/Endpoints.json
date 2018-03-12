@@ -165,7 +165,8 @@
       "type": "single",
       "parameters": {
         "group_id": "instanceUri"
-      },
+      }
+    },
     "group_memberships_current": {
       "type": "list",
       "parameters": {

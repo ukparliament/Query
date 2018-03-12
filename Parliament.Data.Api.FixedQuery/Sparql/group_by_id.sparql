@@ -129,25 +129,25 @@ WHERE {
         :formalBodyHasFormalBodyMembership ?formalBodyMembership ;
         :formalBodyHasHouse ?house .
 
-     OPTIONAL { ?group :formalBodyRemit ?bodyRemit} .
+    OPTIONAL { ?group :formalBodyRemit ?bodyRemit} .
 
-     MINUS {?group :groupEndDate ?endDate } .
-     MINUS {?group :formalBodyEndDate  ?formalbodyEndDate } .  
+    MINUS {?group :groupEndDate ?endDate } .
+    MINUS {?group :formalBodyEndDate  ?formalbodyEndDate } .  
      
-     OPTIONAL {
-     ?group :formalBodyHasParentFormalBody ?parentformalBody  .
-     ?group :formalBodyHasChildFormalBody ?childformalBody  .
+    OPTIONAL {
+    ?group :formalBodyHasParentFormalBody ?parentformalBody  .
+    ?group :formalBodyHasChildFormalBody ?childformalBody  .
               }   
               
-     ?house
-         :houseName ?houseName ;
-         :houseHasContactPoint  ?contactpoint .
+    ?house
+        :houseName ?houseName ;
+        :houseHasContactPoint  ?contactpoint .
 
-     ?contactpoint :contactPointHasPostalAddress ?postalAddress .
+    ?contactpoint :contactPointHasPostalAddress ?postalAddress .
 
-     OPTIONAL {
-     ?contactpoint :email ?email  .
-     ?contactpoint :phoneNumber ?phoneNumber  .
+    OPTIONAL {
+    ?contactpoint :email ?email  .
+    ?contactpoint :phoneNumber ?phoneNumber  .
               }  
 
      ?postalAddress
@@ -195,6 +195,6 @@ UNION
       MINUS {?formalBodyMembership a :PastFormalBodyMembership } .
       
             }
-      GROUP BY ?group       
+      GROUP BY ?group      
 }
 }
