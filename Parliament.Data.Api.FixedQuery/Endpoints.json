@@ -165,8 +165,13 @@
       "type": "single",
       "parameters": {
         "group_id": "instanceUri"
-      }
-    },
+      },
+    "group_memberships_current": {
+      "type": "list",
+      "parameters": {
+        "group_id": "instanceUri"
+       } 
+      },
     "group_by_initial": {
       "type": "list",
       "parameters": {
@@ -297,8 +302,7 @@
       "type": "list",
       "parameters": {
         "house_id": "instanceUri"
-      }
-    },
+      },
     "house_current_committees_a_to_z": {
       "type": "list",
       "parameters": {
