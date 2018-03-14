@@ -171,8 +171,8 @@
       "type": "list",
       "parameters": {
         "group_id": "instanceUri"
-       } 
-      },
+      }
+    },
     "group_by_initial": {
       "type": "list",
       "parameters": {
@@ -912,6 +912,10 @@
     },
     "schema": {
       "type": "single",
+      "parameters": {}
+    },
+    "vacant_constituency_index": {
+      "type": "list",
       "parameters": {}
     },
     "webarticle_by_id": {
