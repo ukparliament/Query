@@ -17,9 +17,13 @@ WHERE {
         WHERE {
             BIND(@house_id AS ?house) # Route parameter
             ?house :houseHasHouseSeat/:houseSeatHasSeatIncumbency ?incumbency .
-            FILTER NOT EXISTS {
-                ?incumbency a :PastParliamentaryIncumbency .
-            }
+            FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
+			FILTER NOT EXISTS {
+				?incumbency :incumbencyHasIncumbencyInterruption ?interruption.
+				FILTER NOT EXISTS {
+					?interruption :endDate ?end.
+				}
+			}
             ?incumbency :parliamentaryIncumbencyHasMember/:partyMemberHasPartyMembership ?membership .
             ?membership :partyMembershipHasParty ?party .
             ?party :partyName ?partyName .

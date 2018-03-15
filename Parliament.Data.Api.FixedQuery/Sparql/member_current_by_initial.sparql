@@ -37,44 +37,57 @@ CONSTRUCT {
     _:x :value ?firstLetter .
 }
 WHERE {
-    { SELECT * WHERE {
-        ?person 
-            a :Person ;
-            :memberHasParliamentaryIncumbency ?incumbency .
-        OPTIONAL { ?person :personGivenName ?givenName . }
-        OPTIONAL { ?person :personFamilyName ?familyName . }
-        OPTIONAL { ?person :memberHasMemberImage ?image . }
-        OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
-        ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
-        ?incumbency a :SeatIncumbency .
-        BIND(?incumbency AS ?seatIncumbency)
-        ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
-        ?seatIncumbency :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate .
-        OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
-        ?houseSeat :houseSeatHasHouse ?house .
-        ?house :houseName ?houseName .
-        OPTIONAL {
-            ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
-            ?constituencyGroup :constituencyGroupName ?constituencyName .
-        }
-        ?person :partyMemberHasPartyMembership ?partyMembership .
-        ?partyMembership :partyMembershipHasParty ?party .
-        ?party :partyName ?partyName .
-        ?partyMembership :partyMembershipStartDate ?partyMembershipStartDate .
-        OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
-        FILTER NOT EXISTS {?incumbency a :PastParliamentaryIncumbency}
-        FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial)) .
+    { 
+		SELECT * WHERE {
+			?person 
+				a :Person ;
+				:memberHasParliamentaryIncumbency ?incumbency .
+			OPTIONAL { ?person :personGivenName ?givenName . }
+			OPTIONAL { ?person :personFamilyName ?familyName . }
+			OPTIONAL { ?person :memberHasMemberImage ?image . }
+			OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+			?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+			?incumbency a :SeatIncumbency .
+			BIND(?incumbency AS ?seatIncumbency)
+			?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
+			?seatIncumbency :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate .
+			OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+			?houseSeat :houseSeatHasHouse ?house .
+			?house :houseName ?houseName .
+			OPTIONAL {
+				?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+				?constituencyGroup :constituencyGroupName ?constituencyName .
+			}
+			?person :partyMemberHasPartyMembership ?partyMembership .
+			?partyMembership :partyMembershipHasParty ?party .
+			?party :partyName ?partyName .
+			?partyMembership :partyMembershipStartDate ?partyMembershipStartDate .
+			OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+			FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
+			FILTER NOT EXISTS {
+				?incumbency :incumbencyHasIncumbencyInterruption ?interruption.
+				FILTER NOT EXISTS {
+					?interruption :endDate ?end.
+				}
+			}        
+			FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial)) .
         }
     }
     UNION {
-        SELECT DISTINCT ?firstLetter WHERE {
+		SELECT DISTINCT ?firstLetter WHERE {
 
-            ?incumbency a :ParliamentaryIncumbency ;
-            FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency.   }
-            ?incumbency :parliamentaryIncumbencyHasMember ?person.
+			?incumbency a :ParliamentaryIncumbency ;
+			FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
+			FILTER NOT EXISTS {
+				?incumbency :incumbencyHasIncumbencyInterruption ?interruption.
+				FILTER NOT EXISTS {
+					?interruption :endDate ?end.
+				}
+			}
+			?incumbency :parliamentaryIncumbencyHasMember ?person.
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
-           BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
-        }
-      }
+			BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
+		}
+	}
 }

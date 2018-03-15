@@ -86,8 +86,14 @@ UNION {
             ?partyMembership :partyMembershipHasPartyMember ?person.
             ?person :memberHasParliamentaryIncumbency ?incumbency .
 
-             FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency. }
-            ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+			FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
+			FILTER NOT EXISTS {
+				?incumbency :incumbencyHasIncumbencyInterruption ?interruption.
+				FILTER NOT EXISTS {
+					?interruption :endDate ?end.
+				}
+			}
+			?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
             BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
         }

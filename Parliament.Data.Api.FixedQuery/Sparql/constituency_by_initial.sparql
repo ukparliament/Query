@@ -38,8 +38,13 @@ WHERE {
             ?constituencyGroup :constituencyGroupHasHouseSeat ?seat .
             ?seat :houseSeatHasSeatIncumbency ?seatIncumbency .
             OPTIONAL { ?seatIncumbency :ParliamentaryIncumbencyHasEndDate ?seatIncumbencyEndDate . }
-            FILTER NOT EXISTS {?seatIncumbency a :PastParliamentaryIncumbency . }
-            ?seatIncumbency :parliamentaryIncumbencyHasMember ?member .
+			FILTER NOT EXISTS { ?seatIncumbency a :PastParliamentaryIncumbency . }
+			FILTER NOT EXISTS {
+				?seatIncumbency :incumbencyHasIncumbencyInterruption ?interruption.
+				FILTER NOT EXISTS {
+					?interruption :endDate ?end.
+				}
+			}             ?seatIncumbency :parliamentaryIncumbencyHasMember ?member .
             OPTIONAL { ?member :personGivenName ?givenName . }
             OPTIONAL { ?member :personFamilyName ?familyName . }
             OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
