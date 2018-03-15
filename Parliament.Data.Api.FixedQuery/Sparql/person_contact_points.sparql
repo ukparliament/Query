@@ -37,7 +37,13 @@ WHERE {
     OPTIONAL {
         ?person :memberHasParliamentaryIncumbency ?incumbency .
         FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
-        ?incumbency :parliamentaryIncumbencyHasContactPoint ?contactPoint .
+		FILTER NOT EXISTS {
+			?incumbency :incumbencyHasIncumbencyInterruption ?interruption.
+			FILTER NOT EXISTS {
+				?interruption :endDate ?end.
+			}
+		}
+		?incumbency :parliamentaryIncumbencyHasContactPoint ?contactPoint .
         OPTIONAL { ?contactPoint :phoneNumber ?phoneNumber . }
         OPTIONAL { ?contactPoint :email ?email . }
         OPTIONAL { ?contactPoint :faxNumber ?faxNumber . }

@@ -52,9 +52,15 @@ WHERE {
             OPTIONAL { ?person :memberHasMemberImage ?image . }
             OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
-                	:memberHasParliamentaryIncumbency ?incumbency .
+                :memberHasParliamentaryIncumbency ?incumbency .
             FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
-        	OPTIONAL {
+			FILTER NOT EXISTS {
+				?incumbency :incumbencyHasIncumbencyInterruption ?interruption.
+				FILTER NOT EXISTS {
+					?interruption :endDate ?end.
+				}
+			}
+			OPTIONAL {
                 ?incumbency a :SeatIncumbency .
                 BIND(?incumbency AS ?seatIncumbency)
                 ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .

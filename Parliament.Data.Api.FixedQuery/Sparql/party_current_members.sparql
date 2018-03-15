@@ -52,7 +52,13 @@ WHERE {
             ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
                 	:memberHasParliamentaryIncumbency ?incumbency .
             FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
-            ?incumbency a :SeatIncumbency .
+			FILTER NOT EXISTS {
+				?incumbency :incumbencyHasIncumbencyInterruption ?interruption.
+				FILTER NOT EXISTS {
+					?interruption :endDate ?end.
+				}
+			}
+			?incumbency a :SeatIncumbency .
             BIND(?incumbency AS ?seatIncumbency)
             ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
 			?houseSeat :houseSeatHasHouse ?house .
@@ -70,12 +76,18 @@ WHERE {
             BIND(@party_id AS ?party)
 
             ?party a :Party ;
-                   :partyHasPartyMembership ?partyMembership .
+				:partyHasPartyMembership ?partyMembership .
             FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
             ?partyMembership :partyMembershipHasPartyMember ?person .
             ?person :memberHasParliamentaryIncumbency ?incumbency .
             FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
-            ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+			FILTER NOT EXISTS {
+				?incumbency :incumbencyHasIncumbencyInterruption ?interruption.
+				FILTER NOT EXISTS {
+					?interruption :endDate ?end.
+				}
+			}
+			?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
             BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
         }

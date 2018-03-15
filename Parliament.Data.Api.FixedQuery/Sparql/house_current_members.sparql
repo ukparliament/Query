@@ -43,6 +43,12 @@ WHERE {
             ?incumbency
                 :parliamentaryIncumbencyHasMember ?person .
             FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
+			FILTER NOT EXISTS {
+				?incumbency :incumbencyHasIncumbencyInterruption ?interruption.
+				FILTER NOT EXISTS {
+					?interruption :endDate ?end.
+				}
+			}
             OPTIONAL { ?person :personGivenName ?givenName . }
             OPTIONAL { ?person :personFamilyName ?familyName . }
             OPTIONAL { ?person :memberHasMemberImage ?image . }
@@ -67,18 +73,24 @@ WHERE {
        }
     }
     UNION {
-        SELECT DISTINCT ?firstLetter WHERE {
-          BIND(@house_id AS ?house)
+		SELECT DISTINCT ?firstLetter WHERE {
+        BIND(@house_id AS ?house)
 
-          ?house a :House .
-    	  ?person a :Member ;
-                  <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
-    	  ?incumbency :parliamentaryIncumbencyHasMember ?person .
-          FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
-          ?incumbency :seatIncumbencyHasHouseSeat ?seat .
-       	  ?seat :houseSeatHasHouse ?house .
+        ?house a :House .
+    	?person a :Member ;
+			<http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+    	?incumbency :parliamentaryIncumbencyHasMember ?person .
+        FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
+		FILTER NOT EXISTS {
+			?incumbency :incumbencyHasIncumbencyInterruption ?interruption.
+			FILTER NOT EXISTS {
+				?interruption :endDate ?end.
+			}
+		}          
+		?incumbency :seatIncumbencyHasHouseSeat ?seat .
+      	?seat :houseSeatHasHouse ?house .
 
-          BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
-        }
-      }
+        BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
+		}
+	}
 }

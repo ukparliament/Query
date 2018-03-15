@@ -39,9 +39,15 @@ WHERE {
                 FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
                 ?partyMembership :partyMembershipHasPartyMember ?currentMember .
                 ?currentMember :memberHasParliamentaryIncumbency ?incumbency .
-                FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
-                ?incumbency :seatIncumbencyHasHouseSeat ?seat .
-                ?seat :houseSeatHasHouse ?house .
+				FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
+				FILTER NOT EXISTS {
+					?incumbency :incumbencyHasIncumbencyInterruption ?interruption.
+					FILTER NOT EXISTS {
+						?interruption :endDate ?end.
+					}
+				}
+				?incumbency :seatIncumbencyHasHouseSeat ?seat .
+				?seat :houseSeatHasHouse ?house .
         	}
         }
         GROUP BY ?party

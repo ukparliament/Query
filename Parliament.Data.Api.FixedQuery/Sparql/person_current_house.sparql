@@ -29,7 +29,13 @@ WHERE {
     OPTIONAL {
         ?person :memberHasParliamentaryIncumbency ?incumbency .
         FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
-        ?incumbency :parliamentaryIncumbencyStartDate ?incumbencyStartDate .
+		FILTER NOT EXISTS {
+			?incumbency :incumbencyHasIncumbencyInterruption ?interruption.
+			FILTER NOT EXISTS {
+				?interruption :endDate ?end.
+			}
+		}
+		?incumbency :parliamentaryIncumbencyStartDate ?incumbencyStartDate .
         OPTIONAL {
             ?incumbency a :SeatIncumbency .
             BIND(?incumbency AS ?seatIncumbency )
