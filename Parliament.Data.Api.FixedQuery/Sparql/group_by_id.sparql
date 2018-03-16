@@ -70,9 +70,12 @@ CONSTRUCT {
 
      ?contactpoint 
         a :ContactPoint ;
-        :email ?email ;
-        :phoneNumber ?phoneNumber ;
         :contactPointHasPostalAddress ?postalAddress .
+
+     ?formalbodycontactpoint 
+        a :ContactPoint ;
+        :email ?email ;
+        :phoneNumber ?phoneNumber .   
 
      ?postalAddress
         a :PostalAddress ;
@@ -110,6 +113,7 @@ WHERE {
     ?formalBodyMembership :formalBodyMembershipStartDate ?membershipStartDate .
     MINUS {?formalBodyMembership :formalBodyMembershipEndDate ?membershipEndDate } .
     ?formalBodyMembership :formalBodyMembershipHasFormalBody ?formalBody .
+    ?formalBody a :FormalBody .
              }
 
     ?person
@@ -125,19 +129,20 @@ WHERE {
         :groupStartDate ?startDate ;
         :formalBodyName ?formalBodyName ;
         :formalBodyStartDate ?formalbodystartDate ;
+        :formalBodyHasContactPoint ?formalbodycontactpoint ;
         :formalBodyHasFormalBodyType ?formalbodyType ;
         :formalBodyHasFormalBodyMembership ?formalBodyMembership ;
         :formalBodyHasHouse ?house .
 
-    OPTIONAL { ?group :formalBodyRemit ?bodyRemit} .
+    OPTIONAL {?formalbodycontactpoint :email ?email } .
+    OPTIONAL {?formalbodycontactpoint :phoneNumber ?phoneNumber } .    
+
+    OPTIONAL {?group :formalBodyHasParentFormalBody ?parentformalBody} .
+    OPTIONAL {?group :formalBodyHasChildFormalBody ?childformalBody } .
+    OPTIONAL {?group :formalBodyRemit ?bodyRemit } .     
 
     MINUS {?group :groupEndDate ?endDate } .
     MINUS {?group :formalBodyEndDate  ?formalbodyEndDate } .  
-     
-    OPTIONAL {
-    ?group :formalBodyHasParentFormalBody ?parentformalBody  .
-    ?group :formalBodyHasChildFormalBody ?childformalBody  .
-              }   
               
     ?house
         :houseName ?houseName ;
@@ -145,31 +150,23 @@ WHERE {
 
     ?contactpoint :contactPointHasPostalAddress ?postalAddress .
 
+
+    OPTIONAL {?postalAddress :addressLine1 ?address1 } .
+    OPTIONAL {?postalAddress :addressLine2 ?address2 } . 
+    OPTIONAL {?postalAddress :addressLine3 ?address3 } .  
+    OPTIONAL {?postalAddress :addressLine4 ?address4 } .   
+    OPTIONAL {?postalAddress :addressLine5 ?address5 } .   
+    OPTIONAL {?postalAddress :postCode ?postCode } .             
+
+    ?formalbodyType :formalBodyTypeName ?formalbodytypeName .
+         
+    ?formalBodyMembership :formalBodyMembershipHasPerson ?person .
+         
     OPTIONAL {
-    ?contactpoint :email ?email  .
-    ?contactpoint :phoneNumber ?phoneNumber  .
-              }  
-
-     ?postalAddress
-         :addressLine1 ?address1 ;
-         :addressLine2 ?address2 ;
-         :postCode ?postCode .
-
-     OPTIONAL {
-     ?postalAddress :addressLine3 ?address3  .
-     ?postalAddress :addressLine3 ?address4  .
-     ?postalAddress :addressLine3 ?address5  .
-              }    
-
-     ?formalbodyType :formalBodyTypeName ?formalbodytypeName .
-         
-     ?formalBodyMembership :formalBodyMembershipHasPerson ?person .
-         
-     OPTIONAL {
-     ?person :memberHasParliamentaryIncumbency ?parlIncumbency  .
-     ?parlIncumbency :seatIncumbencyHasHouseSeat ?houseSeat . 
-     ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
-     ?constituencyGroup :constituencyGroupName ?constituencyGroupName  .
+    ?person :memberHasParliamentaryIncumbency ?parlIncumbency  .
+    ?parlIncumbency :seatIncumbencyHasHouseSeat ?houseSeat . 
+    ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+    ?constituencyGroup :constituencyGroupName ?constituencyGroupName  .
                }
 
      MINUS {?parlIncumbency :parliamentaryIncumbencyEndDate ?parlIncumbencyEndDate } . 
@@ -187,14 +184,14 @@ WHERE {
 UNION
 {      
 
-      SELECT ?group (COUNT(?formalBodyMembership) AS ?memberCount)
-      WHERE {
+     SELECT ?group (COUNT(?formalBodyMembership) AS ?memberCount)
+     WHERE {
 
-      BIND(@group_id AS ?group)
-      ?group :formalBodyHasFormalBodyMembership ?formalBodyMembership .
-      MINUS {?formalBodyMembership a :PastFormalBodyMembership } .
+     BIND(@group_id AS ?group)
+     ?group :formalBodyHasFormalBodyMembership ?formalBodyMembership .
+     MINUS {?formalBodyMembership a :PastFormalBodyMembership } .
       
             }
-      GROUP BY ?group      
+     GROUP BY ?group      
 }
 }
