@@ -70,9 +70,12 @@ CONSTRUCT {
 
      ?contactpoint 
         a :ContactPoint ;
-        :email ?email ;
-        :phoneNumber ?phoneNumber ;
         :contactPointHasPostalAddress ?postalAddress .
+
+     ?formalbodycontactpoint 
+        a :ContactPoint ;
+        :email ?email ;
+        :phoneNumber ?phoneNumber .   
 
      ?postalAddress
         a :PostalAddress ;
@@ -126,9 +129,13 @@ WHERE {
         :groupStartDate ?startDate ;
         :formalBodyName ?formalBodyName ;
         :formalBodyStartDate ?formalbodystartDate ;
+        :formalBodyHasContactPoint ?formalbodycontactpoint ;
         :formalBodyHasFormalBodyType ?formalbodyType ;
         :formalBodyHasFormalBodyMembership ?formalBodyMembership ;
         :formalBodyHasHouse ?house .
+
+    OPTIONAL {?formalbodycontactpoint :email ?email } .
+    OPTIONAL {?formalbodycontactpoint :phoneNumber ?phoneNumber } .    
 
     OPTIONAL {?group :formalBodyHasParentFormalBody ?parentformalBody} .
     OPTIONAL {?group :formalBodyHasChildFormalBody ?childformalBody } .
@@ -155,11 +162,11 @@ WHERE {
          
     ?formalBodyMembership :formalBodyMembershipHasPerson ?person .
          
-     OPTIONAL {
-     ?person :memberHasParliamentaryIncumbency ?parlIncumbency  .
-     ?parlIncumbency :seatIncumbencyHasHouseSeat ?houseSeat . 
-     ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
-     ?constituencyGroup :constituencyGroupName ?constituencyGroupName  .
+    OPTIONAL {
+    ?person :memberHasParliamentaryIncumbency ?parlIncumbency  .
+    ?parlIncumbency :seatIncumbencyHasHouseSeat ?houseSeat . 
+    ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+    ?constituencyGroup :constituencyGroupName ?constituencyGroupName  .
                }
 
      MINUS {?parlIncumbency :parliamentaryIncumbencyEndDate ?parlIncumbencyEndDate } . 
@@ -175,29 +182,16 @@ WHERE {
       }                   
 } 
 UNION
-{   
-      SELECT * WHERE {
-         BIND(@group_id AS ?group)
-         
-         ?group
-         :formalBodyHasContactPoint ?contactpoint .
-         
-         OPTIONAL { ?contactpoint :email ?email }.
-         OPTIONAL { ?contactpoint :phoneNumber ?phoneNumber } .
-                    }
-    
-}
-UNION
 {      
 
-      SELECT ?group (COUNT(?formalBodyMembership) AS ?memberCount)
-      WHERE {
+     SELECT ?group (COUNT(?formalBodyMembership) AS ?memberCount)
+     WHERE {
 
-      BIND(@group_id AS ?group)
-      ?group :formalBodyHasFormalBodyMembership ?formalBodyMembership .
-      MINUS {?formalBodyMembership a :PastFormalBodyMembership } .
+     BIND(@group_id AS ?group)
+     ?group :formalBodyHasFormalBodyMembership ?formalBodyMembership .
+     MINUS {?formalBodyMembership a :PastFormalBodyMembership } .
       
             }
-      GROUP BY ?group      
+     GROUP BY ?group      
 }
 }
