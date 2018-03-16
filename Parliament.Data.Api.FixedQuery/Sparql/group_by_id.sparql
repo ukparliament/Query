@@ -110,6 +110,7 @@ WHERE {
     ?formalBodyMembership :formalBodyMembershipStartDate ?membershipStartDate .
     MINUS {?formalBodyMembership :formalBodyMembershipEndDate ?membershipEndDate } .
     ?formalBodyMembership :formalBodyMembershipHasFormalBody ?formalBody .
+    ?formalBody a :FormalBody .
              }
 
     ?person
@@ -129,15 +130,12 @@ WHERE {
         :formalBodyHasFormalBodyMembership ?formalBodyMembership ;
         :formalBodyHasHouse ?house .
 
-    OPTIONAL { ?group :formalBodyRemit ?bodyRemit} .
+    OPTIONAL {?group :formalBodyHasParentFormalBody ?parentformalBody} .
+    OPTIONAL {?group :formalBodyHasChildFormalBody ?childformalBody } .
+    OPTIONAL {?group :formalBodyRemit ?bodyRemit } .     
 
     MINUS {?group :groupEndDate ?endDate } .
     MINUS {?group :formalBodyEndDate  ?formalbodyEndDate } .  
-     
-    OPTIONAL {
-    ?group :formalBodyHasParentFormalBody ?parentformalBody  .
-    ?group :formalBodyHasChildFormalBody ?childformalBody  .
-              }   
               
     ?house
         :houseName ?houseName ;
@@ -145,25 +143,17 @@ WHERE {
 
     ?contactpoint :contactPointHasPostalAddress ?postalAddress .
 
-    OPTIONAL {
-    ?contactpoint :email ?email  .
-    ?contactpoint :phoneNumber ?phoneNumber  .
-              }  
 
-     ?postalAddress
-         :addressLine1 ?address1 ;
-         :addressLine2 ?address2 ;
-         :postCode ?postCode .
+    OPTIONAL {?postalAddress :addressLine1 ?address1 } .
+    OPTIONAL {?postalAddress :addressLine2 ?address2 } . 
+    OPTIONAL {?postalAddress :addressLine3 ?address3 } .  
+    OPTIONAL {?postalAddress :addressLine4 ?address4 } .   
+    OPTIONAL {?postalAddress :addressLine5 ?address5 } .   
+    OPTIONAL {?postalAddress :postCode ?postCode } .             
 
-     OPTIONAL {
-     ?postalAddress :addressLine3 ?address3  .
-     ?postalAddress :addressLine3 ?address4  .
-     ?postalAddress :addressLine3 ?address5  .
-              }    
-
-     ?formalbodyType :formalBodyTypeName ?formalbodytypeName .
+    ?formalbodyType :formalBodyTypeName ?formalbodytypeName .
          
-     ?formalBodyMembership :formalBodyMembershipHasPerson ?person .
+    ?formalBodyMembership :formalBodyMembershipHasPerson ?person .
          
      OPTIONAL {
      ?person :memberHasParliamentaryIncumbency ?parlIncumbency  .
@@ -184,6 +174,19 @@ WHERE {
 
       }                   
 } 
+UNION
+{   
+      SELECT * WHERE {
+         BIND(@group_id AS ?group)
+         
+         ?group
+         :formalBodyHasContactPoint ?contactpoint .
+         
+         OPTIONAL { ?contactpoint :email ?email }.
+         OPTIONAL { ?contactpoint :phoneNumber ?phoneNumber } .
+                    }
+    
+}
 UNION
 {      
 
