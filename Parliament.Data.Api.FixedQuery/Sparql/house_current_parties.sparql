@@ -13,7 +13,7 @@ WHERE {
     ?house :houseName ?houseName .
     OPTIONAL
     {
-        SELECT ?party ?partyName (COUNT(?membership) AS ?memberCount)
+        SELECT ?party ?partyName (COUNT(DISTINCT ?member) AS ?memberCount)
         WHERE {
             BIND(@house_id AS ?house) # Route parameter
             ?house :houseHasHouseSeat/:houseSeatHasSeatIncumbency ?incumbency .
@@ -24,7 +24,8 @@ WHERE {
 					?interruption :endDate ?end.
 				}
 			}
-            ?incumbency :parliamentaryIncumbencyHasMember/:partyMemberHasPartyMembership ?membership .
+            ?incumbency :parliamentaryIncumbencyHasMember ?member.
+			?member :partyMemberHasPartyMembership ?membership .
             ?membership :partyMembershipHasParty ?party .
             ?party :partyName ?partyName .
             FILTER NOT EXISTS {
