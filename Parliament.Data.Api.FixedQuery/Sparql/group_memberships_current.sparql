@@ -17,8 +17,7 @@ CONSTRUCT{
 
 ?bodyMembership
     a :FormalBodyMembership ;
-    :memberHasExOfficioMembership ?hasExofficio ;
-    :memberHasAlternateMembership ?hasAlternate ;
+    :formalBodyMembershipStartDate ?membershipStartDate ;
     :formalBodyMembershipHasFormalBody ?formalBody ;
     :formalBodyMembershipHasPerson ?person .
 
@@ -47,6 +46,7 @@ CONSTRUCT{
      :partyMemberHasPartyMembership ?partyMembership ;
      :personHasFormalBodyMembership ?bodyMembership ;
      :memberHasParliamentaryIncumbency ?parlIncumbency ;
+     :memberHasExOfficioMembership ?exofficio ;
      :formalBodyLayPersonMnisId ?layPersonid ;
      :memberHasMemberImage ?image ;
      <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs .
@@ -90,11 +90,6 @@ WHERE {
      OPTIONAL {?group :formalBodyRemit ?bodyRemit } . 
 
      ?bodyMembership :formalBodyMembershipHasPerson ?person .
-
-     OPTIONAL            {
-     ?bodyMembership :memberHasExOfficioMembership ?hasExofficio .
-     ?bodyMembership :memberHasAlternateMembership ?hasAlternate .
-                          }
  
      MINUS {?bodyMembership :formalBodyMembershipEndDate ?membershipEndDate } . 
 
@@ -112,28 +107,28 @@ WHERE {
      OPTIONAL             {
      ?person :personHasFormalBodyMembership ?bodyMembership .
      ?person :memberHasParliamentaryIncumbency ?parlIncumbency .
-                           }
+                          }
 
      MINUS {?parlIncumbency :parliamentaryIncumbencyEndDate ?incumbencyEndDate }  .	
      ?bodyMembership :formalBodyMembershipHasFormalBody ?formalBody .
      ?formalBody a :FormalBody .	
 
      MINUS {?bodyMembership :formalBodyMembershipEndDate ?membershipEndDate } .
-                           }
+                          }
 
 
-     OPTIONAL              {
+     OPTIONAL             {
      ?person :personHasFormalBodyMembership ?bodyMembership .
      ?person :memberHasParliamentaryIncumbency ?parlIncumbency .
-                           }
+                          }
    
      MINUS {?bodyMembership :formalBodyMembershipEndDate ?membershipEndDate } .  
 
-     OPTIONAL              {
+     OPTIONAL             {
      ?parlIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
      ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
      ?constituencyGroup :constituencyGroupName ?constituencyGroupName .
-                            }
+                          }
 
      MINUS {?parlIncumbency :parliamentaryIncumbencyEndDate ?incumbencyEndDate}  .
      MINUS {?constituencyGroup :constituencyGroupEndDate ?constituencyGroupEnd } . 
@@ -147,10 +142,19 @@ WHERE {
     OPTIONAL {?person :formalBodyLayPersonMnisId ?layPersonid } .
 
     OPTIONAL              {
+    BIND(?exofficio AS ?bodyMembership)
+    ?group :formalBodyHasFormalBodyMembership ?exofficio .
+    
+    ?person :memberHasExOfficioMembership ?exofficio  .
+    ?exofficio :formalBodyMembershipStartDate ?membershipStartDate .
+   
+                          }   
+
+    OPTIONAL              {
     ?person :memberHasMemberImage ?image .
     ?image a :MemberImage .
     
-                           }  
+                          }  
 
     OPTIONAL              {
     ?person :partyMemberHasPartyMembership ?partyMembership .
