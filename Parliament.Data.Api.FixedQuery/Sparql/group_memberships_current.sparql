@@ -46,6 +46,7 @@ CONSTRUCT{
      :partyMemberHasPartyMembership ?partyMembership ;
      :personHasFormalBodyMembership ?bodyMembership ;
      :memberHasParliamentaryIncumbency ?parlIncumbency ;
+     :memberHasAlternateMembership ?alternate ;
      :memberHasExOfficioMembership ?exofficio ;
      :formalBodyLayPersonMnisId ?layPersonid ;
      :memberHasMemberImage ?image ;
@@ -93,6 +94,8 @@ WHERE {
  
      MINUS {?bodyMembership :formalBodyMembershipEndDate ?membershipEndDate } . 
 
+     OPTIONAL {?person :formalBodyLayPersonMnisId ?layPersonid } .
+
      OPTIONAL            {
         ?group :formalBodyHasFormalBodyChair ?bodyChair  .
 
@@ -139,7 +142,7 @@ WHERE {
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
-    OPTIONAL {?person :formalBodyLayPersonMnisId ?layPersonid } .
+    
 
     OPTIONAL              {
     BIND(?exofficio AS ?bodyMembership)
@@ -148,7 +151,16 @@ WHERE {
     ?person :memberHasExOfficioMembership ?exofficio  .
     ?exofficio :formalBodyMembershipStartDate ?membershipStartDate .
    
-                          }   
+                          }  
+
+    OPTIONAL              {
+    BIND(?alternate AS ?bodyMembership)
+    ?group :formalBodyHasFormalBodyMembership ?alternate .
+    
+    ?person :memberHasAlternateMembership ?alternate  .
+    ?alternate :formalBodyMembershipStartDate ?membershipStartDate .
+   
+                          }                          
 
     OPTIONAL              {
     ?person :memberHasMemberImage ?image .
