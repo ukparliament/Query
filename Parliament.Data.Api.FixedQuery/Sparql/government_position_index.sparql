@@ -8,8 +8,8 @@ SELECT * WHERE {
 	.
 	?incumbency_uri 
 		:startDate ?incumbency_start;
-		:endDate ?incumbency_end;
 		:governmentIncumbencyHasGovernmentPosition ?government_position_uri
 	.
+	OPTIONAL { ?incumbency_uri :endDate ?incumbency_end }
 	?government_position_uri :name ?government_position_name.
 }
