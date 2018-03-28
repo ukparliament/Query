@@ -934,6 +934,12 @@
         "endpoint_name": "literal"
         // Add parameters of original endpoint
       }
+    },
+    "work_package_by_id": {
+      "type": "single",
+      "parameters": {
+        "work_package_id": "instanceUri"
+      }
     }
   }
 }

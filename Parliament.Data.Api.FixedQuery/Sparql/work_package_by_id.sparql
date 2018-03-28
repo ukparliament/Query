@@ -1,0 +1,162 @@
+﻿PREFIX id: <https://id.parliament.uk/>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+	id:WorkPac1 
+		a :WorkPackage;
+		:name "Negative SI on XYZ" ;
+		:workPackageSubjectToProcedure id:NegatvSI ;
+	.
+	id:NegatvSI 
+		a :Procedure;
+		:name "Negative SI" ;
+		:procedureHasHouse id:1AFu55Hs ;
+	.
+	id:1AFu55Hs 
+		a :House ;
+		:houseName "House of Commons" ;
+	.
+	
+	
+	id:BusItem1 
+		a :BusinessItem ;
+		:businessItemActualisesProcedureStep id:SIExists ;
+		:tabledThingHasTabling id:Tabling1 ;
+	.
+	id:SIExists
+		a :ProcedureStep ;
+		:procedureStepName "SI Exists" ;
+		:procedureStepCausesCausedProcedureRoute id:Route001 ;
+	.
+	id:Route001
+		a :ProcedureRoute ;
+		a :CausedProcedureRoute ;
+		:causedProcedureRouteHasProcedureStep id:LayInCom ;
+		:procedureRouteHasProcedure id:NegatvSI ;
+	.
+	id:Tabling1
+		a :Tabling ;
+		:tablingDate "2017-11-15+00:00"^^<http://www.w3.org/2001/XMLSchema#date> ;
+		:tablingHasPerson id:Person01 ;
+	.
+	id:Person01
+		a :Person ;
+		:personFamilyName "Abbott" ;
+		:personGivenName "Diane" ;
+	.
+	
+	
+	id:BusItem2 
+		a :BusinessItem ;
+		:businessItemActualisesProcedureStep id:LayInCom ;
+		:tabledThingHasTabling id:Tabling2 ;
+	.
+	id:LayInCom
+		a :ProcedureStep ;
+		:procedureStepName "Laying into Commons" ;
+		:procedureStepAllowsAllowedProcedureRoute id:Route002 ;
+	.
+	id:Route002
+		a :ProcedureRoute ;
+		a :AllowedProcedureRoute ;
+		:allowedProcedureRouteHasProcedureStep id:EDMTabln ;
+		:procedureRouteHasProcedure id:NegatvSI ;
+	.
+	id:Tabling2
+		a :Tabling ;
+		:tablingDate "2017-11-16+00:00"^^<http://www.w3.org/2001/XMLSchema#date> ;
+		:tablingHasPerson id:Person02 ;
+	.
+	id:Person02
+		a :Person ;
+		:personFamilyName "May" ;
+		:personGivenName "Theresa" ;
+	.
+	
+	
+	id:BusItem3 
+		a :BusinessItem ;
+		:businessItemActualisesProcedureStep id:EDMTabln ;
+		:tabledThingHasTabling id:Tabling3 ;
+	.
+	id:EDMTabln
+		a :ProcedureStep ;
+		:procedureStepName "EDM Tabling" ;
+		:procedureStepAllowsAllowedProcedureRoute id:Route003 ;
+	.
+	id:Route003
+		a :ProcedureRoute ;
+		a :AllowedProcedureRoute ;
+		:allowedProcedureRouteHasProcedureStep id:CommMoti ;
+		:procedureRouteHasProcedure id:NegatvSI ;
+	.
+	id:Tabling3
+		a :Tabling ;
+		:tablingDate "2017-11-20+00:00"^^<http://www.w3.org/2001/XMLSchema#date> ;
+		:tablingHasPerson id:Person03 ;
+	.
+	id:Person03
+		a :Person ;
+		:personFamilyName "Clarke" ;
+		:personGivenName "Ken" ;
+	.
+
+	
+	id:BusItem4 
+		a :BusinessItem ;
+		:businessItemActualisesProcedureStep id:CommMoti ;
+		:tabledThingHasTabling id:Tabling4 ;
+	.
+	id:CommMoti
+		a :ProcedureStep ;
+		:procedureStepName "Motion in House (Commons)" ;
+		:procedureStepAllowsAllowedProcedureRoute id:Route004 ;
+		:procedureStepAllowsAllowedProcedureRoute id:Route005 ;
+		:procedureStepCausesCausedProcedureRoute id:Route006 ;
+	.
+	id:Route004
+		a :ProcedureRoute ;
+		a :AllowedProcedureRoute ;
+		:allowedProcedureRouteHasProcedureStep id:CommDeci ;
+		:procedureRouteHasProcedure id:NegatvSI ;
+	.
+	id:Route005
+		a :ProcedureRoute ;
+		a :AllowedProcedureRoute ;
+		:allowedProcedureRouteHasProcedureStep id:CommChDe ;
+		:procedureRouteHasProcedure id:NegatvSI ;
+	.
+	id:Route006
+		a :ProcedureRoute ;
+		a :CausedProcedureRoute ;
+		:causedProcedureRouteHasProcedureStep id:EVELCons ;
+		:procedureRouteHasProcedure id:NegatvSI ;
+	.
+	id:Tabling4
+		a :Tabling ;
+		:tablingDate "2018-01-20+00:00"^^<http://www.w3.org/2001/XMLSchema#date> ;
+		:tablingHasPerson id:Person04 ;
+	.
+	id:Person04
+		a :Person ;
+		:personFamilyName "Lewis" ;
+		:personGivenName "Clive" ;
+	.
+	id:CommDeci
+		a :ProcedureStep ;
+		:procedureStepName "Commons Decision" ;
+	.
+	id:CommChDe
+		a :ProcedureStep ;
+		:procedureStepName "Commons chamber debate" ;
+	.
+	id:EVELCons
+		a :ProcedureStep ;
+		:procedureStepName "EVEL Consideration" ;
+	.	
+	
+}
+WHERE {
+BIND (@work_package_id as ?workPackage)
+
+}
