@@ -167,7 +167,7 @@
         "group_id": "instanceUri"
       }
     },
-    "group_memberships_current": {
+    "group_members_current": {
       "type": "list",
       "parameters": {
         "group_id": "instanceUri"
