@@ -58,6 +58,7 @@ CONSTRUCT{
 
 ?houseSeat
      a :HouseSeat ;
+     :houseSeatHasHouse ?house .
      :houseSeatHasConstituencyGroup ?constituencyGroup .
 
 ?constituencyGroup
@@ -131,6 +132,7 @@ WHERE {
      ?parlIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
      ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
      ?constituencyGroup :constituencyGroupName ?constituencyGroupName .
+     ?houseSeat :houseSeatHasHouse ?house .
                           }
 
      MINUS {?parlIncumbency :parliamentaryIncumbencyEndDate ?incumbencyEndDate}  .
