@@ -16,6 +16,7 @@ CONSTRUCT {
         :formalBodyHasParentFormalBody ?parentformalBody;
         :formalBodyHasChildFormalBody ?childformalBody ;
         :formalBodyHasFormalBodyType ?formalbodyType ;
+        :formalBodyHasContactPoint ?formalbodycontactpoint ;
         :count ?memberCount .
 
     ?bodyChair
