@@ -3,6 +3,7 @@ PREFIX : @schemaUri
 CONSTRUCT {
     ?group
         a :Group ;
+        a ?class ;
         :groupName ?groupName ;
         :groupStartDate ?startDate ;
         :groupEndDate ?endDate ;
@@ -98,12 +99,14 @@ WHERE {
     {
     SELECT * WHERE {
     BIND(@group_id AS ?group)
+    ?group a :Group.
     OPTIONAL {?group :formalBodyHasLeadHouse ?leadHouse } .
     BIND (?leadHouse AS ?house) .
 
     OPTIONAL {
+    ?group a :FormalBody.
+   	
     ?group :formalBodyHasFormalBodyChair ?bodyChair .
-
     ?bodyChair :positionHasIncumbency ?incumbency .
 
     ?incumbency
@@ -195,7 +198,7 @@ WHERE {
     ?party :partyName ?partyName .
 
     MINUS {?partyMembership :partyMembershipEndDate ?partyMembershipEndDate } .
-
+?group a ?class.
       }                   
 } 
 UNION
