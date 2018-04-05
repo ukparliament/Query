@@ -23,24 +23,24 @@ CONSTRUCT{
 
 ?formalBody
     a :FormalBody .
-     
+
 ?bodyChair
     a :Position ;
-    :positionHasIncumbency ?incum .
-     
+    :positionHasIncumbency ?incumbency .
+
 ?incumbency
      a :Incumbency ;
      :incumbencyStartDate ?sd ;
      :incumbencyHasPerson ?person .
-     
+
 ?formalbodytype
      a :FormalBodyType ;
      :formalbodyTypeName ?cmteetype .
-     
+
 ?house
      a :House ;
      :houseName ?houseName .
-     
+
 ?person
      a :Person ;
      :partyMemberHasPartyMembership ?partyMembership ;
@@ -51,23 +51,23 @@ CONSTRUCT{
      :formalBodyLayPersonMnisId ?layPersonid ;
      :memberHasMemberImage ?image ;
      <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs .
-	 
+
 ?parlIncumbency
      a :ParliamentIncumbency ;
      :seatIncumbencyHasHouseSeat ?houseSeat .
-     
+
 ?houseSeat
      a :HouseSeat ;
      :houseSeatHasConstituencyGroup ?constituencyGroup .
-     
-?constituencyGroup 
+
+?constituencyGroup
      a :ConstituencyGroup ;
      :constituencyGroupName ?constituencyGroupName .
-	 
+
 ?partyMembership
      a :PartyMembership ;
      :partyMembershipHasParty ?party .
-     
+
 ?party
      a :Party ;
      :partyName ?partyName .
@@ -77,7 +77,7 @@ CONSTRUCT{
 
 }
 WHERE {
-     { 
+     {
      SELECT * WHERE {
      BIND(@group_id AS ?group)
      OPTIONAL {?group :formalBodyHasLeadHouse ?leadHouse } .
@@ -88,11 +88,11 @@ WHERE {
      MINUS {?group :groupEndDate ?groupEndDate } .
      MINUS {?group :formalBodyEndDate  ?formalbodyEndDate } .
 
-     OPTIONAL {?group :formalBodyRemit ?bodyRemit } . 
+     OPTIONAL {?group :formalBodyRemit ?bodyRemit } .
 
      ?bodyMembership :formalBodyMembershipHasPerson ?person .
- 
-     MINUS {?bodyMembership :formalBodyMembershipEndDate ?membershipEndDate } . 
+
+     MINUS {?bodyMembership :formalBodyMembershipEndDate ?membershipEndDate } .
 
      OPTIONAL {?person :formalBodyLayPersonMnisId ?layPersonid } .
 
@@ -100,11 +100,11 @@ WHERE {
         ?group :formalBodyHasFormalBodyChair ?bodyChair  .
 
         ?bodyChair :positionHasIncumbency ?incumbency .
-  
-        ?incumbency 
+
+        ?incumbency
             :incumbencyStartDate ?sd ;
             :incumbencyHasPerson ?person .
-    
+
      MINUS {?incumbency :incumbencyEndDate ?ed}  .
 
      OPTIONAL             {
@@ -112,9 +112,9 @@ WHERE {
      ?person :memberHasParliamentaryIncumbency ?parlIncumbency .
                           }
 
-     MINUS {?parlIncumbency :parliamentaryIncumbencyEndDate ?incumbencyEndDate }  .	
+     MINUS {?parlIncumbency :parliamentaryIncumbencyEndDate ?incumbencyEndDate }  .
      ?bodyMembership :formalBodyMembershipHasFormalBody ?formalBody .
-     ?formalBody a :FormalBody .	
+     ?formalBody a :FormalBody .
 
      MINUS {?bodyMembership :formalBodyMembershipEndDate ?membershipEndDate } .
                           }
@@ -124,8 +124,8 @@ WHERE {
      ?person :personHasFormalBodyMembership ?bodyMembership .
      ?person :memberHasParliamentaryIncumbency ?parlIncumbency .
                           }
-   
-     MINUS {?bodyMembership :formalBodyMembershipEndDate ?membershipEndDate } .  
+
+     MINUS {?bodyMembership :formalBodyMembershipEndDate ?membershipEndDate } .
 
      OPTIONAL             {
      ?parlIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
@@ -134,39 +134,39 @@ WHERE {
                           }
 
      MINUS {?parlIncumbency :parliamentaryIncumbencyEndDate ?incumbencyEndDate}  .
-     MINUS {?constituencyGroup :constituencyGroupEndDate ?constituencyGroupEnd } . 
+     MINUS {?constituencyGroup :constituencyGroupEndDate ?constituencyGroupEnd } .
 
-     ?person 
+     ?person
         :personFamilyName ?familyName ;
         :personGivenName ?givenName ;
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
-    
+
 
     OPTIONAL              {
     BIND(?exofficio AS ?bodyMembership)
     ?group :formalBodyHasFormalBodyMembership ?exofficio .
-    
+
     ?person :memberHasExOfficioMembership ?exofficio  .
     ?exofficio :formalBodyMembershipStartDate ?membershipStartDate .
-   
-                          }  
+
+                          }
 
     OPTIONAL              {
     BIND(?alternate AS ?bodyMembership)
     ?group :formalBodyHasFormalBodyMembership ?alternate .
-    
+
     ?person :memberHasAlternateMembership ?alternate  .
     ?alternate :formalBodyMembershipStartDate ?membershipStartDate .
-   
-                          }                          
+
+                          }
 
     OPTIONAL              {
     ?person :memberHasMemberImage ?image .
     ?image a :MemberImage .
-    
-                          }  
+
+                          }
 
     OPTIONAL              {
     ?person :partyMemberHasPartyMembership ?partyMembership .
@@ -174,18 +174,17 @@ WHERE {
     ?party :partyName ?partyName .
                            }
 
-    MINUS {?partyMembership :partyMembershipEndDate ?partyMembershipEndDate } .           
-   
-    ?group 
+    MINUS {?partyMembership :partyMembershipEndDate ?partyMembershipEndDate } .
+
+    ?group
         :formalBodyName ?formalBodyName ;
         :formalBodyHasFormalBodyType ?formalbodytype ;
         :formalBodyHasHouse ?house .
-   
+
     ?house :houseName ?houseName .
 
-    ?formalbodytype :formalBodyTypeName ?cmteetype .  
+    ?formalbodytype :formalBodyTypeName ?cmteetype .
     }
- }  
- 
-} ORDER BY DESC(?bodyChair) ASC(?familyName)
+ }
 
+} ORDER BY DESC(?bodyChair) ASC(?familyName)
