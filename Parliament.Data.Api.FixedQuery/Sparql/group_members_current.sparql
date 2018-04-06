@@ -58,7 +58,7 @@ CONSTRUCT{
 
 ?houseSeat
      a :HouseSeat ;
-     :houseSeatHasHouse ?house .
+     :houseSeatHasHouse ?house ;
      :houseSeatHasConstituencyGroup ?constituencyGroup .
 
 ?constituencyGroup
