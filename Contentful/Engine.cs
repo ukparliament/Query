@@ -3,6 +3,7 @@
     using Contentful.Core;
     using Contentful.Core.Configuration;
     using Contentful.Core.Search;
+    using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
     using System.Net.Http;
@@ -50,6 +51,8 @@
 
             foreach (var collection in article.Collections)
             {
+                AddParents(collection);
+
                 collection.ExtendedDescription = null;
                 collection.Subcollections = null;
 
@@ -165,6 +168,13 @@
                 article.Topic = null;
             }
 
+            AddParents(collection);
+
+            return new Processor(collections).Graph;
+        }
+
+        private static void AddParents(Collection collection)
+        {
             var parentQuery = QueryBuilder<Collection>.New.ContentTypeIs(Collection.ContentTypeName).LinksToEntry(collection.Sys.Id);
             collection.Parents = Engine.client.GetEntries(parentQuery).Result;
 
@@ -173,9 +183,9 @@
                 parent.Articles = null;
                 parent.ExtendedDescription = null;
                 parent.Subcollections = null;
-            }
 
-            return new Processor(collections).Graph;
+                AddParents(parent);
+            }
         }
     }
 }
