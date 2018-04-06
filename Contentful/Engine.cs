@@ -33,11 +33,9 @@
 
             foreach (var relatedArticle in article.RelatedArticle ?? Enumerable.Empty<Article>())
             {
-                relatedArticle.ArticleType = null;
                 relatedArticle.Body = null;
                 relatedArticle.Collections = null;
                 relatedArticle.RelatedArticle = null;
-                relatedArticle.Summary = null;
                 relatedArticle.Topic = null;
             }
 
@@ -52,15 +50,14 @@
 
             foreach (var collection in article.Collections)
             {
+                collection.ExtendedDescription = null;
                 collection.Subcollections = null;
 
                 foreach (var siblingArticle in collection.Articles ?? Enumerable.Empty<Article>())
                 {
-                    siblingArticle.ArticleType = null;
                     siblingArticle.Body = null;
                     siblingArticle.Collections = null;
                     siblingArticle.RelatedArticle = null;
-                    siblingArticle.Summary = null;
                     siblingArticle.Topic = null;
                 }
             }
@@ -92,10 +89,8 @@
 
             foreach (var indexedArticle in concept.IndexedArticles)
             {
-                indexedArticle.ArticleType = null;
                 indexedArticle.Body = null;
                 indexedArticle.RelatedArticle = null;
-                indexedArticle.Summary = null;
                 indexedArticle.Topic = null;
             }
 
@@ -137,6 +132,7 @@
                 foreach (var subCollection in collection.Subcollections ?? Enumerable.Empty<Collection>())
                 {
                     subCollection.Articles = null;
+                    subCollection.ExtendedDescription = null;
                 }
             }
 
@@ -158,17 +154,15 @@
             foreach (var subCollection in collection.Subcollections ?? Enumerable.Empty<Collection>())
             {
                 subCollection.Articles = null;
-                subCollection.Description = null;
+                subCollection.ExtendedDescription = null;
                 subCollection.Subcollections = null;
             }
 
             foreach (var article in collection.Articles ?? Enumerable.Empty<Article>())
             {
                 article.Body = null;
-                article.Summary = null;
                 article.RelatedArticle = null;
                 article.Topic = null;
-                article.ArticleType = null;
             }
 
             var parentQuery = QueryBuilder<Collection>.New.ContentTypeIs(Collection.ContentTypeName).LinksToEntry(collection.Sys.Id);
@@ -177,7 +171,7 @@
             foreach (var parent in collection.Parents)
             {
                 parent.Articles = null;
-                parent.Description = null;
+                parent.ExtendedDescription = null;
                 parent.Subcollections = null;
             }
 
