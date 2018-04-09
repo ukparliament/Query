@@ -5,28 +5,28 @@ CONSTRUCT {
 	id:WorkPac1 
 		a :WorkPackage;
 		:name "Negative SI on XYZ" ;
-		:workPackageSubjectToProcedure id:NegatvSI ;
+		:workPackageHasProcedure id:NegatvSI ;
 	.
 	id:NegatvSI 
 		a :Procedure;
-		:name "Negative SI" ;
+		:procedureName "Negative SI" ;
 		:procedureHasHouse id:1AFu55Hs ;
 	.
 	id:1AFu55Hs 
 		a :House ;
 		:houseName "House of Commons" ;
 	.
-	
-	
+
+
 	id:BusItem1 
 		a :BusinessItem ;
-		:businessItemActualisesProcedureStep id:SIExists ;
+		:businessItemHasProcedureStep id:SIExists ;
 		:tabledThingHasTabling id:Tabling1 ;
 	.
 	id:SIExists
 		a :ProcedureStep ;
 		:procedureStepName "SI Exists" ;
-		:procedureStepCausesCausedProcedureRoute id:Route001 ;
+		:procedureStepHasCausedProcedureRoute id:Route001 ;
 	.
 	id:Route001
 		a :ProcedureRoute ;
@@ -48,13 +48,13 @@ CONSTRUCT {
 	
 	id:BusItem2 
 		a :BusinessItem ;
-		:businessItemActualisesProcedureStep id:LayInCom ;
+		:businessItemHasProcedureStep id:LayInCom ;
 		:tabledThingHasTabling id:Tabling2 ;
 	.
 	id:LayInCom
 		a :ProcedureStep ;
 		:procedureStepName "Laying into Commons" ;
-		:procedureStepAllowsAllowedProcedureRoute id:Route002 ;
+		:procedureStepHasAllowedProcedureRoute id:Route002 ;
 	.
 	id:Route002
 		a :ProcedureRoute ;
@@ -76,13 +76,13 @@ CONSTRUCT {
 	
 	id:BusItem3 
 		a :BusinessItem ;
-		:businessItemActualisesProcedureStep id:EDMTabln ;
+		:businessItemHasProcedureStep id:EDMTabln ;
 		:tabledThingHasTabling id:Tabling3 ;
 	.
 	id:EDMTabln
 		a :ProcedureStep ;
 		:procedureStepName "EDM Tabling" ;
-		:procedureStepAllowsAllowedProcedureRoute id:Route003 ;
+		:procedureStepHasAllowedProcedureRoute id:Route003 ;
 	.
 	id:Route003
 		a :ProcedureRoute ;
@@ -104,15 +104,15 @@ CONSTRUCT {
 	
 	id:BusItem4 
 		a :BusinessItem ;
-		:businessItemActualisesProcedureStep id:CommMoti ;
+		:businessItemHasProcedureStep id:CommMoti ;
 		:tabledThingHasTabling id:Tabling4 ;
 	.
 	id:CommMoti
 		a :ProcedureStep ;
 		:procedureStepName "Motion in House (Commons)" ;
-		:procedureStepAllowsAllowedProcedureRoute id:Route004 ;
-		:procedureStepAllowsAllowedProcedureRoute id:Route005 ;
-		:procedureStepCausesCausedProcedureRoute id:Route006 ;
+		:procedureStepHasAllowedProcedureRoute id:Route004 ;
+		:procedureStepHasAllowedProcedureRoute id:Route005 ;
+		:procedureStepHasCausedProcedureRoute id:Route006 ;
 	.
 	id:Route004
 		a :ProcedureRoute ;
