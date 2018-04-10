@@ -11,16 +11,7 @@
     // TODO: Merge with FixedQueryController
     public abstract partial class BaseController : ApiController
     {
-        private static readonly string sparqlEndpoint = ConfigurationManager.AppSettings["SparqlEndpoint"];
-        private static readonly string subscriptionKey = ConfigurationManager.AppSettings["SubscriptionKey"];
-        private static readonly string endpointUri = $"{sparqlEndpoint}?subscription-key={subscriptionKey}";
-
-        protected static object ExecuteSingle(SparqlParameterizedString query)
-        {
-            return ExecuteSingle(query, endpointUri);
-        }
-
-        protected static object ExecuteSingle(SparqlParameterizedString query, string endpointUri)
+        protected static object ExecuteSingle(SparqlParameterizedString query, string endpointUri = null)
         {
             var result = ExecuteList(query, endpointUri);
 
@@ -32,17 +23,18 @@
             return result;
         }
 
-        protected static object ExecuteList(SparqlParameterizedString query)
-        {
-            return ExecuteList(query, endpointUri);
-        }
-
-        protected static object ExecuteList(SparqlParameterizedString query, string endpointUri)
+        protected static object ExecuteList(SparqlParameterizedString query, string endpointUri = null)
         {
             // TODO: This should move to controller action
             var queryString = query.ToString();
 
-            using (var connector = new SparqlConnector(new Uri(endpointUri)))
+            SparqlRemoteEndpoint endpoint = null;
+            if (string.IsNullOrWhiteSpace(endpointUri))
+                endpoint = new GraphDBSparqlEndpoint();
+            else
+                endpoint = new SparqlRemoteEndpoint(new Uri(endpointUri));
+
+            using (var connector = new SparqlConnector(endpoint))
             {
                 var results = connector.Query(queryString);
 

@@ -175,6 +175,7 @@
     <Compile Include="CompressionHandler.cs" />
     <Compile Include="Compressor.cs" />
     <Compile Include="DeflateCompressor.cs" />
+    <Compile Include="GraphDBSparqlEndpoint.cs" />
     <Compile Include="GzipCompressor.cs" />
     <Compile Include="HtmlResourceRedirectHandler.cs" />
     <Compile Include="MimeMapping.cs" />

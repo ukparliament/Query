@@ -128,6 +128,7 @@
             "ApplicationInsightsInstrumentationKey": "[reference(resourceId(subscription().subscriptionId,parameters('operationsResourceGroupName'),'Microsoft.Insights/Components',parameters('applicationInsightsName')),'2014-04-01').InstrumentationKey]",
             "SparqlEndpoint": "",
             "SubscriptionKey": "",
+            "ApiVersion": "",
             "ContentfulDeliveryApiKey": "[parameters('contentfulDeliveryApiKey')]",
             "ContentfulSpaceId": "[parameters('contentfulSpaceId')]"
           }
