@@ -3,6 +3,7 @@
     using Contentful.Core;
     using Contentful.Core.Configuration;
     using Contentful.Core.Search;
+    using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
     using System.Net.Http;
@@ -33,11 +34,9 @@
 
             foreach (var relatedArticle in article.RelatedArticle ?? Enumerable.Empty<Article>())
             {
-                relatedArticle.ArticleType = null;
                 relatedArticle.Body = null;
                 relatedArticle.Collections = null;
                 relatedArticle.RelatedArticle = null;
-                relatedArticle.Summary = null;
                 relatedArticle.Topic = null;
             }
 
@@ -52,15 +51,16 @@
 
             foreach (var collection in article.Collections)
             {
+                AddParents(collection);
+
+                collection.ExtendedDescription = null;
                 collection.Subcollections = null;
 
                 foreach (var siblingArticle in collection.Articles ?? Enumerable.Empty<Article>())
                 {
-                    siblingArticle.ArticleType = null;
                     siblingArticle.Body = null;
                     siblingArticle.Collections = null;
                     siblingArticle.RelatedArticle = null;
-                    siblingArticle.Summary = null;
                     siblingArticle.Topic = null;
                 }
             }
@@ -92,10 +92,8 @@
 
             foreach (var indexedArticle in concept.IndexedArticles)
             {
-                indexedArticle.ArticleType = null;
                 indexedArticle.Body = null;
                 indexedArticle.RelatedArticle = null;
-                indexedArticle.Summary = null;
                 indexedArticle.Topic = null;
             }
 
@@ -137,6 +135,7 @@
                 foreach (var subCollection in collection.Subcollections ?? Enumerable.Empty<Collection>())
                 {
                     subCollection.Articles = null;
+                    subCollection.ExtendedDescription = null;
                 }
             }
 
@@ -158,30 +157,35 @@
             foreach (var subCollection in collection.Subcollections ?? Enumerable.Empty<Collection>())
             {
                 subCollection.Articles = null;
-                subCollection.Description = null;
+                subCollection.ExtendedDescription = null;
                 subCollection.Subcollections = null;
             }
 
             foreach (var article in collection.Articles ?? Enumerable.Empty<Article>())
             {
                 article.Body = null;
-                article.Summary = null;
                 article.RelatedArticle = null;
                 article.Topic = null;
-                article.ArticleType = null;
             }
 
+            AddParents(collection);
+
+            return new Processor(collections).Graph;
+        }
+
+        private static void AddParents(Collection collection)
+        {
             var parentQuery = QueryBuilder<Collection>.New.ContentTypeIs(Collection.ContentTypeName).LinksToEntry(collection.Sys.Id);
             collection.Parents = Engine.client.GetEntries(parentQuery).Result;
 
             foreach (var parent in collection.Parents)
             {
                 parent.Articles = null;
-                parent.Description = null;
+                parent.ExtendedDescription = null;
                 parent.Subcollections = null;
-            }
 
-            return new Processor(collections).Graph;
+                AddParents(parent);
+            }
         }
     }
 }

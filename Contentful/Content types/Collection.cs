@@ -14,6 +14,9 @@
         [Predicate("http://example.com/content/schema/collectionDescription")]
         public string Description { get; set; }
 
+        [Predicate("http://example.com/content/schema/collectionExtendedDescription")]
+        public string ExtendedDescription { get; set; }
+
         [Predicate("http://example.com/content/schema/collectionHasSubcollection")]
         public IEnumerable<Collection> Subcollections { get; set; }
 
