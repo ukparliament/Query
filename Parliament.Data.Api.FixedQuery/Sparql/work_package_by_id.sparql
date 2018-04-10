@@ -22,6 +22,7 @@ CONSTRUCT {
 		a :BusinessItem ;
 		:businessItemHasProcedureStep id:SIExists ;
 		:tabledThingHasTabling id:Tabling1 ;
+		:businessItemHasWorkPackage id:WorkPac1 ;
 	.
 	id:SIExists
 		a :ProcedureStep ;
@@ -50,6 +51,7 @@ CONSTRUCT {
 		a :BusinessItem ;
 		:businessItemHasProcedureStep id:LayInCom ;
 		:tabledThingHasTabling id:Tabling2 ;
+		:businessItemHasWorkPackage id:WorkPac1 ;
 	.
 	id:LayInCom
 		a :ProcedureStep ;
@@ -78,6 +80,7 @@ CONSTRUCT {
 		a :BusinessItem ;
 		:businessItemHasProcedureStep id:EDMTabln ;
 		:tabledThingHasTabling id:Tabling3 ;
+		:businessItemHasWorkPackage id:WorkPac1 ;
 	.
 	id:EDMTabln
 		a :ProcedureStep ;
@@ -106,6 +109,7 @@ CONSTRUCT {
 		a :BusinessItem ;
 		:businessItemHasProcedureStep id:CommMoti ;
 		:tabledThingHasTabling id:Tabling4 ;
+		:businessItemHasWorkPackage id:WorkPac1 ;
 	.
 	id:CommMoti
 		a :ProcedureStep ;
