@@ -4,161 +4,65 @@ PREFIX : @schemaUri
 CONSTRUCT {
 	id:WorkPac1 
 		a :WorkPackage;
-		:name "Negative SI on XYZ" ;
-		:workPackageHasProcedure id:NegatvSI ;
+		:workPackageName "An Example of an Affirmative SI Work Package" ;
+		:workPackageHasProcedure id:AffirmSI ;
+		:workPackageHasBusinessItem id:BusItem1 ;
 	.
-	id:NegatvSI 
+	id:AffirmSI 
 		a :Procedure;
-		:procedureName "Negative SI" ;
-		:procedureHasHouse id:1AFu55Hs ;
-	.
-	id:1AFu55Hs 
-		a :House ;
-		:houseName "House of Commons" ;
+		:procedureName "Made Affirmative" ;
 	.
 
 
 	id:BusItem1 
 		a :BusinessItem ;
-		:businessItemHasProcedureStep id:SIExists ;
-		:tabledThingHasTabling id:Tabling1 ;
-		:businessItemHasWorkPackage id:WorkPac1 ;
-	.
-	id:SIExists
-		a :ProcedureStep ;
-		:procedureStepName "SI Exists" ;
-		:procedureStepHasCausedProcedureRoute id:Route001 ;
-	.
-	id:Route001
-		a :ProcedureRoute ;
-		a :CausedProcedureRoute ;
-		:causedProcedureRouteHasProcedureStep id:LayInCom ;
-		:procedureRouteHasProcedure id:NegatvSI ;
-	.
-	id:Tabling1
-		a :Tabling ;
-		:tablingDate "2017-11-15+00:00"^^<http://www.w3.org/2001/XMLSchema#date> ;
-		:tablingHasPerson id:43RHonMf ;
-	.
-	id:43RHonMf
-		a :Person ;
-		:personFamilyName "Abbott" ;
-		:personGivenName "Diane" ;
-	.
-	
-	
-	id:BusItem2 
-		a :BusinessItem ;
 		:businessItemHasProcedureStep id:LayInCom ;
-		:tabledThingHasTabling id:Tabling2 ;
-		:businessItemHasWorkPackage id:WorkPac1 ;
 	.
-	id:LayInCom
+	id:LayInCom 
 		a :ProcedureStep ;
 		:procedureStepName "Laying into Commons" ;
-		:procedureStepHasAllowedProcedureRoute id:Route002 ;
+		:procedureStepAllowsProcedureRoute id:Route001, id:Route002, id:Route003, id:Route004 ;
+	.
+
+	id:Route001
+		a :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:SCSICons ;
 	.
 	id:Route002
 		a :ProcedureRoute ;
-		a :AllowedProcedureRoute ;
-		:allowedProcedureRouteHasProcedureStep id:EDMTabln ;
-		:procedureRouteHasProcedure id:NegatvSI ;
-	.
-	id:Tabling2
-		a :Tabling ;
-		:tablingDate "2017-11-16+00:00"^^<http://www.w3.org/2001/XMLSchema#date> ;
-		:tablingHasPerson id:CG2kvvRt ;
-	.
-	id:CG2kvvRt
-		a :Person ;
-		:personFamilyName "Abrahams" ;
-		:personGivenName "Debbie" ;
-	.
-	
-	
-	id:BusItem3 
-		a :BusinessItem ;
-		:businessItemHasProcedureStep id:EDMTabln ;
-		:tabledThingHasTabling id:Tabling3 ;
-		:businessItemHasWorkPackage id:WorkPac1 ;
-	.
-	id:EDMTabln
-		a :ProcedureStep ;
-		:procedureStepName "EDM Tabling" ;
-		:procedureStepHasAllowedProcedureRoute id:Route003 ;
+		:procedureRouteIsToProcedureStep id:JCSICons ;
 	.
 	id:Route003
 		a :ProcedureRoute ;
-		a :AllowedProcedureRoute ;
-		:allowedProcedureRouteHasProcedureStep id:CommMoti ;
-		:procedureRouteHasProcedure id:NegatvSI ;
-	.
-	id:Tabling3
-		a :Tabling ;
-		:tablingDate "2017-11-20+00:00"^^<http://www.w3.org/2001/XMLSchema#date> ;
-		:tablingHasPerson id:iPAQq1CK ;
-	.
-	id:iPAQq1CK
-		a :Person ;
-		:personFamilyName "Adams" ;
-		:personGivenName "Nigel" ;
-	.
-
-	
-	id:BusItem4 
-		a :BusinessItem ;
-		:businessItemHasProcedureStep id:CommMoti ;
-		:tabledThingHasTabling id:Tabling4 ;
-		:businessItemHasWorkPackage id:WorkPac1 ;
-	.
-	id:CommMoti
-		a :ProcedureStep ;
-		:procedureStepName "Motion in House (Commons)" ;
-		:procedureStepHasAllowedProcedureRoute id:Route004 ;
-		:procedureStepHasAllowedProcedureRoute id:Route005 ;
-		:procedureStepHasCausedProcedureRoute id:Route006 ;
+		:procedureRouteIsToProcedureStep id:CInForce ;
 	.
 	id:Route004
 		a :ProcedureRoute ;
-		a :AllowedProcedureRoute ;
-		:allowedProcedureRouteHasProcedureStep id:CommDeci ;
-		:procedureRouteHasProcedure id:NegatvSI ;
+		:procedureRouteIsToProcedureStep id:ComAppMo ;
 	.
-	id:Route005
-		a :ProcedureRoute ;
-		a :AllowedProcedureRoute ;
-		:allowedProcedureRouteHasProcedureStep id:CommChDe ;
-		:procedureRouteHasProcedure id:NegatvSI ;
-	.
-	id:Route006
-		a :ProcedureRoute ;
-		a :CausedProcedureRoute ;
-		:causedProcedureRouteHasProcedureStep id:EVELCons ;
-		:procedureRouteHasProcedure id:NegatvSI ;
-	.
-	id:Tabling4
-		a :Tabling ;
-		:tablingDate "2018-01-20+00:00"^^<http://www.w3.org/2001/XMLSchema#date> ;
-		:tablingHasPerson id:cpIYUtpa ;
-	.
-	id:cpIYUtpa
-		a :Person ;
-		:personFamilyName "Afolami" ;
-		:personGivenName "Bim" ;
-	.
-	id:CommDeci
-		a :ProcedureStep ;
-		:procedureStepName "Commons Decision" ;
-	.
-	id:CommChDe
-		a :ProcedureStep ;
-		:procedureStepName "Commons chamber debate" ;
-	.
-	id:EVELCons
-		a :ProcedureStep ;
-		:procedureStepName "EVEL Consideration" ;
-	.	
 	
+	
+	id:SCSICons 
+		a :ProcedureStep ;
+		:procedureStepName "SCSI consideration" ;
+	.
+
+	id:JCSICons 
+		a :ProcedureStep ;
+		:procedureStepName "JCSI consideration" ;
+	.
+
+	id:CInForce
+		a :ProcedureStep ;
+		:procedureStepName "Coming into force after being laid" ;
+	.
+
+	id:ComAppMo
+		a :ProcedureStep ;
+		:procedureStepName "Commons approval motion" ;
+	.
+
+
 }
 WHERE {
 BIND (@work_package_id as ?workPackage)
