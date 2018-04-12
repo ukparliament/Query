@@ -4,11 +4,13 @@
     using System.Configuration;
     using System.Net;
     using System.Web.Http;
+    using System.Web.Http.Description;
     using VDS.RDF;
     using VDS.RDF.Query;
     using VDS.RDF.Storage;
 
     // TODO: Merge with FixedQueryController
+    [ApiExplorerSettings(IgnoreApi = true)]
     public abstract partial class BaseController : ApiController
     {
         protected static object ExecuteSingle(SparqlParameterizedString query, string endpointUri = null)

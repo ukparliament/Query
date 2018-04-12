@@ -1,6 +1,7 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
     using Microsoft.ApplicationInsights;
+    using Swashbuckle.Swagger.Annotations;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -8,6 +9,7 @@
     using System.Net.Http;
     using System.Reflection;
     using System.Web.Http;
+    using System.Web.Http.Description;
     using VDS.RDF;
     using VDS.RDF.Query;
 

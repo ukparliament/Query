@@ -5,6 +5,7 @@
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Web;
+    using System.Web.Http.Description;
 
     public partial class HelpController : BaseController
     {

@@ -1,5 +1,7 @@
 ﻿namespace Parliament.Data.Api.FixedQuery
 {
+    using Microsoft.OpenApi.Models;
+    using Microsoft.OpenApi.Readers;
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
@@ -39,6 +41,20 @@
             get
             {
                 return Resources.GetFile($"{BaseName}.EndpointsSchema.json");
+            }
+        }
+
+        private static OpenApiDocument openApiDefinition = null;
+        public static OpenApiDocument OpenApiDefinition
+        {
+            get
+            {
+                if (openApiDefinition == null)
+                    using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{BaseName}.openapi.json"))
+                    {
+                        openApiDefinition = new OpenApiStreamReader().Read(stream, out OpenApiDiagnostic diagnostic);
+                    }
+                return openApiDefinition;
             }
         }
 

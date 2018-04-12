@@ -1,0 +1,4450 @@
+﻿{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Fixed Query API",
+    "version": "Live"
+  },
+  "servers": [
+    {
+      "url": "https://api.parliament.uk/query"
+    }
+  ],
+  "paths": {
+    "/collection_by_id": {
+      "x-type": "hardCoded",
+      "get": {
+        "parameters": [
+          {
+            "name": "collection_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/collection_index": {
+      "x-type": "hardCoded",
+      "get": {
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/committee_by_id": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "committee_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/committee_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/concept_by_id": {
+      "x-type": "hardCoded",
+      "get": {
+        "parameters": [
+          {
+            "name": "concept_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/concept_index": {
+      "x-type": "hardCoded",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/constituency_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/constituency_by_id": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "constituency_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/constituency_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/constituency_by_substring": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "substring",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/constituency_contact_point": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "constituency_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/constituency_current": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/constituency_current_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/constituency_current_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/constituency_current_by_proximity_to_point": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "border_range",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "centre_point_range",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "latitude",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/constituency_current_member": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "constituency_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/constituency_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/constituency_lookup": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "property",
+            "in": "query",
+            "description": "schemaUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/constituency_lookup_by_postcode": {
+      "x-type": "hardCoded",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/constituency_map": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "constituency_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/constituency_members": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "constituency_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/contact_point_by_id": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "contact_point_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/contact_point_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/exists": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "uri",
+            "in": "query",
+            "description": "uri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/external_id_by_class": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "class",
+            "in": "query",
+            "description": "schemaUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/find_your_constituency": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/formal_body_by_id": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "formal_body_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/formal_body_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/formal_body_membership": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "formal_body_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/government_position_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_by_id": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "group_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_members_current": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "group_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_by_substring": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "substring",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_current": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_current_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_current_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_government_organisation_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_government_organisation_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_government_organisation_current": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_government_organisation_current_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_government_organisation_current_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_government_organisation_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_houses_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "group_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_lookup": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "property",
+            "in": "query",
+            "description": "schemaUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_positions_chairs_current": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "group_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_positions_chairs_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "group_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_positions_current": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "group_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/group_positions_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "group_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_by_id": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_by_substring": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "substring",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_committees_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_committees_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_committees_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_current_committees": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_current_committees_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_current_committees_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_current_members": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_current_members_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_current_members_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_current_members_with_mnis_id": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_current_parties": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_lookup": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "property",
+            "in": "query",
+            "description": "schemaUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_members": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_members_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_members_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_parties": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_party_by_id": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_party_current_members": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_party_current_members_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_party_current_members_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_party_members": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_party_members_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/house_party_members_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/image_by_id": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "image_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/instances_by_name": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "class_name",
+            "in": "query",
+            "description": "schemaUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/instances_by_uri": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "class_uri",
+            "in": "query",
+            "description": "uri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/member_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/member_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/member_current": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/member_current_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/member_current_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/member_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/next_parliament_by_id": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_by_id": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_constituencies": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_constituencies_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_constituencies_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_current": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_house": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_house_members": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_house_members_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_house_members_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_house_parties": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_house_party": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_house_party_members": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_house_party_members_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_house_party_members_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_houses": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_lookup": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "property",
+            "in": "query",
+            "description": "schemaUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_members": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_members_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_members_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_next": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_parties": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_party": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_party_members": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_party_members_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_party_members_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_previous": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/party_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/party_by_id": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/party_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/party_by_substring": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "substring",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/party_current": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/party_current_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/party_current_members": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/party_current_members_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/party_current_members_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/party_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/party_lookup": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "property",
+            "in": "query",
+            "description": "schemaUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/party_members": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/party_members_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/party_members_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_a_to_z": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_by_id": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "person_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_by_id_mock": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "person_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_by_initial": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_by_mnis_id": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "person_mnis_id",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_by_substring": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "substring",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_committees_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "person_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_committees_memberships_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "person_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_constituencies": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "person_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_contact_points": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "person_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_current_committees_memberships": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "person_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_current_constituency": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "person_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_current_house": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "person_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_current_party": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "person_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_houses": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "person_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_lookup": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "property",
+            "in": "query",
+            "description": "schemaUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_mps": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_parties": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "person_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/person_photo_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/photo_details": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "photo_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/previous_parliament_by_id": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/region_by_id": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "region_code",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/region_constituencies": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "region_code",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/region_constituencies_a_to_z": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "region_code",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/region_constituencies_by_initial": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "region_code",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/region_index": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/resource": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "uri",
+            "in": "query",
+            "description": "uri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/resource_by_id": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/schema": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/vacant_constituency_index": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/webarticle_by_id": {
+      "x-type": "hardCoded",
+      "get": {
+        "parameters": [
+          {
+            "name": "webarticle_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/with_schema": {
+      "x-type": "hardCoded",
+      "get": {
+        "parameters": [
+          {
+            "name": "endpoint_name",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/work_package_by_id": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "name": "work_package_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    }
+  }
+}
