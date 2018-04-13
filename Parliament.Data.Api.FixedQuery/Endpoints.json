@@ -940,6 +940,12 @@
       "parameters": {
         "work_package_id": "instanceUri"
       }
+    },
+    "work_package_complex_by_id": {
+      "type": "single",
+      "parameters": {
+        "work_package_id": "instanceUri"
+      }
     }
   }
 }
