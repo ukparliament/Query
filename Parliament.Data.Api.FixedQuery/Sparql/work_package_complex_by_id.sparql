@@ -1,0 +1,111 @@
+﻿PREFIX id: <https://id.parliament.uk/>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+	id:WorkPac1 
+		a :WorkPackage;
+		:workPackageName "An Example of an Affirmative SI Work Package" ;
+		:workPackageHasProcedure id:AffirmSI ;
+		:workPackageHasBusinessItem id:BusItem1, id:BusItem2 ;
+	.
+	id:AffirmSI 
+		a :Procedure;
+		:procedureName "Made Affirmative" ;
+	.
+
+
+	id:BusItem1 
+		a :BusinessItem ;
+		:businessItemHasProcedureStep id:LayInCom ;
+	.
+	id:LayInCom 
+		a :ProcedureStep ;
+		:procedureStepName "Laying into Commons" ;
+		:procedureStepAllowsProcedureRoute id:Route001, id:Route002, id:Route003, id:Route004 ;
+	.
+
+	id:Route001
+		a :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:SCSICons ;
+	.
+	id:Route002
+		a :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:JCSICons ;
+	.
+	id:Route003
+		a :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:CInForce ;
+	.
+	id:Route004
+		a :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:ComAppMo ;
+	.
+	
+	
+	id:SCSICons 
+		a :ProcedureStep ;
+		:procedureStepName "SCSI consideration" ;
+	.
+
+	id:JCSICons 
+		a :ProcedureStep ;
+		:procedureStepName "JCSI consideration" ;
+	.
+
+	id:CInForce
+		a :ProcedureStep ;
+		:procedureStepName "Coming into force after being laid" ;
+	.
+
+	id:ComAppMo
+		a :ProcedureStep ;
+		:procedureStepName "Commons approval motion" ;
+	.
+
+	id:BusItem2 
+		a :BusinessItem ;
+		:businessItemHasProcedureStep id:LayInLor ;
+	.
+	id:LayInLor
+		a :ProcedureStep ;
+		:procedureStepName "Laying into Lords" ;
+		:procedureStepCausesProcedureRoute id:Route005, id:Route006;
+		:procedureStepAllowsProcedureRoute id:Route007 ;
+		:procedureStepPrecludesProcedureRoute id:Route008, id:Route009 ;
+	.
+
+	id:Route005
+		a :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:JCSICons ;
+	.
+	id:Route006
+		a :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:SLSCCons ;
+	.
+	id:Route007
+		a :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:SOSusMot ;
+	.
+	id:Route008
+		a :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:SCSICons ;
+	.
+	id:Route009
+		a :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:LayInLor ;
+	.
+
+	id:SLSCCons 
+		a :ProcedureStep ;
+		:procedureStepName "SLSC consideration" ;
+	.
+	id:SOSusMot 
+		a :ProcedureStep ;
+		:procedureStepName "SO suspension motion" ;
+	.
+
+	}
+WHERE {
+BIND (@work_package_id as ?workPackage)
+
+}
