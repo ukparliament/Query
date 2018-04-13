@@ -9,8 +9,74 @@
       "url": "https://api.parliament.uk/query"
     }
   ],
+  "components": {
+    "parameters": {
+      "Ocp-Apim-Subscription-Key": {
+        "name": "Ocp-Apim-Subscription-Key",
+        "in": "header",
+        "required": true,
+        "description": "Subscription key",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "formatGraph": {
+        "name": "format",
+        "in": "query",
+        "required": false,
+        "description": "Content type",
+        "schema": {
+          "type": "string",
+          "enum": [ "application/n-triples", "text/turtle", "text/vnd.graphviz", "application/rdf+xml", "application/xml", "text/xml", "application/json+ld", "application/json", "application/json+rdf", "text/html", "application/xhtml+xml" ]
+        }
+      },
+      "formatNonGraph": {
+        "name": "format",
+        "in": "query",
+        "required": false,
+        "description": "Content type",
+        "schema": {
+          "type": "string",
+          "enum": [ "application/sparql-results+xml", "application/sparql-results+json", "text/csv", "text/tab-separated-values", "text/html", "application/xhtml+xml" ]
+        }
+      },
+      "fileExtensionGraph": {
+        "name": "ext",
+        "in": "path",
+        "required": true,
+        "description": "Content type",
+        "allowEmptyValue": true,
+        "schema": {
+          "type": "string",
+          "enum": [ "nt", "ttl", "gv", "dot", "xml", "rdf", "rdfxml", "json", "jsonld", "rj", "html", "htm", "xhtml" ]
+        }
+      },
+      "fileExtensionNonGraph": {
+        "name": "ext",
+        "in": "path",
+        "required": true,
+        "description": "Content type",
+        "allowEmptyValue": true,
+        "schema": {
+          "type": "string",
+          "enum": [ "srx", "srj", "csv", "tsv", "html", "htm", "xhtml" ]
+        }
+      }
+    }
+  },
   "paths": {
-    "/collection_by_id": {
+    "/collection_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "hardCoded",
       "get": {
         "parameters": [
@@ -19,6 +85,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "",
             "schema": {
               "type": "string"
             }
@@ -37,7 +104,18 @@
         }
       }
     },
-    "/collection_index": {
+    "/collection_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "hardCoded",
       "get": {
         "parameters": [],
@@ -54,7 +132,18 @@
         }
       }
     },
-    "/committee_by_id": {
+    "/committee_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -63,6 +152,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "",
             "schema": {
               "type": "string"
             }
@@ -81,10 +171,22 @@
         }
       }
     },
-    "/committee_index": {
+    "/committee_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -99,7 +201,18 @@
         }
       }
     },
-    "/concept_by_id": {
+    "/concept_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "hardCoded",
       "get": {
         "parameters": [
@@ -108,6 +221,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "ybLgLU6L",
             "schema": {
               "type": "string"
             }
@@ -126,10 +240,22 @@
         }
       }
     },
-    "/concept_index": {
+    "/concept_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "hardCoded",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -144,10 +270,22 @@
         }
       }
     },
-    "/constituency_a_to_z": {
+    "/constituency_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -162,7 +300,18 @@
         }
       }
     },
-    "/constituency_by_id": {
+    "/constituency_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -171,6 +320,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "AEyWGYaP",
             "schema": {
               "type": "string"
             }
@@ -189,7 +339,18 @@
         }
       }
     },
-    "/constituency_by_initial": {
+    "/constituency_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -198,6 +359,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "a",
             "schema": {
               "type": "string"
             }
@@ -216,7 +378,18 @@
         }
       }
     },
-    "/constituency_by_substring": {
+    "/constituency_by_substring.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -225,6 +398,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "nottingham",
             "schema": {
               "type": "string"
             }
@@ -243,7 +417,18 @@
         }
       }
     },
-    "/constituency_contact_point": {
+    "/constituency_contact_point.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -252,6 +437,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "AEyWGYaP",
             "schema": {
               "type": "string"
             }
@@ -270,10 +456,22 @@
         }
       }
     },
-    "/constituency_current": {
+    "/constituency_current.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -288,10 +486,22 @@
         }
       }
     },
-    "/constituency_current_a_to_z": {
+    "/constituency_current_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -306,7 +516,18 @@
         }
       }
     },
-    "/constituency_current_by_initial": {
+    "/constituency_current_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -315,6 +536,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "a",
             "schema": {
               "type": "string"
             }
@@ -333,7 +555,18 @@
         }
       }
     },
-    "/constituency_current_by_proximity_to_point": {
+    "/constituency_current_by_proximity_to_point.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -342,6 +575,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "10",
             "schema": {
               "type": "string"
             }
@@ -351,6 +585,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "20",
             "schema": {
               "type": "string"
             }
@@ -360,6 +595,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "51.496130",
             "schema": {
               "type": "string"
             }
@@ -369,6 +605,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "-0.125718",
             "schema": {
               "type": "string"
             }
@@ -387,7 +624,18 @@
         }
       }
     },
-    "/constituency_current_member": {
+    "/constituency_current_member.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -396,6 +644,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "AEyWGYaP",
             "schema": {
               "type": "string"
             }
@@ -414,10 +663,22 @@
         }
       }
     },
-    "/constituency_index": {
+    "/constituency_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -432,7 +693,18 @@
         }
       }
     },
-    "/constituency_lookup": {
+    "/constituency_lookup.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -441,6 +713,7 @@
             "in": "query",
             "description": "schemaUri",
             "required": true,
+            "example": "onsCode",
             "schema": {
               "type": "string"
             }
@@ -450,6 +723,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "E14000699",
             "schema": {
               "type": "string"
             }
@@ -468,10 +742,22 @@
         }
       }
     },
-    "/constituency_lookup_by_postcode": {
+    "/constituency_lookup_by_postcode.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "hardCoded",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -486,7 +772,18 @@
         }
       }
     },
-    "/constituency_map": {
+    "/constituency_map.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -495,6 +792,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "AEyWGYaP",
             "schema": {
               "type": "string"
             }
@@ -513,7 +811,18 @@
         }
       }
     },
-    "/constituency_members": {
+    "/constituency_members.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -522,6 +831,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "AEyWGYaP",
             "schema": {
               "type": "string"
             }
@@ -540,7 +850,18 @@
         }
       }
     },
-    "/contact_point_by_id": {
+    "/contact_point_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -549,6 +870,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "wk1atnfh",
             "schema": {
               "type": "string"
             }
@@ -567,10 +889,22 @@
         }
       }
     },
-    "/contact_point_index": {
+    "/contact_point_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -585,7 +919,18 @@
         }
       }
     },
-    "/exists": {
+    "/exists.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionNonGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatNonGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -594,6 +939,7 @@
             "in": "query",
             "description": "uri",
             "required": true,
+            "example": "",
             "schema": {
               "type": "string"
             }
@@ -612,7 +958,18 @@
         }
       }
     },
-    "/external_id_by_class": {
+    "/external_id_by_class.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -621,6 +978,7 @@
             "in": "query",
             "description": "schemaUri",
             "required": true,
+            "example": "",
             "schema": {
               "type": "string"
             }
@@ -639,10 +997,22 @@
         }
       }
     },
-    "/find_your_constituency": {
+    "/find_your_constituency.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -657,7 +1027,18 @@
         }
       }
     },
-    "/formal_body_by_id": {
+    "/formal_body_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -666,6 +1047,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "cLjFRjRt",
             "schema": {
               "type": "string"
             }
@@ -684,10 +1066,22 @@
         }
       }
     },
-    "/formal_body_index": {
+    "/formal_body_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -702,7 +1096,18 @@
         }
       }
     },
-    "/formal_body_membership": {
+    "/formal_body_membership.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -711,6 +1116,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "cLjFRjRt",
             "schema": {
               "type": "string"
             }
@@ -729,10 +1135,22 @@
         }
       }
     },
-    "/government_position_index": {
+    "/government_position_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionNonGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatNonGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -747,10 +1165,22 @@
         }
       }
     },
-    "/group_a_to_z": {
+    "/group_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -765,7 +1195,18 @@
         }
       }
     },
-    "/group_by_id": {
+    "/group_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -774,6 +1215,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "tz34m7Vt",
             "schema": {
               "type": "string"
             }
@@ -792,7 +1234,18 @@
         }
       }
     },
-    "/group_members_current": {
+    "/group_members_current.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -801,6 +1254,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "tz34m7Vt",
             "schema": {
               "type": "string"
             }
@@ -819,7 +1273,18 @@
         }
       }
     },
-    "/group_by_initial": {
+    "/group_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -828,6 +1293,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "c",
             "schema": {
               "type": "string"
             }
@@ -846,7 +1312,18 @@
         }
       }
     },
-    "/group_by_substring": {
+    "/group_by_substring.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -855,6 +1332,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "sport",
             "schema": {
               "type": "string"
             }
@@ -873,10 +1351,22 @@
         }
       }
     },
-    "/group_current": {
+    "/group_current.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -891,10 +1381,22 @@
         }
       }
     },
-    "/group_current_a_to_z": {
+    "/group_current_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -909,7 +1411,18 @@
         }
       }
     },
-    "/group_current_by_initial": {
+    "/group_current_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -918,6 +1431,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "C",
             "schema": {
               "type": "string"
             }
@@ -936,10 +1450,22 @@
         }
       }
     },
-    "/group_government_organisation_a_to_z": {
+    "/group_government_organisation_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -954,7 +1480,18 @@
         }
       }
     },
-    "/group_government_organisation_by_initial": {
+    "/group_government_organisation_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -963,6 +1500,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "h",
             "schema": {
               "type": "string"
             }
@@ -981,10 +1519,22 @@
         }
       }
     },
-    "/group_government_organisation_current": {
+    "/group_government_organisation_current.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -999,10 +1549,22 @@
         }
       }
     },
-    "/group_government_organisation_current_a_to_z": {
+    "/group_government_organisation_current_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -1017,7 +1579,18 @@
         }
       }
     },
-    "/group_government_organisation_current_by_initial": {
+    "/group_government_organisation_current_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1026,6 +1599,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "h",
             "schema": {
               "type": "string"
             }
@@ -1044,10 +1618,22 @@
         }
       }
     },
-    "/group_government_organisation_index": {
+    "/group_government_organisation_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -1062,7 +1648,18 @@
         }
       }
     },
-    "/group_houses_index": {
+    "/group_houses_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1071,6 +1668,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "tz34m7Vt",
             "schema": {
               "type": "string"
             }
@@ -1089,10 +1687,22 @@
         }
       }
     },
-    "/group_index": {
+    "/group_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -1107,7 +1717,18 @@
         }
       }
     },
-    "/group_lookup": {
+    "/group_lookup.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -1116,6 +1737,7 @@
             "in": "query",
             "description": "schemaUri",
             "required": true,
+            "example": "",
             "schema": {
               "type": "string"
             }
@@ -1125,6 +1747,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "",
             "schema": {
               "type": "string"
             }
@@ -1143,7 +1766,18 @@
         }
       }
     },
-    "/group_positions_chairs_current": {
+    "/group_positions_chairs_current.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1152,6 +1786,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "tz34m7Vt",
             "schema": {
               "type": "string"
             }
@@ -1170,7 +1805,18 @@
         }
       }
     },
-    "/group_positions_chairs_index": {
+    "/group_positions_chairs_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1179,6 +1825,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "tz34m7Vt",
             "schema": {
               "type": "string"
             }
@@ -1197,7 +1844,18 @@
         }
       }
     },
-    "/group_positions_current": {
+    "/group_positions_current.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1206,6 +1864,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "wZVxomZk",
             "schema": {
               "type": "string"
             }
@@ -1224,7 +1883,18 @@
         }
       }
     },
-    "/group_positions_index": {
+    "/group_positions_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1233,6 +1903,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "wZVxomZk",
             "schema": {
               "type": "string"
             }
@@ -1251,7 +1922,18 @@
         }
       }
     },
-    "/house_by_id": {
+    "/house_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -1260,6 +1942,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1278,7 +1961,18 @@
         }
       }
     },
-    "/house_by_substring": {
+    "/house_by_substring.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1287,6 +1981,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "house",
             "schema": {
               "type": "string"
             }
@@ -1305,7 +2000,18 @@
         }
       }
     },
-    "/house_committees_a_to_z": {
+    "/house_committees_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1314,6 +2020,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1332,7 +2039,18 @@
         }
       }
     },
-    "/house_committees_by_initial": {
+    "/house_committees_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1341,6 +2059,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1350,6 +2069,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "c",
             "schema": {
               "type": "string"
             }
@@ -1368,7 +2088,18 @@
         }
       }
     },
-    "/house_committees_index": {
+    "/house_committees_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1377,6 +2108,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1395,7 +2127,18 @@
         }
       }
     },
-    "/house_current_committees": {
+    "/house_current_committees.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1404,6 +2147,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1422,7 +2166,18 @@
         }
       }
     },
-    "/house_current_committees_a_to_z": {
+    "/house_current_committees_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1431,6 +2186,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1449,7 +2205,18 @@
         }
       }
     },
-    "/house_current_committees_by_initial": {
+    "/house_current_committees_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1458,6 +2225,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1467,6 +2235,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "c",
             "schema": {
               "type": "string"
             }
@@ -1485,7 +2254,18 @@
         }
       }
     },
-    "/house_current_members": {
+    "/house_current_members.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1494,6 +2274,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1512,7 +2293,18 @@
         }
       }
     },
-    "/house_current_members_a_to_z": {
+    "/house_current_members_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1521,6 +2313,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1539,7 +2332,18 @@
         }
       }
     },
-    "/house_current_members_by_initial": {
+    "/house_current_members_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1548,6 +2352,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1557,6 +2362,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "c",
             "schema": {
               "type": "string"
             }
@@ -1575,7 +2381,18 @@
         }
       }
     },
-    "/house_current_members_with_mnis_id": {
+    "/house_current_members_with_mnis_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1584,6 +2401,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1602,7 +2420,18 @@
         }
       }
     },
-    "/house_current_parties": {
+    "/house_current_parties.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1611,6 +2440,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1629,10 +2459,22 @@
         }
       }
     },
-    "/house_index": {
+    "/house_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -1647,7 +2489,18 @@
         }
       }
     },
-    "/house_lookup": {
+    "/house_lookup.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -1656,6 +2509,7 @@
             "in": "query",
             "description": "schemaUri",
             "required": true,
+            "example": "name",
             "schema": {
               "type": "string"
             }
@@ -1665,6 +2519,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "House of Lords",
             "schema": {
               "type": "string"
             }
@@ -1683,7 +2538,18 @@
         }
       }
     },
-    "/house_members": {
+    "/house_members.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1692,6 +2558,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1710,7 +2577,18 @@
         }
       }
     },
-    "/house_members_a_to_z": {
+    "/house_members_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1719,6 +2597,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1737,7 +2616,18 @@
         }
       }
     },
-    "/house_members_by_initial": {
+    "/house_members_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1746,6 +2636,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1755,6 +2646,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "a",
             "schema": {
               "type": "string"
             }
@@ -1773,7 +2665,18 @@
         }
       }
     },
-    "/house_parties": {
+    "/house_parties.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1782,6 +2685,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1800,7 +2704,18 @@
         }
       }
     },
-    "/house_party_by_id": {
+    "/house_party_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -1809,6 +2724,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1818,6 +2734,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -1836,7 +2753,18 @@
         }
       }
     },
-    "/house_party_current_members": {
+    "/house_party_current_members.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1845,6 +2773,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1854,6 +2783,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -1872,7 +2802,18 @@
         }
       }
     },
-    "/house_party_current_members_a_to_z": {
+    "/house_party_current_members_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1881,6 +2822,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1890,6 +2832,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -1908,7 +2851,18 @@
         }
       }
     },
-    "/house_party_current_members_by_initial": {
+    "/house_party_current_members_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1917,6 +2871,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1926,6 +2881,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -1935,6 +2891,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "a",
             "schema": {
               "type": "string"
             }
@@ -1953,7 +2910,18 @@
         }
       }
     },
-    "/house_party_members": {
+    "/house_party_members.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1962,6 +2930,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -1971,6 +2940,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -1989,7 +2959,18 @@
         }
       }
     },
-    "/house_party_members_a_to_z": {
+    "/house_party_members_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -1998,6 +2979,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -2007,6 +2989,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -2025,7 +3008,18 @@
         }
       }
     },
-    "/house_party_members_by_initial": {
+    "/house_party_members_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2034,6 +3028,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -2043,6 +3038,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -2052,6 +3048,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "a",
             "schema": {
               "type": "string"
             }
@@ -2070,7 +3067,18 @@
         }
       }
     },
-    "/image_by_id": {
+    "/image_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -2079,6 +3087,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "qnsCGpnw",
             "schema": {
               "type": "string"
             }
@@ -2097,7 +3106,18 @@
         }
       }
     },
-    "/instances_by_name": {
+    "/instances_by_name.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionNonGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatNonGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2106,6 +3126,7 @@
             "in": "query",
             "description": "schemaUri",
             "required": true,
+            "example": "",
             "schema": {
               "type": "string"
             }
@@ -2124,7 +3145,18 @@
         }
       }
     },
-    "/instances_by_uri": {
+    "/instances_by_uri.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionNonGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatNonGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2133,6 +3165,7 @@
             "in": "query",
             "description": "uri",
             "required": true,
+            "example": "",
             "schema": {
               "type": "string"
             }
@@ -2151,10 +3184,22 @@
         }
       }
     },
-    "/member_a_to_z": {
+    "/member_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -2169,70 +3214,18 @@
         }
       }
     },
-    "/member_by_initial": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "name": "initial",
-            "in": "query",
-            "description": "literal",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/n-triples": {}
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          }
+    "/member_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
         }
-      }
-    },
-    "/member_current": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/n-triples": {}
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          }
-        }
-      }
-    },
-    "/member_current_a_to_z": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/n-triples": {}
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          }
-        }
-      }
-    },
-    "/member_current_by_initial": {
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2241,6 +3234,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "a",
             "schema": {
               "type": "string"
             }
@@ -2259,10 +3253,22 @@
         }
       }
     },
-    "/member_index": {
+    "/member_current.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -2277,73 +3283,22 @@
         }
       }
     },
-    "/next_parliament_by_id": {
-      "x-type": "single",
-      "get": {
-        "parameters": [
-          {
-            "name": "parliament_id",
-            "in": "query",
-            "description": "instanceUri",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/n-triples": {}
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          }
+    "/member_current_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
         }
-      }
-    },
-    "/parliament_by_id": {
-      "x-type": "single",
-      "get": {
-        "parameters": [
-          {
-            "name": "parliament_id",
-            "in": "query",
-            "description": "instanceUri",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/n-triples": {}
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          }
-        }
-      }
-    },
-    "/parliament_constituencies": {
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "name": "parliament_id",
-            "in": "query",
-            "description": "instanceUri",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
+
         ],
         "responses": {
           "200": {
@@ -2358,51 +3313,27 @@
         }
       }
     },
-    "/parliament_constituencies_a_to_z": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "name": "parliament_id",
-            "in": "query",
-            "description": "instanceUri",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/n-triples": {}
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          }
+    "/member_current_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
         }
-      }
-    },
-    "/parliament_constituencies_by_initial": {
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "name": "parliament_id",
-            "in": "query",
-            "description": "instanceUri",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "initial",
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "a",
             "schema": {
               "type": "string"
             }
@@ -2421,10 +3352,61 @@
         }
       }
     },
-    "/parliament_current": {
+    "/member_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
+      "x-type": "list",
+      "get": {
+        "parameters": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/next_parliament_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "example": "b0t56VVL",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -2439,7 +3421,18 @@
         }
       }
     },
-    "/parliament_house": {
+    "/parliament_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -2448,15 +3441,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "house_id",
-            "in": "query",
-            "description": "instanceUri",
-            "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -2475,7 +3460,18 @@
         }
       }
     },
-    "/parliament_house_members": {
+    "/parliament_constituencies.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2484,15 +3480,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "house_id",
-            "in": "query",
-            "description": "instanceUri",
-            "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -2511,7 +3499,18 @@
         }
       }
     },
-    "/parliament_house_members_a_to_z": {
+    "/parliament_constituencies_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2520,15 +3519,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "house_id",
-            "in": "query",
-            "description": "instanceUri",
-            "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -2547,7 +3538,18 @@
         }
       }
     },
-    "/parliament_house_members_by_initial": {
+    "/parliament_constituencies_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2556,15 +3558,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "house_id",
-            "in": "query",
-            "description": "instanceUri",
-            "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -2574,6 +3568,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "d",
             "schema": {
               "type": "string"
             }
@@ -2592,8 +3587,49 @@
         }
       }
     },
-    "/parliament_house_parties": {
-      "x-type": "list",
+    "/parliament_current.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
+      "x-type": "single",
+      "get": {
+        "parameters": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_house.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
+      "x-type": "single",
       "get": {
         "parameters": [
           {
@@ -2601,6 +3637,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -2610,6 +3647,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -2628,7 +3666,18 @@
         }
       }
     },
-    "/parliament_house_party": {
+    "/parliament_house_members.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2637,6 +3686,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -2646,6 +3696,213 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_house_members_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "example": "b0t56VVL",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "example": "1AFu55Hs",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_house_members_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "example": "b0t56VVL",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "example": "1AFu55Hs",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "required": true,
+            "example": "d",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_house_parties.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "example": "b0t56VVL",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "example": "1AFu55Hs",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/n-triples": {}
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/parliament_house_party.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "example": "b0t56VVL",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -2655,6 +3912,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -2673,7 +3931,18 @@
         }
       }
     },
-    "/parliament_house_party_members": {
+    "/parliament_house_party_members.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2682,6 +3951,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -2691,6 +3961,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -2700,6 +3971,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -2718,7 +3990,18 @@
         }
       }
     },
-    "/parliament_house_party_members_a_to_z": {
+    "/parliament_house_party_members_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2727,6 +4010,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -2736,6 +4020,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -2745,6 +4030,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -2763,7 +4049,18 @@
         }
       }
     },
-    "/parliament_house_party_members_by_initial": {
+    "/parliament_house_party_members_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2772,6 +4069,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -2781,6 +4079,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -2790,6 +4089,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1AFu55Hs",
             "schema": {
               "type": "string"
             }
@@ -2799,6 +4099,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "d",
             "schema": {
               "type": "string"
             }
@@ -2817,7 +4118,18 @@
         }
       }
     },
-    "/parliament_houses": {
+    "/parliament_houses.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2826,6 +4138,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -2844,10 +4157,22 @@
         }
       }
     },
-    "/parliament_index": {
+    "/parliament_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -2862,7 +4187,18 @@
         }
       }
     },
-    "/parliament_lookup": {
+    "/parliament_lookup.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -2871,6 +4207,7 @@
             "in": "query",
             "description": "schemaUri",
             "required": true,
+            "example": "parliamnetPeriodNumber",
             "schema": {
               "type": "string"
             }
@@ -2880,6 +4217,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "56",
             "schema": {
               "type": "string"
             }
@@ -2898,7 +4236,18 @@
         }
       }
     },
-    "/parliament_members": {
+    "/parliament_members.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2907,6 +4256,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -2925,7 +4275,18 @@
         }
       }
     },
-    "/parliament_members_a_to_z": {
+    "/parliament_members_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2934,6 +4295,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -2952,7 +4314,18 @@
         }
       }
     },
-    "/parliament_members_by_initial": {
+    "/parliament_members_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2961,6 +4334,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -2970,6 +4344,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "d",
             "schema": {
               "type": "string"
             }
@@ -2988,10 +4363,22 @@
         }
       }
     },
-    "/parliament_next": {
+    "/parliament_next.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -3006,7 +4393,18 @@
         }
       }
     },
-    "/parliament_parties": {
+    "/parliament_parties.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3015,6 +4413,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -3033,7 +4432,18 @@
         }
       }
     },
-    "/parliament_party": {
+    "/parliament_party.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3042,6 +4452,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -3051,6 +4462,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -3069,7 +4481,18 @@
         }
       }
     },
-    "/parliament_party_members": {
+    "/parliament_party_members.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3078,6 +4501,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -3087,6 +4511,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -3105,7 +4530,18 @@
         }
       }
     },
-    "/parliament_party_members_a_to_z": {
+    "/parliament_party_members_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3114,6 +4550,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -3123,6 +4560,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -3141,7 +4579,18 @@
         }
       }
     },
-    "/parliament_party_members_by_initial": {
+    "/parliament_party_members_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3150,6 +4599,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -3159,6 +4609,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -3168,6 +4619,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "d",
             "schema": {
               "type": "string"
             }
@@ -3186,10 +4638,22 @@
         }
       }
     },
-    "/parliament_previous": {
+    "/parliament_previous.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -3204,10 +4668,22 @@
         }
       }
     },
-    "/party_a_to_z": {
+    "/party_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -3222,7 +4698,18 @@
         }
       }
     },
-    "/party_by_id": {
+    "/party_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -3231,6 +4718,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -3249,7 +4737,18 @@
         }
       }
     },
-    "/party_by_initial": {
+    "/party_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3258,6 +4757,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "g",
             "schema": {
               "type": "string"
             }
@@ -3276,7 +4776,18 @@
         }
       }
     },
-    "/party_by_substring": {
+    "/party_by_substring.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3285,6 +4796,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "independent",
             "schema": {
               "type": "string"
             }
@@ -3303,10 +4815,22 @@
         }
       }
     },
-    "/party_current": {
+    "/party_current.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -3321,10 +4845,22 @@
         }
       }
     },
-    "/party_current_a_to_z": {
+    "/party_current_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -3339,7 +4875,18 @@
         }
       }
     },
-    "/party_current_members": {
+    "/party_current_members.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3348,6 +4895,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -3366,7 +4914,18 @@
         }
       }
     },
-    "/party_current_members_a_to_z": {
+    "/party_current_members_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3375,6 +4934,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -3393,7 +4953,18 @@
         }
       }
     },
-    "/party_current_members_by_initial": {
+    "/party_current_members_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3402,6 +4973,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -3411,6 +4983,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "d",
             "schema": {
               "type": "string"
             }
@@ -3429,10 +5002,22 @@
         }
       }
     },
-    "/party_index": {
+    "/party_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -3447,7 +5032,18 @@
         }
       }
     },
-    "/party_lookup": {
+    "/party_lookup.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -3456,6 +5052,7 @@
             "in": "query",
             "description": "schemaUri",
             "required": true,
+            "example": "mnisId",
             "schema": {
               "type": "string"
             }
@@ -3465,6 +5062,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "231",
             "schema": {
               "type": "string"
             }
@@ -3483,7 +5081,18 @@
         }
       }
     },
-    "/party_members": {
+    "/party_members.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3492,6 +5101,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -3510,7 +5120,18 @@
         }
       }
     },
-    "/party_members_a_to_z": {
+    "/party_members_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3519,6 +5140,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -3537,7 +5159,18 @@
         }
       }
     },
-    "/party_members_by_initial": {
+    "/party_members_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3546,6 +5179,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -3555,6 +5189,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "d",
             "schema": {
               "type": "string"
             }
@@ -3573,10 +5208,22 @@
         }
       }
     },
-    "/person_a_to_z": {
+    "/person_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -3591,7 +5238,18 @@
         }
       }
     },
-    "/person_by_id": {
+    "/person_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3600,6 +5258,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "TyNGhslR",
             "schema": {
               "type": "string"
             }
@@ -3618,7 +5277,18 @@
         }
       }
     },
-    "/person_by_id_mock": {
+    "/person_by_id_mock.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -3627,6 +5297,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "TyNGhslR",
             "schema": {
               "type": "string"
             }
@@ -3645,7 +5316,18 @@
         }
       }
     },
-    "/person_by_initial": {
+    "/person_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3654,6 +5336,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "a",
             "schema": {
               "type": "string"
             }
@@ -3672,7 +5355,18 @@
         }
       }
     },
-    "/person_by_mnis_id": {
+    "/person_by_mnis_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3681,6 +5375,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "172",
             "schema": {
               "type": "string"
             }
@@ -3699,7 +5394,18 @@
         }
       }
     },
-    "/person_by_substring": {
+    "/person_by_substring.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3708,6 +5414,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "ee",
             "schema": {
               "type": "string"
             }
@@ -3726,7 +5433,18 @@
         }
       }
     },
-    "/person_committees_index": {
+    "/person_committees_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3735,6 +5453,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "TyNGhslR",
             "schema": {
               "type": "string"
             }
@@ -3753,7 +5472,18 @@
         }
       }
     },
-    "/person_committees_memberships_index": {
+    "/person_committees_memberships_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3762,6 +5492,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "TyNGhslR",
             "schema": {
               "type": "string"
             }
@@ -3780,7 +5511,18 @@
         }
       }
     },
-    "/person_constituencies": {
+    "/person_constituencies.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3789,6 +5531,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "TyNGhslR",
             "schema": {
               "type": "string"
             }
@@ -3807,7 +5550,18 @@
         }
       }
     },
-    "/person_contact_points": {
+    "/person_contact_points.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -3816,6 +5570,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "TyNGhslR",
             "schema": {
               "type": "string"
             }
@@ -3834,7 +5589,18 @@
         }
       }
     },
-    "/person_current_committees_memberships": {
+    "/person_current_committees_memberships.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3843,6 +5609,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "TyNGhslR",
             "schema": {
               "type": "string"
             }
@@ -3861,7 +5628,18 @@
         }
       }
     },
-    "/person_current_constituency": {
+    "/person_current_constituency.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -3870,6 +5648,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "TyNGhslR",
             "schema": {
               "type": "string"
             }
@@ -3888,7 +5667,18 @@
         }
       }
     },
-    "/person_current_house": {
+    "/person_current_house.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -3897,6 +5687,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "TyNGhslR",
             "schema": {
               "type": "string"
             }
@@ -3915,7 +5706,18 @@
         }
       }
     },
-    "/person_current_party": {
+    "/person_current_party.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -3924,6 +5726,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "TyNGhslR",
             "schema": {
               "type": "string"
             }
@@ -3942,7 +5745,18 @@
         }
       }
     },
-    "/person_houses": {
+    "/person_houses.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3951,6 +5765,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "TyNGhslR",
             "schema": {
               "type": "string"
             }
@@ -3969,10 +5784,22 @@
         }
       }
     },
-    "/person_index": {
+    "/person_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -3987,7 +5814,18 @@
         }
       }
     },
-    "/person_lookup": {
+    "/person_lookup.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -3996,6 +5834,7 @@
             "in": "query",
             "description": "schemaUri",
             "required": true,
+            "example": "mnisId",
             "schema": {
               "type": "string"
             }
@@ -4005,6 +5844,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "172",
             "schema": {
               "type": "string"
             }
@@ -4023,10 +5863,22 @@
         }
       }
     },
-    "/person_mps": {
+    "/person_mps.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -4041,7 +5893,18 @@
         }
       }
     },
-    "/person_parties": {
+    "/person_parties.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
@@ -4050,6 +5913,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "TyNGhslR",
             "schema": {
               "type": "string"
             }
@@ -4068,10 +5932,22 @@
         }
       }
     },
-    "/person_photo_index": {
+    "/person_photo_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionNonGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatNonGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -4086,7 +5962,18 @@
         }
       }
     },
-    "/photo_details": {
+    "/photo_details.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionNonGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatNonGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -4095,6 +5982,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "qnsCGpnw",
             "schema": {
               "type": "string"
             }
@@ -4113,7 +6001,18 @@
         }
       }
     },
-    "/previous_parliament_by_id": {
+    "/previous_parliament_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -4122,6 +6021,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "b0t56VVL",
             "schema": {
               "type": "string"
             }
@@ -4140,7 +6040,18 @@
         }
       }
     },
-    "/region_by_id": {
+    "/region_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -4149,6 +6060,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "E15000001",
             "schema": {
               "type": "string"
             }
@@ -4167,7 +6079,18 @@
         }
       }
     },
-    "/region_constituencies": {
+    "/region_constituencies.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -4176,6 +6099,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "E15000001",
             "schema": {
               "type": "string"
             }
@@ -4194,7 +6118,18 @@
         }
       }
     },
-    "/region_constituencies_a_to_z": {
+    "/region_constituencies_a_to_z.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -4203,6 +6138,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "E15000001",
             "schema": {
               "type": "string"
             }
@@ -4221,7 +6157,18 @@
         }
       }
     },
-    "/region_constituencies_by_initial": {
+    "/region_constituencies_by_initial.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -4230,6 +6177,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "E15000001",
             "schema": {
               "type": "string"
             }
@@ -4239,6 +6187,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "h",
             "schema": {
               "type": "string"
             }
@@ -4257,10 +6206,22 @@
         }
       }
     },
-    "/region_index": {
+    "/region_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -4275,7 +6236,18 @@
         }
       }
     },
-    "/resource": {
+    "/resource.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -4284,6 +6256,7 @@
             "in": "query",
             "description": "uri",
             "required": true,
+            "example": "",
             "schema": {
               "type": "string"
             }
@@ -4302,7 +6275,18 @@
         }
       }
     },
-    "/resource_by_id": {
+    "/resource_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -4311,6 +6295,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "",
             "schema": {
               "type": "string"
             }
@@ -4329,10 +6314,22 @@
         }
       }
     },
-    "/schema": {
+    "/schema.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -4347,10 +6344,22 @@
         }
       }
     },
-    "/vacant_constituency_index": {
+    "/vacant_constituency_index.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionNonGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatNonGraph"
+        }
+      ],
       "x-type": "list",
       "get": {
         "parameters": [
+
         ],
         "responses": {
           "200": {
@@ -4365,7 +6374,18 @@
         }
       }
     },
-    "/webarticle_by_id": {
+    "/webarticle_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "hardCoded",
       "get": {
         "parameters": [
@@ -4374,6 +6394,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "",
             "schema": {
               "type": "string"
             }
@@ -4392,7 +6413,18 @@
         }
       }
     },
-    "/with_schema": {
+    "/with_schema.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "hardCoded",
       "get": {
         "parameters": [
@@ -4401,6 +6433,7 @@
             "in": "query",
             "description": "literal",
             "required": true,
+            "example": "",
             "schema": {
               "type": "string"
             }
@@ -4419,7 +6452,18 @@
         }
       }
     },
-    "/work_package_by_id": {
+    "/work_package_by_id.{ext}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
+        },
+        {
+          "$ref": "#/components/parameters/fileExtensionGraph"
+        },
+        {
+          "$ref": "#/components/parameters/formatGraph"
+        }
+      ],
       "x-type": "single",
       "get": {
         "parameters": [
@@ -4428,6 +6472,7 @@
             "in": "query",
             "description": "instanceUri",
             "required": true,
+            "example": "",
             "schema": {
               "type": "string"
             }

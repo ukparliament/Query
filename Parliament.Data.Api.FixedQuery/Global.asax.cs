@@ -2,8 +2,6 @@
 {
     using FriendlyHierarchy;
     using Microsoft.ApplicationInsights.Extensibility;
-    using Swashbuckle.Application;
-    using Swashbuckle.Swagger;
     using System;
     using System.Collections.Generic;
     using System.Configuration;
