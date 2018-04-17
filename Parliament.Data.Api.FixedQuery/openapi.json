@@ -9,17 +9,21 @@
       "url": "https://api.parliament.uk/query"
     }
   ],
+  "security": [
+    {},
+    {
+      "Ocp-Apim-Subscription-Key": []
+    }
+  ],
   "components": {
-    "parameters": {
+    "securitySchemes": {
       "Ocp-Apim-Subscription-Key": {
+        "type": "apiKey",
         "name": "Ocp-Apim-Subscription-Key",
-        "in": "header",
-        "required": true,
-        "description": "Subscription key",
-        "schema": {
-          "type": "string"
-        }
-      },
+        "in": "header"
+      }
+    },
+    "parameters": {
       "formatGraph": {
         "name": "format",
         "in": "query",
@@ -149,9 +153,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -196,9 +197,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -232,9 +230,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -280,9 +275,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -316,9 +308,6 @@
       "x-type": "hardCoded",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -364,9 +353,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -401,9 +387,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -437,9 +420,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -485,9 +465,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -531,9 +508,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -579,9 +553,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -626,9 +597,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -663,9 +631,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -699,9 +664,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -746,9 +708,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -824,9 +783,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -871,9 +827,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -907,9 +860,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -965,9 +915,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -1001,9 +948,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -1049,9 +993,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -1095,9 +1036,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -1143,9 +1081,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -1179,9 +1114,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionNonGraph"
           },
@@ -1221,9 +1153,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -1269,9 +1198,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -1305,9 +1231,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -1353,9 +1276,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -1389,9 +1309,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -1437,9 +1354,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionNonGraph"
           },
           {
@@ -1468,9 +1382,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -1505,9 +1416,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -1553,9 +1461,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -1599,9 +1504,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -1647,9 +1549,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -1694,9 +1593,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -1731,9 +1627,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -1767,9 +1660,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -1815,9 +1705,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -1851,9 +1738,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -1899,9 +1783,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -1936,9 +1817,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -1972,9 +1850,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -2020,9 +1895,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -2056,9 +1928,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -2104,9 +1973,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -2140,9 +2006,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -2198,9 +2061,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -2244,9 +2104,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -2292,9 +2149,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -2338,9 +2192,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -2386,9 +2237,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -2432,9 +2280,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -2480,9 +2325,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -2526,9 +2368,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -2584,9 +2423,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -2630,9 +2466,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -2678,9 +2511,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -2724,9 +2554,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -2782,9 +2609,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -2829,9 +2653,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -2875,9 +2696,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -2933,9 +2751,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -2980,9 +2795,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -3026,9 +2838,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -3084,9 +2893,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -3141,9 +2947,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -3188,9 +2991,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -3234,9 +3034,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -3292,9 +3089,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -3338,9 +3132,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -3396,9 +3187,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -3453,9 +3241,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -3509,9 +3294,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -3577,9 +3359,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -3634,9 +3413,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -3690,9 +3466,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -3758,9 +3531,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -3805,9 +3575,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionNonGraph"
           },
           {
@@ -3846,9 +3613,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionNonGraph"
           },
@@ -3889,9 +3653,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -3925,9 +3686,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -3973,9 +3731,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -4010,9 +3765,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -4046,9 +3798,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -4094,9 +3843,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -4130,9 +3876,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -4178,9 +3921,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -4224,9 +3964,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -4272,9 +4009,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -4318,9 +4052,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -4376,9 +4107,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -4412,9 +4140,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -4470,9 +4195,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -4527,9 +4249,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -4583,9 +4302,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -4651,9 +4367,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -4707,9 +4420,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -4775,9 +4485,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -4842,9 +4549,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -4908,9 +4612,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -4986,9 +4687,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -5033,9 +4731,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -5069,9 +4764,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -5127,9 +4819,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -5174,9 +4863,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -5220,9 +4906,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -5278,9 +4961,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -5314,9 +4994,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -5361,9 +5038,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -5419,9 +5093,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -5476,9 +5147,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -5532,9 +5200,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -5600,9 +5265,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -5637,9 +5299,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -5673,9 +5332,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -5721,9 +5377,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -5767,9 +5420,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -5815,9 +5465,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -5852,9 +5499,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -5888,9 +5532,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -5936,9 +5577,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -5982,9 +5620,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -6040,9 +5675,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -6076,9 +5708,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -6134,9 +5763,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -6181,9 +5807,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -6227,9 +5850,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -6285,9 +5905,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -6321,9 +5938,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -6369,9 +5983,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -6415,9 +6026,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -6463,9 +6071,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -6509,9 +6114,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -6557,9 +6159,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -6603,9 +6202,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -6651,9 +6247,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -6697,9 +6290,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -6745,9 +6335,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -6791,9 +6378,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -6839,9 +6423,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -6885,9 +6466,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -6933,9 +6511,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -6980,9 +6555,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -7016,9 +6588,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -7074,9 +6643,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -7110,9 +6676,6 @@
       "x-type": "list",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -7158,9 +6721,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionNonGraph"
           },
           {
@@ -7189,9 +6749,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionNonGraph"
           },
@@ -7231,9 +6788,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -7279,9 +6833,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -7325,9 +6876,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -7373,9 +6921,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -7419,9 +6964,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -7477,9 +7019,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -7513,9 +7052,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -7561,9 +7097,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -7608,9 +7141,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -7645,9 +7175,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionNonGraph"
           },
           {
@@ -7676,9 +7203,6 @@
       "x-type": "hardCoded",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
@@ -7724,9 +7248,6 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
-          {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
@@ -7770,9 +7291,6 @@
       "x-type": "single",
       "get": {
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Ocp-Apim-Subscription-Key"
-          },
           {
             "$ref": "#/components/parameters/fileExtensionGraph"
           },
