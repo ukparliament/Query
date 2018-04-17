@@ -873,6 +873,12 @@
         "parliament_id": "instanceUri"
       }
     },
+    "question_by_id": {
+      "type": "single",
+      "parameters": {
+        "question_id": "instanceUri"
+      }
+    },
     "region_by_id": {
       "type": "single",
       "parameters": {

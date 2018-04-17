@@ -25,19 +25,19 @@ CONSTRUCT {
 	.
 
 	id:Route001
-		a :ProcedureRoute ;
+		a :AllowedProcedureRoute ;
 		:procedureRouteIsToProcedureStep id:SCSICons ;
 	.
 	id:Route002
-		a :ProcedureRoute ;
+		a :AllowedProcedureRoute ;
 		:procedureRouteIsToProcedureStep id:JCSICons ;
 	.
 	id:Route003
-		a :ProcedureRoute ;
+		a :AllowedProcedureRoute ;
 		:procedureRouteIsToProcedureStep id:CInForce ;
 	.
 	id:Route004
-		a :ProcedureRoute ;
+		a :AllowedProcedureRoute ;
 		:procedureRouteIsToProcedureStep id:ComAppMo ;
 	.
 	
@@ -75,23 +75,23 @@ CONSTRUCT {
 	.
 
 	id:Route005
-		a :ProcedureRoute ;
+		a :CausedProcedureRoute ;
 		:procedureRouteIsToProcedureStep id:JCSICons ;
 	.
 	id:Route006
-		a :ProcedureRoute ;
+		a :CausedProcedureRoute ;
 		:procedureRouteIsToProcedureStep id:SLSCCons ;
 	.
 	id:Route007
-		a :ProcedureRoute ;
+		a :AllowedProcedureRoute ;
 		:procedureRouteIsToProcedureStep id:SOSusMot ;
 	.
 	id:Route008
-		a :ProcedureRoute ;
+		a :PrecludedProcedureRoute ;
 		:procedureRouteIsToProcedureStep id:SCSICons ;
 	.
 	id:Route009
-		a :ProcedureRoute ;
+		a :PrecludedProcedureRoute ;
 		:procedureRouteIsToProcedureStep id:LayInLor ;
 	.
 
