@@ -167,8 +167,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Secrets.config" />
-    <EmbeddedResource Include="EndpointsSchema.json" />
-    <EmbeddedResource Include="Endpoints.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -202,8 +200,6 @@
     <Compile Include="Controllers\Configuration\DefaultMethodSelector.cs" />
     <Compile Include="EndpointConstraint.cs" />
     <Compile Include="Models\QueryWrapper.cs" />
-    <Compile Include="Models\Endpoint.cs" />
-    <Compile Include="Models\DB.cs" />
     <Compile Include="Models\EndpointType.cs" />
     <Compile Include="Models\ParameterType.cs" />
     <Compile Include="HardCoded.cs" />

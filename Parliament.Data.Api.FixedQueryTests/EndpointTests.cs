@@ -1,8 +1,8 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Tests
 {
+    using Microsoft.OpenApi.Models;
+    using Microsoft.OpenApi.Readers;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Newtonsoft.Json.Linq;
-    using Newtonsoft.Json.Schema;
     using Parliament.Data.Api.FixedQuery.Controllers;
     using System.Collections.Generic;
     using System.Linq;
@@ -16,7 +16,7 @@
         {
             get
             {
-                return Resources.DB.Endpoints.Select(endpoint => new object[] { endpoint.Key });
+                return Resources.OpenApiDefinition.Paths.Select(p => new object[] { p.Key });
             }
         }
 
@@ -32,24 +32,28 @@
         [DynamicData(nameof(Endpoints))]
         public void EndpointsHaveImplementation(string endpointName)
         {
-            var endpoint = Resources.DB.Endpoints[endpointName];
+            string key = endpointName
+                .Remove(endpointName.Length - 5, 5)
+                .Remove(0, 1);
+            OpenApiPathItem endpoint = Resources.GetApiPathItem(key);
+            EndpointType endpointType = Resources.GetEndpointType(endpoint);
 
-            if (endpoint.Type == EndpointType.HardCoded)
+            if (endpointType == EndpointType.HardCoded)
             {
-                var method = typeof(HardCoded).GetMethod(endpointName, BindingFlags.Public | BindingFlags.Static);
+                var method = typeof(HardCoded).GetMethod(key, BindingFlags.Public | BindingFlags.Static);
                 Assert.IsNotNull(method, "Method {0} missing", endpointName);
 
                 var parameters = method.GetParameters();
-                Assert.AreEqual(1, parameters.Length,"Hard-coded endpoint methods must have a single parameter.");
+                Assert.AreEqual(1, parameters.Length, "Hard-coded endpoint methods must have a single parameter.");
                 Assert.AreEqual(typeof(Dictionary<string, string>), parameters.Single().ParameterType, "Hard-coded endpoint method parameter must be a Dictionary<string, string>.");
             }
             else
             {
-                var queryString = Resources.GetSparql(endpointName);
+                var queryString = Resources.GetSparql(key);
 
-                foreach (var parameterName in endpoint.Parameters.Keys)
+                foreach (var parameter in Resources.GetSparqlParameters(endpoint))
                 {
-                    Assert.IsTrue(queryString.Contains($"@{parameterName}"), "Parameter @{0} missing in query {1}", parameterName, endpointName);
+                    Assert.IsTrue(queryString.Contains($"@{parameter.Name}"), "Parameter @{0} missing in query {1}", parameter.Name, endpointName);
                 }
 
                 Assert.IsNotNull(queryString, "SPARQL file missing");
@@ -59,19 +63,18 @@
         [TestMethod]
         public void EndpointsJsonIsValid()
         {
-            var endpointsJson = JObject.Parse(Resources.EndpointsJson);
-            var endpointsSchema = JSchema.Parse(Resources.EndpointsSchema);
+            OpenApiDocument document = Resources.OpenApiDefinition;
+            OpenApiDiagnostic diagnostic = Resources.ApiDiagnostic;
 
-            var result = endpointsJson.IsValid(endpointsSchema, out IList<string> errors);
-
-            Assert.IsTrue(result, string.Join(",", errors));
+            Assert.IsFalse(diagnostic.Errors.Any(), string.Join(",", diagnostic.Errors));
         }
 
         [TestMethod]
         [DynamicData(nameof(SparqlFileNames))]
         public void ImplementationHasEndpoint(string sparqlName)
         {
-            CollectionAssert.Contains(Resources.DB.Endpoints.Keys, sparqlName);
+            OpenApiPathItem pathItem = Resources.GetApiPathItem(sparqlName);
+            Assert.IsNotNull(pathItem);
         }
     }
 }

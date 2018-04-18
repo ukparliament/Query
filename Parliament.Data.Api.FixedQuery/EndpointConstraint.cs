@@ -10,7 +10,7 @@
         {
             var endpointName = values[parameterName] as string;
 
-            return Resources.DB.Endpoints.ContainsKey(endpointName);
+            return Resources.GetApiPathItem(endpointName) != null;
         }
     }
 }
