@@ -13,31 +13,44 @@ CONSTRUCT {
 		:procedureName "Made Affirmative" ;
 	.
 
+	id:1AFu55Hs
+		a :House;
+		:houseName "House of Commons" ;
+	.
+
+	id:WkUWUBMx
+		a :House;
+		:houseName "House of Lords" ;
+	.
+
 
 	id:BusItem1 
-		a :BusinessItem ;
+		a :BusinessItem, :Laying ;
+		:layingDate "2018-04-18+00:00"^^<http://www.w3.org/2001/XMLSchema#date> .
 		:businessItemHasProcedureStep id:LayInCom ;
 	.
 	id:LayInCom 
 		a :ProcedureStep ;
 		:procedureStepName "Laying into Commons" ;
+		:procedureStepColloquialName "Laying of papers" ;
+		:procedureStepHasHouse id:1AFu55Hs;
 		:procedureStepAllowsProcedureRoute id:Route001, id:Route002, id:Route003, id:Route004 ;
 	.
 
 	id:Route001
-		a :AllowedProcedureRoute ;
+		a :AllowedProcedureRoute, :ProcedureRoute ;
 		:procedureRouteIsToProcedureStep id:SCSICons ;
 	.
 	id:Route002
-		a :AllowedProcedureRoute ;
+		a :AllowedProcedureRoute, :ProcedureRoute ;
 		:procedureRouteIsToProcedureStep id:JCSICons ;
 	.
 	id:Route003
-		a :AllowedProcedureRoute ;
+		a :AllowedProcedureRoute, :ProcedureRoute ;
 		:procedureRouteIsToProcedureStep id:CInForce ;
 	.
 	id:Route004
-		a :AllowedProcedureRoute ;
+		a :AllowedProcedureRoute, :ProcedureRoute ;
 		:procedureRouteIsToProcedureStep id:ComAppMo ;
 	.
 	
@@ -45,63 +58,74 @@ CONSTRUCT {
 	id:SCSICons 
 		a :ProcedureStep ;
 		:procedureStepName "SCSI consideration" ;
+		:procedureStepColloquialName "Consideration by the Select Committee on Statutory Instruments" ;
 	.
 
 	id:JCSICons 
 		a :ProcedureStep ;
 		:procedureStepName "JCSI consideration" ;
+		:procedureStepColloquialName "JCSI consideration" ;
+		:procedureStepHasHouse id:1AFu55Hs, id:WkUWUBMx;
 	.
 
 	id:CInForce
 		a :ProcedureStep ;
 		:procedureStepName "Coming into force after being laid" ;
+		:procedureStepColloquialName "Coming into force after being laid" ;
 	.
 
 	id:ComAppMo
 		a :ProcedureStep ;
 		:procedureStepName "Commons approval motion" ;
+		:procedureStepColloquialName  "Commons approval motion" ;
+		:procedureStepHasHouse id:1AFu55Hs;
 	.
 
 	id:BusItem2 
-		a :BusinessItem ;
+		a :BusinessItem, :Laying ;
+		:layingDate "2018-04-19+00:00"^^<http://www.w3.org/2001/XMLSchema#date> .
 		:businessItemHasProcedureStep id:LayInLor ;
 	.
 	id:LayInLor
 		a :ProcedureStep ;
 		:procedureStepName "Laying into Lords" ;
+		:procedureStepColloquialName "Laying of papers" ;
+		:procedureStepHasHouse id:WkUWUBMx;
 		:procedureStepCausesProcedureRoute id:Route005, id:Route006;
 		:procedureStepAllowsProcedureRoute id:Route007 ;
 		:procedureStepPrecludesProcedureRoute id:Route008, id:Route009 ;
 	.
 
 	id:Route005
-		a :CausedProcedureRoute ;
+		a :CausedProcedureRoute, :ProcedureRoute ;
 		:procedureRouteIsToProcedureStep id:JCSICons ;
 	.
 	id:Route006
-		a :CausedProcedureRoute ;
+		a :CausedProcedureRoute, :ProcedureRoute ;
 		:procedureRouteIsToProcedureStep id:SLSCCons ;
 	.
 	id:Route007
-		a :AllowedProcedureRoute ;
+		a :AllowedProcedureRoute, :ProcedureRoute ;
 		:procedureRouteIsToProcedureStep id:SOSusMot ;
 	.
 	id:Route008
-		a :PrecludedProcedureRoute ;
+		a :PrecludedProcedureRoute, :ProcedureRoute ;
 		:procedureRouteIsToProcedureStep id:SCSICons ;
 	.
 	id:Route009
-		a :PrecludedProcedureRoute ;
+		a :PrecludedProcedureRoute, :ProcedureRoute ;
 		:procedureRouteIsToProcedureStep id:LayInLor ;
 	.
 
 	id:SLSCCons 
 		a :ProcedureStep ;
 		:procedureStepName "SLSC consideration" ;
+		:procedureStepColloquialName "Consideration by Secondary Legislation Scrutiny Committee" ;
 	.
 	id:SOSusMot 
 		a :ProcedureStep ;
 		:procedureStepName "SO suspension motion" ;
+		:procedureStepColloquialName  "SO suspension motion" ;
 	.
 
 	}
