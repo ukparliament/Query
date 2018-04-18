@@ -1,5 +1,6 @@
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX : @schemaUri
+PREFIX : <https://id.parliament.uk/schema/>
 
 CONSTRUCT {
     ?question
@@ -8,6 +9,7 @@ CONSTRUCT {
         :questionAskedAt ?questionAskedAt ;
         :questionHasAskingPerson ?askingPerson ;
         :questionHasAnsweringBodyAllocation ?answeringBodyAllocation ;
+        :questionHeading ?questionHeading ;
         :questionHasAnswer ?answer .
     ?answer
         a :Answer ;
@@ -15,7 +17,7 @@ CONSTRUCT {
         :answerGivenDate ?answerGivenDate ;
         :answerHasAnsweringPerson ?answeringPerson .
     ?answeringPerson
-        a :GovernmentPerson ;
+        a :Person ;
         :personGivenName ?answeringPersonGivenName ;
         :personOtherNames ?answeringPersonOtherNames ;
         :personFamilyName ?answeringPersonFamilyName ;
@@ -25,7 +27,7 @@ CONSTRUCT {
         a :GovernmentIncumbency ;
         :incumbencyStartDate ?answeringPersonIncumbencyStartDate ;
         :incumbencyEndDate ?answeringPersonIncumbencyEndDate ;
-        :incumbencyHasPosition ?governmentPosition .
+        :governmentIncumbencyHasGovernmentPosition ?governmentPosition .
     ?governmentPosition
         a :GovernmentPosition ;
         :positionName ?positionName .
@@ -33,26 +35,26 @@ CONSTRUCT {
         a :AnsweringBodyAllocation ;
         :answeringBodyAllocationHasAnsweringBody ?answeringBody .
     ?answeringBody
-        a :AnsweringBody ;
+        a :Group ;
         :groupName ?groupName .
     ?askingPerson
         a :Person ;
         :personGivenName ?askingPersonGivenName ;
         :personOtherNames ?askingPersonOtherNames ;
         :personFamilyName ?askingPersonFamilyName ;
-        :personHasIncumbency ?askingPersonSeatIncumbency ;
+        :memberHasParliamentaryIncumbency ?askingPersonSeatIncumbency ;
         :memberHasMemberImage ?askingMemberImage .
     ?askingPersonSeatIncumbency
         a :SeatIncumbency ;
-        :startDate ?askingPersonIncumbencyStartDate ;
-        :endDate ?askingPersonIncumbencyEndDate ;
+        :parliamentaryIncumbencyStartDate ?askingPersonIncumbencyStartDate ;
+        :parliamentaryIncumbencyEndDate ?askingPersonIncumbencyEndDate ;
         :seatIncumbencyHasHouseSeat ?houseSeat .
     ?houseSeat a :HouseSeat ;
         :houseSeatHasHouse ?house ;
         :houseSeatHasConstituencyGroup ?constituencyGroup .
     ?constituencyGroup
         a :ConstituencyGroup ;
-        :name ?constituencyGroupName .
+        :constituencyGroupName ?constituencyGroupName .
 }
 
 WHERE {
@@ -63,53 +65,56 @@ WHERE {
         :questionAskedAt ?questionAskedAt ;
         :questionHasAskingPerson ?askingPerson ;
         :questionHasAnsweringBodyAllocation ?answeringBodyAllocation .
+    OPTIONAL { ?question :questionHeading ?questionHeading . }
+
         OPTIONAL {
-        ?question :questionHasAnswer ?answer .
-        ?answer
-            a :Answer ;
-            :answerText ?answerText ;
-            :answerGivenDate ?answerGivenDate .
-            OPTIONAL {
-            ?answer :answerHasAnsweringPerson ?answeringPerson .
-            ?answeringPerson
-                a :GovernmentPerson ;
-                :personGivenName ?answeringPersonGivenName ;
-                :personOtherNames ?answeringPersonOtherNames ;
-                :personFamilyName ?answeringPersonFamilyName ;
-                :governmentPersonHasGovernmentIncumbency ?answeringPersonGovernmentIncumbency .
-            OPTIONAL { ?answeringPerson :memberHasMemberImage ?answeringMemberImage . }
-            ?answeringPersonGovernmentIncumbency
-                a :GovernmentIncumbency ;
-                :incumbencyStartDate ?answeringPersonIncumbencyStartDate .
-            OPTIONAL { ?answeringPersonGovernmentIncumbency :incumbencyEndDate ?answeringPersonIncumbencyEndDate. }
-            BIND(xsd:dateTime(?answerGivenDate) AS ?answerGivenDate2)
-            BIND(xsd:dateTime(?answeringPersonIncumbencyEndDate) AS ?answeringPersonIncumbencyEndDate2)
-            BIND(xsd:dateTime(?answeringPersonIncumbencyStartDate) AS ?answeringPersonIncumbencyStartDate2)
-            BIND(COALESCE(?answeringPersonIncumbencyEndDate2,now()) AS ?answeringPersonIncumbencyEndDate3)
-            filter ( ?answeringPersonIncumbencyEndDate3 > ?answerGivenDate2 && ?answeringPersonIncumbencyStartDate2 <= ?answerGivenDate2)
-            ?answeringPersonGovernmentIncumbency :incumbencyHasPosition ?governmentPosition .
-            ?governmentPosition
-                a :GovernmentPosition ;
-                :positionName ?positionName .
+            ?question :questionHasAnswer ?answer .
+            ?answer
+                a :Answer ;
+                :answerText ?answerText ;
+                :answerGivenDate ?answerGivenDate .
+
+                OPTIONAL {
+                    ?answer :answerHasAnsweringPerson ?answeringPerson .
+                    ?answeringPerson
+                        a :Person ;
+                        :personGivenName ?answeringPersonGivenName ;
+                        :personOtherNames ?answeringPersonOtherNames ;
+                        :personFamilyName ?answeringPersonFamilyName ;
+                        :governmentPersonHasGovernmentIncumbency ?answeringPersonGovernmentIncumbency .
+                    OPTIONAL { ?answeringPerson :memberHasMemberImage ?answeringMemberImage . }
+                    ?answeringPersonGovernmentIncumbency
+                        a :GovernmentIncumbency ;
+                        :incumbencyStartDate ?answeringPersonIncumbencyStartDate .
+                    OPTIONAL { ?answeringPersonGovernmentIncumbency :incumbencyEndDate ?answeringPersonIncumbencyEndDate. }
+                    BIND(xsd:dateTime(?answerGivenDate) AS ?answerGivenDate2)
+                    BIND(xsd:dateTime(?answeringPersonIncumbencyEndDate) AS ?answeringPersonIncumbencyEndDate2)
+                    BIND(xsd:dateTime(?answeringPersonIncumbencyStartDate) AS ?answeringPersonIncumbencyStartDate2)
+                    BIND(COALESCE(?answeringPersonIncumbencyEndDate2,now()) AS ?answeringPersonIncumbencyEndDate3)
+                    filter ( ?answeringPersonIncumbencyEndDate3 > ?answerGivenDate2 && ?answeringPersonIncumbencyStartDate2 <= ?answerGivenDate2)
+                    ?answeringPersonGovernmentIncumbency :governmentIncumbencyHasGovernmentPosition ?governmentPosition .
+                    ?governmentPosition
+                        a :GovernmentPosition ;
+                        :positionName ?positionName .
             }
         }
     ?answeringBodyAllocation
         a :AnsweringBodyAllocation ;
         :answeringBodyAllocationHasAnsweringBody ?answeringBody .
     ?answeringBody
-        a :AnsweringBody ;
+        a :Group ;
         :groupName ?groupName .
     ?askingPerson
         a :Person ;
         :personGivenName ?askingPersonGivenName ;
         :personOtherNames ?askingPersonOtherNames ;
         :personFamilyName ?askingPersonFamilyName ;
-        :personHasIncumbency ?askingPersonSeatIncumbency.
+        :memberHasParliamentaryIncumbency ?askingPersonSeatIncumbency.
     OPTIONAL { ?askingPerson :memberHasMemberImage ?askingMemberImage . }
     ?askingPersonSeatIncumbency
         a :SeatIncumbency ;
-        :startDate ?askingPersonIncumbencyStartDate .
-    OPTIONAL { ?askingPersonSeatIncumbency :endDate ?askingPersonIncumbencyEndDate. }
+        :parliamentaryIncumbencyStartDate ?askingPersonIncumbencyStartDate .
+    OPTIONAL { ?askingPersonSeatIncumbency :parliamentaryIncumbencyEndDate ?askingPersonIncumbencyEndDate. }
     BIND(xsd:dateTime(?questionAskedAt) AS ?questionAskedAt2)
     BIND(xsd:dateTime(?askingPersonIncumbencyEndDate) AS ?askingPersonIncumbencyEndDate2)
     BIND(xsd:dateTime(?askingPersonIncumbencyStartDate) AS ?askingPersonIncumbencyStartDate2)
@@ -119,10 +124,11 @@ WHERE {
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house .
+
     OPTIONAL {
-    ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup.
-    ?constituencyGroup
-        a :ConstituencyGroup ;
-        :name ?constituencyGroupName .
+        ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup.
+        ?constituencyGroup
+            a :ConstituencyGroup ;
+            :constituencyGroupName ?constituencyGroupName .
     }
 }
