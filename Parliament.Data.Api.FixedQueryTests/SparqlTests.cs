@@ -1,5 +1,6 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Tests
 {
+    using Microsoft.OpenApi.Models;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Parliament.Data.Api.FixedQuery.Controllers;
     using System;
@@ -16,7 +17,7 @@
         {
             get
             {
-                return Resources.DB.Endpoints.Select(endpoint => new object[] { endpoint.Key });
+                return Resources.OpenApiDefinition.Paths.Select(endpoint => new object[] { endpoint.Key });
             }
         }
 
@@ -24,24 +25,29 @@
         [DynamicData("Endpoints")]
         public void ValidateSparql(string endpointName)
         {
-            var endpoint = Resources.DB.Endpoints[endpointName];
-            if (endpoint.Type == EndpointType.HardCoded)
+            string key = endpointName
+                .Remove(endpointName.Length - 5, 5)
+                .Remove(0, 1);
+            OpenApiPathItem endpoint = Resources.GetApiPathItem(key);
+            EndpointType endpointType = Resources.GetEndpointType(endpoint);
+
+            if (endpointType == EndpointType.HardCoded)
             {
                 return;
             }
 
-            var queryString = Resources.GetSparql(endpointName);
+            var queryString = Resources.GetSparql(key);
             var query = new SparqlParameterizedString(queryString);
 
             query.SetUri("schemaUri", new Uri("http://example.com"));
-
-            if (endpoint.Parameters != null)
+            OpenApiParameter[] parameters = Resources.GetSparqlParameters(endpoint).ToArray();
+            if (parameters.Any())
             {
-                var values = endpoint.Parameters.ToDictionary(
-                    parameter => parameter.Key,
+                var values = parameters.ToDictionary(
+                    parameter => parameter.Name,
                     parameter =>
                     {
-                        switch (parameter.Value)
+                        switch (Resources.GetParameterType(parameter))
                         {
                             case ParameterType.Uri:
                                 return "http://example.com";
@@ -50,7 +56,7 @@
                         }
                     });
 
-                FixedQueryController.SetParameters(query, endpoint.Parameters, values);
+                FixedQueryController.SetParameters(query, parameters, values);
             }
 
             var validator = new SparqlQueryValidator();

@@ -1,5 +1,6 @@
 ﻿namespace Parliament.Data.Api.FixedQuery
 {
+    using Microsoft.OpenApi.Any;
     using Microsoft.OpenApi.Models;
     using Microsoft.OpenApi.Readers;
     using Newtonsoft.Json;
@@ -13,34 +14,11 @@
     {
         private const string BaseName = "Parliament.Data.Api.FixedQuery";
 
-        private static DB db;
-
-        public static DB DB
+        public static string OpenApiDefinitionResourceName
         {
             get
             {
-                if (Resources.db == null)
-                {
-                    Resources.db = JsonConvert.DeserializeObject<DB>(Resources.EndpointsJson);
-                }
-
-                return Resources.db;
-            }
-        }
-
-        public static string EndpointsJson
-        {
-            get
-            {
-                return Resources.GetFile($"{BaseName}.Endpoints.json");
-            }
-        }
-
-        public static string EndpointsSchema
-        {
-            get
-            {
-                return Resources.GetFile($"{BaseName}.EndpointsSchema.json");
+                return $"{BaseName}.openapi.json";
             }
         }
 
@@ -50,12 +28,50 @@
             get
             {
                 if (openApiDefinition == null)
-                    using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{BaseName}.openapi.json"))
+                    using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(OpenApiDefinitionResourceName))
                     {
-                        openApiDefinition = new OpenApiStreamReader().Read(stream, out OpenApiDiagnostic diagnostic);
+                        apiDiagnostic = new OpenApiDiagnostic();
+                        openApiDefinition = new OpenApiStreamReader().Read(stream, out apiDiagnostic);                        
                     }
                 return openApiDefinition;
             }
+        }
+
+        private static OpenApiDiagnostic apiDiagnostic = null;
+        public static OpenApiDiagnostic ApiDiagnostic
+        {
+            get
+            {
+                return apiDiagnostic;
+            }
+        }
+
+
+        public static OpenApiPathItem GetApiPathItem(string endpointName)
+        {
+            string key = $"/{endpointName}{{ext}}";
+            if (OpenApiDefinition.Paths.ContainsKey(key))
+                return OpenApiDefinition.Paths[key];
+            else
+                return null;
+        }
+
+        public static EndpointType GetEndpointType(OpenApiPathItem openApiPath)
+        {
+            string xType = ((OpenApiString)openApiPath.Extensions["x-type"]).Value;
+            return (EndpointType)Enum.Parse(typeof(EndpointType), xType, true);
+        }
+
+        public static ParameterType GetParameterType(OpenApiParameter openApiParameter)
+        {
+            string xType = ((OpenApiString)openApiParameter.Extensions["x-type"]).Value;
+            return (ParameterType)Enum.Parse(typeof(ParameterType), xType, true);
+        }
+
+        public static IEnumerable<OpenApiParameter> GetSparqlParameters(OpenApiPathItem openApiPath)
+        {
+            return openApiPath.Operations[OperationType.Get].Parameters
+                .Where(p => p.Name != "ext" && p.Name != "format");
         }
 
         public static string GetSparql(string name)

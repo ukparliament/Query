@@ -1,6 +1,8 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
     using Microsoft.ApplicationInsights;
+    using Microsoft.OpenApi.Any;
+    using Microsoft.OpenApi.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -29,9 +31,10 @@
 
         private static object Execute(string name, Dictionary<string, string> values)
         {
-            var endpoint = Resources.DB.Endpoints[name];
+            var endpoint = Resources.GetApiPathItem(name);
+            EndpointType endpointType = Resources.GetEndpointType(endpoint);
 
-            if (endpoint.Type == EndpointType.HardCoded)
+            if (endpointType == EndpointType.HardCoded)
             {
                 return FixedQueryController.ExecuteHardCoded(name, values);
             }
@@ -43,18 +46,20 @@
 
         internal static object ExecuteNamedSparql(string name, Dictionary<string, string> values)
         {
-            var endpoint = Resources.DB.Endpoints[name];
+            var endpoint = Resources.GetApiPathItem(name);
             var queryString = Resources.GetSparql(name);
             var query = new SparqlParameterizedString(queryString);
+            EndpointType endpointType = Resources.GetEndpointType(endpoint);
 
             query.SetUri("schemaUri", Global.SchemaUri);
 
-            if (endpoint.Parameters != null)
+            IEnumerable<OpenApiParameter> parameters = Resources.GetSparqlParameters(endpoint);
+            if ((parameters != null) && (parameters.Any()))
             {
-                FixedQueryController.SetParameters(query, endpoint.Parameters, values);
+                FixedQueryController.SetParameters(query, parameters, values);
             }
 
-            return FixedQueryController.ExecuteQuery(query, endpoint.Type);
+            return FixedQueryController.ExecuteQuery(query, endpointType);
         }
 
         private static object ExecuteQuery(SparqlParameterizedString query, EndpointType type)
@@ -98,12 +103,12 @@
             }
         }
 
-        public static void SetParameters(SparqlParameterizedString query, Dictionary<string, ParameterType> parameters, Dictionary<string, string> values)
+        public static void SetParameters(SparqlParameterizedString query, IEnumerable<OpenApiParameter> parameters, Dictionary<string, string> values)
         {
             foreach (var parameterDefinition in parameters)
             {
-                var name = parameterDefinition.Key;
-                if (!values.ContainsKey(name))
+                var name = parameterDefinition.Name;                
+                if (!values.ContainsKey(name)) 
                 {
                     throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent($"missing parameter {name}") });
                 }
@@ -113,8 +118,8 @@
                 {
                     throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent($"missing value for parameter {name}") });
                 }
-
-                var type = parameterDefinition.Value;
+                
+                ParameterType type = Resources.GetParameterType(parameterDefinition);
 
                 switch (type)
                 {
