@@ -26,7 +26,7 @@ CONSTRUCT {
 
 	id:BusItem1 
 		a :BusinessItem, :Laying ;
-		:layingDate "2018-04-18+00:00"^^<http://www.w3.org/2001/XMLSchema#date> .
+		:layingDate "2018-04-18+00:00"^^<http://www.w3.org/2001/XMLSchema#date> ;
 		:businessItemHasProcedureStep id:LayInCom ;
 	.
 	id:LayInCom 
@@ -83,7 +83,7 @@ CONSTRUCT {
 
 	id:BusItem2 
 		a :BusinessItem, :Laying ;
-		:layingDate "2018-04-19+00:00"^^<http://www.w3.org/2001/XMLSchema#date> .
+		:layingDate "2018-04-19+00:00"^^<http://www.w3.org/2001/XMLSchema#date> ;
 		:businessItemHasProcedureStep id:LayInLor ;
 	.
 	id:LayInLor
