@@ -322,6 +322,7 @@
     <EmbeddedResource Include="Sparql\person_photo_index.sparql" />
     <EmbeddedResource Include="Sparql\photo_details.sparql" />
     <EmbeddedResource Include="Sparql\previous_parliament_by_id.sparql" />
+	<EmbeddedResource Include="Sparql\question_by_id.sparql" />
     <EmbeddedResource Include="Sparql\region_by_id.sparql" />
     <EmbeddedResource Include="Sparql\region_constituencies.sparql" />
     <EmbeddedResource Include="Sparql\region_constituencies_a_to_z.sparql" />

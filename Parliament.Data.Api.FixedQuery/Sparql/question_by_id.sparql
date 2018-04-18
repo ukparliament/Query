@@ -1,6 +1,5 @@
 ﻿PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX : @schemaUri
-PREFIX : <https://id.parliament.uk/schema/>
 
 CONSTRUCT {
     ?question
