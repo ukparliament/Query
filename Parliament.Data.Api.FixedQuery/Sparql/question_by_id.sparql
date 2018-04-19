@@ -55,7 +55,6 @@ CONSTRUCT {
         a :ConstituencyGroup ;
         :constituencyGroupName ?constituencyGroupName .
 }
-
 WHERE {
     BIND(@question_id AS ?question)
     ?question
@@ -74,27 +73,31 @@ WHERE {
                 :answerGivenDate ?answerGivenDate .
 
                 OPTIONAL {
-                    ?answer :answerHasAnsweringPerson ?answeringPerson .
+                    ?answer
+                    	:answerHasAnsweringPerson ?answeringPerson ;
+                    	:answerHasAnsweringBody ?answeringBody2 .
                     ?answeringPerson
-                        a :Person ;
-                        :personGivenName ?answeringPersonGivenName ;
-                        :personOtherNames ?answeringPersonOtherNames ;
-                        :personFamilyName ?answeringPersonFamilyName ;
-                        :governmentPersonHasGovernmentIncumbency ?answeringPersonGovernmentIncumbency .
+                    a :Person ;
+                    :governmentPersonHasGovernmentIncumbency ?answeringPersonGovernmentIncumbency .
+                    OPTIONAL { ?answeringPerson :personGivenName ?answeringPersonGivenName . }
+                    OPTIONAL { ?answeringPerson :personFamilyName ?answeringPersonFamilyName . }
+                    OPTIONAL { ?answeringPerson :personOtherNames ?answeringPersonOtherNames . }
                     OPTIONAL { ?answeringPerson :memberHasMemberImage ?answeringMemberImage . }
                     ?answeringPersonGovernmentIncumbency
                         a :GovernmentIncumbency ;
+                        :governmentIncumbencyHasGovernmentPosition ?governmentPosition ;
                         :incumbencyStartDate ?answeringPersonIncumbencyStartDate .
+                   ?governmentPosition
+                        a :GovernmentPosition ;
+                        :positionHasGroup ?answeringBody2 ;
+                        :positionName ?positionName .
                     OPTIONAL { ?answeringPersonGovernmentIncumbency :incumbencyEndDate ?answeringPersonIncumbencyEndDate. }
                     BIND(xsd:dateTime(?answerGivenDate) AS ?answerGivenDate2)
                     BIND(xsd:dateTime(?answeringPersonIncumbencyEndDate) AS ?answeringPersonIncumbencyEndDate2)
                     BIND(xsd:dateTime(?answeringPersonIncumbencyStartDate) AS ?answeringPersonIncumbencyStartDate2)
                     BIND(COALESCE(?answeringPersonIncumbencyEndDate2,now()) AS ?answeringPersonIncumbencyEndDate3)
                     filter ( ?answeringPersonIncumbencyEndDate3 > ?answerGivenDate2 && ?answeringPersonIncumbencyStartDate2 <= ?answerGivenDate2)
-                    ?answeringPersonGovernmentIncumbency :governmentIncumbencyHasGovernmentPosition ?governmentPosition .
-                    ?governmentPosition
-                        a :GovernmentPosition ;
-                        :positionName ?positionName .
+
             }
         }
     ?answeringBodyAllocation
@@ -105,10 +108,10 @@ WHERE {
         :groupName ?groupName .
     ?askingPerson
         a :Person ;
-        :personGivenName ?askingPersonGivenName ;
-        :personOtherNames ?askingPersonOtherNames ;
-        :personFamilyName ?askingPersonFamilyName ;
-        :memberHasParliamentaryIncumbency ?askingPersonSeatIncumbency.
+        :memberHasParliamentaryIncumbency ?askingPersonSeatIncumbency .
+    OPTIONAL { ?askingPerson :personGivenName ?askingPersonGivenName . }
+    OPTIONAL { ?askingPerson :personFamilyName ?askingPersonFamilyName . }
+    OPTIONAL { ?askingPerson :personOtherNames ?askingPersonOtherNames . }
     OPTIONAL { ?askingPerson :memberHasMemberImage ?askingMemberImage . }
     ?askingPersonSeatIncumbency
         a :SeatIncumbency ;
