@@ -36,7 +36,8 @@ CONSTRUCT {
         :answeringBodyAllocationHasAnsweringBody ?answeringBody .
     ?answeringBody
         a :Group ;
-        :groupName ?groupName .
+        :groupName ?groupName ;
+        :governmentOrganisationGovRegisterId ?governmentOrganisationGovRegisterId .
     ?askingPerson
         a :Person ;
         :personGivenName ?askingPersonGivenName ;
@@ -66,7 +67,6 @@ WHERE {
         :eqmUin ?eqmUin ;
         :questionHasAnsweringBodyAllocation ?answeringBodyAllocation .
     OPTIONAL { ?question :questionHeading ?questionHeading . }
-
         OPTIONAL {
             ?question :questionHasAnswer ?answer .
             ?answer
@@ -77,7 +77,9 @@ WHERE {
                 OPTIONAL {
                     ?answer
                     	:answerHasAnsweringPerson ?answeringPerson ;
-                    	:answerHasAnsweringBody ?answeringBody2 .
+                    	:answerHasAnsweringBody ?govOrganisation .
+                    ?govOrganisation a :Group ;
+                    	:governmentOrganisationGovRegisterId ?governmentOrganisationGovRegisterId .
                     ?answeringPerson
                     a :Person ;
                     :governmentPersonHasGovernmentIncumbency ?answeringPersonGovernmentIncumbency .
@@ -91,8 +93,10 @@ WHERE {
                         :incumbencyStartDate ?answeringPersonIncumbencyStartDate .
                    ?governmentPosition
                         a :GovernmentPosition ;
-                        :positionHasGroup ?answeringBody2 ;
+                        :positionHasGroup ?govOrganisation2 ;
                         :positionName ?positionName .
+                    ?govOrganisation2 a :Group ;
+                    	:governmentOrganisationGovRegisterId ?governmentOrganisationGovRegisterId .
                     OPTIONAL { ?answeringPersonGovernmentIncumbency :incumbencyEndDate ?answeringPersonIncumbencyEndDate. }
                     BIND(xsd:dateTime(?answerGivenDate) AS ?answerGivenDate2)
                     BIND(xsd:dateTime(?answeringPersonIncumbencyEndDate) AS ?answeringPersonIncumbencyEndDate2)
@@ -106,7 +110,8 @@ WHERE {
         :answeringBodyAllocationHasAnsweringBody ?answeringBody .
     ?answeringBody
         a :Group ;
-        :groupName ?groupName .
+        :groupName ?groupName ;
+        :governmentOrganisationGovRegisterId ?governmentOrganisationGovRegisterId .
     ?askingPerson
         a :Person ;
         :memberHasParliamentaryIncumbency ?askingPersonSeatIncumbency .
