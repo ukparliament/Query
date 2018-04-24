@@ -107,7 +107,7 @@
                 new DelegatingHandler[] {
                     new CompressionHandler(),
                     new NotAcceptablePayloadHandler(),
-                    new HtmlResourceRedirectHandler()
+                    //new HtmlResourceRedirectHandler()
             });
             var constraints = new
             {
