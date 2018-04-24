@@ -23,6 +23,7 @@ CONSTRUCT {
         :personFamilyName ?answeringPersonFamilyName ;
         :governmentPersonHasGovernmentIncumbency ?answeringPersonGovernmentIncumbency ;
         :memberHasMemberImage ?answeringMemberImage .
+    ?answeringMemberImage a :MemberImage .
     ?answeringPersonGovernmentIncumbency
         a :GovernmentIncumbency ;
         :incumbencyStartDate ?answeringPersonIncumbencyStartDate ;
@@ -45,6 +46,7 @@ CONSTRUCT {
         :personFamilyName ?askingPersonFamilyName ;
         :memberHasParliamentaryIncumbency ?askingPersonSeatIncumbency ;
         :memberHasMemberImage ?askingMemberImage .
+    ?askingMemberImage a :MemberImage .
     ?askingPersonSeatIncumbency
         a :SeatIncumbency ;
         :parliamentaryIncumbencyStartDate ?askingPersonIncumbencyStartDate ;
@@ -86,7 +88,12 @@ WHERE {
                     OPTIONAL { ?answeringPerson :personGivenName ?answeringPersonGivenName . }
                     OPTIONAL { ?answeringPerson :personFamilyName ?answeringPersonFamilyName . }
                     OPTIONAL { ?answeringPerson :personOtherNames ?answeringPersonOtherNames . }
-                    OPTIONAL { ?answeringPerson :memberHasMemberImage ?answeringMemberImage . }
+
+                    OPTIONAL {
+                        ?answeringPerson :memberHasMemberImage ?answeringMemberImage .
+                        ?answeringMemberImage a :MemberImage .
+                    }
+
                     ?answeringPersonGovernmentIncumbency
                         a :GovernmentIncumbency ;
                         :governmentIncumbencyHasGovernmentPosition ?governmentPosition ;
@@ -118,7 +125,12 @@ WHERE {
     OPTIONAL { ?askingPerson :personGivenName ?askingPersonGivenName . }
     OPTIONAL { ?askingPerson :personFamilyName ?askingPersonFamilyName . }
     OPTIONAL { ?askingPerson :personOtherNames ?askingPersonOtherNames . }
-    OPTIONAL { ?askingPerson :memberHasMemberImage ?askingMemberImage . }
+
+  	OPTIONAL {
+  	    ?askingPerson :memberHasMemberImage ?askingMemberImage .
+  	    ?askingMemberImage a :MemberImage .
+  	 }
+
     ?askingPersonSeatIncumbency
         a :SeatIncumbency ;
         :parliamentaryIncumbencyStartDate ?askingPersonIncumbencyStartDate .
