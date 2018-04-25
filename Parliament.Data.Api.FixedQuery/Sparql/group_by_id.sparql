@@ -130,8 +130,8 @@ WHERE {
     		    #this optional is for formal bodies
     		    OPTIONAL {
     		        OPTIONAL {
-    		        	?group :formalBodyHasLeadHouse ?leadHouse
-    		            BIND (?leadHouse AS ?house) .
+    		        	?group :formalBodyHasLeadHouse ?leadHouse .
+    		            BIND (?leadHouse AS ?house) 
     		        }
 
     		        ?group
