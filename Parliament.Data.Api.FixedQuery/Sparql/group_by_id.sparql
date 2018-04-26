@@ -83,7 +83,10 @@ CONSTRUCT{
 ?parlIncumbency
     a :ParliamentaryIncumbency ;
     a :SeatIncumbency ;
-    :seatIncumbencyHasHouseSeat ?houseSeat .
+    :seatIncumbencyHasHouseSeat ?houseSeat ;
+    :parliamentaryIncumbencyStartDate ?parlincumbencyStartDate ;
+    :parliamentaryIncumbencyEndDate ?parlincumbencyEndDate ;
+
 
 ?houseSeat
     a :HouseSeat ;
@@ -118,20 +121,20 @@ WHERE {
     		            :groupName ?groupName ;
     		            :groupStartDate ?groupStartDate ;
     		        .
-    		    }
 
-    		    OPTIONAL { ?group :formalBodyHasParentFormalBody ?parentformalBody} .
-    		    OPTIONAL { ?group :formalBodyHasChildFormalBody ?childformalBody } .
-    		    OPTIONAL { ?group :formalBodyRemit ?bodyRemit } .
+        		    OPTIONAL { ?group :formalBodyHasParentFormalBody ?parentformalBody} .
+        		    OPTIONAL { ?group :formalBodyHasChildFormalBody ?childformalBody } .
+        		    OPTIONAL { ?group :formalBodyRemit ?bodyRemit } .
 
-    		    MINUS { ?group :groupEndDate ?endDate } .
-    		    MINUS { ?group :formalBodyEndDate  ?formalbodyEndDate } .
+        		    MINUS { ?group :groupEndDate ?endDate } .
+        		    MINUS { ?group :formalBodyEndDate  ?formalbodyEndDate } .
 
+            }
     		    #this optional is for formal bodies
     		    OPTIONAL {
     		        OPTIONAL {
     		        	?group :formalBodyHasLeadHouse ?leadHouse .
-    		            BIND (?leadHouse AS ?house) 
+    		            BIND (?leadHouse AS ?house)
     		        }
 
     		        ?group
@@ -184,8 +187,11 @@ WHERE {
                 OPTIONAL { ?person :memberHasMemberImage ?image . }
                 OPTIONAL {
                     ?person :memberHasParliamentaryIncumbency ?parlIncumbency  .
-                    ?parlIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
-                    FILTER NOT EXISTS { ?parlIncumbency :parliamentaryIncumbencyEndDate ?parlIncumbencyEndDate } .
+                    ?parlIncumbency
+                        a :SeatIncumbency ;
+                        :seatIncumbencyHasHouseSeat ?houseSeat ;
+                        :parliamentaryIncumbencyStartDate ?parlincumbencyStartDate .
+                    OPTIONAL { ?parlIncumbency :parliamentaryIncumbencyEndDate ?parlIncumbencyEndDate } .
 
                     OPTIONAL {
                         ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
