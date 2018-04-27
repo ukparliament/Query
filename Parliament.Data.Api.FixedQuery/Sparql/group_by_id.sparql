@@ -134,7 +134,9 @@ WHERE {
 				bind(:AlternateMembership as ?alternateMembership)
 				?formalBodyMembership a ?alternateMembership.
 			    }
-			    FILTER NOT EXISTS { ?formalBodyMembership :formalBodyMembershipEndDate ?membershipEndDate } .
+          OPTIONAL {
+            FILTER NOT EXISTS { ?formalBodyMembership :formalBodyMembershipEndDate ?membershipEndDate } .
+          }
 		 		OPTIONAL {
 		   			bind(:ParliamentaryCommittee as ?parliamentaryCommittee)
 		    			?group a ?parliamentaryCommittee.
