@@ -114,35 +114,37 @@ WHERE {
 		  		OPTIONAL { ?group :formalBodyRemit ?bodyRemit } .
 			}
 		    OPTIONAL {
-			    OPTIONAL {
-			    	?group :formalBodyHasLeadHouse ?leadHouse .
-			    	BIND (?leadHouse AS ?house)
-			    }
-			    ?group
-			    	a :FormalBody;
-			    	:formalBodyName ?formalBodyName ;
-			    	:formalBodyStartDate ?formalbodystartDate ;
-			    	:formalBodyHasContactPoint ?formalbodycontactpoint ;
-			    	:formalBodyHasFormalBodyMembership ?formalBodyMembership ;
-			    	:formalBodyHasHouse ?house ;
-			    .
-			    OPTIONAL {
+		        OPTIONAL {
+				?group :formalBodyHasLeadHouse ?leadHouse .
+				BIND (?leadHouse AS ?house)
+		        }
+		    	?group
+				a :FormalBody;
+				:formalBodyName ?formalBodyName ;
+				:formalBodyStartDate ?formalbodystartDate ;
+				:formalBodyHasContactPoint ?formalbodycontactpoint ;
+				:formalBodyHasFormalBodyMembership ?formalBodyMembership ;
+				:formalBodyHasHouse ?house ;
+		    	.
+		    	OPTIONAL {
 				bind(:ExOfficioMembership as ?exOfficioMembership)
 				?formalBodyMembership a ?exOfficioMembership.
-		    	    }
-			    OPTIONAL {
+		        }
+		    	OPTIONAL {
 				bind(:AlternateMembership as ?alternateMembership)
 				?formalBodyMembership a ?alternateMembership.
+		    	}
+		    OPTIONAL {
+			FILTER NOT EXISTS { ?formalBodyMembership :formalBodyMembershipEndDate ?membershipEndDate } .
+		    }
+		 	    OPTIONAL {
+				bind(:ParliamentaryCommittee as ?parliamentaryCommittee)
+				?group a ?parliamentaryCommittee.
 			    }
-			    FILTER NOT EXISTS { ?formalBodyMembership :formalBodyMembershipEndDate ?membershipEndDate } .
-		 		OPTIONAL {
-		   			bind(:ParliamentaryCommittee as ?parliamentaryCommittee)
-		    			?group a ?parliamentaryCommittee.
-			}
-		    	OPTIONAL {
+		    	    OPTIONAL {
 		    		bind(:SelectCommittee as ?selectCommittee)
 		    		?group a ?selectCommittee .
-		    	}
+		    	    }
 		    	OPTIONAL { ?formalbodycontactpoint :email ?email } .
 		    	OPTIONAL { ?formalbodycontactpoint :phoneNumber ?phoneNumber } .
 		    	?house
