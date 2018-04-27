@@ -49,7 +49,7 @@ CONSTRUCT {
 	:addressLine4 ?address4 ;
 	:addressLine5 ?address5 ;
 	:postCode ?postCode ;
-    .	
+    .
     ?formalBodyPerson
       	a :Person ;
 	:personFamilyName ?formalBodyPersonFamilyName ;
@@ -112,7 +112,6 @@ WHERE {
 		  		OPTIONAL { ?group :formalBodyHasParentFormalBody ?parentformalBody} .
 		  		OPTIONAL { ?group :formalBodyHasChildFormalBody ?childformalBody } .
 		  		OPTIONAL { ?group :formalBodyRemit ?bodyRemit } .
-		  		FILTER NOT EXISTS { ?group :endDate ?endDate } .
 			}
 		    OPTIONAL {
 			    OPTIONAL {
@@ -135,7 +134,9 @@ WHERE {
 				bind(:AlternateMembership as ?alternateMembership)
 				?formalBodyMembership a ?alternateMembership.
 			    }
-			    FILTER NOT EXISTS { ?formalBodyMembership :formalBodyMembershipEndDate ?membershipEndDate } .
+          OPTIONAL {
+            FILTER NOT EXISTS { ?formalBodyMembership :formalBodyMembershipEndDate ?membershipEndDate } .
+          }
 		 		OPTIONAL {
 		   			bind(:ParliamentaryCommittee as ?parliamentaryCommittee)
 		    			?group a ?parliamentaryCommittee.
