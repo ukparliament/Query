@@ -68,57 +68,16 @@ WHERE {
         :questionHasAskingPerson ?askingPerson ;
         :eqmUin ?eqmUin ;
         :questionHasAnsweringBodyAllocation ?answeringBodyAllocation .
-    OPTIONAL { ?question :questionHeading ?questionHeading . }
-        OPTIONAL {
-            ?question :questionHasAnswer ?answer .
-            ?answer
-                a :Answer ;
-                :answerText ?answerText ;
-                :answerGivenDate ?answerGivenDate .
+		?answeringBodyAllocation a :AnsweringBodyAllocation .
 
-                OPTIONAL {
-                    ?answer
-                    	:answerHasAnsweringPerson ?answeringPerson ;
-                    	:answerHasAnsweringBody ?govOrganisation .
-                    ?govOrganisation a :Group ;
-                    	:governmentOrganisationGovRegisterId ?governmentOrganisationGovRegisterId .
-                    ?answeringPerson
-                    a :Person ;
-                    :governmentPersonHasGovernmentIncumbency ?answeringPersonGovernmentIncumbency .
-                    OPTIONAL { ?answeringPerson :personGivenName ?answeringPersonGivenName . }
-                    OPTIONAL { ?answeringPerson :personFamilyName ?answeringPersonFamilyName . }
-                    OPTIONAL { ?answeringPerson :personOtherNames ?answeringPersonOtherNames . }
+    OPTIONAL {
+    		?answeringBodyAllocation :answeringBodyAllocationHasAnsweringBody ?answeringBody .
+    		?answeringBody
+        		a :Group ;
+    		OPTIONAL { ?answeringBody :groupName ?groupName . }
+    	  OPTIONAL { ?answeringBody :governmentOrganisationGovRegisterId ?governmentOrganisationGovRegisterId . }
+    }
 
-                    OPTIONAL {
-                        ?answeringPerson :memberHasMemberImage ?answeringMemberImage .
-                        ?answeringMemberImage a :MemberImage .
-                    }
-
-                    ?answeringPersonGovernmentIncumbency
-                        a :GovernmentIncumbency ;
-                        :governmentIncumbencyHasGovernmentPosition ?governmentPosition ;
-                        :incumbencyStartDate ?answeringPersonIncumbencyStartDate .
-                   ?governmentPosition
-                        a :GovernmentPosition ;
-                        :positionHasGroup ?govOrganisation2 ;
-                        :positionName ?positionName .
-                    ?govOrganisation2 a :Group ;
-                    	:governmentOrganisationGovRegisterId ?governmentOrganisationGovRegisterId .
-                    OPTIONAL { ?answeringPersonGovernmentIncumbency :incumbencyEndDate ?answeringPersonIncumbencyEndDate. }
-                    BIND(xsd:dateTime(?answerGivenDate) AS ?answerGivenDate2)
-                    BIND(xsd:dateTime(?answeringPersonIncumbencyEndDate) AS ?answeringPersonIncumbencyEndDate2)
-                    BIND(xsd:dateTime(?answeringPersonIncumbencyStartDate) AS ?answeringPersonIncumbencyStartDate2)
-                    BIND(COALESCE(?answeringPersonIncumbencyEndDate2,now()) AS ?answeringPersonIncumbencyEndDate3)
-                    filter ( ?answeringPersonIncumbencyEndDate3 > ?answerGivenDate2 && ?answeringPersonIncumbencyStartDate2 <= ?answerGivenDate2)
-            }
-        }
-    ?answeringBodyAllocation
-        a :AnsweringBodyAllocation ;
-        :answeringBodyAllocationHasAnsweringBody ?answeringBody .
-    ?answeringBody
-        a :Group ;
-        :groupName ?groupName ;
-        :governmentOrganisationGovRegisterId ?governmentOrganisationGovRegisterId .
     ?askingPerson
         a :Person ;
         :memberHasParliamentaryIncumbency ?askingPersonSeatIncumbency .
@@ -129,7 +88,7 @@ WHERE {
   	OPTIONAL {
   	    ?askingPerson :memberHasMemberImage ?askingMemberImage .
   	    ?askingMemberImage a :MemberImage .
-  	 }
+  	}
 
     ?askingPersonSeatIncumbency
         a :SeatIncumbency ;
@@ -150,5 +109,47 @@ WHERE {
         ?constituencyGroup
             a :ConstituencyGroup ;
             :constituencyGroupName ?constituencyGroupName .
+    }
+
+    OPTIONAL { ?question :questionHeading ?questionHeading . }
+
+    OPTIONAL {
+        ?question :questionHasAnswer ?answer .
+        ?answer
+            a :Answer ;
+            :answerText ?answerText ;
+            :answerGivenDate ?answerGivenDate ;
+    		    :answerHasAnsweringBody ?answeringBody2 ;
+	      	  :answerHasAnsweringPerson ?answeringPerson .
+        ?answeringBody2 a :Group .
+        OPTIONAL { ?answeringBody2	:governmentOrganisationGovRegisterId ?governmentOrganisationGovRegisterId . }
+	      ?answeringPerson a :Person .
+
+	      OPTIONAL {
+	          ?answeringPerson :governmentPersonHasGovernmentIncumbency ?answeringPersonGovernmentIncumbency .
+	          ?answeringPersonGovernmentIncumbency
+	              a :GovernmentIncumbency ;
+	              :governmentIncumbencyHasGovernmentPosition ?governmentPosition ;
+	              :incumbencyStartDate ?answeringPersonIncumbencyStartDate .
+	          ?governmentPosition
+	              a :GovernmentPosition ;
+	              :positionHasGroup ?answeringBody2 ;
+	              :positionName ?positionName .
+	          OPTIONAL { ?answeringPersonGovernmentIncumbency :incumbencyEndDate ?answeringPersonIncumbencyEndDate. }
+	          BIND(xsd:dateTime(?answerGivenDate) AS ?answerGivenDate2)
+	          BIND(xsd:dateTime(?answeringPersonIncumbencyEndDate) AS ?answeringPersonIncumbencyEndDate2)
+	          BIND(xsd:dateTime(?answeringPersonIncumbencyStartDate) AS ?answeringPersonIncumbencyStartDate2)
+	          BIND(COALESCE(?answeringPersonIncumbencyEndDate2,now()) AS ?answeringPersonIncumbencyEndDate3)
+	          filter ( ?answeringPersonIncumbencyEndDate3 > ?answerGivenDate2 && ?answeringPersonIncumbencyStartDate2 <= ?answerGivenDate2)
+	     }
+
+      OPTIONAL { ?answeringPerson :personGivenName ?answeringPersonGivenName . }
+      OPTIONAL { ?answeringPerson :personFamilyName ?answeringPersonFamilyName . }
+      OPTIONAL { ?answeringPerson :personOtherNames ?answeringPersonOtherNames . }
+
+      OPTIONAL {
+          ?answeringPerson :memberHasMemberImage ?answeringMemberImage .
+          ?answeringMemberImage a :MemberImage .
+      }
     }
 }
