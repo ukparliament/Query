@@ -75,7 +75,7 @@ CONSTRUCT {
         :houseSeatHasHouse ?house ;
     .
     ?constituencyGroup
-    	  a :Constituency ;
+    	  a :ConstituencyGroup ;
 	      :constituencyGroupName ?constituencyGroupName ;
     .
     ?partyMembership
@@ -195,7 +195,7 @@ WHERE {
                 OPTIONAL {
                   ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
                   ?constituencyGroup
-                      a :Constituency ;
+                      a :ConstituencyGroup ;
                       :constituencyGroupName ?constituencyGroupName .
                   FILTER NOT EXISTS { ?constituencyGroup :constituencyGroupEndDate ?constituencygroupEndDate } .
                 }
