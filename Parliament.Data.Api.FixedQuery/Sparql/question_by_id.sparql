@@ -1,4 +1,4 @@
-﻿PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX : @schemaUri
 
 CONSTRUCT {
@@ -75,7 +75,6 @@ WHERE {
     		?answeringBody
         		a :Group ;
     		OPTIONAL { ?answeringBody :groupName ?groupName . }
-    	  OPTIONAL { ?answeringBody :governmentOrganisationGovRegisterId ?governmentOrganisationGovRegisterId . }
     }
 
     ?askingPerson
@@ -122,18 +121,31 @@ WHERE {
     		    :answerHasAnsweringBody ?answeringBody2 ;
 	      	  :answerHasAnsweringPerson ?answeringPerson .
         ?answeringBody2 a :Group .
-        OPTIONAL { ?answeringBody2	:governmentOrganisationGovRegisterId ?governmentOrganisationGovRegisterId . }
+
 	      ?answeringPerson a :Person .
 
 	      OPTIONAL {
 	          ?answeringPerson :governmentPersonHasGovernmentIncumbency ?answeringPersonGovernmentIncumbency .
+
+    	      OPTIONAL {
+                ?answeringBody2	:governmentOrganisationGovRegisterId ?governmentOrganisationGovRegisterId .
+        	      ?answeringPerson :governmentPersonHasGovernmentIncumbency ?answeringPersonGovernmentIncumbency2 .
+        	      ?answeringPersonGovernmentIncumbency2
+        	          a :GovernmentIncumbency ;
+        	          :governmentIncumbencyHasGovernmentPosition ?governmentPosition2 .
+        	      ?governmentPosition2
+        	          a :GovernmentPosition ;
+        	          :positionHasGroup ?answeringBody2 .
+        	      ?answeringBody2 a :Group ;
+        	      :governmentOrganisationGovRegisterId ?governmentOrganisationGovRegisterId .
+            }
+
 	          ?answeringPersonGovernmentIncumbency
 	              a :GovernmentIncumbency ;
 	              :governmentIncumbencyHasGovernmentPosition ?governmentPosition ;
 	              :incumbencyStartDate ?answeringPersonIncumbencyStartDate .
 	          ?governmentPosition
 	              a :GovernmentPosition ;
-	              :positionHasGroup ?answeringBody2 ;
 	              :positionName ?positionName .
 	          OPTIONAL { ?answeringPersonGovernmentIncumbency :incumbencyEndDate ?answeringPersonIncumbencyEndDate. }
 	          BIND(xsd:dateTime(?answerGivenDate) AS ?answerGivenDate2)
