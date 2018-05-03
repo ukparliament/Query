@@ -1,0 +1,9 @@
+PREFIX : @schemaUri
+SELECT ?id ?name
+WHERE {
+	?answeringBody
+		:name ?name ;
+		:answeringBodyMnisId ?mnisId
+	.
+	BIND (substr(str(?answeringBody),26) as ?id)
+}

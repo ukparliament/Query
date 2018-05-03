@@ -164,6 +164,30 @@
         }
       }
     },
+    "/answering_body_index_table{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionNonGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatNonGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/nonGraphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/collection_index{ext}": {
       "x-type": "hardCoded",
       "get": {
