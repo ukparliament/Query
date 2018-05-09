@@ -110,24 +110,28 @@ WHERE {
 			}
 			OPTIONAL {
 				?actualisedProcedureStep :procedureStepCausesCausedProcedureRoute ?causedProcedureRoute .
+				?causedProcedureRoute :procedureRouteHasProcedure ?procedure .
 				?causedProcedureRoute :procedureRouteIsToProcedureStep ?causedProcedureStep .
 				?causedProcedureStep :procedureStepName ?causedProcedureStepName .
 				OPTIONAL { ?causedProcedureStep :procedureStepDescription ?causedProcedureStepDescription }
 			}
 			OPTIONAL {
 				?actualisedProcedureStep :procedureStepAllowsAllowedProcedureRoute ?allowedProcedureRoute .
+				?allowedProcedureRoute :procedureRouteHasProcedure ?procedure .
 				?allowedProcedureRoute :procedureRouteIsToProcedureStep ?allowedProcedureStep .
 				?allowedProcedureStep :procedureStepName ?allowedProcedureStepName .
 				OPTIONAL { ?allowedProcedureStep :procedureStepDescription ?allowedProcedureStepDescription }
 			}
 			OPTIONAL {
 				?actualisedProcedureStep :procedureStepPrecludesPrecludedProcedureRoute ?precludedProcedureRoute .
+				?precludedProcedureRoute :procedureRouteHasProcedure ?procedure .
 				?precludedProcedureRoute :procedureRouteIsToProcedureStep ?precludedProcedureStep .
 				?precludedProcedureStep :procedureStepName ?precludedProcedureStepName .
 				OPTIONAL { ?precludedProcedureStep :procedureStepDescription ?precludedProcedureStepDescription }
 			}
 			OPTIONAL {
 				?actualisedProcedureStep :procedureStepRequiresRequiredProcedureRoute ?requiredProcedureRoute .
+				?requiredProcedureRoute :procedureRouteHasProcedure ?procedure .
 				?requiredProcedureRoute :procedureRouteIsToProcedureStep ?requiredProcedureStep .
 				?requiredProcedureStep :procedureStepName ?requiredProcedureStepName .
 				OPTIONAL { ?requiredProcedureStep :procedureStepDescription ?requiredProcedureStepDescription }
