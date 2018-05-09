@@ -1,70 +1,138 @@
-﻿PREFIX id: <https://id.parliament.uk/>
-PREFIX : @schemaUri
+﻿PREFIX : @schemaUri
 
 CONSTRUCT {
-	id:WorkPac1 
-		a :WorkPackage;
-		:workPackageName "An Example of an Affirmative SI Work Package" ;
-		:workPackageHasProcedure id:AffirmSI ;
-		:workPackageHasBusinessItem id:BusItem1 ;
+	?workPackageableThing 
+		a :WorkPackageableThing, ?statutoryInstrument, ?proposedStatutoryInstrument ;
+		:workPackageableThingHasWorkPackage ?workPackage ;
+		:workPackageableThingName ?workPackageableThingName ;
+		:workPackageableThingComingIntoForceDate ?workPackageableThingComingIntoForceDate ;
+		:workPackageableThingComingIntoForceNote ?workPackageableThingComingIntoForceNote ;
+		:workPackageableThingTimeLimitForObjectionEndDate ?workPackageableThingTimeLimitForObjectionEndDate ;
+		:workPackageableThingHasWorkPackageableThingWebLink ?workPackageableThingWebLink ;
+		:statutoryInstrumentNumberPrefix ?statutoryInstrumentNumberPrefix ;
+		:statutoryInstrumentNumber ?statutoryInstrumentNumber ;
 	.
-	id:AffirmSI 
-		a :Procedure;
-		:procedureName "Made Affirmative" ;
+	?workPackage
+		:workPackageHasProcedure ?procedure ;
+		:workPackageHasBusinessItem ?businessItem ;
 	.
-
-
-	id:BusItem1 
-		a :BusinessItem ;
-		:businessItemHasProcedureStep id:LayInCom ;
+	?procedure
+		:procedureName ?procedureName ;
 	.
-	id:LayInCom 
-		a :ProcedureStep ;
-		:procedureStepName "Laying into Commons" ;
-		:procedureStepAllowsProcedureRoute id:Route001, id:Route002, id:Route003, id:Route004 ;
+	?businessItem
+		:businessItemDate ?businessItemDate ;
+		:layingDate ?layingDate ;
+		:businessItemHasBusinessItemWebLink ?businessItemWebLink ;
+		:layingHasLayingBody ?layingBody ;
+		:businessItemHasProcedureStep ?actualisedProcedureStep ;
 	.
-
-	id:Route001
-		a :ProcedureRoute ;
-		:procedureRouteIsToProcedureStep id:SCSICons ;
+	?layingBody
+		:groupName ?groupName ;
 	.
-	id:Route002
-		a :ProcedureRoute ;
-		:procedureRouteIsToProcedureStep id:JCSICons ;
+	?actualisedProcedureStep
+		:procedureStepName ?procedureStepName ;
+		:procedureStepDescription ?procedureStepDescription ;
+		:procedureStepHasHouse ?house ;
+		:procedureStepCausesCausedProcedureRoute ?causedProcedureRoute ;
+		:procedureStepAllowsAllowedProcedureRoute ?allowedProcedureRoute ;
+		:procedureStepRequiresRequiredProcedureRoute ?requiredProcedureRoute ;
+		:procedureStepPrecludesPrecludedProcedureRoute ?precludedProcedureRoute ;
 	.
-	id:Route003
-		a :ProcedureRoute ;
-		:procedureRouteIsToProcedureStep id:CInForce ;
+	?house 
+		:houseName ?houseName ;
 	.
-	id:Route004
-		a :ProcedureRoute ;
-		:procedureRouteIsToProcedureStep id:ComAppMo ;
+	?causedProcedureRoute
+		:procedureRouteIsToProcedureStep ?causedProcedureStep ;
 	.
-	
-	
-	id:SCSICons 
-		a :ProcedureStep ;
-		:procedureStepName "SCSI consideration" ;
+	?causedProcedureStep
+		:procedureStepName ?causedProcedureStepName ;
+		:procedureStepDescription ?causedProcedureStepDescription ;
 	.
-
-	id:JCSICons 
-		a :ProcedureStep ;
-		:procedureStepName "JCSI consideration" ;
+	?allowedProcedureRoute
+		:procedureRouteIsToProcedureStep ?allowedProcedureStep ;
 	.
-
-	id:CInForce
-		a :ProcedureStep ;
-		:procedureStepName "Coming into force after being laid" ;
+	?allowedProcedureStep
+		:procedureStepName ?allowedProcedureStepName ;
+		:procedureStepDescription ?allowedProcedureStepDescription ;
 	.
-
-	id:ComAppMo
-		a :ProcedureStep ;
-		:procedureStepName "Commons approval motion" ;
+	?precludedProcedureRoute
+		:procedureRouteIsToProcedureStep ?precludedProcedureStep ;
 	.
-
-
+	?precludedProcedureStep
+		:procedureStepName ?precludedProcedureStepName ;
+		:procedureStepDescription ?precludedProcedureStepDescription ;
+	.
+	?requiredProcedureRoute
+		:procedureRouteIsToProcedureStep ?requiredProcedureStep ;
+	.
+	?requiredProcedureStep
+		:procedureStepName ?requiredProcedureStepName ;
+		:procedureStepDescription ?requiredProcedureStepDescription ;
+	.
 }
 WHERE {
-BIND (@work_package_id as ?workPackage)
+	BIND (@work_package_id as ?workPackageableThing)
+	OPTIONAL {
+		BIND (:StatutoryInstrument as ?statutoryInstrument)
+		?workPackageableThing a ?statutoryInstrument.
+	}
+	OPTIONAL {
+		BIND (:ProposedStatutoryInstrument as ?proposedStatutoryInstrument)
+		?workPackageableThing a ?proposedStatutoryInstrument.
+	}
+	?workPackageableThing :workPackageableThingName ?workPackageableThingName .
+	OPTIONAL { ?workPackageableThing :workPackageableThingComingIntoForceDate ?workPackageableThingComingIntoForceDate }
+	OPTIONAL { ?workPackageableThing :workPackageableThingComingIntoForceNote ?workPackageableThingComingIntoForceNote }
+	OPTIONAL { ?workPackageableThing :workPackageableThingTimeLimitForObjectionEndDate ?workPackageableThingTimeLimitForObjectionEndDate }
+	OPTIONAL { ?workPackageableThing :workPackageableThingHasWorkPackageableThingWebLink ?workPackageableThingWebLink }
+	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumberPrefix ?statutoryInstrumentNumberPrefix }
+	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumber ?statutoryInstrumentNumber }
 
+	OPTIONAL {
+		?workPackageableThing :workPackageableThingHasWorkPackage ?workPackage .
+		?workPackage :workPackageHasProcedure ?procedure .
+		?procedure :procedureName ?procedureName .
+		OPTIONAL {
+			?workPackage :workPackageHasBusinessItem ?businessItem .
+			?businessItem :businessItemHasProcedureStep ?actualisedProcedureStep .
+			OPTIONAL { ?businessItem :businessItemDate ?businessItemDate }
+			OPTIONAL { ?businessItem :layingDate ?layingDate }
+			OPTIONAL {?businessItem :businessItemHasBusinessItemWebLink ?businessItemWebLink }
+			OPTIONAL { 
+				?businessItem :layingHasLayingBody ?layingBody .
+				?layingBody :groupName ?groupName .
+			}
+			?actualisedProcedureStep :procedureStepName ?procedureStepName .
+			OPTIONAL { ?actualisedProcedureStep :procedureStepDescription ?procedureStepDescription }
+			OPTIONAL { 
+				?actualisedProcedureStep :procedureStepHasHouse ?house .
+				?house :houseName ?houseName .
+			}
+			OPTIONAL {
+				?actualisedProcedureStep :procedureStepCausesCausedProcedureRoute ?causedProcedureRoute .
+				?causedProcedureRoute :procedureRouteIsToProcedureStep ?causedProcedureStep .
+				?causedProcedureStep :procedureStepName ?causedProcedureStepName .
+				OPTIONAL { ?causedProcedureStep :procedureStepDescription ?causedProcedureStepDescription }
+			}
+			OPTIONAL {
+				?actualisedProcedureStep :procedureStepAllowsAllowedProcedureRoute ?allowedProcedureRoute .
+				?allowedProcedureRoute :procedureRouteIsToProcedureStep ?allowedProcedureStep .
+				?allowedProcedureStep :procedureStepName ?allowedProcedureStepName .
+				OPTIONAL { ?allowedProcedureStep :procedureStepDescription ?allowedProcedureStepDescription }
+			}
+			OPTIONAL {
+				?actualisedProcedureStep :procedureStepPrecludesPrecludedProcedureRoute ?precludedProcedureRoute .
+				?precludedProcedureRoute :procedureRouteIsToProcedureStep ?precludedProcedureStep .
+				?precludedProcedureStep :procedureStepName ?precludedProcedureStepName .
+				OPTIONAL { ?precludedProcedureStep :procedureStepDescription ?precludedProcedureStepDescription }
+			}
+			OPTIONAL {
+				?actualisedProcedureStep :procedureStepRequiresRequiredProcedureRoute ?requiredProcedureRoute .
+				?requiredProcedureRoute :procedureRouteIsToProcedureStep ?requiredProcedureStep .
+				?requiredProcedureStep :procedureStepName ?requiredProcedureStepName .
+				OPTIONAL { ?requiredProcedureStep :procedureStepDescription ?requiredProcedureStepDescription }
+			}			
+		}
+	}
 }
+
