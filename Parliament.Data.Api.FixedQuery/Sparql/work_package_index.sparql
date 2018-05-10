@@ -10,6 +10,7 @@ CONSTRUCT {
 		:workPackageableThingTimeLimitForObjectionEndDate ?workPackageableThingTimeLimitForObjectionEndDate ;
 		:workPackageableThingHasWorkPackageableThingWebLink ?workPackageableThingWebLink ;
 		:statutoryInstrumentNumberPrefix ?statutoryInstrumentNumberPrefix ;
+		:statutoryInstrumentNumberYear ?statutoryInstrumentNumberYear ;
 		:statutoryInstrumentNumber ?statutoryInstrumentNumber ;
 	.
 	?workPackage
@@ -36,7 +37,7 @@ WHERE {
 	OPTIONAL { ?workPackageableThing :workPackageableThingHasWorkPackageableThingWebLink ?workPackageableThingWebLink }
 	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumberPrefix ?statutoryInstrumentNumberPrefix }
 	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumber ?statutoryInstrumentNumber }
-
+	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumberYear ?statutoryInstrumentNumberYear }
 	OPTIONAL {
 		?workPackageableThing :workPackageableThingHasWorkPackage ?workPackage .
 		?workPackage :workPackageHasProcedure ?procedure .

@@ -11,6 +11,7 @@ CONSTRUCT {
 		:workPackageableThingHasWorkPackageableThingWebLink ?workPackageableThingWebLink ;
 		:statutoryInstrumentNumberPrefix ?statutoryInstrumentNumberPrefix ;
 		:statutoryInstrumentNumber ?statutoryInstrumentNumber ;
+		:statutoryInstrumentNumberYear ?statutoryInstrumentNumberYear ;
 	.
 	?workPackage
 		a :WorkPackage ;
@@ -102,6 +103,7 @@ WHERE {
 	OPTIONAL { ?workPackageableThing :workPackageableThingHasWorkPackageableThingWebLink ?workPackageableThingWebLink }
 	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumberPrefix ?statutoryInstrumentNumberPrefix }
 	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumber ?statutoryInstrumentNumber }
+	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumberYear ?statutoryInstrumentNumberYear }
 
 	OPTIONAL {
 		?workPackageableThing :workPackageableThingHasWorkPackage ?workPackage .
