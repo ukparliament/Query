@@ -34,6 +34,69 @@
 
             return BaseController.ExecuteSingle(query);
         }
+ 
+        public static object work_package_by_id(Dictionary<string, string> values)
+        {
+            var workPackageId = values["work_package_id"];
+            var workPackageUri = new Uri(Global.InstanceUri, workPackageId);
+            var queryString = Resources.GetSparql("work_package_by_id");
+            var query = new SparqlParameterizedString(queryString);
+            query.SetUri("schemaUri", Global.SchemaUri);
+            query.SetUri("work_package_id", workPackageUri);
+
+            var graph = BaseController.ExecuteSingle(query) as IGraph;
+
+            var procedureStepNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "ProcedureStep"));
+            var businessItemHasProcedureStepNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "businessItemHasProcedureStep"));
+            var procedureStepPrecludesPrecludedProcedureRouteNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "procedureStepPrecludesPrecludedProcedureRoute"));
+            var procedureStepRequiresRequiredProcedureRouteNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "procedureStepRequiresRequiredProcedureRoute"));
+            var typeNode = graph.CreateUriNode(new Uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"));
+            var procedureRouteIsToProcedureStepNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "procedureRouteIsToProcedureStep"));
+
+
+            var procedureSteps = graph.GetTriplesWithPredicateObject(typeNode, procedureStepNode).Select(t => t.Subject as IUriNode);
+            var precludedProcedureRoutes = graph.GetTriplesWithPredicate(procedureStepPrecludesPrecludedProcedureRouteNode).Select(t => t.Object as IUriNode);
+
+            // remove all unactualised, precluded steps from the graph
+            foreach (IUriNode procedureStep in procedureSteps)
+            {
+                //if ProcedureStep Is Not Actualised
+                if (!graph.GetTriplesWithPredicateObject(businessItemHasProcedureStepNode, procedureStep).Any())
+                {
+                    var removeProcedureStep = false;
+
+                    foreach (IUriNode precludedRoute in precludedProcedureRoutes)
+                    {
+                        //if the precluded route is what lead to the step, include in removal list
+                        if (graph.GetTriplesWithSubjectObject(precludedRoute, procedureStep).Any())
+                        {
+                            removeProcedureStep = true;
+                        }
+                    }
+
+                    //for each requires triple the step has, check if the required step is actualised
+                    foreach (Triple requiredRouteTriple in graph.GetTriplesWithSubjectPredicate(procedureStep, procedureStepRequiresRequiredProcedureRouteNode))
+                    {
+                        var requiredRoute = requiredRouteTriple.Object;
+                        var requiredStep = graph.GetTriplesWithSubjectPredicate(requiredRoute, procedureRouteIsToProcedureStepNode).Select(t => t.Object as IUriNode).SingleOrDefault();
+
+                        //if a required step is not actualised, retract triples featuring procedureStep
+                        if (!graph.GetTriplesWithPredicateObject(businessItemHasProcedureStepNode, requiredStep).Any())
+                        {
+                            removeProcedureStep = true;
+                        }
+                    }
+                    if (removeProcedureStep)
+                    {
+                        graph.Retract(graph.GetTriplesWithSubject(procedureStep));
+                        graph.Retract(graph.GetTriplesWithObject(procedureStep));
+                    }
+                }
+            }
+
+            return graph;
+        }
+
 
         #region Contentful
         public static IGraph webarticle_by_id(Dictionary<string, string> values)

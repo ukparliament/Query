@@ -5925,7 +5925,7 @@
       }
     },
     "/work_package_by_id{ext}": {
-      "x-type": "single",
+      "x-type": "hardcoded",
       "get": {
         "parameters": [
           {
