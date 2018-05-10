@@ -14,11 +14,17 @@ CONSTRUCT {
 		:statutoryInstrumentNumber ?statutoryInstrumentNumber ;
 	.
 	?workPackage
+		a :WorkPackage ;
 		:workPackageHasProcedure ?procedure ;
 		:workPackageHasBusinessItem ?businessItem ;
 	.
 	?procedure
+		a :Procedure ;
 		:procedureName ?procedureName ;
+	.
+	?businessItem
+		a :Laying ;
+		:businessItemDate ?businessItemDate ;
 	.
 }
 WHERE {
@@ -40,7 +46,16 @@ WHERE {
 	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumberYear ?statutoryInstrumentNumberYear }
 	OPTIONAL {
 		?workPackageableThing :workPackageableThingHasWorkPackage ?workPackage .
-		?workPackage :workPackageHasProcedure ?procedure .
-		?procedure :procedureName ?procedureName .
+		OPTIONAL {
+			?workPackage :workPackageHasProcedure ?procedure .
+			?procedure :procedureName ?procedureName .
+		}
+		OPTIONAL {
+			?workPackage :workPackageHasBusinessItem ?businessItem .
+			?businessItem 
+				a :Laying ;
+			  	:businessItemDate ?businessItemDate ;
+		  	.	
+		}
 	}
 }
