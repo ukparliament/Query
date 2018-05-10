@@ -1,0 +1,45 @@
+﻿PREFIX : @schemaUri
+
+CONSTRUCT {
+	?workPackageableThing 
+		a :WorkPackageableThing, ?statutoryInstrument, ?proposedStatutoryInstrument ;
+		:workPackageableThingHasWorkPackage ?workPackage ;
+		:workPackageableThingName ?workPackageableThingName ;
+		:workPackageableThingComingIntoForceDate ?workPackageableThingComingIntoForceDate ;
+		:workPackageableThingComingIntoForceNote ?workPackageableThingComingIntoForceNote ;
+		:workPackageableThingTimeLimitForObjectionEndDate ?workPackageableThingTimeLimitForObjectionEndDate ;
+		:workPackageableThingHasWorkPackageableThingWebLink ?workPackageableThingWebLink ;
+		:statutoryInstrumentNumberPrefix ?statutoryInstrumentNumberPrefix ;
+		:statutoryInstrumentNumber ?statutoryInstrumentNumber ;
+	.
+	?workPackage
+		:workPackageHasProcedure ?procedure ;
+		:workPackageHasBusinessItem ?businessItem ;
+	.
+	?procedure
+		:procedureName ?procedureName ;
+	.
+}
+WHERE {
+	OPTIONAL {
+		BIND (:StatutoryInstrument as ?statutoryInstrument)
+		?workPackageableThing a ?statutoryInstrument.
+	}
+	OPTIONAL {
+		BIND (:ProposedStatutoryInstrument as ?proposedStatutoryInstrument)
+		?workPackageableThing a ?proposedStatutoryInstrument.
+	}
+	?workPackageableThing :workPackageableThingName ?workPackageableThingName .
+	OPTIONAL { ?workPackageableThing :workPackageableThingComingIntoForceDate ?workPackageableThingComingIntoForceDate }
+	OPTIONAL { ?workPackageableThing :workPackageableThingComingIntoForceNote ?workPackageableThingComingIntoForceNote }
+	OPTIONAL { ?workPackageableThing :workPackageableThingTimeLimitForObjectionEndDate ?workPackageableThingTimeLimitForObjectionEndDate }
+	OPTIONAL { ?workPackageableThing :workPackageableThingHasWorkPackageableThingWebLink ?workPackageableThingWebLink }
+	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumberPrefix ?statutoryInstrumentNumberPrefix }
+	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumber ?statutoryInstrumentNumber }
+
+	OPTIONAL {
+		?workPackageableThing :workPackageableThingHasWorkPackage ?workPackage .
+		?workPackage :workPackageHasProcedure ?procedure .
+		?procedure :procedureName ?procedureName .
+	}
+}
