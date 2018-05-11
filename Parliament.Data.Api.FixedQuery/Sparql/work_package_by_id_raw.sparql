@@ -115,7 +115,7 @@ WHERE {
 			?businessItem :businessItemHasProcedureStep ?actualisedProcedureStep .
 			OPTIONAL { ?businessItem :businessItemDate ?businessItemDate }
 			OPTIONAL { ?businessItem :layingDate ?layingDate }
-			OPTIONAL {?businessItem :businessItemHasBusinessItemWebLink ?businessItemWebLink }
+			OPTIONAL { ?businessItem :businessItemHasBusinessItemWebLink ?businessItemWebLink }
 			OPTIONAL { 
 				BIND (:Laying as ?laying) 
 				?businessItem :layingHasLayingBody ?layingBody .
