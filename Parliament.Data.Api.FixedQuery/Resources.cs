@@ -18,7 +18,7 @@
         {
             get
             {
-                return $"{BaseName}.openapi.json";
+                return $"{BaseName}.OpenApiDefinition.json";
             }
         }
 
@@ -72,6 +72,11 @@
         {
             return openApiPath.Operations[OperationType.Get].Parameters
                 .Where(p => p.Name != "ext" && p.Name != "format");
+        }
+
+        public static string GetOpenApiDefinition()
+        {
+            return Resources.GetFile(OpenApiDefinitionResourceName);
         }
 
         public static string GetSparql(string name)

@@ -8,13 +8,7 @@
     {
       "url": "https://api.parliament.uk/query"
     }
-  ],
-  "security": [
-    {},
-    {
-      "Ocp-Apim-Subscription-Key": []
-    }
-  ],
+  ],  
   "components": {
     "responses": {
       "graphResponse": {
@@ -49,13 +43,6 @@
       },
       "notAcceptable": {
         "description": "Not acceptable"
-      }
-    },
-    "securitySchemes": {
-      "Ocp-Apim-Subscription-Key": {
-        "type": "apiKey",
-        "name": "Ocp-Apim-Subscription-Key",
-        "in": "header"
       }
     },
     "parameters": {
