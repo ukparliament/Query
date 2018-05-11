@@ -47,6 +47,9 @@
             var graph = BaseController.ExecuteSingle(query) as IGraph;
 
             var procedureStepNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "ProcedureStep"));
+            var requiredRouteNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "RequiredProcedureRoute"));
+            var precludedRouteNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "PrecludedProcedureRoute"));
+
             var businessItemHasProcedureStepNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "businessItemHasProcedureStep"));
             var procedureStepPrecludesPrecludedProcedureRouteNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "procedureStepPrecludesPrecludedProcedureRoute"));
             var procedureStepRequiresRequiredProcedureRouteNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "procedureStepRequiresRequiredProcedureRoute"));
@@ -72,7 +75,7 @@
                     // iterate through all precluded procedure routes
                     foreach (IUriNode precludedRoute in precludedProcedureRoutes.ToList())
                     {
-                        //if the precluded route is what lead to the step, retract the step and related triples
+                        //if the precluded route is what led to the step, retract the step and related triples
                         if (graph.GetTriplesWithSubjectObject(precludedRoute, procedureStep).Any())
                         {
                             removeProcedureStep = true;
@@ -96,6 +99,7 @@
                         foreach (var triple in graph.GetTriplesWithSubject(procedureStep))
                         {
                             deleteTripleList.Add(triple);
+
                         }
                         foreach (var triple in graph.GetTriplesWithObject(procedureStep))
                         {
@@ -104,9 +108,46 @@
                     }
                 }
             }
+            foreach (var requiredRoute in graph.GetTriplesWithPredicateObject(typeNode, requiredRouteNode).Select(t => t.Subject as IUriNode))
+            {
+                foreach (var triple in graph.GetTriplesWithSubject(requiredRoute))
+                {
+                    deleteTripleList.Add(triple);
+                }
+                foreach (var triple in graph.GetTriplesWithObject(requiredRoute))
+                {
+                    deleteTripleList.Add(triple);
+                }
+            }
+
+            foreach (var precludedRoute in graph.GetTriplesWithPredicateObject(typeNode, precludedRouteNode).Select(t => t.Subject as IUriNode))
+            {
+                foreach (var triple in graph.GetTriplesWithSubject(precludedRoute))
+                {
+                    deleteTripleList.Add(triple);
+                }
+                foreach (var triple in graph.GetTriplesWithObject(precludedRoute))
+                {
+                    deleteTripleList.Add(triple);
+                }
+            }
+
+            deleteTripleList.AddRange(graph.GetTriplesWithPredicate(procedureStepIsToProcedureRouteNode));
+
+
             graph.Retract(deleteTripleList);
 
-            return graph;
+            // get around node caching issue breaking html
+            var graph2 = new NonIndexedGraph();
+            graph2.Assert(graph.Triples);
+
+            return graph2;
+
+
+
+
+
+
             // find zeroes
             foreach (IUriNode procedureStep in procedureSteps)
             {
