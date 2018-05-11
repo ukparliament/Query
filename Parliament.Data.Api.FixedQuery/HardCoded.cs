@@ -59,6 +59,7 @@
 
             var procedureSteps = graph.GetTriplesWithPredicateObject(typeNode, procedureStepNode).Select(t => t.Subject as IUriNode);
             var precludedProcedureRoutes = graph.GetTriplesWithPredicate(procedureStepPrecludesPrecludedProcedureRouteNode).Select(t => t.Object as IUriNode);
+            var deleteTripleList = new List<Triple>();
 
             // iterate through all procedure steps
             foreach (IUriNode procedureStep in procedureSteps.ToList())
@@ -92,18 +93,20 @@
                     }
                     if (removeProcedureStep)
                     {
-                        if (graph.GetTriplesWithSubject(procedureStep).Any())
+                        foreach (var triple in graph.GetTriplesWithSubject(procedureStep))
                         {
-                            graph.Retract(graph.GetTriplesWithSubject(procedureStep));
+                            deleteTripleList.Add(triple);
                         }
-                        if (graph.GetTriplesWithObject(procedureStep).Any())
+                        foreach (var triple in graph.GetTriplesWithObject(procedureStep))
                         {
-                            graph.Retract(graph.GetTriplesWithObject(procedureStep));
+                            deleteTripleList.Add(triple);
                         }
                     }
                 }
             }
+            graph.Retract(deleteTripleList);
 
+            return graph;
             // find zeroes
             foreach (IUriNode procedureStep in procedureSteps)
             {
