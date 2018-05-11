@@ -1,0 +1,37 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+     _:x :value ?firstLetter .
+    ?group
+        a :Group ;
+        :groupName ?groupName
+    .
+}
+WHERE {
+    { SELECT DISTINCT ?firstLetter
+        WHERE {
+            BIND(@group_id  AS ?group)
+            ?group
+                a :Group ;
+                :groupName ?groupName ;
+
+            OPTIONAL { ?group :formalBodyHasFormalBodyMembership ?formalBodyMembership . }
+            OPTIONAL { ?formalBodyMembership :formalBodyMembershipHasPerson ?formalBodyPerson . }
+
+            OPTIONAL {
+                ?formalBodyPerson
+                    a :Person ;
+                    <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+            } 
+            BIND(UCASE(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
+        }
+    }
+    UNION {
+        BIND(@group_id  AS ?group)
+        ?group
+            a :Group ;
+            :groupName ?groupName ;
+        .
+    }
+}
+
