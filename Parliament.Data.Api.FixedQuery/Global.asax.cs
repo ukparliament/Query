@@ -115,6 +115,7 @@
             };
             
             config.Routes.MapHttpRoute("Index", string.Empty, new { controller = "Help" });
+            config.Routes.MapHttpRoute("OpenApiDefinition", "openapi.json", new { controller = "OpenApiDefinition" });
             config.Routes.MapHttpRoute("WithExtension", "{name}.{ext}", new { controller = "FixedQuery" }, constraints, pipeline);
             config.Routes.MapHttpRoute("WithoutExtension", "{name}", new { controller = "FixedQuery", ext = string.Empty }, constraints, pipeline);
             config.Routes.MapHttpRoute("BadRequest", "{*any}", new { controller = "BadRequest" });

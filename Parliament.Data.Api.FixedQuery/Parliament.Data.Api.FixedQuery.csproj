@@ -160,7 +160,7 @@
     <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
       <Link>CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
-    <EmbeddedResource Include="openapi.json" />
+    <EmbeddedResource Include="OpenApiDefinition.json" />
     <None Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -188,6 +188,7 @@
     <Compile Include="CompressedContent.cs" />
     <Compile Include="CompressionHandler.cs" />
     <Compile Include="Compressor.cs" />
+    <Compile Include="Controllers\OpenApiDefinitionController.cs" />
     <Compile Include="DeflateCompressor.cs" />
     <Compile Include="GraphDBSparqlEndpoint.cs" />
     <Compile Include="GzipCompressor.cs" />
