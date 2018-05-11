@@ -8,7 +8,7 @@ CONSTRUCT {
         :questionAskedAt ?questionAskedAt ;
         :questionHasAskingPerson ?askingPerson ;
         :questionHasAnsweringBodyAllocation ?answeringBodyAllocation ;
-        :eqmUin ?eqmUin ;
+        :indexingAndSearchUri ?idmsUri ;
         :questionHeading ?questionHeading ;
         :questionHasAnswer ?answer .
     ?answer
@@ -55,6 +55,8 @@ CONSTRUCT {
     ?houseSeat a :HouseSeat ;
         :houseSeatHasHouse ?house ;
         :houseSeatHasConstituencyGroup ?constituencyGroup .
+    ?house a :House ;
+    	:houseName ?houseName .
     ?constituencyGroup
         a :ConstituencyGroup ;
         :constituencyGroupName ?constituencyGroupName .
@@ -66,7 +68,7 @@ WHERE {
         :questionText ?questionText ;
         :questionAskedAt ?questionAskedAt ;
         :questionHasAskingPerson ?askingPerson ;
-        :eqmUin ?eqmUin ;
+        :indexingAndSearchUri ?idmsUri ;
         :questionHasAnsweringBodyAllocation ?answeringBodyAllocation .
 		?answeringBodyAllocation a :AnsweringBodyAllocation .
 
@@ -102,6 +104,8 @@ WHERE {
     ?houseSeat
         a :HouseSeat ;
         :houseSeatHasHouse ?house .
+    ?house a :House ;
+    	:houseName ?houseName .
 
     OPTIONAL {
         ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup.
