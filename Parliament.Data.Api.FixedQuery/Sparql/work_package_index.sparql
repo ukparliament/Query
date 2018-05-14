@@ -9,6 +9,7 @@ CONSTRUCT {
 		:workPackageableThingComingIntoForceNote ?workPackageableThingComingIntoForceNote ;
 		:workPackageableThingTimeLimitForObjectionEndDate ?workPackageableThingTimeLimitForObjectionEndDate ;
 		:workPackageableThingHasWorkPackageableThingWebLink ?workPackageableThingWebLink ;
+		:layableThingHasLaying ?layingBusinessItem ;
 		:statutoryInstrumentNumberPrefix ?statutoryInstrumentNumberPrefix ;
 		:statutoryInstrumentNumberYear ?statutoryInstrumentNumberYear ;
 		:statutoryInstrumentNumber ?statutoryInstrumentNumber ;
@@ -16,15 +17,25 @@ CONSTRUCT {
 	?workPackage
 		a :WorkPackage ;
 		:workPackageHasProcedure ?procedure ;
-		:workPackageHasBusinessItem ?businessItem ;
+		:workPackageHasBusinessItem ?layingBusinessItem ;
 	.
 	?procedure
 		a :Procedure ;
 		:procedureName ?procedureName ;
 	.
-	?businessItem
+	?layingBusinessItem
 		a :Laying ;
-		:businessItemDate ?businessItemDate ;
+		a :BusinessItem ;
+		:businessItemDate ?layingBusinessItemDate ;
+		:businessItemHasProcedureStep ?actualisedProcedureStep ;
+	.
+	?actualisedProcedureStep
+		a :ProcedureStep ;
+		:procedureStepHasHouse ?house ;
+	.
+	?house 
+		a :House ;
+		:houseName ?houseName ;
 	.
 }
 WHERE {
@@ -41,6 +52,19 @@ WHERE {
 	OPTIONAL { ?workPackageableThing :workPackageableThingComingIntoForceNote ?workPackageableThingComingIntoForceNote }
 	OPTIONAL { ?workPackageableThing :workPackageableThingTimeLimitForObjectionEndDate ?workPackageableThingTimeLimitForObjectionEndDate }
 	OPTIONAL { ?workPackageableThing :workPackageableThingHasWorkPackageableThingWebLink ?workPackageableThingWebLink }
+	OPTIONAL {
+		?workPackageableThing :layableThingHasLaying ?layingBusinessItem .
+		?layingBusinessItem 
+			a :Laying ;
+			a :BusinessItem ;
+			:businessItemDate ?layingBusinessItemDate ;
+		.
+		OPTIONAL {
+			?layingBusinessItem :businessItemHasProcedureStep ?actualisedProcedureStep .
+			?actualisedProcedureStep :procedureStepHasHouse ?house .
+			?house :houseName ?houseName .
+		}
+	}
 	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumberPrefix ?statutoryInstrumentNumberPrefix }
 	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumber ?statutoryInstrumentNumber }
 	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumberYear ?statutoryInstrumentNumberYear }
@@ -49,13 +73,6 @@ WHERE {
 		OPTIONAL {
 			?workPackage :workPackageHasProcedure ?procedure .
 			?procedure :procedureName ?procedureName .
-		}
-		OPTIONAL {
-			?workPackage :workPackageHasBusinessItem ?businessItem .
-			?businessItem 
-				a :Laying ;
-			  	:businessItemDate ?businessItemDate ;
-		  	.	
 		}
 	}
 }
