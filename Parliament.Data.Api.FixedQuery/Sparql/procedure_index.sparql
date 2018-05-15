@@ -1,0 +1,14 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+  ?procedure
+      a :Procedure ;
+      :procedureName ?procedureName ;
+  .
+}
+WHERE {
+  ?procedure
+      a :Procedure ;
+      :procedureName ?procedureName ;
+  .
+}

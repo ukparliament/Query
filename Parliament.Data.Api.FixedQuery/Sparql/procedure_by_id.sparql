@@ -1,0 +1,35 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+  ?procedure
+      a :Procedure ;
+      :procedureName ?procedureName ;
+      :procedureHasWorkPackage ?workPackage ;
+  .
+  ?workPackage
+      a :WorkPackage ;
+      :workPackageHasWorkPackageableThing ?workPackageableThing ;
+  .
+  ?workPackageableThing
+      a :WorkPackageableThing ;
+      :workPackageableThingName ?workPackageableThingName ;
+  .
+}
+WHERE {
+  {
+      SELECT * WHERE {
+        BIND (@procedure_id AS ?procedure)
+        ?procedure
+            a :Procedure ;
+            :procedureName ?procedureName ;
+        .
+        OPTIONAL {
+            ?procedure :procedureHasWorkPackage ?workPackage .
+            OPTIONAL {
+                ?workPackage :workPackageHasWorkPackageableThing ?workPackageableThing .
+                ?workPackageableThing :workPackageableThingName ?workPackageableThingName .
+            }
+        }
+      }
+  }
+}
