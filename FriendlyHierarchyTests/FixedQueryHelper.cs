@@ -144,6 +144,8 @@
                     new[] {"person_lookup?property=mnisId&value=403" },
                     new[] {"person_mps" },
                     new[] {"person_parties?person_id=TyNGhslR" },
+                    new[] {"procedure_by_id?procedure_id=5S6p4YsP" },
+                    new[] {"procedure_index" },
                     new[] {"region_by_id?region_code=W08000001" },
                     new[] {"region_constituencies?region_code=W08000001" },
                     new[] {"region_constituencies_by_initial?region_code=W08000001&initial=o" },
