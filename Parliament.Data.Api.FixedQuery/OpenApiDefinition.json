@@ -1725,7 +1725,7 @@
         }
       }
     },
-    "/group_memberships{ext}": {
+    "/group_memberships_index{ext}": {
       "x-type": "list",
       "get": {
         "parameters": [
