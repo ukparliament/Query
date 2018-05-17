@@ -1585,6 +1585,157 @@
         }
       }
     },
+    "/group_memberships_index{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "group_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "tz34m7Vt",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/group_memberships_a_to_z{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "group_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "tz34m7Vt",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/group_memberships_by_initial{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "group_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "tz34m7Vt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "x-type": "literal",
+            "required": true,
+            "example": "c",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/group_current_memberships{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "group_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "tz34m7Vt",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/group_positions_chairs_current{ext}": {
       "x-type": "list",
       "get": {
@@ -5468,6 +5619,89 @@
         "responses": {
           "200": {
             "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/procedure_index{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/procedure_by_id{ext}": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "procedure_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "5S6p4YsP",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/procedure_steps_attached_to_incorrect_workpackages{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionNonGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatNonGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/nonGraphResponse"
           },
           "400": {
             "$ref": "#/components/responses/badRequest"
