@@ -5,74 +5,32 @@ CONSTRUCT {
 		a :WorkPackageableThing, ?statutoryInstrument, ?proposedStatutoryInstrument ;
 		:workPackageableThingHasWorkPackage ?workPackage ;
 		:workPackageableThingName ?workPackageableThingName ;
-		:workPackageableThingComingIntoForceDate ?workPackageableThingComingIntoForceDate ;
-		:workPackageableThingComingIntoForceNote ?workPackageableThingComingIntoForceNote ;
-		:workPackageableThingTimeLimitForObjectionEndDate ?workPackageableThingTimeLimitForObjectionEndDate ;
-		:workPackageableThingHasWorkPackageableThingWebLink ?workPackageableThingWebLink ;
-		:layableThingHasLaying ?layingBusinessItem ;
-		:statutoryInstrumentNumberPrefix ?statutoryInstrumentNumberPrefix ;
-		:statutoryInstrumentNumberYear ?statutoryInstrumentNumberYear ;
-		:statutoryInstrumentNumber ?statutoryInstrumentNumber ;
 	.
 	?workPackage
 		a :WorkPackage ;
 		:workPackageHasProcedure ?procedure ;
-		:workPackageHasBusinessItem ?layingBusinessItem ;
+		:workPackageHasBusinessItem ?businessItem ;
 	.
 	?procedure
 		a :Procedure ;
 		:procedureName ?procedureName ;
 	.
-	?layingBusinessItem
-		a :Laying ;
+	?businessItem
 		a :BusinessItem ;
 		:businessItemDate ?layingBusinessItemDate ;
-		:businessItemHasProcedureStep ?actualisedProcedureStep ;
-	.
-	?actualisedProcedureStep
-		a :ProcedureStep ;
-		:procedureStepHasHouse ?house ;
-	.
-	?house 
-		a :House ;
-		:houseName ?houseName ;
 	.
 }
 WHERE {
-	OPTIONAL {
-		BIND (:StatutoryInstrument as ?statutoryInstrument)
-		?workPackageableThing a ?statutoryInstrument.
-	}
-	OPTIONAL {
-		BIND (:ProposedStatutoryInstrument as ?proposedStatutoryInstrument)
-		?workPackageableThing a ?proposedStatutoryInstrument.
-	}
 	?workPackageableThing :workPackageableThingName ?workPackageableThingName .
-	OPTIONAL { ?workPackageableThing :workPackageableThingComingIntoForceDate ?workPackageableThingComingIntoForceDate }
-	OPTIONAL { ?workPackageableThing :workPackageableThingComingIntoForceNote ?workPackageableThingComingIntoForceNote }
-	OPTIONAL { ?workPackageableThing :workPackageableThingTimeLimitForObjectionEndDate ?workPackageableThingTimeLimitForObjectionEndDate }
-	OPTIONAL { ?workPackageableThing :workPackageableThingHasWorkPackageableThingWebLink ?workPackageableThingWebLink }
-	OPTIONAL {
-		?workPackageableThing :layableThingHasLaying ?layingBusinessItem .
-		?layingBusinessItem 
-			a :Laying ;
-			a :BusinessItem ;
-			:businessItemDate ?layingBusinessItemDate ;
-		.
-		OPTIONAL {
-			?layingBusinessItem :businessItemHasProcedureStep ?actualisedProcedureStep .
-			?actualisedProcedureStep :procedureStepHasHouse ?house .
-			?house :houseName ?houseName .
-		}
-	}
-	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumberPrefix ?statutoryInstrumentNumberPrefix }
-	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumber ?statutoryInstrumentNumber }
-	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumberYear ?statutoryInstrumentNumberYear }
 	OPTIONAL {
 		?workPackageableThing :workPackageableThingHasWorkPackage ?workPackage .
 		OPTIONAL {
 			?workPackage :workPackageHasProcedure ?procedure .
 			?procedure :procedureName ?procedureName .
+		}
+		OPTIONAL {
+			?workPackage :workPackageHasBusinessItem ?businessItem .
+			?businessItem :businessItemDate ?layingBusinessItemDate .
 		}
 	}
 }
