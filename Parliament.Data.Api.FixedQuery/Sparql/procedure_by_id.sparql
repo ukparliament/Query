@@ -16,8 +16,8 @@ CONSTRUCT {
       :workPackageableThingName ?workPackageableThingName ;
   .
   ?businessItem
-		  a :BusinessItem ;
-		  :businessItemDate ?businessItemDate ;
+      a :BusinessItem ;
+      :businessItemDate ?businessItemDate ;
   .
 }
 WHERE {
