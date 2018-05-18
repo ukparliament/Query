@@ -9,10 +9,15 @@ CONSTRUCT {
   ?workPackage
       a :WorkPackage ;
       :workPackageHasWorkPackageableThing ?workPackageableThing ;
+      :workPackageHasBusinessItem ?businessItem ;
   .
   ?workPackageableThing
       a :WorkPackageableThing ;
       :workPackageableThingName ?workPackageableThingName ;
+  .
+  ?businessItem
+		  a :BusinessItem ;
+		  :businessItemDate ?businessItemDate ;
   .
 }
 WHERE {
@@ -28,6 +33,10 @@ WHERE {
             OPTIONAL {
                 ?workPackage :workPackageHasWorkPackageableThing ?workPackageableThing .
                 ?workPackageableThing :workPackageableThingName ?workPackageableThingName .
+            }
+            OPTIONAL {
+                ?workPackage :workPackageHasBusinessItem ?businessItem .
+                ?businessItem :businessItemDate ?businessItemDate .
             }
         }
       }
