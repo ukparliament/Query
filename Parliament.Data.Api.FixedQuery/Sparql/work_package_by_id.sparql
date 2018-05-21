@@ -1,162 +1,80 @@
-﻿PREFIX : @schemaUri
+﻿PREFIX ex: <https://example.com/>
+PREFIX : @schemaUri
 
 CONSTRUCT {
-	?workPackageableThing 
-		a :WorkPackageableThing, ?statutoryInstrument, ?proposedStatutoryInstrument ;
-		:workPackageableThingHasWorkPackage ?workPackage ;
-		:workPackageableThingName ?workPackageableThingName ;
-		:workPackageableThingComingIntoForceDate ?workPackageableThingComingIntoForceDate ;
-		:workPackageableThingComingIntoForceNote ?workPackageableThingComingIntoForceNote ;
-		:workPackageableThingTimeLimitForObjectionEndDate ?workPackageableThingTimeLimitForObjectionEndDate ;
-		:workPackageableThingHasWorkPackageableThingWebLink ?workPackageableThingWebLink ;
-		:statutoryInstrumentNumberPrefix ?statutoryInstrumentNumberPrefix ;
-		:statutoryInstrumentNumber ?statutoryInstrumentNumber ;
-		:statutoryInstrumentNumberYear ?statutoryInstrumentNumberYear ;
-	.
-	?workPackage
-		a :WorkPackage ;
-		:workPackageHasProcedure ?procedure ;
-		:workPackageHasBusinessItem ?businessItem ;
-	.
-	?procedure
-		a :Procedure ;
-		:procedureName ?procedureName ;
-	.
-	?businessItem
-		a :BusinessItem ;
-		a ?laying ;
-		:businessItemDate ?businessItemDate ;
-		:layingDate ?layingDate ;
-		:businessItemHasBusinessItemWebLink ?businessItemWebLink ;
-		:layingHasLayingBody ?layingBody ;
-		:businessItemHasProcedureStep ?actualisedProcedureStep ;
-	.
-	?layingBody
-		a :LayingBody, :Group ;
-		:groupName ?groupName ;
-	.
-	?actualisedProcedureStep
-		a :ProcedureStep ;
-		:procedureStepName ?procedureStepName ;
-		:procedureStepDescription ?procedureStepDescription ;
-		:procedureStepHasHouse ?house ;
-		:procedureStepCausesCausedProcedureRoute ?causedProcedureRoute ;
-		:procedureStepAllowsAllowedProcedureRoute ?allowedProcedureRoute ;
-		:procedureStepRequiresRequiredProcedureRoute ?requiredProcedureRoute ;
-		:procedureStepPrecludesPrecludedProcedureRoute ?precludedProcedureRoute ;
-		:procedureStepIsToProcedureRoute ?causedProcedureRoute, ?allowedProcedureRoute, ?requiredProcedureRoute, ?precludedProcedureRoute ;
-	.
-	?house 
-		a :House ;
-		:houseName ?houseName ;
-	.
-	?causedProcedureRoute
-		a :ProcedureRoute, :CausedProcedureRoute ;
-		:procedureRouteIsToProcedureStep ?causedProcedureStep ;
-	.
-	?causedProcedureStep
-		a :ProcedureStep ;
-		:procedureStepName ?causedProcedureStepName ;
-		:procedureStepDescription ?causedProcedureStepDescription ;
-	.
-	?allowedProcedureRoute
-		a :ProcedureRoute, :AllowedProcedureRoute ; 
-		:procedureRouteIsToProcedureStep ?allowedProcedureStep ;
-	.
-	?allowedProcedureStep
-		a :ProcedureStep ;
-		:procedureStepName ?allowedProcedureStepName ;
-		:procedureStepDescription ?allowedProcedureStepDescription ;
-	.
-	?precludedProcedureRoute
-		a :ProcedureRoute, :PrecludedProcedureRoute ;
-		:procedureRouteIsToProcedureStep ?precludedProcedureStep ;
-	.
-	?precludedProcedureStep
-		a :ProcedureStep ;
-		:procedureStepName ?precludedProcedureStepName ;
-		:procedureStepDescription ?precludedProcedureStepDescription ;
-	.
-	?requiredProcedureRoute
-		a :ProcedureRoute, :RequiredProcedureRoute ;
-		:procedureRouteIsToProcedureStep ?requiredProcedureStep ;
-	.
-	?requiredProcedureStep
-		a :ProcedureStep ;
-		:procedureStepName ?requiredProcedureStepName ;
-		:procedureStepDescription ?requiredProcedureStepDescription ;
-	.
+  ?possibleStep a :ProcedureStep, ex:POSSIBLE .
+  ?actualizedStep a :ProcedureStep, ex:ACTUALIZED .
+  ?rootStep a ex:ROOT .
+
+  ?actualizedStep ex:LEDTO ?otherActualizedStep .
+  ?actualizedStep ex:CANLEADTO ?otherActualizedStep .
+  ?enablingStep ex:ENABLES ?possibleStep .
+  ?enablingStep ex:CANLEADTO ?possibleStep .
+
+  ?actualizedStep :procedureStepName ?actualizedStepName .
+  ?possibleStep :procedureStepName ?possibleName .
+
+  ?actualizedItem ex:ACTUALIZED ?actualizedStep .
 }
 WHERE {
-	BIND (@work_package_id as ?workPackageableThing)
-	OPTIONAL {
-		BIND (:StatutoryInstrument as ?statutoryInstrument)
-		?workPackageableThing a ?statutoryInstrument.
-	}
-	OPTIONAL {
-		BIND (:ProposedStatutoryInstrument as ?proposedStatutoryInstrument)
-		?workPackageableThing a ?proposedStatutoryInstrument.
-	}
-	?workPackageableThing :workPackageableThingName ?workPackageableThingName .
-	OPTIONAL { ?workPackageableThing :workPackageableThingComingIntoForceDate ?workPackageableThingComingIntoForceDate }
-	OPTIONAL { ?workPackageableThing :workPackageableThingComingIntoForceNote ?workPackageableThingComingIntoForceNote }
-	OPTIONAL { ?workPackageableThing :workPackageableThingTimeLimitForObjectionEndDate ?workPackageableThingTimeLimitForObjectionEndDate }
-	OPTIONAL { ?workPackageableThing :workPackageableThingHasWorkPackageableThingWebLink ?workPackageableThingWebLink }
-	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumberPrefix ?statutoryInstrumentNumberPrefix }
-	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumber ?statutoryInstrumentNumber }
-	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumberYear ?statutoryInstrumentNumberYear }
+  BIND(@work_package_id AS ?package)
 
-	OPTIONAL {
-		?workPackageableThing :workPackageableThingHasWorkPackage ?workPackage .
-		?workPackage :workPackageHasProcedure ?procedure .
-		?procedure :procedureName ?procedureName .
-		OPTIONAL {
-			?workPackage :workPackageHasBusinessItem ?businessItem .
-			?businessItem :businessItemHasProcedureStep ?actualisedProcedureStep .
-			OPTIONAL { ?businessItem :businessItemDate ?businessItemDate }
-			OPTIONAL { ?businessItem :layingDate ?layingDate }
-			OPTIONAL {?businessItem :businessItemHasBusinessItemWebLink ?businessItemWebLink }
-			OPTIONAL { 
-				BIND (:Laying as ?laying) 
-				?businessItem :layingHasLayingBody ?layingBody .
-				?businessItem a ?laying .
-				?layingBody :groupName ?groupName .
-			}
-			?actualisedProcedureStep :procedureStepName ?procedureStepName .
-			OPTIONAL { ?actualisedProcedureStep :procedureStepDescription ?procedureStepDescription }
-			OPTIONAL { 
-				?actualisedProcedureStep :procedureStepHasHouse ?house .
-				?house :houseName ?houseName .
-			}
-			OPTIONAL {
-				?actualisedProcedureStep :procedureStepCausesCausedProcedureRoute ?causedProcedureRoute .
-				?causedProcedureRoute :procedureRouteHasProcedure ?procedure .
-				?causedProcedureRoute :procedureRouteIsToProcedureStep ?causedProcedureStep .
-				?causedProcedureStep :procedureStepName ?causedProcedureStepName .
-				OPTIONAL { ?causedProcedureStep :procedureStepDescription ?causedProcedureStepDescription }
-			}
-			OPTIONAL {
-				?actualisedProcedureStep :procedureStepAllowsAllowedProcedureRoute ?allowedProcedureRoute .
-				?allowedProcedureRoute :procedureRouteHasProcedure ?procedure .
-				?allowedProcedureRoute :procedureRouteIsToProcedureStep ?allowedProcedureStep .
-				?allowedProcedureStep :procedureStepName ?allowedProcedureStepName .
-				OPTIONAL { ?allowedProcedureStep :procedureStepDescription ?allowedProcedureStepDescription }
-			}
-			OPTIONAL {
-				?actualisedProcedureStep :procedureStepPrecludesPrecludedProcedureRoute ?precludedProcedureRoute .
-				?precludedProcedureRoute :procedureRouteHasProcedure ?procedure .
-				?precludedProcedureRoute :procedureRouteIsToProcedureStep ?precludedProcedureStep .
-				?precludedProcedureStep :procedureStepName ?precludedProcedureStepName .
-				OPTIONAL { ?precludedProcedureStep :procedureStepDescription ?precludedProcedureStepDescription }
-			}
-			OPTIONAL {
-				?actualisedProcedureStep :procedureStepRequiresRequiredProcedureRoute ?requiredProcedureRoute .
-				?requiredProcedureRoute :procedureRouteHasProcedure ?procedure .
-				?requiredProcedureRoute :procedureRouteIsToProcedureStep ?requiredProcedureStep .
-				?requiredProcedureStep :procedureStepName ?requiredProcedureStepName .
-				OPTIONAL { ?requiredProcedureStep :procedureStepDescription ?requiredProcedureStepDescription }
-			}			
-		}
-	}
+  ?procedure :procedureHasWorkPackage ?package .
+
+  {
+    ?enablingStep :procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+
+    ?possibleRoute :procedureRouteHasProcedure ?procedure .
+    ?possibleRoute :procedureRouteIsFromProcedureStep ?enablingStep .
+    ?possibleRoute :procedureRouteIsToProcedureStep ?possibleStep .
+
+    ?possibleStep :procedureStepName ?possibleName .
+
+    FILTER NOT EXISTS {
+      ?possibleStep :procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+    }
+
+    FILTER NOT EXISTS {
+      ?precludingRoute :procedureRouteIsToProcedureStep ?possibleStep .
+      ?precludingRoute :procedureRouteHasProcedure ?procedure .
+      ?precludingRoute :precludedProcedureRouteIsPrecludedByProcedureStep/:procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+    }
+
+    FILTER NOT EXISTS {
+      ?reqRoute :requiredProcedureRouteIsRequiredByProcedureStep ?possibleStep .
+      ?reqRoute :procedureRouteHasProcedure ?procedure .
+
+      FILTER NOT EXISTS {
+        ?reqRoute :procedureRouteIsToProcedureStep/:procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+      }
+    }
+  }
+  UNION 
+  {
+    ?actualizedItem :businessItemHasWorkPackage ?package .
+    ?actualizedItem :businessItemHasProcedureStep ?actualizedStep .
+
+    ?actualizedStep :procedureStepName ?actualizedStepName .
+
+    OPTIONAL {
+      ?actualizedRoute :procedureRouteIsFromProcedureStep ?actualizedStep .
+      ?actualizedRoute :procedureRouteIsToProcedureStep ?otherActualizedStep .
+      ?actualizedRoute :procedureRouteHasProcedure ?procedure .
+
+      ?otherActualizedStep :procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+
+      FILTER (?otherActualizedStep != ?actualizedStep)
+    }
+  }
+  UNION 
+  {
+    ?rootItem :businessItemHasWorkPackage ?package .
+    ?rootItem :businessItemHasProcedureStep ?rootStep .
+
+    FILTER NOT EXISTS {
+      ?higherRoute :procedureRouteIsToProcedureStep ?rootStep .
+      ?higherRoute :procedureRouteHasProcedure ?procedure .
+      ?higherRoute (:causedProcedureRouteIsCausedByProcedureStep|:allowedProcedureRouteIsAllowedByProcedureStep)/:procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+    }
+  }
 }
-

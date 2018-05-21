@@ -176,8 +176,7 @@
                 return false;
             }
 
-            var typeNode = typeStatement.Object as IUriNode;
-            if (typeNode == null)
+            if (!(typeStatement.Object is IUriNode typeNode))
             {
                 return false;
             }

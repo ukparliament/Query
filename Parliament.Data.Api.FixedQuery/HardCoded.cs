@@ -11,6 +11,8 @@
     using VDS.RDF.Ontology;
     using VDS.RDF.Parsing;
     using VDS.RDF.Query;
+    using VDS.RDF.Storage;
+    using VDS.RDF.Writing;
 
     // TODO: Eliminate
     public class HardCoded : BaseController
@@ -34,7 +36,7 @@
 
             return BaseController.ExecuteSingle(query);
         }
- 
+
         public static object work_package_by_id(Dictionary<string, string> values)
         {
             var workPackageId = values["work_package_id"];
@@ -45,185 +47,32 @@
             query.SetUri("work_package_id", workPackageUri);
 
             var graph = BaseController.ExecuteSingle(query) as IGraph;
+            graph.NamespaceMap.AddNamespace("ex", new Uri("https://example.com/"));
 
-            var procedureStepNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "ProcedureStep"));
-            var requiredRouteNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "RequiredProcedureRoute"));
-            var precludedRouteNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "PrecludedProcedureRoute"));
+            var rootSteps = graph.GetTriplesWithPredicateObject(graph.CreateUriNode("rdf:type"), graph.CreateUriNode("ex:ROOT")).Select(t => t.Subject as IUriNode);
 
-            var businessItemHasProcedureStepNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "businessItemHasProcedureStep"));
-            var procedureStepPrecludesPrecludedProcedureRouteNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "procedureStepPrecludesPrecludedProcedureRoute"));
-            var procedureStepRequiresRequiredProcedureRouteNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "procedureStepRequiresRequiredProcedureRoute"));
-            var distanceFromZeroNode = graph.CreateUriNode(new Uri("http://example.com/distanceFromZero"));
-            var typeNode = graph.CreateUriNode(new Uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"));
-            var procedureRouteIsToProcedureStepNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "procedureRouteIsToProcedureStep"));
-            var procedureStepCausesCausedProcedureRouteNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "procedureStepCausesCausedProcedureRoute"));
-            var procedureStepIsToProcedureRouteNode = graph.CreateUriNode(new Uri(Global.SchemaUri, "procedureStepIsToProcedureRoute"));
-            var xsdInteger = new Uri("http://www.w3.org/2001/XMLSchema#integer");
-
-            var procedureSteps = graph.GetTriplesWithPredicateObject(typeNode, procedureStepNode).Select(t => t.Subject as IUriNode);
-            var precludedProcedureRoutes = graph.GetTriplesWithPredicate(procedureStepPrecludesPrecludedProcedureRouteNode).Select(t => t.Object as IUriNode);
-            var deleteTripleList = new List<Triple>();
-
-            // iterate through all procedure steps
-            foreach (IUriNode procedureStep in procedureSteps.ToList())
+            var seen = new HashSet<IUriNode>();
+            foreach (var rootStep in rootSteps)
             {
-                //if procedure step is not actualised
-                if (!graph.GetTriplesWithPredicateObject(businessItemHasProcedureStepNode, procedureStep).Any())
-                {
-                    var removeProcedureStep = false;
-
-                    // iterate through all precluded procedure routes
-                    foreach (IUriNode precludedRoute in precludedProcedureRoutes.ToList())
-                    {
-                        //if the precluded route is what led to the step, retract the step and related triples
-                        if (graph.GetTriplesWithSubjectObject(precludedRoute, procedureStep).Any())
-                        {
-                            removeProcedureStep = true;
-                        }
-                    }
-
-                    // iterate through the required steps
-                    foreach (Triple requiredRouteTriple in graph.GetTriplesWithSubjectPredicate(procedureStep, procedureStepRequiresRequiredProcedureRouteNode).ToList())
-                    {
-                        var requiredRoute = requiredRouteTriple.Object;
-                        var requiredStep = graph.GetTriplesWithSubjectPredicate(requiredRoute, procedureRouteIsToProcedureStepNode).Select(t => t.Object as IUriNode).SingleOrDefault();
-
-                        //if a required step is not actualised, retract the step and related triples
-                        if (!graph.GetTriplesWithPredicateObject(businessItemHasProcedureStepNode, requiredStep).Any())
-                        {
-                            removeProcedureStep = true;
-                        }
-                    }
-                    if (removeProcedureStep)
-                    {
-                        foreach (var triple in graph.GetTriplesWithSubject(procedureStep))
-                        {
-                            deleteTripleList.Add(triple);
-
-                        }
-                        foreach (var triple in graph.GetTriplesWithObject(procedureStep))
-                        {
-                            deleteTripleList.Add(triple);
-                        }
-                    }
-                }
-            }
-            foreach (var requiredRoute in graph.GetTriplesWithPredicateObject(typeNode, requiredRouteNode).Select(t => t.Subject as IUriNode))
-            {
-                foreach (var triple in graph.GetTriplesWithSubject(requiredRoute))
-                {
-                    deleteTripleList.Add(triple);
-                }
-                foreach (var triple in graph.GetTriplesWithObject(requiredRoute))
-                {
-                    deleteTripleList.Add(triple);
-                }
+                iterate(rootStep, 0, seen);
             }
 
-            foreach (var precludedRoute in graph.GetTriplesWithPredicateObject(typeNode, precludedRouteNode).Select(t => t.Subject as IUriNode))
-            {
-                foreach (var triple in graph.GetTriplesWithSubject(precludedRoute))
-                {
-                    deleteTripleList.Add(triple);
-                }
-                foreach (var triple in graph.GetTriplesWithObject(precludedRoute))
-                {
-                    deleteTripleList.Add(triple);
-                }
-            }
-
-            deleteTripleList.AddRange(graph.GetTriplesWithPredicate(procedureStepIsToProcedureRouteNode));
-
-
-            graph.Retract(deleteTripleList);
-
-            // get around node caching issue breaking html
-            var graph2 = new NonIndexedGraph();
-            graph2.Assert(graph.Triples);
-
-            return graph2;
-
-
-
-
-
-
-            // find zeroes
-            foreach (IUriNode procedureStep in procedureSteps)
-            {
-                // if the procedure step isn't led to by a route
-                if (!graph.GetTriplesWithPredicateObject(procedureRouteIsToProcedureStepNode, procedureStep).Any())
-                {
-                    graph.Assert(procedureStep, distanceFromZeroNode,graph.CreateLiteralNode("0", xsdInteger));
-                }
-            }
-            var zeroes = graph.GetTriplesWithPredicateObject(distanceFromZeroNode, graph.CreateLiteralNode("0")).Select(t => t.Subject as IUriNode);
-            
-            foreach (IUriNode zero in zeroes)
-            {
-                var treeFromZeroComplete = false;
-                var distanceFromZero = 1;
-                while (!treeFromZeroComplete)
-                {
-                    var originalGraph = graph;
-                    var nextRoutes = graph.GetTriplesWithSubjectPredicate(zero, procedureStepIsToProcedureRouteNode).Select(t => t.Object as IUriNode);
-                    foreach (IUriNode nextRoute in nextRoutes)
-                    {
-                        var nextRouteSteps = graph.GetTriplesWithSubjectPredicate(nextRoute, procedureRouteIsToProcedureStepNode).Select(t => t.Object as IUriNode);
-                        foreach (IUriNode nextRouteStep in nextRouteSteps)
-                        {
-                            var currentDistanceLabel = graph.GetTriplesWithSubjectPredicate(nextRouteStep, distanceFromZeroNode).Select(t => t.Object as ILiteralNode).SingleOrDefault();
-                            if (currentDistanceLabel == null)
-                            {
-                                graph.Assert(nextRouteStep, distanceFromZeroNode, graph.CreateLiteralNode(distanceFromZero.ToString(), xsdInteger));
-                            }
-                            if (Convert.ToInt32(currentDistanceLabel.Value) > distanceFromZero)
-                            {
-                                graph.Retract(nextRouteStep, distanceFromZeroNode, currentDistanceLabel);
-                                graph.Assert(nextRouteStep, distanceFromZeroNode, graph.CreateLiteralNode(distanceFromZero.ToString(), xsdInteger));
-                            }
-                        }
-                    }
-                    distanceFromZero ++;
-                    if (originalGraph.Equals(graph))
-                    {
-                        treeFromZeroComplete = true ;
-                    }
-                }
-            }
-            //var ones = graph.GetTriplesWithPredicateObject(distanceFromZeroNode, graph.CreateLiteralNode("1")).Select(t => t.Subject as IUriNode);
-            //foreach (IUriNode one in ones)
-            //{
-            //    var oneCausedRoutes = graph.GetTriplesWithSubjectPredicate(one, procedureStepCausesCausedProcedureRouteNode).Select(t => t.Object as IUriNode);
-            //    foreach (IUriNode oneCausedRoute in oneCausedRoutes)
-            //    {
-            //        var oneCausedRouteSteps = graph.GetTriplesWithSubjectPredicate(oneCausedRoute, procedureRouteIsToProcedureStepNode).Select(t => t.Object as IUriNode);
-            //        foreach (IUriNode oneCausedRouteStep in oneCausedRouteSteps)
-            //        {
-            //            if (!graph.GetTriplesWithSubjectPredicate(oneCausedRouteStep, distanceFromZeroNode).Any())
-            //            {
-            //                graph.Assert(oneCausedRouteStep, distanceFromZeroNode, graph.CreateLiteralNode("2"));
-            //            }
-            //        }
-            //    }
-            //}
-            //var twos = graph.GetTriplesWithPredicateObject(distanceFromZeroNode, graph.CreateLiteralNode("2")).Select(t => t.Subject as IUriNode);
-            //foreach (IUriNode two in twos)
-            //{
-            //    var twoCausedRoutes = graph.GetTriplesWithSubjectPredicate(two, procedureStepCausesCausedProcedureRouteNode).Select(t => t.Object as IUriNode);
-            //    foreach (IUriNode twoCausedRoute in twoCausedRoutes)
-            //    {
-            //        var twoCausedRouteSteps = graph.GetTriplesWithSubjectPredicate(twoCausedRoute, procedureRouteIsToProcedureStepNode).Select(t => t.Object as IUriNode);
-            //        foreach (IUriNode twoCausedRouteStep in twoCausedRouteSteps)
-            //        {
-            //            if (!graph.GetTriplesWithSubjectPredicate(twoCausedRouteStep, distanceFromZeroNode).Any())
-            //            {
-            //                graph.Assert(twoCausedRouteStep, distanceFromZeroNode, graph.CreateLiteralNode("2"));
-            //            }
-            //        }
-            //    }
-            //}
             return graph;
+        }
+
+        private static void iterate(IUriNode step, int distance, HashSet<IUriNode> seen)
+        {
+            if (seen.Add(step))
+            {
+                step.Graph.Assert(step, step.Graph.CreateUriNode("ex:DISTANCE"), new VDS.RDF.Nodes.LongNode(step.Graph, distance));
+
+                var nextSteps = step.Graph.GetTriplesWithSubjectPredicate(step, step.Graph.CreateUriNode("ex:CANLEADTO")).Select(t => t.Object as IUriNode).Distinct();
+
+                foreach (var nextStep in nextSteps)
+                {
+                    iterate(nextStep, distance + 1, seen);
+                }
+            }
         }
 
 

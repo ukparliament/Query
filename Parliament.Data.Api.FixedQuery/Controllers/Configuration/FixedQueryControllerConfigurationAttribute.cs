@@ -19,15 +19,15 @@
             var formatters = definitions
                 // First add all the extension mappings.
                 .Where(definition => definition.Extensions != null)
-                .SelectMany(definition => definition.Extensions.Select(extension => new { extension = extension, canonical = definition.MimeTypes.First() }))
+                .SelectMany(definition => definition.Extensions.Select(extension => new { extension, canonical = definition.MimeTypes.First() }))
                 .Select(extension => new UriPathExtensionMapping(extension.extension, extension.canonical) as MediaTypeMapping)
             // Then add the query string mappings.
             .Union(definitions
-                .SelectMany(definition => definition.MimeTypes.Select(mimeType => new { mimeType = mimeType, canonical = definition.MimeTypes.First() }))
+                .SelectMany(definition => definition.MimeTypes.Select(mimeType => new { mimeType, canonical = definition.MimeTypes.First() }))
                 .Select(definition => new QueryStringMapping("format", definition.mimeType, definition.canonical) as MediaTypeMapping))
             // Finally add the accept header mappings.
             .Union(definitions
-                .SelectMany(definition => definition.MimeTypes.Select(mimeType => new { mimeType = mimeType, canonical = definition.MimeTypes.First() }))
+                .SelectMany(definition => definition.MimeTypes.Select(mimeType => new { mimeType, canonical = definition.MimeTypes.First() }))
                 .Select(definition => new RequestHeaderMapping("Accept", definition.mimeType, StringComparison.OrdinalIgnoreCase, false, definition.canonical) as MediaTypeMapping))
             .Select(mapping => new GraphFormatter(mapping));
 
