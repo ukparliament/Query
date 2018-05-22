@@ -2,27 +2,67 @@
 PREFIX : @schemaUri
 
 CONSTRUCT {
-  ?possibleStep a :ProcedureStep, ex:POSSIBLE .
-  ?actualizedStep a :ProcedureStep, ex:ACTUALIZED .
-  ?rootStep a ex:ROOT .
+	?workPackageableThing
+		a :WorkPackageableThing ;
+		:workPackageableThingName ?workPackageableThingName ;
+		:workPackageableThingHasWorkPackageableThingWebLink ?workPackageableThingWebLink ;
+		:workPackageableThingHasWorkPackage ?workPackage ;
+	.
 
-  ?actualizedStep ex:LEDTO ?otherActualizedStep .
-  ?actualizedStep ex:CANLEADTO ?otherActualizedStep .
-  ?enablingStep ex:ENABLES ?possibleStep .
-  ?enablingStep ex:CANLEADTO ?possibleStep .
+	?workPackage
+		a :WorkPackage ;
+		:workPackageHasBusinessItem ?actualizedItem ;
+	.
 
-  ?actualizedStep :procedureStepName ?actualizedStepName .
-  ?possibleStep :procedureStepName ?possibleName .
+	?procedure
+		a :Procedure ;
+		:procedureHasWorkPackage ?workPackage ;
+		:procedureName ?procedureName ;
+	.
 
-  ?actualizedItem ex:ACTUALIZED ?actualizedStep .
+	?possibleStep a :ProcedureStep, ex:POSSIBLE .
+	?actualizedStep a :ProcedureStep, ex:ACTUALIZED .
+	?rootStep a ex:ROOT .
+
+	?actualizedStep ex:LEDTO ?otherActualizedStep .
+	?actualizedStep ex:CANLEADTO ?otherActualizedStep .
+	?enablingStep ex:ENABLES ?possibleStep .
+	?enablingStep ex:CANLEADTO ?possibleStep .
+
+	?actualizedStep :procedureStepName ?actualizedStepName .
+	?actualizedStep :procedureStepHasHouse ?actualizedStepHouse .
+
+	?actualizedStepHouse
+		a :House ;
+		:houseName ?houseName ;
+	.
+
+	?possibleStep :procedureStepName ?possibleName .
+
+	?actualizedItem a :BusinessItem .
+	?actualizedItem ex:ACTUALIZED ?actualizedStep .
+  ?actualizedItem :businessItemDate ?actualizedItemDate .
+  ?actualizedItem :businessItemHasBusinessItemWebLink ?actualizedItemWebLink .
+  ?actualizedItem :businessItemHasWorkPackage ?workPackage .
+  ?actualizedItem :businessItemHasProcedureStep ?actualizedStep .
+
 }
 WHERE {
-  BIND(@work_package_id AS ?package)
+	BIND(@work_package_id AS ?workPackageableThing)
+	?workPackageableThing
+		:workPackageableThingName ?workPackageableThingName ;
+		:workPackageableThingHasWorkPackage ?workPackage ;
+	.
 
-  ?procedure :procedureHasWorkPackage ?package .
+	OPTIONAL { ?workPackageableThing :workPackageableThingHasWorkPackageableThingWebLink ?workPackageableThingWebLink . }
+
+	?procedure
+		:procedureHasWorkPackage ?workPackage ;
+		:procedureName ?procedureName ;
+	.
 
   {
-    ?enablingStep :procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+    ?enablingStep :procedureStepHasBusinessItem/:businessItemHasWorkPackage ?workPackage .
 
     ?possibleRoute :procedureRouteHasProcedure ?procedure .
     ?possibleRoute :procedureRouteIsFromProcedureStep ?enablingStep .
@@ -31,13 +71,13 @@ WHERE {
     ?possibleStep :procedureStepName ?possibleName .
 
     FILTER NOT EXISTS {
-      ?possibleStep :procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+      ?possibleStep :procedureStepHasBusinessItem/:businessItemHasWorkPackage ?workPackage .
     }
 
     FILTER NOT EXISTS {
       ?precludingRoute :procedureRouteIsToProcedureStep ?possibleStep .
       ?precludingRoute :procedureRouteHasProcedure ?procedure .
-      ?precludingRoute :precludedProcedureRouteIsPrecludedByProcedureStep/:procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+      ?precludingRoute :precludedProcedureRouteIsPrecludedByProcedureStep/:procedureStepHasBusinessItem/:businessItemHasWorkPackage ?workPackage .
     }
 
     FILTER NOT EXISTS {
@@ -45,36 +85,43 @@ WHERE {
       ?reqRoute :procedureRouteHasProcedure ?procedure .
 
       FILTER NOT EXISTS {
-        ?reqRoute :procedureRouteIsToProcedureStep/:procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+        ?reqRoute :procedureRouteIsToProcedureStep/:procedureStepHasBusinessItem/:businessItemHasWorkPackage ?workPackage .
       }
     }
   }
-  UNION 
+  UNION
   {
-    ?actualizedItem :businessItemHasWorkPackage ?package .
+    ?workPackage :workPackageHasBusinessItem ?actualizedItem .
+    ?actualizedItem :businessItemHasWorkPackage ?workPackage .
     ?actualizedItem :businessItemHasProcedureStep ?actualizedStep .
 
+    OPTIONAL { ?actualizedItem :businessItemDate ?actualizedItemDate . }
+    OPTIONAL { ?actualizedItem :businessItemHasBusinessItemWebLink ?actualizedItemWebLink . }
+
     ?actualizedStep :procedureStepName ?actualizedStepName .
+    ?actualizedStep :procedureStepHasHouse ?actualizedStepHouse .
+
+    ?actualizedStepHouse :houseName ?houseName .
 
     OPTIONAL {
       ?actualizedRoute :procedureRouteIsFromProcedureStep ?actualizedStep .
       ?actualizedRoute :procedureRouteIsToProcedureStep ?otherActualizedStep .
       ?actualizedRoute :procedureRouteHasProcedure ?procedure .
 
-      ?otherActualizedStep :procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+      ?otherActualizedStep :procedureStepHasBusinessItem/:businessItemHasWorkPackage ?workPackage .
 
       FILTER (?otherActualizedStep != ?actualizedStep)
     }
   }
-  UNION 
+  UNION
   {
-    ?rootItem :businessItemHasWorkPackage ?package .
+    ?rootItem :businessItemHasWorkPackage ?workPackage .
     ?rootItem :businessItemHasProcedureStep ?rootStep .
 
     FILTER NOT EXISTS {
       ?higherRoute :procedureRouteIsToProcedureStep ?rootStep .
       ?higherRoute :procedureRouteHasProcedure ?procedure .
-      ?higherRoute (:causedProcedureRouteIsCausedByProcedureStep|:allowedProcedureRouteIsAllowedByProcedureStep)/:procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+      ?higherRoute (:causedProcedureRouteIsCausedByProcedureStep|:allowedProcedureRouteIsAllowedByProcedureStep)/:procedureStepHasBusinessItem/:businessItemHasWorkPackage ?workPackage .
     }
   }
 }
