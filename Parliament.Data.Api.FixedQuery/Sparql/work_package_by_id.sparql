@@ -64,7 +64,7 @@ WHERE {
     ?actualizedStep :procedureStepName ?actualizedStepName .
 
     OPTIONAL {
-      ?actualizedRoute :procedureRouteIsFromProcedureStep ?actualizedStep .
+      ?actualizedRoute :causedProcedureRouteIsCausedByProcedureStep|:allowedProcedureRouteIsAllowedByProcedureStep ?actualizedStep .
       ?actualizedRoute :procedureRouteIsToProcedureStep ?otherActualizedStep .
       ?actualizedRoute :procedureRouteHasProcedure ?procedure .
 
