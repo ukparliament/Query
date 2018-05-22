@@ -78,10 +78,12 @@ WHERE {
     ?rootItem :businessItemHasWorkPackage ?package .
     ?rootItem :businessItemHasProcedureStep ?rootStep .
 
-    FILTER NOT EXISTS {
+    OPTIONAL {
       ?higherRoute :procedureRouteIsToProcedureStep ?rootStep .
       ?higherRoute :procedureRouteHasProcedure ?procedure .
       ?higherRoute (:causedProcedureRouteIsCausedByProcedureStep|:allowedProcedureRouteIsAllowedByProcedureStep)/:procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
     }
+
+    FILTER(!BOUND(?higherRoute))
   }
 }
