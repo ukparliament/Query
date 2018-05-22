@@ -14,6 +14,7 @@ CONSTRUCT {
   ?workPackageableThing
       a :WorkPackageableThing ;
       :workPackageableThingName ?workPackageableThingName ;
+      :workPackageableThingHasWorkPackage ?workPackage ;
   .
   ?businessItem
       a :BusinessItem ;
@@ -32,7 +33,8 @@ WHERE {
             ?procedure :procedureHasWorkPackage ?workPackage .
             OPTIONAL {
                 ?workPackage :workPackageHasWorkPackageableThing ?workPackageableThing .
-                ?workPackageableThing :workPackageableThingName ?workPackageableThingName .
+                OPTIONAL { ?workPackageableThing :workPackageableThingName ?workPackageableThingName . }
+                OPTIONAL { ?workPackageableThing :workPackageableThingHasWorkPackage ?workPackage . }
             }
             OPTIONAL {
                 ?workPackage :workPackageHasBusinessItem ?businessItem .
