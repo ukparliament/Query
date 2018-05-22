@@ -33,7 +33,7 @@ WHERE {
             ?procedure :procedureHasWorkPackage ?workPackage .
             OPTIONAL {
                 ?workPackage :workPackageHasWorkPackageableThing ?workPackageableThing .
-                OPTIONAL { ?workPackageableThing :workPackageableThingName ?workPackageableThingName . }
+                ?workPackageableThing :workPackageableThingName ?workPackageableThingName .
                 OPTIONAL { ?workPackageableThing :workPackageableThingHasWorkPackage ?workPackage . }
             }
             OPTIONAL {
