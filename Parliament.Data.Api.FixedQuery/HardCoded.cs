@@ -49,7 +49,7 @@
             var graph = BaseController.ExecuteSingle(query) as IGraph;
             graph.NamespaceMap.AddNamespace("ex", new Uri("https://example.com/"));
 
-            var rootSteps = graph.GetTriplesWithPredicateObject(graph.CreateUriNode("rdf:type"), graph.CreateUriNode("ex:ROOT")).Select(t => t.Subject as IUriNode);
+            var rootSteps = graph.GetTriplesWithPredicateObject(graph.CreateUriNode("rdf:type"), graph.CreateUriNode("ex:Root")).Select(t => t.Subject as IUriNode);
 
             var seen = new HashSet<IUriNode>();
             foreach (var rootStep in rootSteps)
@@ -64,9 +64,9 @@
         {
             if (seen.Add(step))
             {
-                step.Graph.Assert(step, step.Graph.CreateUriNode("ex:DISTANCE"), new VDS.RDF.Nodes.LongNode(step.Graph, distance));
+                step.Graph.Assert(step, step.Graph.CreateUriNode("ex:distance"), new VDS.RDF.Nodes.LongNode(step.Graph, distance));
 
-                var nextSteps = step.Graph.GetTriplesWithSubjectPredicate(step, step.Graph.CreateUriNode("ex:CANLEADTO")).Select(t => t.Object as IUriNode).Distinct();
+                var nextSteps = step.Graph.GetTriplesWithSubjectPredicate(step, step.Graph.CreateUriNode("ex:canLeadTo")).Select(t => t.Object as IUriNode).Distinct();
 
                 foreach (var nextStep in nextSteps)
                 {

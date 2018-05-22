@@ -2,19 +2,26 @@
 PREFIX : @schemaUri
 
 CONSTRUCT {
-  ?possibleStep a :ProcedureStep, ex:POSSIBLE .
-  ?actualizedStep a :ProcedureStep, ex:ACTUALIZED .
-  ?rootStep a ex:ROOT .
+	?actualizedStep
+		a :ProcedureStep, ex:Actualized ;
+		:procedureStepName ?actualizedStepName ;
+		ex:ledTo ?otherActualizedStep ;
+		ex:canLeadTo ?otherActualizedStep ;
+	.
 
-  ?actualizedStep ex:LEDTO ?otherActualizedStep .
-  ?actualizedStep ex:CANLEADTO ?otherActualizedStep .
-  ?enablingStep ex:ENABLES ?possibleStep .
-  ?enablingStep ex:CANLEADTO ?possibleStep .
+	?possibleStep
+		a :ProcedureStep, ex:Possible ;
+		:procedureStepName ?possibleName ;
+	.
 
-  ?actualizedStep :procedureStepName ?actualizedStepName .
-  ?possibleStep :procedureStepName ?possibleName .
+	?enablingStep
+		ex:enables ?possibleStep ;
+		ex:canLeadTo ?possibleStep ;
+	.
 
-  ?actualizedItem ex:ACTUALIZED ?actualizedStep .
+	?rootStep a ex:Root .
+
+	?actualizedItem :businessItemHasProcedureStep ?actualizedStep .
 }
 WHERE {
   BIND(@work_package_id AS ?package)
