@@ -2,6 +2,8 @@
 PREFIX : @schemaUri
 
 CONSTRUCT {
+	?package a :WorkPackage .
+	
 	?actualizedStep
 		a :ProcedureStep, ex:Actualized ;
 		:procedureStepName ?actualizedStepName ;
@@ -19,9 +21,12 @@ CONSTRUCT {
 		ex:canLeadTo ?possibleStep ;
 	.
 
-	?rootStep a ex:Root .
+	?rootStep a :ProcedureStep, ex:Root .
 
-	?actualizedItem :businessItemHasProcedureStep ?actualizedStep .
+	?actualizedItem 
+		a :BusinessItem ;
+		:businessItemHasProcedureStep ?actualizedStep ;
+	.
 }
 WHERE {
   BIND(@work_package_id AS ?package)
