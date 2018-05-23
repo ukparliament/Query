@@ -31,6 +31,7 @@ CONSTRUCT {
     a :ProcedureStep, ex:Actualized ;
     :procedureStepName ?stepName ;
     :procedureStepHasHouse ?house ;
+    :procedureStepHasBusinessItem ?item ;
     ex:ledTo ?otherStep ;
     ex:canLeadTo ?otherStep ;
     .
