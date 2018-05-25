@@ -1,3 +1,4 @@
+PREFIX ex: <https://example.com/>
 PREFIX : @schemaUri
 
 CONSTRUCT {
@@ -9,38 +10,36 @@ CONSTRUCT {
   ?workPackage
       a :WorkPackage ;
       :workPackageHasWorkPackageableThing ?workPackageableThing ;
-      :workPackageHasBusinessItem ?businessItem ;
+      ex:oldestBusinessItemDate ?date ;
   .
   ?workPackageableThing
       a :WorkPackageableThing ;
       :workPackageableThingName ?workPackageableThingName ;
-      :workPackageableThingHasWorkPackage ?workPackage ;
-  .
-  ?businessItem
-      a :BusinessItem ;
-      :businessItemDate ?businessItemDate ;
   .
 }
 WHERE {
   {
       SELECT * WHERE {
         BIND (@procedure_id AS ?procedure)
-        ?procedure
-            a :Procedure ;
-            :procedureName ?procedureName ;
-        .
+        ?procedure :procedureName ?procedureName .
+        
         OPTIONAL {
             ?procedure :procedureHasWorkPackage ?workPackage .
-            OPTIONAL {
-                ?workPackage :workPackageHasWorkPackageableThing ?workPackageableThing .
-                ?workPackageableThing :workPackageableThingName ?workPackageableThingName .
-                OPTIONAL { ?workPackageableThing :workPackageableThingHasWorkPackage ?workPackage . }
-            }
-            OPTIONAL {
-                ?workPackage :workPackageHasBusinessItem ?businessItem .
-                ?businessItem :businessItemDate ?businessItemDate .
-            }
+            
+            # Date (if any) of oldest business item in package
+          {
+              SELECT ?workPackage (MIN(?itemDate) AS ?date)
+              WHERE {
+                  ?item :businessItemHasWorkPackage ?workPackage .
+
+                  OPTIONAL { ?item :businessItemDate ?itemDate . }
+              }
+              GROUP BY ?workPackage
+          }
         }
+    	
+        ?workPackage :workPackageHasWorkPackageableThing ?workPackageableThing .
+        ?workPackageableThing :workPackageableThingName ?workPackageableThingName .
       }
   }
 }
