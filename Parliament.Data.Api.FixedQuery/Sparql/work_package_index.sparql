@@ -1,36 +1,44 @@
-﻿PREFIX : @schemaUri
+﻿PREFIX ex: <https://example.com/>
+PREFIX : @schemaUri
 
 CONSTRUCT {
-	?workPackageableThing 
-		a :WorkPackageableThing, ?statutoryInstrument, ?proposedStatutoryInstrument ;
-		:workPackageableThingHasWorkPackage ?workPackage ;
-		:workPackageableThingName ?workPackageableThingName ;
-	.
-	?workPackage
-		a :WorkPackage ;
-		:workPackageHasProcedure ?procedure ;
-		:workPackageHasBusinessItem ?businessItem ;
-	.
-	?procedure
-		a :Procedure ;
-		:procedureName ?procedureName ;
-	.
-	?businessItem
-		a :BusinessItem ;
-		:businessItemDate ?layingBusinessItemDate ;
-	.
+    ?package
+        a :WorkPackage ;
+        :workPackageHasProcedure ?procedure ;
+        :workPackageHasWorkPackageableThing ?packageable ;
+        ex:oldestBusinessItemDate ?date ;
+    .
+
+    ?packageable 
+        a :WorkPackageableThing ;
+        :workPackageableThingName ?packageableName ;
+        :workPackageableThingHasWorkPackage ?package ;
+    .
+
+    ?procedure
+        a :Procedure ;
+        :procedureName ?procedureName ;
+    .
 }
 WHERE {
-	?workPackageableThing :workPackageableThingName ?workPackageableThingName .
-	OPTIONAL {
-		?workPackageableThing :workPackageableThingHasWorkPackage ?workPackage .
-		OPTIONAL {
-			?workPackage :workPackageHasProcedure ?procedure .
-			?procedure :procedureName ?procedureName .
-		}
-		OPTIONAL {
-			?workPackage :workPackageHasBusinessItem ?businessItem .
-			?businessItem :businessItemDate ?layingBusinessItemDate .
-		}
-	}
+    ?package :workPackageHasProcedure ?procedure .
+    ?procedure :procedureName ?procedureName .
+
+    # Date (if any) of oldest business item in package
+    {
+        SELECT ?package (MIN(?itemDate) AS ?date)
+        WHERE {
+            ?item :businessItemHasWorkPackage ?package .
+
+            OPTIONAL { ?item :businessItemDate ?itemDate . }
+        }
+        GROUP BY ?package
+    }
+
+    OPTIONAL { 
+        ?packageable
+            :workPackageableThingHasWorkPackage ?package ;
+            :workPackageableThingName ?packageableName ;
+        .
+    }
 }
