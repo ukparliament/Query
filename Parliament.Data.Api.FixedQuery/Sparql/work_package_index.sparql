@@ -1,15 +1,16 @@
 ﻿PREFIX : @schemaUri
 
 CONSTRUCT {
-	?workPackageableThing 
-		a :WorkPackageableThing, ?statutoryInstrument, ?proposedStatutoryInstrument ;
-		:workPackageableThingHasWorkPackage ?workPackage ;
-		:workPackageableThingName ?workPackageableThingName ;
-	.
 	?workPackage
 		a :WorkPackage ;
 		:workPackageHasProcedure ?procedure ;
 		:workPackageHasBusinessItem ?businessItem ;
+		:workPackageHasWorkPackageableThing ?workPackageableThing ;
+	.
+	?workPackageableThing 
+		a :WorkPackageableThing ;
+		:workPackageableThingName ?workPackageableThingName ;
+		:workPackageableThingHasWorkPackage ?workPackage ;
 	.
 	?procedure
 		a :Procedure ;
@@ -17,20 +18,24 @@ CONSTRUCT {
 	.
 	?businessItem
 		a :BusinessItem ;
-		:businessItemDate ?layingBusinessItemDate ;
+		:businessItemDate ?businessItemDate ;
 	.
 }
 WHERE {
-	?workPackageableThing :workPackageableThingName ?workPackageableThingName .
-	OPTIONAL {
+	?workPackage a :WorkPackage
+	
+	OPTIONAL { 
+		?workPackage :workPackageHasWorkPackageableThing ?workPackageableThing .
+		?workPackageableThing :workPackageableThingName ?workPackageableThingName .
 		?workPackageableThing :workPackageableThingHasWorkPackage ?workPackage .
-		OPTIONAL {
-			?workPackage :workPackageHasProcedure ?procedure .
-			?procedure :procedureName ?procedureName .
-		}
-		OPTIONAL {
-			?workPackage :workPackageHasBusinessItem ?businessItem .
-			?businessItem :businessItemDate ?layingBusinessItemDate .
-		}
+	}
+
+	OPTIONAL {
+		?workPackage :workPackageHasProcedure ?procedure .
+		?procedure :procedureName ?procedureName .
+	}
+	OPTIONAL {
+		?workPackage :workPackageHasBusinessItem ?businessItem .
+		?businessItem :businessItemDate ?businessItemDate .
 	}
 }
