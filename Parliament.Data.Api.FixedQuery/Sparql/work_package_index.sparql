@@ -10,6 +10,7 @@ CONSTRUCT {
 	?workPackageableThing 
 		a :WorkPackageableThing ;
 		:workPackageableThingName ?workPackageableThingName ;
+		:workPackageableThingHasWorkPackage ?workPackage ;
 	.
 	?procedure
 		a :Procedure ;
@@ -17,7 +18,7 @@ CONSTRUCT {
 	.
 	?businessItem
 		a :BusinessItem ;
-		:businessItemDate ?layingBusinessItemDate ;
+		:businessItemDate ?businessItemDate ;
 	.
 }
 WHERE {
@@ -26,6 +27,7 @@ WHERE {
 	OPTIONAL { 
 		?workPackage :workPackageHasWorkPackageableThing ?workPackageableThing .
 		?workPackageableThing :workPackageableThingName ?workPackageableThingName .
+		?workPackageableThing :workPackageableThingHasWorkPackage ?workPackage .
 	}
 
 	OPTIONAL {
@@ -34,6 +36,6 @@ WHERE {
 	}
 	OPTIONAL {
 		?workPackage :workPackageHasBusinessItem ?businessItem .
-		?businessItem :businessItemDate ?layingBusinessItemDate .
+		?businessItem :businessItemDate ?businessItemDate .
 	}
 }
