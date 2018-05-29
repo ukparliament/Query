@@ -2,44 +2,47 @@ PREFIX ex: <https://example.com/>
 PREFIX : @schemaUri
 
 CONSTRUCT {
-  ?procedure
-      a :Procedure ;
-      :procedureName ?procedureName ;
-      :procedureHasWorkPackage ?workPackage ;
-  .
-  ?workPackage
-      a :WorkPackage ;
-      :workPackageHasWorkPackageableThing ?workPackageableThing ;
-      ex:oldestBusinessItemDate ?date ;
-  .
-  ?workPackageableThing
-      a :WorkPackageableThing ;
-      :workPackageableThingName ?workPackageableThingName ;
-  .
+    ?procedure
+        a :Procedure ;
+        :procedureName ?procedureName ;
+        :procedureHasWorkPackage ?package ;
+    .
+
+    ?package
+        a :WorkPackage ;
+        :workPackageHasWorkPackageableThing ?workPackageableThing ;
+        ex:oldestBusinessItemDate ?date ;
+    .
+
+    ?packageable
+        a :WorkPackageableThing ;
+        :workPackageableThingName ?packageableName ;
+    .
 }
 WHERE {
-  {
-      SELECT * WHERE {
-        BIND (@procedure_id AS ?procedure)
-        ?procedure :procedureName ?procedureName .
-        
-        OPTIONAL {
-            ?procedure :procedureHasWorkPackage ?workPackage .
-            
-            # Date (if any) of oldest business item in package
-          {
-              SELECT ?workPackage (MIN(?itemDate) AS ?date)
-              WHERE {
-                  ?item :businessItemHasWorkPackage ?workPackage .
+    BIND (@procedure_id AS ?procedure)
 
-                  OPTIONAL { ?item :businessItemDate ?itemDate . }
-              }
-              GROUP BY ?workPackage
-          }
+    ?procedure :procedureName ?procedureName .
+
+    OPTIONAL {
+        ?package :workPackageHasProcedure ?procedure .
+
+        # Date (if any) of oldest business item in package
+        {
+            SELECT ?package (MIN(?itemDate) AS ?date)
+            WHERE {
+                ?item :businessItemHasWorkPackage ?package .
+
+                OPTIONAL { ?item :businessItemDate ?itemDate . }
+            }
+            GROUP BY ?package
         }
-    	
-        ?workPackage :workPackageHasWorkPackageableThing ?workPackageableThing .
-        ?workPackageableThing :workPackageableThingName ?workPackageableThingName .
-      }
-  }
+
+        OPTIONAL { 
+            ?packageable
+                :workPackageableThingHasWorkPackage ?package ;
+                :workPackageableThingName ?packageableName ;
+            .
+        }
+    }
 }
