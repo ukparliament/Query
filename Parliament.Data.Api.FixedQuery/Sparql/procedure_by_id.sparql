@@ -10,7 +10,7 @@ CONSTRUCT {
 
     ?package
         a :WorkPackage ;
-        :workPackageHasWorkPackageableThing ?workPackageableThing ;
+        :workPackageHasWorkPackageableThing ?packageable ;
         ex:oldestBusinessItemDate ?date ;
     .
 
@@ -38,11 +38,9 @@ WHERE {
             GROUP BY ?package
         }
 
-        OPTIONAL { 
-            ?packageable
-                :workPackageableThingHasWorkPackage ?package ;
-                :workPackageableThingName ?packageableName ;
-            .
-        }
+        ?packageable
+            :workPackageableThingHasWorkPackage ?package ;
+            :workPackageableThingName ?packageableName ;
+        .
     }
 }
