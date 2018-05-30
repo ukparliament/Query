@@ -38,11 +38,9 @@ WHERE {
             GROUP BY ?package
         }
 
-
         ?packageable
             :workPackageableThingHasWorkPackage ?package ;
             :workPackageableThingName ?packageableName ;
         .
-
     }
 }
