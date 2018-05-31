@@ -144,7 +144,7 @@ WHERE {
 		    :formalBodyStartDate ?formalBodyStartDate ;
 		    :formalBodyHasHouse ?formalBodyHouse ;
 		.
-		    
+
 		?formalBodyHouse :houseName ?formalBodyHouseName .
 
 	        OPTIONAL {
@@ -197,7 +197,10 @@ WHERE {
                         :parliamentaryIncumbencyStartDate ?parlincumbencyStartDate ;
 		    .
                     OPTIONAL { ?parlIncumbency :parliamentaryIncumbencyEndDate ?parlIncumbencyEndDate } .
-                    OPTIONAL { ?houseSeat :houseSeatHasHouse ?house } .
+                    OPTIONAL {
+                        ?houseSeat :houseSeatHasHouse ?house .
+                        ?house :houseName ?houseName .
+                    }
                     OPTIONAL {
                   	?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
                   	?constituencyGroup
@@ -205,7 +208,6 @@ WHERE {
                       	    :constituencyGroupName ?constituencyGroupName .
 		    	FILTER NOT EXISTS { ?constituencyGroup :constituencyGroupEndDate ?constituencygroupEndDate } .
 	            }
-		    ?house :houseName ?houseName .
             	}
             	OPTIONAL {
                     ?formalBodyPerson :partyMemberHasPartyMembership ?partyMembership .
