@@ -13,6 +13,7 @@ CONSTRUCT {
         :questionHasAnswer ?answer .
     ?answer
         a :Answer ;
+        a ?class ;
         :answerText ?answerText ;
         :answerGivenDate ?answerGivenDate ;
         :answerHasAnsweringPerson ?answeringPerson .
@@ -120,6 +121,7 @@ WHERE {
         ?question :questionHasAnswer ?answer .
         ?answer
             a :Answer ;
+            a ?class ;
             :answerText ?answerText ;
             :answerGivenDate ?answerGivenDate ;
     		    :answerHasAnsweringBody ?answeringBody2 ;
