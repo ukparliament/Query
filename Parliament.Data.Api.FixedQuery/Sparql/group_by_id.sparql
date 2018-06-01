@@ -35,6 +35,7 @@ CONSTRUCT {
     ?formalBodyHouse
 	a :House ;
 	:houseName ?formalBodyHouseName ;
+	:houseHasContactPoint ?formalBodyHouseContactPoint ;
     .
     ?leadHouse
     	a :House ;
@@ -48,6 +49,10 @@ CONSTRUCT {
     ?leadHouseContactPoint
       	a :ContactPoint ;
       	:contactPointHasPostalAddress ?postalAddress ;
+    .
+    ?formalBodyHouseContactPoint
+    	a :ContactPoint ;
+    	:contactPointHasPostalAddress ?postalAddress ;
     .
     ?postalAddress
         a :PostalAddress ;
@@ -146,6 +151,16 @@ WHERE {
 		.
 
 		?formalBodyHouse :houseName ?formalBodyHouseName .
+		OPTIONAL {
+	        	?formalBodyHouse :houseHasContactPoint ?formalBodyHouseContactPoint .
+	        	?formalBodyHouseContactPoint :contactPointHasPostalAddress ?postalAddress .
+	        	OPTIONAL { ?postalAddress :addressLine1 ?address1 } .
+		    	OPTIONAL { ?postalAddress :addressLine2 ?address2 } .
+	    	    	OPTIONAL { ?postalAddress :addressLine3 ?address3 } .
+		    	OPTIONAL { ?postalAddress :addressLine4 ?address4 } .
+		   	OPTIONAL { ?postalAddress :addressLine5 ?address5 } .
+		    	OPTIONAL { ?postalAddress :postCode ?postCode } .
+	        }
 
 	        OPTIONAL {
 		    ?group :formalBodyHasContactPoint ?formalBodyContactPoint .
