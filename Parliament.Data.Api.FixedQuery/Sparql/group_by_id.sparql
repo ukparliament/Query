@@ -44,6 +44,11 @@ CONSTRUCT {
     ?house
         a :House ;
         :houseName ?houseName ;
+	:houseHasContactPoint ?houseContactPoint ;
+    .
+    ?houseContactPoint
+    	a :ContactPoint ;
+    	:contactPointHasPostalAddress ?postalAddress ;
     .
     ?leadHouseContactPoint
       	a :ContactPoint ;
@@ -186,28 +191,38 @@ WHERE {
                     	:personGivenName ?formalBodyPersonGivenName ;
                     	<http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?formalBodyPersonDisplayAs ;
                     	<http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?formalBodyPersonListAs ;
-		    .
+		    	.
 
-		    OPTIONAL { ?formalBodyPerson :memberHasMemberImage ?image . }
-		    OPTIONAL {
-                	?formalBodyPerson :memberHasParliamentaryIncumbency ?parlIncumbency  .
-                	?parlIncumbency
-                    	    a :SeatIncumbency ;
-                        :seatIncumbencyHasHouseSeat ?houseSeat ;
-                        :parliamentaryIncumbencyStartDate ?parlincumbencyStartDate ;
-		    .
-                    OPTIONAL { ?parlIncumbency :parliamentaryIncumbencyEndDate ?parlIncumbencyEndDate } .
-                    OPTIONAL {
-                        ?houseSeat :houseSeatHasHouse ?house .
-                        ?house :houseName ?houseName .
-                    }
-                    OPTIONAL {
-                  	?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
-                  	?constituencyGroup
-                      	    a :ConstituencyGroup ;
-                      	    :constituencyGroupName ?constituencyGroupName .
-		    	FILTER NOT EXISTS { ?constituencyGroup :constituencyGroupEndDate ?constituencygroupEndDate } .
-	            }
+		    	OPTIONAL { ?formalBodyPerson :memberHasMemberImage ?image . }
+		    	OPTIONAL {
+                		?formalBodyPerson :memberHasParliamentaryIncumbency ?parlIncumbency  .
+                		?parlIncumbency
+							a :SeatIncumbency ;
+                        	:seatIncumbencyHasHouseSeat ?houseSeat ;
+                        	:parliamentaryIncumbencyStartDate ?parlincumbencyStartDate ;
+		    			.
+                    	OPTIONAL { ?parlIncumbency :parliamentaryIncumbencyEndDate ?parlIncumbencyEndDate } .
+                    	OPTIONAL {
+                        	?houseSeat :houseSeatHasHouse ?house .
+                        	?house :houseName ?houseName .
+							OPTIONAL {
+								?house :houseHasContactPoint ?houseContactPoint .
+								?houseContactPoint :contactPointHasPostalAddress ?postalAddress .
+								OPTIONAL { ?postalAddress :addressLine1 ?address1 } .
+								OPTIONAL { ?postalAddress :addressLine2 ?address2 } .
+								OPTIONAL { ?postalAddress :addressLine3 ?address3 } .
+								OPTIONAL { ?postalAddress :addressLine4 ?address4 } .
+								OPTIONAL { ?postalAddress :addressLine5 ?address5 } .
+								OPTIONAL { ?postalAddress :postCode ?postCode } .
+							}
+                    	}
+                    	OPTIONAL {
+                  			?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+                  			?constituencyGroup
+                      	    	a :ConstituencyGroup ;
+                      	    	:constituencyGroupName ?constituencyGroupName .
+		    				FILTER NOT EXISTS { ?constituencyGroup :constituencyGroupEndDate ?constituencygroupEndDate } .
+	            		}
             	}
             	OPTIONAL {
                     ?formalBodyPerson :partyMemberHasPartyMembership ?partyMembership .
