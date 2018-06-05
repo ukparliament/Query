@@ -13,6 +13,7 @@
     using System.Web.Http.Description;
     using VDS.RDF;
     using VDS.RDF.Query;
+    using VDS.RDF.Writing.Formatting;
 
     // TODO: Merge with BaseController
     [FixedQueryControllerConfiguration]
@@ -107,8 +108,8 @@
         {
             foreach (var parameterDefinition in parameters)
             {
-                var name = parameterDefinition.Name;                
-                if (!values.ContainsKey(name)) 
+                var name = parameterDefinition.Name;
+                if (!values.ContainsKey(name))
                 {
                     throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent($"missing parameter {name}") });
                 }
@@ -118,8 +119,8 @@
                 {
                     throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent($"missing value for parameter {name}") });
                 }
-                
-                ParameterType type = Resources.GetParameterType(parameterDefinition);
+
+                var type = Resources.GetParameterType(parameterDefinition);
 
                 switch (type)
                 {
@@ -131,6 +132,10 @@
                         query.SetUri(name, new Uri(Global.InstanceUri, value));
                         break;
 
+                    case ParameterType.InstanceUris:
+                        FixedQueryController.SetUris(query, name, value);
+                        break;
+
                     case ParameterType.SchemaUri:
                         query.SetUri(name, new Uri(Global.SchemaUri, value));
                         break;
@@ -140,6 +145,28 @@
                         break;
                 }
             }
+        }
+
+        private static void SetUris(SparqlParameterizedString query, string name, string value)
+        {
+            var formatter = new SparqlFormatter();
+            var factory = new NodeFactory();
+
+            Func<string, string> format = instanceId =>
+            {
+                var uri = new Uri(Global.InstanceUri, instanceId);
+                var node = factory.CreateUriNode(uri);
+
+                return formatter.Format(node);
+            };
+
+            var formattedUris = value.Split(',').Select(format);
+
+            value = string.Join(" ", formattedUris);
+
+            var parameter = $"@{name}";
+
+            query.CommandText = query.CommandText.Replace(parameter, value);
         }
     }
 }

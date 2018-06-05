@@ -5,6 +5,7 @@
         Uri,
         SchemaUri,
         InstanceUri,
+        InstanceUris,
         Literal
     }
 }

@@ -8,7 +8,7 @@
     {
       "url": "https://api.parliament.uk/query"
     }
-  ],  
+  ],
   "components": {
     "responses": {
       "graphResponse": {
@@ -92,20 +92,20 @@
     }
   },
   "paths": {
-    "/schema_view{ext}": {
+    "/answering_body_index_table{ext}": {
       "x-type": "list",
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/fileExtensionGraph"
+            "$ref": "#/components/parameters/fileExtensionNonGraph"
           },
           {
-            "$ref": "#/components/parameters/formatGraph"
+            "$ref": "#/components/parameters/formatNonGraph"
           }
         ],
         "responses": {
           "200": {
-            "$ref": "#/components/responses/graphResponse"
+            "$ref": "#/components/responses/nonGraphResponse"
           },
           "400": {
             "$ref": "#/components/responses/badRequest"
@@ -141,30 +141,6 @@
         "responses": {
           "200": {
             "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/answering_body_index_table{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionNonGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatNonGraph"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/nonGraphResponse"
           },
           "400": {
             "$ref": "#/components/responses/badRequest"
@@ -481,30 +457,6 @@
         }
       }
     },
-    "/constituency_current{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
     "/constituency_current_a_to_z{ext}": {
       "x-type": "list",
       "get": {
@@ -667,8 +619,56 @@
         }
       }
     },
+    "/constituency_current{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/constituency_index{ext}": {
       "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/constituency_lookup_by_postcode{ext}": {
+      "x-type": "hardCoded",
       "get": {
         "parameters": [
           {
@@ -722,30 +722,6 @@
             "schema": {
               "type": "string"
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/constituency_lookup_by_postcode{ext}": {
-      "x-type": "hardCoded",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
           }
         ],
         "responses": {
@@ -1231,30 +1207,6 @@
         }
       }
     },
-    "/group_current{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
     "/group_current_a_to_z{ext}": {
       "x-type": "list",
       "get": {
@@ -1299,6 +1251,65 @@
             "schema": {
               "type": "string"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/group_current_memberships{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "group_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "tz34m7Vt",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/group_current{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
           }
         ],
         "responses": {
@@ -1373,30 +1384,6 @@
         }
       }
     },
-    "/group_government_organisation_current{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
     "/group_government_organisation_current_a_to_z{ext}": {
       "x-type": "list",
       "get": {
@@ -1441,6 +1428,30 @@
             "schema": {
               "type": "string"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/group_government_organisation_current{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
           }
         ],
         "responses": {
@@ -1585,41 +1596,6 @@
         }
       }
     },
-    "/group_memberships_index{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "group_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "tz34m7Vt",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
     "/group_memberships_a_to_z{ext}": {
       "x-type": "list",
       "get": {
@@ -1701,7 +1677,7 @@
         }
       }
     },
-    "/group_current_memberships{ext}": {
+    "/group_memberships_index{ext}": {
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2062,41 +2038,6 @@
         }
       }
     },
-    "/house_current_committees{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "house_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "1AFu55Hs",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
     "/house_current_committees_a_to_z{ext}": {
       "x-type": "list",
       "get": {
@@ -2178,7 +2119,7 @@
         }
       }
     },
-    "/house_current_members{ext}": {
+    "/house_current_committees{ext}": {
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2329,6 +2270,41 @@
         }
       }
     },
+    "/house_current_members{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "1AFu55Hs",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/house_current_parties{ext}": {
       "x-type": "list",
       "get": {
@@ -2434,41 +2410,6 @@
         }
       }
     },
-    "/house_members{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "house_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "1AFu55Hs",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
     "/house_members_a_to_z{ext}": {
       "x-type": "list",
       "get": {
@@ -2550,6 +2491,41 @@
         }
       }
     },
+    "/house_members{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "1AFu55Hs",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/house_parties{ext}": {
       "x-type": "list",
       "get": {
@@ -2587,52 +2563,6 @@
     },
     "/house_party_by_id{ext}": {
       "x-type": "single",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "house_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "1AFu55Hs",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "party_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "1cIxOTTd",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/house_party_current_members{ext}": {
-      "x-type": "list",
       "get": {
         "parameters": [
           {
@@ -2780,7 +2710,7 @@
         }
       }
     },
-    "/house_party_members{ext}": {
+    "/house_party_current_members{ext}": {
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2929,6 +2859,52 @@
         }
       }
     },
+    "/house_party_members{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "1AFu55Hs",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "1cIxOTTd",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/image_by_id{ext}": {
       "x-type": "single",
       "get": {
@@ -3034,6 +3010,47 @@
         }
       }
     },
+    "/label{ext}": {
+      "summary": "Returns a dataset mapping labels to resources",
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionNonGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatNonGraph"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Comma delimited list of local identifiers to get labels for",
+            "x-type": "instanceUris",
+            "required": true,
+            "examples": {
+              "relative single": "1AFu55Hs",
+              "relative multiple": "WkUWUBMx,1AFu55Hs",
+              "absolute single": "https://id.parliament.uk/1AFu55Hs",
+              "absolute multiple": "https://id.parliament.uk/1AFu55Hs,https://id.parliament.uk/WkUWUBMx"
+            },
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/nonGraphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/member_a_to_z{ext}": {
       "x-type": "list",
       "get": {
@@ -3093,30 +3110,6 @@
         }
       }
     },
-    "/member_current{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
     "/member_current_a_to_z{ext}": {
       "x-type": "list",
       "get": {
@@ -3161,6 +3154,30 @@
             "schema": {
               "type": "string"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/member_current{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
           }
         ],
         "responses": {
@@ -3237,41 +3254,6 @@
     },
     "/parliament_by_id{ext}": {
       "x-type": "single",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "parliament_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "b0t56VVL",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/parliament_constituencies{ext}": {
-      "x-type": "list",
       "get": {
         "parameters": [
           {
@@ -3386,77 +3368,7 @@
         }
       }
     },
-    "/parliament_current{ext}": {
-      "x-type": "single",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/parliament_house{ext}": {
-      "x-type": "single",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "parliament_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "b0t56VVL",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "house_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "1AFu55Hs",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/parliament_house_members{ext}": {
+    "/parliament_constituencies{ext}": {
       "x-type": "list",
       "get": {
         "parameters": [
@@ -3476,17 +3388,30 @@
             "schema": {
               "type": "string"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/parliament_current{ext}": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
           },
           {
-            "name": "house_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "1AFu55Hs",
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/formatGraph"
           }
         ],
         "responses": {
@@ -3605,6 +3530,52 @@
         }
       }
     },
+    "/parliament_house_members{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "b0t56VVL",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "1AFu55Hs",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/parliament_house_parties{ext}": {
       "x-type": "list",
       "get": {
@@ -3633,120 +3604,6 @@
             "x-type": "instanceUri",
             "required": true,
             "example": "1AFu55Hs",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/parliament_house_party{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "parliament_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "b0t56VVL",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "house_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "1AFu55Hs",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "party_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "1cIxOTTd",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/parliament_house_party_members{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "parliament_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "b0t56VVL",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "house_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "1AFu55Hs",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "party_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -3890,6 +3747,166 @@
         }
       }
     },
+    "/parliament_house_party_members{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "b0t56VVL",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "1AFu55Hs",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "1cIxOTTd",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/parliament_house_party{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "b0t56VVL",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "1AFu55Hs",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "1cIxOTTd",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/parliament_house{ext}": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "b0t56VVL",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "house_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "1AFu55Hs",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/parliament_houses{ext}": {
       "x-type": "list",
       "get": {
@@ -3995,41 +4012,6 @@
         }
       }
     },
-    "/parliament_members{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "parliament_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "b0t56VVL",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
     "/parliament_members_a_to_z{ext}": {
       "x-type": "list",
       "get": {
@@ -4111,6 +4093,41 @@
         }
       }
     },
+    "/parliament_members{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "b0t56VVL",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/parliament_next{ext}": {
       "x-type": "list",
       "get": {
@@ -4152,98 +4169,6 @@
             "x-type": "instanceUri",
             "required": true,
             "example": "b0t56VVL",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/parliament_party{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "parliament_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "b0t56VVL",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "party_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "1cIxOTTd",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/parliament_party_members{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "parliament_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "b0t56VVL",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "party_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -4347,6 +4272,98 @@
             "x-type": "literal",
             "required": true,
             "example": "d",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/parliament_party_members{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "b0t56VVL",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "1cIxOTTd",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/parliament_party{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "parliament_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "b0t56VVL",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -4518,30 +4535,6 @@
         }
       }
     },
-    "/party_current{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
     "/party_current_a_to_z{ext}": {
       "x-type": "list",
       "get": {
@@ -4551,41 +4544,6 @@
           },
           {
             "$ref": "#/components/parameters/formatGraph"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/party_current_members{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "party_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "1cIxOTTd",
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -4682,6 +4640,65 @@
         }
       }
     },
+    "/party_current_members{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "1cIxOTTd",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/party_current{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/party_index{ext}": {
       "x-type": "list",
       "get": {
@@ -4734,41 +4751,6 @@
             "x-type": "literal",
             "required": true,
             "example": "231",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/party_members{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "party_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "1cIxOTTd",
             "schema": {
               "type": "string"
             }
@@ -4868,6 +4850,41 @@
         }
       }
     },
+    "/party_members{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "party_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "1cIxOTTd",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/person_a_to_z{ext}": {
       "x-type": "list",
       "get": {
@@ -4892,8 +4909,8 @@
         }
       }
     },
-    "/person_by_id{ext}": {
-      "x-type": "list",
+    "/person_by_id_mock{ext}": {
+      "x-type": "single",
       "get": {
         "parameters": [
           {
@@ -4927,8 +4944,8 @@
         }
       }
     },
-    "/person_by_id_mock{ext}": {
-      "x-type": "single",
+    "/person_by_id{ext}": {
+      "x-type": "list",
       "get": {
         "parameters": [
           {
@@ -5629,30 +5646,6 @@
         }
       }
     },
-    "/procedure_index{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
     "/procedure_by_id{ext}": {
       "x-type": "single",
       "get": {
@@ -5673,6 +5666,30 @@
             "schema": {
               "type": "string"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/procedure_index{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
           }
         ],
         "responses": {
@@ -5852,41 +5869,6 @@
         }
       }
     },
-    "/region_constituencies{ext}": {
-      "x-type": "single",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "region_code",
-            "in": "query",
-            "description": "literal",
-            "x-type": "literal",
-            "required": true,
-            "example": "E15000001",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
     "/region_constituencies_a_to_z{ext}": {
       "x-type": "single",
       "get": {
@@ -5968,6 +5950,41 @@
         }
       }
     },
+    "/region_constituencies{ext}": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "region_code",
+            "in": "query",
+            "description": "literal",
+            "x-type": "literal",
+            "required": true,
+            "example": "E15000001",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/region_index{ext}": {
       "x-type": "single",
       "get": {
@@ -5977,6 +5994,41 @@
           },
           {
             "$ref": "#/components/parameters/formatGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/resource_by_id{ext}": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "resource_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -6027,8 +6079,8 @@
         }
       }
     },
-    "/resource_by_id{ext}": {
-      "x-type": "single",
+    "/schema_view{ext}": {
+      "x-type": "list",
       "get": {
         "parameters": [
           {
@@ -6036,17 +6088,6 @@
           },
           {
             "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "resource_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "",
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -6180,6 +6221,41 @@
         }
       }
     },
+    "/work_package_by_id_raw{ext}": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "work_package_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/work_package_by_id{ext}": {
       "x-type": "hardcoded",
       "get": {
@@ -6215,7 +6291,7 @@
         }
       }
     },
-    "/work_package_by_id_raw{ext}": {
+    "/work_package_complex_by_id{ext}": {
       "x-type": "single",
       "get": {
         "parameters": [
@@ -6259,41 +6335,6 @@
           },
           {
             "$ref": "#/components/parameters/formatGraph"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/work_package_complex_by_id{ext}": {
-      "x-type": "single",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "work_package_id",
-            "in": "query",
-            "description": "instanceUri",
-            "x-type": "instanceUri",
-            "required": true,
-            "example": "",
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
