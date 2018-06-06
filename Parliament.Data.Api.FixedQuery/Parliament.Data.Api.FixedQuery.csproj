@@ -193,6 +193,7 @@
     <Compile Include="GraphDBSparqlEndpoint.cs" />
     <Compile Include="GzipCompressor.cs" />
     <Compile Include="HtmlResourceRedirectHandler.cs" />
+    <Compile Include="HtmlWriter.cs" />
     <Compile Include="MimeMapping.cs" />
     <Compile Include="NotAcceptablePayloadHandler.cs" />
     <Compile Include="Controllers\BadRequestController.cs" />

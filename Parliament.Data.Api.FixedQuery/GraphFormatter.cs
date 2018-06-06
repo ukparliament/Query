@@ -75,7 +75,7 @@
 
                     if (writer is HtmlWriter htmlWriter)
                     {
-                        htmlWriter.UriPrefix = "resource?stay&uri=";
+                        //htmlWriter.UriPrefix = "resource?stay&uri=";
                     }
 
                     writer.Save(graph, streamWriter);
@@ -86,7 +86,7 @@
                 var writer = this.Definition.SparqlWriter();
                 if (writer is HtmlWriter htmlWriter)
                 {
-                    htmlWriter.UriPrefix = "resource?stay&uri=";
+                    //htmlWriter.UriPrefix = "resource?stay&uri=";
                 }
 
                 writer.Save(value as SparqlResultSet, streamWriter);
