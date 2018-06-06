@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
+using VDS.RDF;
 using VDS.RDF.Query;
 using VDS.RDF.Storage;
 
@@ -16,8 +18,9 @@ namespace Parliament.Data.Api.FixedQuery
         private static readonly string subscriptionKey = ConfigurationManager.AppSettings["SubscriptionKey"];
         private static readonly Uri endpoint = new Uri(sparqlEndpoint);
 
-        public GraphDBSparqlEndpoint():base(endpoint)
+        public GraphDBSparqlEndpoint() : base(endpoint)
         {
+            this.ResultsAcceptHeader = "application/sparql-results+json";
         }
 
         protected override void ApplyCustomRequestOptions(HttpWebRequest httpRequest)

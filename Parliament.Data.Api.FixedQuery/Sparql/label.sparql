@@ -12,14 +12,15 @@ WHERE {
 
         {
             SELECT ?subject ?label
-            WHERE{
-                ?subject
-                    :personGivenName ?given ;
-                    :personOtherNames ?other ;
-                    :personFamilyName ?family ;
-                .
+            WHERE {
+                # Must require this because all the other three are optional
+                ?subject a :Person .
 
-                BIND(CONCAT(?given, " ", ?other, " ", ?family) AS ?label)
+                OPTIONAL { ?subject :personGivenName ?given . }
+                OPTIONAL { ?subject :personOtherNames ?other . }
+                OPTIONAL { ?subject :personFamilyName ?family . }
+
+                BIND(CONCAT(COALESCE(CONCAT(?given, " "), ""), COALESCE(CONCAT(?other, " "), ""), COALESCE(CONCAT(?family), "")) AS ?label)
             }
         }
     }
@@ -35,4 +36,6 @@ WHERE {
             GROUP BY ?subject
         } 
     }
+
+    FILTER(?label != "")
 }

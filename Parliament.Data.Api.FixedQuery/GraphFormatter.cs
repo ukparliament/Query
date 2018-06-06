@@ -8,6 +8,7 @@
     using System.Linq;
     using System.Net.Http;
     using System.Net.Http.Formatting;
+    using System.Text;
     using VDS.RDF;
     using VDS.RDF.Query;
     using VDS.RDF.Writing;
@@ -58,7 +59,7 @@
 
         public override void WriteToStream(Type type, object value, Stream writeStream, HttpContent content)
         {
-            var streamWriter = new StreamWriter(writeStream);
+            var streamWriter = new StreamWriter(writeStream, Encoding.UTF8);
 
             if (value is IGraph graph)
             {
@@ -84,9 +85,9 @@
             else if (this.Definition.CanWriteSparql)
             {
                 var writer = this.Definition.SparqlWriter();
-                if (writer is HtmlWriter htmlWriter)
+                if (writer is SparqlHtmlWriter htmlWriter)
                 {
-                    //htmlWriter.UriPrefix = "resource?stay&uri=";
+                    htmlWriter.UriPrefix = "resource?uri=";
                 }
 
                 writer.Save(value as SparqlResultSet, streamWriter);
