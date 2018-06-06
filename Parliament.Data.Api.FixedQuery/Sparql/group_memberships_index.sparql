@@ -194,7 +194,6 @@ WHERE {
                             ?party
                                 a :Party ;
                                 :partyName ?partyName .
-                            FILTER NOT EXISTS { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate } .
                         }
                     }
                 }
@@ -213,6 +212,9 @@ WHERE {
     }
     UNION {
         SELECT DISTINCT ?firstLetter WHERE {
+            BIND(@group_id AS ?group)
+            ?group :formalBodyHasFormalBodyMembership ?formalBodyMembership .
+            ?formalBodyMembership :formalBodyMembershipHasPerson ?formalBodyPerson .
             ?formalBodyPerson a :Person ;
                 <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?formalBodyPersonListAs .
 
