@@ -248,7 +248,7 @@ a:hover {
 
                 writer.WriteStartElement("div");
                 writer.WriteStartElement("a");
-                writer.WriteAttributeString("href", "/resource?uri=" + WebUtility.UrlEncode(uri));
+                writer.WriteAttributeString("href", "resource?uri=" + WebUtility.UrlEncode(uri));
 
                 writer.WriteStartElement("data");
                 writer.WriteAttributeString("value", uri);
