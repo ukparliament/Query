@@ -207,7 +207,6 @@ WHERE {
                         :incumbencyStartDate ?bodyChairIncumbencystartDate ;
                         :incumbencyHasPerson ?formalBodyChairperson ;
                     .
-                    FILTER NOT EXISTS { ?bodyChairIncumbency :incumbencyEndDate ?bodyChairIncumbencyEndDate . }
                 }
             }
         }
