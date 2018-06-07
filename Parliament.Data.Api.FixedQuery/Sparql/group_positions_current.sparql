@@ -18,6 +18,8 @@ CONSTRUCT {
         :personGivenName ?personGivenName ;
         :personFamilyName ?personFamilyName ;
         :personOtherNames ?personOtherNames ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?personDisplayAs ;
+        <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?personListAs ;
         :partyMemberHasPartyMembership ?partyMembership .
     ?partyMembership
         a :PartyMembership ;
@@ -46,6 +48,8 @@ WHERE {
                   OPTIONAL { ?person :personGivenName ?personGivenName } .
                   OPTIONAL { ?person :personFamilyName ?personFamilyName } .
                   OPTIONAL { ?person :personOtherNames ?personOtherNames } .
+                  OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?personDisplayAs } .
+                  OPTIONAL { ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?personListAs } .
                   OPTIONAL {
                       ?person :partyMemberHasPartyMembership ?partyMembership .
                       ?partyMembership a :PartyMembership .
