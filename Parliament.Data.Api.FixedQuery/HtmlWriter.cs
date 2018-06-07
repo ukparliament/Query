@@ -128,8 +128,8 @@ a:hover {
                 writer.WriteEndElement(); // head
                 writer.WriteStartElement("body");
                 writer.WriteStartElement("table");
-                WriteTHead(writer);
-                WriteTBody(g, writer, d);
+                HtmlWriter.WriteTHead(writer);
+                HtmlWriter.WriteTBody(g, writer, d);
                 writer.WriteEndElement(); // table
                 writer.WriteEndElement(); // body
                 writer.WriteEndElement(); // html
@@ -165,17 +165,17 @@ a:hover {
                         {
                             writeSubject = false;
 
-                            WriteCell(writer, t, labelMapping, TripleSegment.Subject, subjectTriples.Count());
+                            HtmlWriter.WriteCell(writer, t, labelMapping, TripleSegment.Subject, subjectTriples.Count());
                         }
 
                         if (writePredicate)
                         {
                             writePredicate = false;
 
-                            WriteCell(writer, t, labelMapping, TripleSegment.Predicate, predicateTriples.Count());
+                            HtmlWriter.WriteCell(writer, t, labelMapping, TripleSegment.Predicate, predicateTriples.Count());
                         }
 
-                        WriteCell(writer, t, labelMapping, TripleSegment.Object, 0);
+                        HtmlWriter.WriteCell(writer, t, labelMapping, TripleSegment.Object, 0);
 
                         writer.WriteEndElement(); // tr
                     }
@@ -194,7 +194,7 @@ a:hover {
                 writer.WriteAttributeString("rowspan", tripleCount.ToString());
             }
 
-            WriteNode(writer, t, labelMapping, segment);
+            HtmlWriter.WriteNode(writer, t, labelMapping, segment);
             writer.WriteEndElement(); // td
         }
 
@@ -217,22 +217,28 @@ a:hover {
 
         private static void WriteNode(XmlWriter writer, Triple triple, Dictionary<IUriNode, string> labelMapping, TripleSegment segment)
         {
-            var node = GetNode(triple, segment);
+            var node = HtmlWriter.GetNode(triple, segment);
 
             if (node is IUriNode uriNode)
             {
-                if (segment==TripleSegment.Object&& IsPhoto(triple.Predicate))
+                var uri = uriNode.Uri.AbsoluteUri;
+
+                if (segment == TripleSegment.Object && HtmlWriter.IsPhoto(triple.Predicate))
                 {
                     var id = Global.InstanceUri.MakeRelativeUri(uriNode.Uri);
 
+                    writer.WriteStartElement("a");
+                    writer.WriteAttributeString("href", "resource?uri=" + WebUtility.UrlEncode(uri));
+                    writer.WriteStartElement("data");
+                    writer.WriteAttributeString("value", uri);
                     writer.WriteStartElement("img");
                     writer.WriteAttributeString("src", $"https://api.parliament.uk/photo/{id}.jpeg?crop=MCU_3:2&width=260&quality=80");
+                    writer.WriteEndElement(); // data
                     writer.WriteEndElement(); // img
+                    writer.WriteEndElement(); // a
 
                     return;
                 }
-
-                var uri = uriNode.Uri.AbsoluteUri;
 
                 if (!labelMapping.TryGetValue(uriNode, out string label))
                 {
@@ -305,7 +311,7 @@ a:hover {
 
                 if (datatype == "http://www.opengis.net/ont/geosparql#wktLiteral")
                 {
-                    if (IsGeography(triple.Predicate))
+                    if (HtmlWriter.IsGeography(triple.Predicate))
                     {
                         writer.WriteStartElement("data");
                         writer.WriteAttributeString("class", "map");
@@ -326,16 +332,18 @@ a:hover {
 
         private static bool IsPhoto(INode predicate)
         {
-            var f = new NodeFactory();
-            var a = new[] { f.CreateUriNode(new Uri("https://id.parliament.uk/schema/memberHasMemberImage")) };
-            return a.Contains(predicate);
+            var factory = new NodeFactory();
+            var photoPredicates = new[] { factory.CreateUriNode(new Uri("https://id.parliament.uk/schema/memberHasMemberImage")) };
+
+            return photoPredicates.Contains(predicate);
         }
 
         private static bool IsGeography(INode predicate)
         {
-            var f = new NodeFactory();
-            var a = new[] { f.CreateUriNode(new Uri("https://id.parliament.uk/schema/constituencyAreaExtent")) };
-            return a.Contains(predicate);
+            var factory = new NodeFactory();
+            var geographyPredicates = new[] { factory.CreateUriNode(new Uri("https://id.parliament.uk/schema/constituencyAreaExtent")) };
+
+            return geographyPredicates.Contains(predicate);
         }
 
         private static INode GetNode(Triple triple, TripleSegment segment)
