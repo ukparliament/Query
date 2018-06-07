@@ -68,7 +68,7 @@
                     new MimeMapping {
                         MimeTypes = new[] { "text/vnd.graphviz" },
                         Extensions = new[] { "gv", "dot" },
-                        RdfWriter = () => new GraphVizWriter()
+                        RdfWriter = () => new GraphVizWriter() { CollapseLiterals = false }
                     },
                     new MimeMapping {
                         MimeTypes = new[] { "application/rdf+xml", "application/xml", "text/xml" },
@@ -86,6 +86,11 @@
                         MimeTypes = new[] { "application/json+rdf" },
                         Extensions = new[] { "rj" },
                         RdfWriter = () => new RdfJsonWriter()
+                    },
+                    new MimeMapping {
+                        MimeTypes = new[] { "application/graphml+xml" },
+                        Extensions = new[] { "graphml" },
+                        StoreWriter = () => new GraphMLWriter() { CollapseLiterals = false }
                     }
                 };
             }
@@ -113,18 +118,18 @@
             {
                 name = new EndpointConstraint()
             };
-            
+
             config.Routes.MapHttpRoute("Index", string.Empty, new { controller = "Help" });
             config.Routes.MapHttpRoute("OpenApiDefinition", "openapi.json", new { controller = "OpenApiDefinition" });
             config.Routes.MapHttpRoute("WithExtension", "{name}.{ext}", new { controller = "FixedQuery" }, constraints, pipeline);
             config.Routes.MapHttpRoute("WithoutExtension", "{name}", new { controller = "FixedQuery", ext = string.Empty }, constraints, pipeline);
             config.Routes.MapHttpRoute("BadRequest", "{*any}", new { controller = "BadRequest" });
-            
+
             config.Services.Add(typeof(IExceptionLogger), new AIExceptionLogger());
 
             config.Formatters.Clear();
             config.Formatters.Add(new HttpErrorJsonFormatter());
-            config.Formatters.Add(new HttpErrorXmlFormatter());            
+            config.Formatters.Add(new HttpErrorXmlFormatter());
         }
     }
 }
