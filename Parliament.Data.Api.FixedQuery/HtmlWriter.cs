@@ -29,7 +29,7 @@
                 var n = g.Nodes.Union(g.Triples.PredicateNodes).UriNodes();
                 var n2 = string.Join(",", n.Select(nn => nn.Uri.AbsoluteUri));
                 var a = FixedQueryController.ExecuteNamedSparql("label", new Dictionary<string, string> { { "id", n2 } }) as SparqlResultSet;
-                var d = a.ToDictionary(r => r["subject"].ToString(), r => r["label"].ToString());
+                var d = a.ToDictionary(r => r["subject"] as IUriNode, r => r["label"].AsValuedNode().AsString());
 
 
 
@@ -37,6 +37,34 @@
 
                 writer.WriteStartElement("html");
                 writer.WriteStartElement("head");
+                writer.WriteRaw(@"
+<link rel=""stylesheet"" href=""https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"" integrity=""sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="" crossorigin="""" />
+<script src=""https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"" integrity=""sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="" crossorigin=""""></script>
+<script src=""https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js""></script>
+");
+                writer.WriteStartElement("script");
+                writer.WriteString(@"
+window.addEventListener(""load"", onLoad);
+
+function onLoad() {
+    document.querySelectorAll(""data.map"").forEach(createMap);
+}
+
+function createMap(mapElement) {
+    const map = L.map(mapElement);
+
+    L.tileLayer(""https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}"", {
+        id: ""mapbox.streets"",
+        accessToken: ""pk.eyJ1IjoiaHVudHAiLCJhIjoiY2l6cXY3NjZpMDAxZzJybzF0aDBvdHRlZCJ9.k1zL5uDY7eUvuSiw3Rdrkw""
+    }).addTo(map);
+
+    const geometryLayer = omnivore.wkt.parse(mapElement.value);
+    geometryLayer.addTo(map);
+    map.fitBounds(geometryLayer.getBounds());
+}
+");
+                writer.WriteEndElement(); // script
+
                 writer.WriteStartElement("style");
                 writer.WriteString(@"
 body {
@@ -56,6 +84,8 @@ thead th {
     z-index: 1;
     background-color: black;
     color: white;
+    text-align: left;
+    padding-left: 20px;
 }
 
 tr.divider {
@@ -81,6 +111,11 @@ data {
     font-family: monospace;
 }
 
+data.map {
+    height: 180px;
+    display: block
+}
+
 a {
     text-decoration: none;
 }
@@ -93,172 +128,232 @@ a:hover {
                 writer.WriteEndElement(); // head
                 writer.WriteStartElement("body");
                 writer.WriteStartElement("table");
-                writer.WriteStartElement("thead");
-                writer.WriteStartElement("tr");
-                writer.WriteStartElement("th");
-                writer.WriteString("Subject");
-                writer.WriteEndElement(); // th
-                writer.WriteStartElement("th");
-                writer.WriteString("Predicate");
-                writer.WriteEndElement(); // th
-                writer.WriteStartElement("th");
-                writer.WriteString("Object");
-                writer.WriteEndElement(); // th
-                writer.WriteEndElement(); // tr
-                writer.WriteEndElement(); // thead
-
-                writer.WriteStartElement("tbody");
-
-                foreach (var subject in g.Triples.SubjectNodes)
-                {
-                    writer.WriteStartElement("tr");
-                    writer.WriteAttributeString("class", "divider");
-
-                    var subjectTriples = g.GetTriplesWithSubject(subject);
-
-                    writer.WriteStartElement("td");
-                    var subjectTripleCount = subjectTriples.Count();
-                    if (subjectTripleCount > 1)
-                    {
-                        writer.WriteAttributeString("rowspan", subjectTripleCount.ToString());
-                    }
-                    WriteNode(writer, subject, d, TripleSegment.Subject);
-                    writer.WriteEndElement(); // td
-
-                    var predicates = subjectTriples.Select(t => t.Predicate).Distinct();
-
-                    var isFirstPredicate = true;
-                    foreach (var predicate in predicates)
-                    {
-                        if (!isFirstPredicate)
-                        {
-                            writer.WriteStartElement("tr");
-                            writer.WriteAttributeString("class", "divider");
-                        }
-
-                        var predicateTriples = subjectTriples.WithPredicate(predicate);
-
-                        writer.WriteStartElement("td");
-                        var predicateTripleCount = predicateTriples.Count();
-                        if (predicateTripleCount > 1)
-                        {
-                            writer.WriteAttributeString("rowspan", predicateTripleCount.ToString());
-                        }
-                        WriteNode(writer, predicate, d, TripleSegment.Predicate);
-                        writer.WriteEndElement(); // td
-
-                        var isFirstObject = true;
-                        foreach (var o in predicateTriples)
-                        {
-                            if (!isFirstObject)
-                            {
-                                writer.WriteStartElement("tr");
-                            }
-
-                            writer.WriteStartElement("td");
-                            WriteNode(writer, o.Object, d, TripleSegment.Object);
-                            writer.WriteEndElement(); // td
-
-                            writer.WriteEndElement(); // tr
-
-                            isFirstObject = false;
-                        }
-
-                        isFirstPredicate = false;
-                    }
-                }
-
-                writer.WriteEndElement(); // tbody
+                WriteTHead(writer);
+                WriteTBody(g, writer, d);
                 writer.WriteEndElement(); // table
                 writer.WriteEndElement(); // body
                 writer.WriteEndElement(); // html
             }
         }
 
-        private static void WriteNode(XmlWriter writer, INode node, Dictionary<string, string> map, TripleSegment segment)
+        private static void WriteTBody(IGraph g, XmlWriter writer, Dictionary<IUriNode, string> labelMapping)
         {
-            writer.WriteStartElement("div");
+            writer.WriteStartElement("tbody");
 
-            switch (node)
+            var subjects = g.Triples.SubjectNodes;
+            foreach (var subject in subjects)
             {
-                case IUriNode uriNode:
-                    var uri = uriNode.Uri.AbsoluteUri;
+                var writeSubject = true;
 
-                    if (!map.TryGetValue(uri, out string label))
+                var subjectTriples = g.GetTriplesWithSubject(subject);
+                var predicates = subjectTriples.Select(t => t.Predicate).Distinct();
+                foreach (var predicate in predicates)
+                {
+                    var writePredicate = true;
+
+                    var predicateTriples = subjectTriples.WithPredicate(predicate);
+                    foreach (var t in subjectTriples.WithPredicate(predicate))
                     {
-                        label = uri
-                            .Replace(Global.SchemaUri.AbsoluteUri, string.Empty)
-                            .Replace(Global.InstanceUri.AbsoluteUri, string.Empty)
-                            .Replace(RdfSpecsHelper.RdfType, "a")
-                            .Replace("http://example.com/", string.Empty)
-                            .Replace("http://www.w3.org/2000/01/rdf-schema#", string.Empty)
-                            .Replace("http://www.w3.org/2002/07/owl#", string.Empty)
-                            .Replace("http://www.w3.org/1999/02/22-rdf-syntax-ns#", string.Empty);
+                        writer.WriteStartElement("tr");
+
+                        if (writeSubject || writePredicate)
+                        {
+                            writer.WriteAttributeString("class", "divider");
+                        }
+
+                        if (writeSubject)
+                        {
+                            writeSubject = false;
+
+                            WriteCell(writer, t, labelMapping, TripleSegment.Subject, subjectTriples.Count());
+                        }
+
+                        if (writePredicate)
+                        {
+                            writePredicate = false;
+
+                            WriteCell(writer, t, labelMapping, TripleSegment.Predicate, predicateTriples.Count());
+                        }
+
+                        WriteCell(writer, t, labelMapping, TripleSegment.Object, 0);
+
+                        writer.WriteEndElement(); // tr
                     }
+                }
+            }
 
+            writer.WriteEndElement(); // tbody
+        }
 
+        private static void WriteCell(XmlWriter writer, Triple t, Dictionary<IUriNode, string> labelMapping, TripleSegment segment, int tripleCount)
+        {
+            writer.WriteStartElement("td");
+
+            if (tripleCount > 1)
+            {
+                writer.WriteAttributeString("rowspan", tripleCount.ToString());
+            }
+
+            WriteNode(writer, t, labelMapping, segment);
+            writer.WriteEndElement(); // td
+        }
+
+        private static void WriteTHead(XmlWriter writer)
+        {
+            writer.WriteStartElement("thead");
+            writer.WriteStartElement("tr");
+            writer.WriteStartElement("th");
+            writer.WriteString("Subject");
+            writer.WriteEndElement(); // th
+            writer.WriteStartElement("th");
+            writer.WriteString("Predicate");
+            writer.WriteEndElement(); // th
+            writer.WriteStartElement("th");
+            writer.WriteString("Object");
+            writer.WriteEndElement(); // th
+            writer.WriteEndElement(); // tr
+            writer.WriteEndElement(); // thead
+        }
+
+        private static void WriteNode(XmlWriter writer, Triple triple, Dictionary<IUriNode, string> labelMapping, TripleSegment segment)
+        {
+            var node = GetNode(triple, segment);
+
+            if (node is IUriNode uriNode)
+            {
+                if (segment==TripleSegment.Object&& IsPhoto(triple.Predicate))
+                {
+                    var id = Global.InstanceUri.MakeRelativeUri(uriNode.Uri);
+
+                    writer.WriteStartElement("img");
+                    writer.WriteAttributeString("src", $"https://api.parliament.uk/photo/{id}.jpeg?crop=MCU_3:2&width=260&quality=80");
+                    writer.WriteEndElement(); // img
+
+                    return;
+                }
+
+                var uri = uriNode.Uri.AbsoluteUri;
+
+                if (!labelMapping.TryGetValue(uriNode, out string label))
+                {
+                    label = uri
+                        .Replace(Global.SchemaUri.AbsoluteUri, string.Empty)
+                        .Replace(Global.InstanceUri.AbsoluteUri, string.Empty)
+                        .Replace(RdfSpecsHelper.RdfType, "a")
+                        .Replace("http://example.com/", string.Empty)
+                        .Replace("http://www.w3.org/2000/01/rdf-schema#", string.Empty)
+                        .Replace("http://www.w3.org/2002/07/owl#", string.Empty)
+                        .Replace("http://www.w3.org/1999/02/22-rdf-syntax-ns#", string.Empty);
+                }
+
+                writer.WriteStartElement("div");
+                writer.WriteStartElement("a");
+                writer.WriteAttributeString("href", "/resource?uri=" + WebUtility.UrlEncode(uri));
+
+                writer.WriteStartElement("data");
+                writer.WriteAttributeString("value", uri);
+                writer.WriteString(label);
+                writer.WriteEndElement(); // data
+
+                writer.WriteEndElement(); // a
+                writer.WriteEndElement(); // div
+
+                return;
+            }
+
+            if (node is IBlankNode blankNode)
+            {
+                if (segment == TripleSegment.Subject)
+                {
+                    writer.WriteStartElement("div");
                     writer.WriteStartElement("a");
-                    writer.WriteAttributeString("href", "/resource?uri=" + WebUtility.UrlEncode(uriNode.Uri.AbsoluteUri));
+                    writer.WriteAttributeString("name", blankNode.InternalID);
+                    writer.WriteFullEndElement(); // a
 
-                    writer.WriteStartElement("data");
-                    writer.WriteAttributeString("value", uriNode.Uri.AbsoluteUri);
-                    writer.WriteString(label);
+                    writer.WriteString(blankNode.InternalID);
+                    writer.WriteEndElement(); // div
+
+                    return;
+                }
+
+                if (segment == TripleSegment.Object)
+                {
+                    writer.WriteStartElement("a");
+                    writer.WriteAttributeString("href", "#" + blankNode.InternalID);
+                    writer.WriteString(blankNode.InternalID);
                     writer.WriteEndElement(); // a
 
-                    writer.WriteEndElement(); // a
-                    break;
+                    return;
+                }
+            }
 
-                case IBlankNode blankNode:
-                    switch (segment)
+            if (node is ILiteralNode literalNode)
+            {
+                var datatype = literalNode.DataType?.AbsoluteUri;
+
+                if (datatype == XmlSpecsHelper.XmlSchemaDataTypeDate)
+                {
+                    if (DateTimeOffset.TryParse(literalNode.Value, out DateTimeOffset dto))
                     {
-                        case TripleSegment.Subject:
-                            writer.WriteStartElement("a");
-                            writer.WriteAttributeString("name", blankNode.InternalID);
-                            writer.WriteFullEndElement(); // a
+                        writer.WriteStartElement("time");
+                        writer.WriteString(dto.ToString("yyyy-MM-dd"));
+                        writer.WriteEndElement(); // time
 
-                            writer.WriteString(blankNode.InternalID);
-                            break;
-
-                        case TripleSegment.Object:
-                            writer.WriteStartElement("a");
-                            writer.WriteAttributeString("href", "#" + blankNode.InternalID);
-                            writer.WriteString(blankNode.InternalID);
-                            writer.WriteEndElement(); // a
-
-                            break;
-
-                        default:
-                            break;
+                        return;
                     }
-                    break;
+                }
 
-                case ILiteralNode literalNode:
-                    switch (literalNode.DataType?.AbsoluteUri)
+                if (datatype == "http://www.opengis.net/ont/geosparql#wktLiteral")
+                {
+                    if (IsGeography(triple.Predicate))
                     {
-                        case XmlSpecsHelper.XmlSchemaDataTypeDate:
-                            if (DateTimeOffset.TryParse(literalNode.Value, out DateTimeOffset dto))
-                            {
-                                writer.WriteStartElement("time");
-                                writer.WriteString(dto.ToString("yyyy-MM-dd"));
-                                writer.WriteEndElement(); // time
-                            }
-                            else
-                            {
-                                writer.WriteString(literalNode.Value);
-                            }
+                        writer.WriteStartElement("data");
+                        writer.WriteAttributeString("class", "map");
+                        writer.WriteAttributeString("value", literalNode.Value);
+                        writer.WriteEndElement(); // data
 
-                            break;
-
-                        default:
-                            writer.WriteString(literalNode.Value);
-                            break;
+                        return;
                     }
-                    break;
+                }
+
+                writer.WriteString(literalNode.Value);
+
+                return;
+            }
+
+            writer.WriteString(node.ToString());
+        }
+
+        private static bool IsPhoto(INode predicate)
+        {
+            var f = new NodeFactory();
+            var a = new[] { f.CreateUriNode(new Uri("https://id.parliament.uk/schema/memberHasMemberImage")) };
+            return a.Contains(predicate);
+        }
+
+        private static bool IsGeography(INode predicate)
+        {
+            var f = new NodeFactory();
+            var a = new[] { f.CreateUriNode(new Uri("https://id.parliament.uk/schema/constituencyAreaExtent")) };
+            return a.Contains(predicate);
+        }
+
+        private static INode GetNode(Triple triple, TripleSegment segment)
+        {
+            switch (segment)
+            {
+                case TripleSegment.Subject:
+                    return triple.Subject;
+
+                case TripleSegment.Predicate:
+                    return triple.Predicate;
+
+                case TripleSegment.Object:
+                    return triple.Object;
 
                 default:
-                    break;
+                    throw new InvalidOperationException();
             }
-            writer.WriteEndElement(); // div
         }
     }
 }
