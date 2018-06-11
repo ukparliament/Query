@@ -59,7 +59,7 @@
 
         public override void WriteToStream(Type type, object value, Stream writeStream, HttpContent content)
         {
-            var streamWriter = new StreamWriter(writeStream, Encoding.UTF8);
+            var streamWriter = new StreamWriter(writeStream, new UTF8Encoding());
 
             if (value is IGraph graph)
             {

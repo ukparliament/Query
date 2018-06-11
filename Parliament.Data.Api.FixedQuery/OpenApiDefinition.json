@@ -3027,11 +3027,20 @@
             "description": "Comma delimited list of local identifiers to get labels for",
             "x-type": "instanceUris",
             "required": true,
+            "example": "WkUWUBMx,1AFu55Hs",
             "examples": {
-              "relative single": "1AFu55Hs",
-              "relative multiple": "WkUWUBMx,1AFu55Hs",
-              "absolute single": "https://id.parliament.uk/1AFu55Hs",
-              "absolute multiple": "https://id.parliament.uk/1AFu55Hs,https://id.parliament.uk/WkUWUBMx"
+              "relative single": {
+                "value": "1AFu55Hs"
+              },
+              "relative multiple": {
+                "value": "WkUWUBMx,1AFu55Hs"
+              },
+              "absolute single": {
+                "value": "https://id.parliament.uk/1AFu55Hs"
+              },
+              "absolute multiple": {
+                "value": "https://id.parliament.uk/1AFu55Hs,https://id.parliament.uk/WkUWUBMx"
+              }
             },
             "schema": {
               "type": "string"
