@@ -6,7 +6,7 @@ CONSTRUCT {
     a :WorkPackage ;
     :workPackageHasWorkPackageableThing ?packageable ;
     :workPackageHasProcedure ?procedure ;
-    :workPackageHasBusinessItem ?actualizedItem ;
+    :workPackageHasBusinessItem ?item ;
     .
 
   ?packageable
