@@ -2,7 +2,7 @@ PREFIX : @schemaUri
 
 CONSTRUCT {
     ?group
-        a :Group, :FormalBody, ?class, ?parliamentaryCommittee, ?selectCommittee ;
+        a :Group, ?class, ?parliamentaryCommittee, ?selectCommittee ;
         :groupName ?groupName ;
         :groupStartDate ?groupStartDate ;
         :formalBodyHasParentFormalBody ?parentformalBody ;
