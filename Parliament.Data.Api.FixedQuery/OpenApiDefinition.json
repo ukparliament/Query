@@ -24,7 +24,8 @@
           "application/json": {},
           "application/json+rdf": {},
           "text/html": {},
-          "application/xhtml+xml": {}
+          "application/xhtml+xml": {},
+          "application/graphml+xml": {}
         }
       },
       "nonGraphResponse": {
@@ -74,7 +75,7 @@
         "allowEmptyValue": true,
         "schema": {
           "type": "string",
-          "enum": [ "", ".nt", ".ttl", ".gv", ".dot", ".xml", ".rdf", ".rdfxml", ".json", ".jsonld", "rj", ".html", ".htm", ".xhtml" ],
+          "enum": [ "", ".nt", ".ttl", ".gv", ".dot", ".xml", ".rdf", ".rdfxml", ".json", ".jsonld", "rj", ".html", ".htm", ".xhtml", ".graphml"],
           "default": ""
         }
       },
