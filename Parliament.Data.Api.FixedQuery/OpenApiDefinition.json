@@ -54,7 +54,7 @@
         "description": "Content type",
         "schema": {
           "type": "string",
-          "enum": [ "application/n-triples", "text/turtle", "text/vnd.graphviz", "application/rdf+xml", "application/xml", "text/xml", "application/json+ld", "application/json", "application/json+rdf", "text/html", "application/xhtml+xml" ]
+          "enum": [ "application/n-triples", "text/turtle", "text/vnd.graphviz", "application/rdf+xml", "application/xml", "text/xml", "application/json+ld", "application/json", "application/json+rdf", "text/html", "application/xhtml+xml", "application/graphml+xml"]
         }
       },
       "formatNonGraph": {
