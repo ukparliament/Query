@@ -114,16 +114,11 @@ WHERE {
                 a ?class ;
             .
 
-            OPTIONAL {
-                ?group
-                    :groupName ?groupName ;
-                    :groupStartDate ?groupStartDate ;
-                .
-
-                OPTIONAL { ?group :formalBodyHasParentFormalBody ?parentformalBody . }
-                OPTIONAL { ?group :formalBodyHasChildFormalBody ?childformalBody . }
-                OPTIONAL { ?group :formalBodyRemit ?bodyRemit . }
-            }
+            OPTIONAL { ?group :groupName ?groupName . }
+            OPTIONAL { ?group :groupStartDate ?groupStartDate . }
+            OPTIONAL { ?group :formalBodyHasParentFormalBody ?parentformalBody . }
+            OPTIONAL { ?group :formalBodyHasChildFormalBody ?childformalBody . }
+            OPTIONAL { ?group :formalBodyRemit ?bodyRemit . }
 
             OPTIONAL {
                 OPTIONAL {
@@ -144,14 +139,12 @@ WHERE {
                     OPTIONAL { ?postalAddress :postCode ?postCode . }
                 }
 
-                ?group
-                    a :FormalBody;
-                    :formalBodyName ?formalBodyName ;
-                    :formalBodyStartDate ?formalBodyStartDate ;
-                    :formalBodyHasHouse ?formalBodyHouse ;
-                .
-
-                ?formalBodyHouse :houseName ?formalBodyHouseName .
+                ?group :formalBodyName ?formalBodyName .
+                OPTIONAL { ?group :formalBodyStartDate ?formalBodyStartDate . }
+                OPTIONAL {
+                    ?group :formalBodyHasHouse ?formalBodyHouse .
+                    ?formalBodyHouse :houseName ?formalBodyHouseName .
+                }
 
                 OPTIONAL {
                     ?formalBodyHouse :houseHasContactPoint ?formalBodyHouseContactPoint .
