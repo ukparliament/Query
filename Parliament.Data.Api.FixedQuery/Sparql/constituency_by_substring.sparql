@@ -3,7 +3,7 @@ CONSTRUCT {
     ?constituencyGroup
         a :ConstituencyGroup ;
         :constituencyGroupName ?constituencyName ;
-	:constituencyGroupStartDate ?startDate ;
+    :constituencyGroupStartDate ?startDate ;
         :constituencyGroupEndDate ?endDate ;
         :constituencyGroupHasHouseSeat ?seat .
     ?seat
@@ -26,36 +26,49 @@ CONSTRUCT {
         :partyName ?partyName .
     _:x
         :value ?firstLetter .
-      }
-    WHERE {
-    	{ SELECT * WHERE {
-            ?constituencyGroup a :ConstituencyGroup ;
-                                :constituencyGroupName ?constituencyName .
+}
+WHERE {
+    {
+        SELECT *
+        WHERE {
+            ?constituencyGroup
+                a :ConstituencyGroup ;
+                :constituencyGroupName ?constituencyName ;
+            .
             OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?startDate . }
             OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?endDate . }
             OPTIONAL {
                 ?constituencyGroup :constituencyGroupHasHouseSeat ?seat .
                 ?seat :houseSeatHasSeatIncumbency ?seatIncumbency .
+
                 FILTER NOT EXISTS { ?seatIncumbency a :PastParliamentaryIncumbency . }
+
                 ?seatIncumbency :parliamentaryIncumbencyHasMember ?member .
+
                 OPTIONAL { ?member :personGivenName ?givenName . }
                 OPTIONAL { ?member :personFamilyName ?familyName . }
                 OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+
                 ?member :partyMemberHasPartyMembership ?partyMembership .
+
                 FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+
                 ?partyMembership :partyMembershipHasParty ?party .
                 ?party :partyName ?partyName .
-           }
-           FILTER CONTAINS(LCASE(?constituencyName), LCASE(@substring))
+            }
+
+            FILTER CONTAINS(LCASE(?constituencyName), LCASE(@substring))
         }
     }
     UNION {
-		    SELECT DISTINCT ?firstLetter WHERE {
+        SELECT DISTINCT ?firstLetter
+        WHERE {
+            ?s
+                a :ConstituencyGroup ;
+                :constituencyGroupName ?constituencyName ;
+            .
 
-                ?s a :ConstituencyGroup ;
-                    :constituencyGroupName ?constituencyName.
-
-                BIND(ucase(SUBSTR(?constituencyName, 1, 1)) as ?firstLetter)
-            }
-	    }
-   }
+            BIND(UCASE(SUBSTR(?constituencyName, 1, 1)) AS ?firstLetter)
+        }
+    }
+}
