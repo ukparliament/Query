@@ -41,90 +41,95 @@
 <link rel=""stylesheet"" href=""https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"" integrity=""sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="" crossorigin="""" />
 <script src=""https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"" integrity=""sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="" crossorigin=""""></script>
 <script src=""https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js""></script>
+<script>
+    window.addEventListener(""load"", onLoad);
+
+    function onLoad() {
+        document.querySelectorAll(""data.map"").forEach(createMap);
+    }
+
+    function createMap(mapElement) {
+        const map = L.map(mapElement);
+
+        L.tileLayer(""https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}"", {
+            id: ""mapbox.streets"",
+            accessToken: ""pk.eyJ1IjoiaHVudHAiLCJhIjoiY2l6cXY3NjZpMDAxZzJybzF0aDBvdHRlZCJ9.k1zL5uDY7eUvuSiw3Rdrkw""
+        }).addTo(map);
+
+        const geometryLayer = omnivore.wkt.parse(mapElement.value);
+        geometryLayer.addTo(map);
+        map.fitBounds(geometryLayer.getBounds());
+    }
+</script>
+<style>
+    body {
+        margin: 0;
+        font-family: sans-serif;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead th {
+        height: 50px;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: black;
+        color: white;
+        text-align: left;
+        padding-left: 20px;
+    }
+
+    tr.divider {
+        border-top: 1px solid;
+    }
+
+    tr.divider:nth-child(1) {
+        border-top: none;
+    }
+
+    td {
+        padding: 20px;
+        vertical-align: top;
+    }
+
+    div {
+        position: sticky;
+        left: 20px;
+        top: 70px;
+    }
+
+    data {
+        font-family: monospace;
+    }
+
+    data.map {
+        height: 180px;
+        display: block
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+<script type=""text/javascript"">
+  var appInsights=window.appInsights||function(a){
+    function b(a){c[a]=function(){var b=arguments;c.queue.push(function(){c[a].apply(c,b)})}}var c={config:a},d=document,e=window;setTimeout(function(){var b=d.createElement(""script"");b.src=a.url||""https://az416426.vo.msecnd.net/scripts/a/ai.0.js"",d.getElementsByTagName(""script"")[0].parentNode.appendChild(b)});try{c.cookie=d.cookie}catch(a){}c.queue=[];for(var f=[""Event"",""Exception"",""Metric"",""PageView"",""Trace"",""Dependency""];f.length;)b(""track""+f.pop());if(b(""setAuthenticatedUserContext""),b(""clearAuthenticatedUserContext""),b(""startTrackEvent""),b(""stopTrackEvent""),b(""startTrackPage""),b(""stopTrackPage""),b(""flush""),!a.disableExceptionTracking){f=""onerror"",b(""_""+f);var g=e[f];e[f]=function(a,b,d,e,h){var i=g&&g(a,b,d,e,h);return!0!==i&&c[""_""+f](a,b,d,e,h),i}}return c
+    }({
+        instrumentationKey:""c0960a0f-30ad-4a9a-b508-14c6a4f61179"",
+        cookieDomain:"".parliament.uk""
+    });
+    
+  window.appInsights=appInsights,appInsights.queue&&0===appInsights.queue.length&&appInsights.trackPageView();
+</script>
 ");
-                writer.WriteStartElement("script");
-                writer.WriteString(@"
-window.addEventListener(""load"", onLoad);
-
-function onLoad() {
-    document.querySelectorAll(""data.map"").forEach(createMap);
-}
-
-function createMap(mapElement) {
-    const map = L.map(mapElement);
-
-    L.tileLayer(""https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}"", {
-        id: ""mapbox.streets"",
-        accessToken: ""pk.eyJ1IjoiaHVudHAiLCJhIjoiY2l6cXY3NjZpMDAxZzJybzF0aDBvdHRlZCJ9.k1zL5uDY7eUvuSiw3Rdrkw""
-    }).addTo(map);
-
-    const geometryLayer = omnivore.wkt.parse(mapElement.value);
-    geometryLayer.addTo(map);
-    map.fitBounds(geometryLayer.getBounds());
-}
-");
-                writer.WriteEndElement(); // script
-
-                writer.WriteStartElement("style");
-                writer.WriteString(@"
-body {
-    margin: 0;
-    font-family: sans-serif;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-thead th {
-    height: 50px;
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    background-color: black;
-    color: white;
-    text-align: left;
-    padding-left: 20px;
-}
-
-tr.divider {
-    border-top: 1px solid;
-}
-
-tr.divider:nth-child(1) {
-    border-top: none;
-}
-
-td {
-    padding: 20px;
-    vertical-align: top;
-}
-
-div {
-    position: sticky;
-    left: 20px;
-    top: 70px;
-}
-
-data {
-    font-family: monospace;
-}
-
-data.map {
-    height: 180px;
-    display: block
-}
-
-a {
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-");
-                writer.WriteEndElement(); // style
                 writer.WriteEndElement(); // head
                 writer.WriteStartElement("body");
                 writer.WriteStartElement("table");
