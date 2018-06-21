@@ -1,7 +1,16 @@
 ﻿{
-  "openapi": "3.0.0",
+  "openapi": "3.0.1",
   "info": {
-    "title": "Fixed Query API",
+    "title": "Query API",
+    "description": "Allows to query data using predefined queries",
+    "contact": {
+      "name": "Data & Search team at UK Parliament",
+      "email": "data@parliament.uk"
+    },
+    "license": {
+      "name": "Open Parliament Licence",
+      "url": "https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence"
+    },
     "version": "Live"
   },
   "servers": [
@@ -54,7 +63,7 @@
         "description": "Content type",
         "schema": {
           "type": "string",
-          "enum": [ "application/n-triples", "text/turtle", "text/vnd.graphviz", "application/rdf+xml", "application/xml", "text/xml", "application/json+ld", "application/json", "application/json+rdf", "text/html", "application/xhtml+xml", "application/graphml+xml"]
+          "enum": [ "application/n-triples", "text/turtle", "text/vnd.graphviz", "application/rdf+xml", "application/xml", "text/xml", "application/json+ld", "application/json", "application/json+rdf", "text/html", "application/xhtml+xml", "application/graphml+xml" ]
         }
       },
       "formatNonGraph": {
@@ -75,7 +84,7 @@
         "allowEmptyValue": true,
         "schema": {
           "type": "string",
-          "enum": [ "", ".nt", ".ttl", ".gv", ".dot", ".xml", ".rdf", ".rdfxml", ".json", ".jsonld", "rj", ".html", ".htm", ".xhtml", ".graphml"],
+          "enum": [ "", ".nt", ".ttl", ".gv", ".dot", ".xml", ".rdf", ".rdfxml", ".json", ".jsonld", "rj", ".html", ".htm", ".xhtml", ".graphml" ],
           "default": ""
         }
       },
