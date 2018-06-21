@@ -5,12 +5,14 @@ CONSTRUCT {
         a :Group, ?class, ?parliamentaryCommittee, ?selectCommittee ;
         :groupName ?groupName ;
         :groupStartDate ?groupStartDate ;
+        :groupEndDate ?groupEndDate ;
         :formalBodyHasParentFormalBody ?parentformalBody ;
         :formalBodyHasChildFormalBody ?childformalBody ;
         :formalBodyRemit ?bodyRemit ;
         :formalBodyHasLeadHouse ?leadHouse ;
         :formalBodyName ?formalBodyName ;
         :formalBodyStartDate ?formalBodyStartDate ;
+        :formalBodyEndDate ?formalBodyEndDate ;
         :formalBodyHasContactPoint ?formalBodyContactPoint ;
         :formalBodyHasFormalBodyMembership ?formalBodyMembership ;
         :formalBodyHasHouse ?formalBodyHouse ;
@@ -116,6 +118,7 @@ WHERE {
 
             OPTIONAL { ?group :groupName ?groupName . }
             OPTIONAL { ?group :groupStartDate ?groupStartDate . }
+            OPTIONAL { ?group :groupEndDate ?groupEndDate . }
             OPTIONAL { ?group :formalBodyHasParentFormalBody ?parentformalBody . }
             OPTIONAL { ?group :formalBodyHasChildFormalBody ?childformalBody . }
             OPTIONAL { ?group :formalBodyRemit ?bodyRemit . }
@@ -141,6 +144,7 @@ WHERE {
 
                 ?group :formalBodyName ?formalBodyName .
                 OPTIONAL { ?group :formalBodyStartDate ?formalBodyStartDate . }
+                OPTIONAL { ?group :formalBodyEndDate ?formalBodyEndDate . }
                 OPTIONAL {
                     ?group :formalBodyHasHouse ?formalBodyHouse .
                     ?formalBodyHouse :houseName ?formalBodyHouseName .
