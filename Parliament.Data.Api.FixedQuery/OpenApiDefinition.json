@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Query API",
-    "description": "Allows to query data using predefined queries",
+    "description": "Allows to query data using predefined queries. Throttled at 10 requests per second per IP address.",
     "contact": {
       "name": "Data & Search team at UK Parliament",
       "email": "data@parliament.uk"
