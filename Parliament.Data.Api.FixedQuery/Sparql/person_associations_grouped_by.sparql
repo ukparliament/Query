@@ -43,28 +43,19 @@ CONSTRUCT {
         :houseName ?houseName.
     ?formalBodyMembership
         a :FormalBodyMembership ;
-        :formalBodyMembershipStartDate ?formalBodyMembershipStartDate ;
-        :formalBodyMembershipEndDate ?formalBodyMembershipEndDate ;
         :formalBodyMembershipHasFormalBody ?formalBody .
     ?formalBody
-        a :FormalBody ;
-        :formalBodyName ?formalBodyName .
+        a :FormalBody .
     ?governmentIncumbency
         a :GovernmentIncumbency ;
-        :incumbencyStartDate ?incumbencyStartDate ;
-        :incumbencyEndDate ?incumbencyEndDate ;
         :governmentIncumbencyHasGovernmentPosition ?governmentPosition .
     ?governmentPosition
-        a :GovernmentPosition ;
-        :positionName ?positionName .
+        a :GovernmentPosition .
     ?oppositionIncumbency
         a :OppositionIncumbency ;
-        :incumbencyStartDate ?incumbencyStartDate ;
-        :incumbencyEndDate ?incumbencyEndDate ;
         :oppositionIncumbencyHasOppositionPosition ?oppositionPosition .
     ?oppositionPosition
-        a :OppositionPosition ;
-        :positionName ?positionName .
+        a :OppositionPosition .
 }
 WHERE {
     BIND(@person_id AS ?person)
@@ -101,23 +92,14 @@ WHERE {
     }
     OPTIONAL {
         ?person :personHasFormalBodyMembership ?formalBodyMembership .
-        ?formalBodyMembership :formalBodyMembershipStartDate ?formalBodyMembershipStartDate .
-        OPTIONAL { ?formalBodyMembership :formalBodyMembershipEndDate ?formalBodyMembershipEndDate . }
         ?formalBodyMembership :formalBodyMembershipHasFormalBody ?formalBody .
-        ?formalBody :formalBodyName ?formalBodyName .
     }
     OPTIONAL {
         ?person :governmentPersonHasGovernmentIncumbency ?governmentIncumbency .
-        ?governmentIncumbency :incumbencyStartDate ?incumbencyStartDate .
-        OPTIONAL { ?governmentIncumbency :incumbencyEndDate ?incumbencyEndDate . }
         ?governmentIncumbency :governmentIncumbencyHasGovernmentPosition ?governmentPosition .
-        ?governmentPosition :positionName ?positionName .
     }
     OPTIONAL {
         ?person :oppositionPersonHasOppositionIncumbency ?oppositionIncumbency .
-        ?oppositionIncumbency :incumbencyStartDate ?incumbencyStartDate .
-        OPTIONAL { ?oppositionIncumbency :incumbencyEndDate ?incumbencyEndDate . }
         ?oppositionIncumbency :oppositionIncumbencyHasOppositionPosition ?oppositionPosition .
-        ?oppositionPosition :positionName ?positionName .
     }
 }
