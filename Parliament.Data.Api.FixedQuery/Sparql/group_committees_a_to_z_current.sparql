@@ -9,14 +9,14 @@ WHERE {
         {
             ?committee a :ParliamentaryCommittee .
             ?committee :groupName ?committeeName .
-            FILTER NOT EXISTS { ?committee :groupEndDate ?endDate } .
-            BIND(ucase(SUBSTR(?committeeName, 1, 1)) as ?firstLetter)
+            FILTER NOT EXISTS { ?committee :groupEndDate ?endDate . }
+            BIND(UCASE(SUBSTR(?committeeName, 1, 1)) AS ?firstLetter)
         }
         UNION {
             ?committee a :StatutoryCommittee .
             ?committee :groupName ?committeeName .
-            FILTER NOT EXISTS { ?committee :groupEndDate ?endDate } .
-            BIND(ucase(SUBSTR(?committeeName, 1, 1)) as ?firstLetter)
+            FILTER NOT EXISTS { ?committee :groupEndDate ?endDate . }
+            BIND(UCASE(SUBSTR(?committeeName, 1, 1)) AS ?firstLetter)
         }
     }
 }

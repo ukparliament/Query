@@ -4,38 +4,40 @@ CONSTRUCT {
     ?committee
         a ?class ;
         :groupStartDate ?startDate ;
-        :groupName ?committeeName .
+        :groupName ?committeeName ;
+    .
+
     [ :value ?firstLetter ]
 }
 WHERE {
     {
-        SELECT * WHERE {
+        SELECT *
+        WHERE {
             ?committee
                 a :ParliamentaryCommittee ;
                 a ?class ;
             .
 
-            OPTIONAL { ?committee :groupName ?committeeName } .
-            OPTIONAL { ?committee :groupStartDate ?startDate } .
-            FILTER NOT EXISTS { ?committee :groupEndDate ?endDate } .
+            OPTIONAL { ?committee :groupName ?committeeName . }
+            OPTIONAL { ?committee :groupStartDate ?startDate . }
+            FILTER NOT EXISTS { ?committee :groupEndDate ?endDate .}
 
             FILTER STRSTARTS(LCASE(?committeeName), LCASE(@initial))
         }
     }
     UNION {
-        {
-            SELECT * WHERE {
-                ?committee
-                    a :StatutoryCommittee ;
-                    a ?class ;
-                .
+        SELECT *
+        WHERE {
+            ?committee
+                a :StatutoryCommittee ;
+                a ?class ;
+            .
 
-                OPTIONAL { ?committee :groupName ?committeeName } .
-                OPTIONAL { ?committee :groupStartDate ?startDate } .
-                FILTER NOT EXISTS { ?committee :groupEndDate ?endDate } .
+            OPTIONAL { ?committee :groupName ?committeeName . }
+            OPTIONAL { ?committee :groupStartDate ?startDate . }
+            FILTER NOT EXISTS { ?committee :groupEndDate ?endDate . }
 
-                FILTER STRSTARTS(LCASE(?committeeName), LCASE(@initial))
-            }
+            FILTER STRSTARTS(LCASE(?committeeName), LCASE(@initial))
         }
     }
     UNION {
@@ -44,12 +46,12 @@ WHERE {
             {
                 ?committee a :ParliamentaryCommittee .
                 ?committee :groupName ?committeeName .
-                BIND(ucase(SUBSTR(?committeeName, 1, 1)) as ?firstLetter)
+                BIND(UCASE(SUBSTR(?committeeName, 1, 1)) AS ?firstLetter)
             }
             UNION {
                 ?committee a :StatutoryCommittee .
                 ?committee :groupName ?committeeName .
-                BIND(ucase(SUBSTR(?committeeName, 1, 1)) as ?firstLetter)
+                BIND(UCASE(SUBSTR(?committeeName, 1, 1)) AS ?firstLetter)
             }
         }
     }
