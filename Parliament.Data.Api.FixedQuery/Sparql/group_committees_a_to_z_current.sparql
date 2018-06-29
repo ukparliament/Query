@@ -1,0 +1,22 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    [ :value ?firstLetter ]
+}
+WHERE {
+    SELECT DISTINCT ?firstLetter
+    WHERE {
+        {
+            ?committee a :ParliamentaryCommittee .
+            ?committee :groupName ?committeeName .
+            FILTER NOT EXISTS { ?committee :groupEndDate ?endDate } .
+            BIND(ucase(SUBSTR(?committeeName, 1, 1)) as ?firstLetter)
+        }
+        UNION {
+            ?committee a :StatutoryCommittee .
+            ?committee :groupName ?committeeName .
+            FILTER NOT EXISTS { ?committee :groupEndDate ?endDate } .
+            BIND(ucase(SUBSTR(?committeeName, 1, 1)) as ?firstLetter)
+        }
+    }
+}
