@@ -5131,7 +5131,7 @@
       }
     },
     "/person_by_id{ext}": {
-      "x-type": "list",
+      "x-type": "single",
       "get": {
         "parameters": [
           {
@@ -5252,6 +5252,181 @@
             "x-type": "literal",
             "required": true,
             "example": "ee",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/person_associations{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "person_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "TyNGhslR",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/person_associations_grouped_by{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "person_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "TyNGhslR",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/person_associations_grouped_by_formal_bodies{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "person_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "TyNGhslR",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/person_associations_grouped_by_government{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "person_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "TyNGhslR",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/person_associations_grouped_by_opposition{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "person_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "TyNGhslR",
             "schema": {
               "type": "string"
             }
