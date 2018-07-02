@@ -1218,172 +1218,6 @@
         }
       }
     },
-    "/group_committees_a_to_z_current{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/group_committees_a_to_z{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/group_committees_by_initial{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "initial",
-            "in": "query",
-            "description": "literal",
-            "x-type": "literal",
-            "required": true,
-            "example": "C",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/group_committees_current_by_initial{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "initial",
-            "in": "query",
-            "description": "literal",
-            "x-type": "literal",
-            "required": true,
-            "example": "C",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/group_committees_current{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/group_committees_index{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
     "/group_current_a_to_z{ext}": {
       "x-type": "list",
       "get": {
@@ -1479,172 +1313,6 @@
       }
     },
     "/group_current{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/group_government_organisation_a_to_z{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/group_government_organisation_by_initial{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "initial",
-            "in": "query",
-            "description": "literal",
-            "x-type": "literal",
-            "required": true,
-            "example": "h",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/group_government_organisation_current_a_to_z{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/group_government_organisation_current_by_initial{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          },
-          {
-            "name": "initial",
-            "in": "query",
-            "description": "literal",
-            "x-type": "literal",
-            "required": true,
-            "example": "h",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/group_government_organisation_current{ext}": {
-      "x-type": "list",
-      "get": {
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/fileExtensionGraph"
-          },
-          {
-            "$ref": "#/components/parameters/formatGraph"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/graphResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/badRequest"
-          },
-          "406": {
-            "$ref": "#/components/responses/notAcceptable"
-          }
-        }
-      }
-    },
-    "/group_government_organisation_index{ext}": {
       "x-type": "list",
       "get": {
         "parameters": [
@@ -2014,6 +1682,338 @@
             "schema": {
               "type": "string"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/groups_committees_a_to_z{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/groups_committees_by_initial{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "x-type": "literal",
+            "required": true,
+            "example": "C",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/groups_committees_current_a_to_z{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/groups_committees_current_by_initial{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "x-type": "literal",
+            "required": true,
+            "example": "C",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/groups_committees_current{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/groups_committees_index{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/groups_government_organisation_a_to_z{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/groups_government_organisation_by_initial{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "x-type": "literal",
+            "required": true,
+            "example": "h",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/groups_government_organisation_current_a_to_z{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/groups_government_organisation_current_by_initial{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "initial",
+            "in": "query",
+            "description": "literal",
+            "x-type": "literal",
+            "required": true,
+            "example": "h",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/groups_government_organisation_current{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/groups_government_organisation_index{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
           }
         ],
         "responses": {
