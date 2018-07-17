@@ -96,6 +96,7 @@
                     new[] {"group_positions_chairs_index?group_id=BuhjfUz" },
                     new[] {"group_positions_current?group_id=BuhjfUz" },
                     new[] {"group_positions_index?group_id=BuhjfUz" },
+                    new[] {"group_questions_written_answered?group_id=XouN12Ow" },
                     new[] {"groups_committees_a_to_z" },
                     new[] {"groups_committees_by_initial?initial=p" },
                     new[] {"groups_committees_current_a_to_z" },
