@@ -67,9 +67,9 @@ WHERE {
     ?question
         a :Question ;
         :questionText ?questionText ;
-        :questionAskedAt ?questionAskedAt ;
         :indexingAndSearchUri ?idmsUri .
 
+    OPTIONAL { ?question :questionAskedAt ?questionAskedAt . }
     OPTIONAL { ?question :questionHeading ?questionHeading . }
 
     OPTIONAL {
