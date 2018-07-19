@@ -22,6 +22,8 @@ CONSTRUCT {
         :personGivenName ?answeringPersonGivenName ;
         :personOtherNames ?answeringPersonOtherNames ;
         :personFamilyName ?answeringPersonFamilyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAsAnsweringPerson ;
+        <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitleAnsweringPerson ;
         :governmentPersonHasGovernmentIncumbency ?answeringPersonGovernmentIncumbency ;
         :memberHasMemberImage ?answeringMemberImage .
     ?answeringMemberImage a :MemberImage .
@@ -45,6 +47,8 @@ CONSTRUCT {
         :personGivenName ?askingPersonGivenName ;
         :personOtherNames ?askingPersonOtherNames ;
         :personFamilyName ?askingPersonFamilyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAsAskingPerson ;
+        <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitleAskingPerson ;
         :memberHasParliamentaryIncumbency ?askingPersonSeatIncumbency ;
         :memberHasMemberImage ?askingMemberImage .
     ?askingMemberImage a :MemberImage .
@@ -86,34 +90,39 @@ WHERE {
         OPTIONAL { ?askingPerson :personGivenName ?askingPersonGivenName . }
         OPTIONAL { ?askingPerson :personFamilyName ?askingPersonFamilyName . }
         OPTIONAL { ?askingPerson :personOtherNames ?askingPersonOtherNames . }
+        OPTIONAL { ?askingPerson <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAsAskingPerson . }
+        OPTIONAL { ?askingPerson <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitleAskingPerson . }
 
       	OPTIONAL {
       	    ?askingPerson :memberHasMemberImage ?askingMemberImage .
       	    ?askingMemberImage a :MemberImage .
       	}
 
-      	?askingPerson :memberHasParliamentaryIncumbency ?askingPersonSeatIncumbency .
-        ?askingPersonSeatIncumbency
-            a :SeatIncumbency ;
-            :parliamentaryIncumbencyStartDate ?askingPersonIncumbencyStartDate .
-        OPTIONAL { ?askingPersonSeatIncumbency :parliamentaryIncumbencyEndDate ?askingPersonIncumbencyEndDate. }
-        BIND(xsd:dateTime(?questionAskedAt) AS ?questionAskedAt2)
-        BIND(xsd:dateTime(?askingPersonIncumbencyEndDate) AS ?askingPersonIncumbencyEndDate2)
-        BIND(xsd:dateTime(?askingPersonIncumbencyStartDate) AS ?askingPersonIncumbencyStartDate2)
-        BIND(COALESCE(?askingPersonIncumbencyEndDate2,now()) AS ?askingPersonIncumbencyEndDate3)
-        filter ( ?askingPersonIncumbencyEndDate3 > ?questionAskedAt2 && ?askingPersonIncumbencyStartDate2 <= ?questionAskedAt2)
-        ?askingPersonSeatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
-        ?houseSeat
-            a :HouseSeat ;
-            :houseSeatHasHouse ?house .
-        ?house a :House ;
-        	:houseName ?houseName .
-
         OPTIONAL {
-            ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup.
-            ?constituencyGroup
-                a :ConstituencyGroup ;
-                :constituencyGroupName ?constituencyGroupName .
+
+          	?askingPerson :memberHasParliamentaryIncumbency ?askingPersonSeatIncumbency .
+            ?askingPersonSeatIncumbency
+                a :SeatIncumbency ;
+                :parliamentaryIncumbencyStartDate ?askingPersonIncumbencyStartDate .
+            OPTIONAL { ?askingPersonSeatIncumbency :parliamentaryIncumbencyEndDate ?askingPersonIncumbencyEndDate. }
+            BIND(xsd:dateTime(?questionAskedAt) AS ?questionAskedAt2)
+            BIND(xsd:dateTime(?askingPersonIncumbencyEndDate) AS ?askingPersonIncumbencyEndDate2)
+            BIND(xsd:dateTime(?askingPersonIncumbencyStartDate) AS ?askingPersonIncumbencyStartDate2)
+            BIND(COALESCE(?askingPersonIncumbencyEndDate2,now()) AS ?askingPersonIncumbencyEndDate3)
+            filter ( ?askingPersonIncumbencyEndDate3 > ?questionAskedAt2 && ?askingPersonIncumbencyStartDate2 <= ?questionAskedAt2)
+            ?askingPersonSeatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
+            ?houseSeat
+                a :HouseSeat ;
+                :houseSeatHasHouse ?house .
+            ?house a :House ;
+            	:houseName ?houseName .
+
+            OPTIONAL {
+                ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup.
+                ?constituencyGroup
+                    a :ConstituencyGroup ;
+                    :constituencyGroupName ?constituencyGroupName .
+            }
         }
     }
 
@@ -164,6 +173,8 @@ WHERE {
       OPTIONAL { ?answeringPerson :personGivenName ?answeringPersonGivenName . }
       OPTIONAL { ?answeringPerson :personFamilyName ?answeringPersonFamilyName . }
       OPTIONAL { ?answeringPerson :personOtherNames ?answeringPersonOtherNames . }
+      OPTIONAL { ?answeringPerson <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAsAnsweringPerson . }
+      OPTIONAL { ?answeringPerson <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitleAnsweringPerson . }
 
       OPTIONAL {
           ?answeringPerson :memberHasMemberImage ?answeringMemberImage .
