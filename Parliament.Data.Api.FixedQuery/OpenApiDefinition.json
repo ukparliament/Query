@@ -1030,6 +1030,54 @@
         }
       }
     },
+    "/formal_body_membership_and_party_affiliation_dataset{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionNonGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatNonGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/nonGraphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/formal_body_membership_and_party_affiliation{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/formal_body_membership{ext}": {
       "x-type": "list",
       "get": {

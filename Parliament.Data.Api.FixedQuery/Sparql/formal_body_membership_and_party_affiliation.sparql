@@ -1,0 +1,75 @@
+# In response to a request from Marc Adams (Senior Analyst & Mesh Mapping Lead @ the National Audit Offic) on 24/07/2018
+
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    ?formalBody
+        a :FormalBody ;
+        :formalBodyStartDate ?formalBodyStartDate ;
+        :formalBodyName ?formalBodyName ;
+        :formalBodyRemit ?formalBodyRemit ;
+        :formalBodyHasFormalBodyType ?formalBodyType ;
+        :formalBodyHasFormalBodyMembership ?formalBodyMembership ;
+    .
+    ?formalBodyType
+        a :FormalBodyType ;
+        :formalBodyTypeName ?formalBodyTypeName ;
+    .
+    ?formalBodyMembership
+        a :FormalBodyMembership ;
+        :formalBodyMembershipStartDate ?formalBodyMembershipStartDate ;
+        :formalBodyMembershipHasPerson ?person ;
+    .
+    ?person
+        a :Person ;
+        :personGivenName ?personGivenName;
+        :personOtherNames ?personOtherNames;
+        :personFamilyName ?personFamilyName;
+        :partyMemberHasPartyMembership ?partyMembership ;
+    .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipStartDate ?partyMembershipStartDate ;
+        :partyMembershipHasParty ?party ;
+    .
+    ?party
+        a :Party ;
+        :partyName ?partyName ;
+    .
+}
+WHERE {
+    ?formalBody
+        :formalBodyStartDate ?formalBodyStartDate ;
+    .
+    ?formalBodyMembership
+        :formalBodyMembershipHasFormalBody ?formalBody ;
+        :formalBodyMembershipStartDate ?formalBodyMembershipStartDate ;
+    .
+    ?person
+        :personHasFormalBodyMembership ?formalBodyMembership ;
+    .
+    ?partyMembership
+        :partyMembershipHasPartyMember ?person ;
+        :partyMembershipStartDate ?partyMembershipStartDate ;
+    .
+    ?party
+        :partyHasPartyMembership ?partyMembership ;
+        :partyName ?partyName ;
+    .
+
+    OPTIONAL { ?formalBody :formalBodyName ?formalBodyName . }
+    OPTIONAL { ?formalBody :formalBodyRemit ?formalBodyRemit . }
+    OPTIONAL {
+        ?formalBodyType
+            :formalBodyTypeHasFormalBody ?formalBody ;
+            :formalBodyTypeName ?formalBodyTypeName ;
+        .
+    }
+    OPTIONAL { ?person :personGivenName ?personGivenName . }
+    OPTIONAL { ?person :personOtherNames ?personOtherNames . }
+    OPTIONAL { ?person :personFamilyName ?personFamilyName . }
+
+    MINUS{?formalBody a :PastFormalBody . }
+    MINUS{?formalBodyMembership a :PastFormalBodyMembership . }
+    MINUS{?partyMembership a :PastPartyMembership . }
+}
