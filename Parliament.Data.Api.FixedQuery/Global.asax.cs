@@ -125,6 +125,8 @@
             config.Routes.MapHttpRoute("WithoutExtension", "{name}", new { controller = "FixedQuery", ext = string.Empty }, constraints, pipeline);
             config.Routes.MapHttpRoute("BadRequest", "{*any}", new { controller = "BadRequest" });
 
+            config.Services.Add(typeof(IExceptionLogger), new AIExceptionLogger());
+
             config.Formatters.Clear();
             config.Formatters.Add(new HttpErrorJsonFormatter());
             config.Formatters.Add(new HttpErrorXmlFormatter());
