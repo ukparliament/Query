@@ -10,7 +10,6 @@
     using System.Web.Http;
     using System.Web.Http.Description;
     using System.Web.Http.Dispatcher;
-    using System.Web.Http.ExceptionHandling;
     using VDS.RDF;
     using VDS.RDF.Parsing;
     using VDS.RDF.Writing;
@@ -124,8 +123,6 @@
             config.Routes.MapHttpRoute("WithExtension", "{name}.{ext}", new { controller = "FixedQuery" }, constraints, pipeline);
             config.Routes.MapHttpRoute("WithoutExtension", "{name}", new { controller = "FixedQuery", ext = string.Empty }, constraints, pipeline);
             config.Routes.MapHttpRoute("BadRequest", "{*any}", new { controller = "BadRequest" });
-
-            config.Services.Add(typeof(IExceptionLogger), new AIExceptionLogger());
 
             config.Formatters.Clear();
             config.Formatters.Add(new HttpErrorJsonFormatter());
