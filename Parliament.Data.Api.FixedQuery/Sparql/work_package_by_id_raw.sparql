@@ -1,17 +1,17 @@
 ﻿PREFIX : @schemaUri
 
 CONSTRUCT {
-	?workPackageableThing 
-		a :WorkPackageableThing, ?statutoryInstrument, ?proposedStatutoryInstrument ;
-		:workPackageableThingHasWorkPackage ?workPackage ;
-		:workPackageableThingName ?workPackageableThingName ;
-		:workPackageableThingComingIntoForceDate ?workPackageableThingComingIntoForceDate ;
-		:workPackageableThingComingIntoForceNote ?workPackageableThingComingIntoForceNote ;
-		:workPackageableThingTimeLimitForObjectionEndDate ?workPackageableThingTimeLimitForObjectionEndDate ;
-		:workPackageableThingHasWorkPackageableThingWebLink ?workPackageableThingWebLink ;
-		:statutoryInstrumentNumberPrefix ?statutoryInstrumentNumberPrefix ;
-		:statutoryInstrumentNumber ?statutoryInstrumentNumber ;
-		:statutoryInstrumentNumberYear ?statutoryInstrumentNumberYear ;
+	?workPackagedThing 
+		a :WorkPackagedThing, ?statutoryInstrument, ?proposedStatutoryInstrument ;
+		:workPackagedThingHasWorkPackage ?workPackage ;
+		:workPackagedThingName ?workPackagedThingName ;
+		:statutoryInstrumentPaperComingIntoForceDate ?statutoryInstrumentPaperComingIntoForceDate ;
+		:statutoryInstrumentPaperComingIntoForceNote ?statutoryInstrumentPaperComingIntoForceNote ;
+		:statutoryInstrumentPaperMadeDate ?statutoryInstrumentPaperMadeDate ;
+		:workPackagedThingHasWorkPackagedThingWebLink ?workPackagedThingHasWorkPackagedThingWebLink ;
+		:statutoryInstrumentPaperPrefix ?statutoryInstrumentPaperPrefix ;
+		:statutoryInstrumentPaperNumber ?statutoryInstrumentPaperNumber ;
+		:statutoryInstrumentPaperYear ?statutoryInstrumentPaperYear ;
 	.
 	?workPackage
 		a :WorkPackage ;
@@ -88,26 +88,26 @@ CONSTRUCT {
 	.
 }
 WHERE {
-	BIND (@work_package_id as ?workPackageableThing)
+	BIND (@work_package_id as ?workPackagedThing)
 	OPTIONAL {
-		BIND (:StatutoryInstrument as ?statutoryInstrument)
-		?workPackageableThing a ?statutoryInstrument.
+		BIND (:StatutoryInstrumentPaper as ?statutoryInstrument)
+		?workPackagedThing a ?statutoryInstrument.
 	}
 	OPTIONAL {
-		BIND (:ProposedStatutoryInstrument as ?proposedStatutoryInstrument)
-		?workPackageableThing a ?proposedStatutoryInstrument.
+		BIND (:ProposedNegativeStatutoryInstrumentPaper as ?proposedStatutoryInstrument)
+		?workPackagedThing a ?proposedStatutoryInstrument.
 	}
-	?workPackageableThing :workPackageableThingName ?workPackageableThingName .
-	OPTIONAL { ?workPackageableThing :workPackageableThingComingIntoForceDate ?workPackageableThingComingIntoForceDate }
-	OPTIONAL { ?workPackageableThing :workPackageableThingComingIntoForceNote ?workPackageableThingComingIntoForceNote }
-	OPTIONAL { ?workPackageableThing :workPackageableThingTimeLimitForObjectionEndDate ?workPackageableThingTimeLimitForObjectionEndDate }
-	OPTIONAL { ?workPackageableThing :workPackageableThingHasWorkPackageableThingWebLink ?workPackageableThingWebLink }
-	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumberPrefix ?statutoryInstrumentNumberPrefix }
-	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumber ?statutoryInstrumentNumber }
-	OPTIONAL { ?workPackageableThing :statutoryInstrumentNumberYear ?statutoryInstrumentNumberYear }
+	?workPackagedThing :workPackagedThingName ?workPackagedThingName .
+	OPTIONAL { ?workPackagedThing :statutoryInstrumentPaperComingIntoForceDate ?statutoryInstrumentPaperComingIntoForceDate }
+	OPTIONAL { ?workPackagedThing :statutoryInstrumentPaperComingIntoForceNote ?statutoryInstrumentPaperComingIntoForceNote }
+	OPTIONAL { ?workPackagedThing :statutoryInstrumentPaperMadeDate ?statutoryInstrumentPaperMadeDate }
+	OPTIONAL { ?workPackagedThing :workPackagedThingHasWorkPackagedThingWebLink ?workPackagedThingHasWorkPackagedThingWebLink }
+	OPTIONAL { ?workPackagedThing :statutoryInstrumentPaperPrefix ?statutoryInstrumentPaperPrefix }
+	OPTIONAL { ?workPackagedThing :statutoryInstrumentPaperNumber ?statutoryInstrumentPaperNumber }
+	OPTIONAL { ?workPackagedThing :statutoryInstrumentPaperYear ?statutoryInstrumentPaperYear }
 
 	OPTIONAL {
-		?workPackageableThing :workPackageableThingHasWorkPackage ?workPackage .
+		?workPackagedThing :workPackagedThingHasWorkPackage ?workPackage .
 		?workPackage :workPackageHasProcedure ?procedure .
 		?procedure :procedureName ?procedureName .
 		OPTIONAL {

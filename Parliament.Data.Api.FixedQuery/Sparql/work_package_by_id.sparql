@@ -2,17 +2,18 @@
 PREFIX : @schemaUri
 
 CONSTRUCT {
+	#used old model, TODO: replace names as per new model
   ?package
     a :WorkPackage ;
-    :workPackageHasWorkPackageableThing ?packageable ;
+    :workPackageHasWorkPackageableThing ?workPackaged ;
     :workPackageHasProcedure ?procedure ;
     :workPackageHasBusinessItem ?item ;
     .
 
-  ?packageable
+  ?workPackaged
     a :WorkPackageableThing ;
-    :workPackageableThingName ?packageableName ;
-    :workPackageableThingHasWorkPackageableThingWebLink ?packageableLink ;
+    :workPackageableThingName ?workPackagedThingName ;
+    :workPackageableThingHasWorkPackageableThingWebLink ?workPackagedLink ;
     .
 
   ?procedure
@@ -67,10 +68,10 @@ WHERE {
   ?procedure :procedureName ?procedureName .
 
   OPTIONAL {
-    ?package :workPackageHasWorkPackageableThing ?packageable . 
+    ?package :workPackageHasWorkPackagedThing ?workPackaged . 
 
-    OPTIONAL { ?packageable :workPackageableThingName ?packageableName . }
-    OPTIONAL { ?packageable :workPackageableThingHasWorkPackageableThingWebLink ?packageableLink . }
+    OPTIONAL { ?workPackaged :workPackagedThingName ?workPackagedThingName . }
+    OPTIONAL { ?workPackaged :workPackagedThingHasWorkPackagedThingWebLink ?workPackagedLink . }
   }
 
   {

@@ -7,16 +7,16 @@ CONSTRUCT {
         :procedureName ?procedureName ;
         :procedureHasWorkPackage ?package ;
     .
-
+	#used old model, TODO: replace names as per new model
     ?package
         a :WorkPackage ;
-        :workPackageHasWorkPackageableThing ?packageable ;
+        :workPackageHasWorkPackageableThing ?workPackaged ;
         ex:oldestBusinessItemDate ?date ;
     .
 
-    ?packageable
+    ?workPackaged
         a :WorkPackageableThing ;
-        :workPackageableThingName ?packageableName ;
+        :workPackageableThingName ?workPackagedThingName ;
     .
 }
 WHERE {
@@ -38,9 +38,9 @@ WHERE {
             GROUP BY ?package
         }
 
-        ?packageable
-            :workPackageableThingHasWorkPackage ?package ;
-            :workPackageableThingName ?packageableName ;
+        ?workPackaged
+            :workPackagedThingHasWorkPackage ?package ;
+            :workPackagedThingName ?workPackagedThingName ;
         .
     }
 }
