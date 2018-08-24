@@ -1,0 +1,101 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+	?statutoryInstrumentPaper
+		a :StatutoryInstrumentPaper;
+		:statutoryInstrumentPaperYear ?statutoryInstrumentPaperYear ;
+		:statutoryInstrumentPaperPrefix ?statutoryInstrumentPaperPrefix ;
+		:statutoryInstrumentPaperNumber ?statutoryInstrumentPaperNumber ;
+		:statutoryInstrumentPaperName ?statutoryInstrumentPaperName ;
+		:statutoryInstrumentPaperComingIntoForceNote ?statutoryInstrumentPaperComingIntoForceNote ;
+		:statutoryInstrumentPaperComingIntoForceDate ?statutoryInstrumentPaperComingIntoForceDate ;
+		:statutoryInstrumentPaperMadeDate ?statutoryInstrumentPaperMadeDate ;
+		:statutoryInstrumentPaperFollowsProposedNegativeStatutoryInstrumentPaper ?proposedNegativeStatutoryInstrumentPaper ;
+		:workPackagedThingHasWorkPackagedThingWebLink ?workPackagedThingWebLink ;
+		:workPackagedThingHasWorkPackage ?workPackage .
+
+	?proposedNegativeStatutoryInstrumentPaper
+		a :ProposedNegativeStatutoryInstrumentPaper ;
+		:proposedNegativeStatutoryInstrumentPaperName ?proposedNegativeStatutoryInstrumentPaperName .
+
+	?workPackage
+		a :WorkPackage ;
+		:workPackageHasBusinessItem ?businessItem ;
+		:workPackageHasProcedure ?procedure .
+
+	?businessItem
+		a :BusinessItem, ?laying ;
+		:businessItemDate ?businessItemDate ;
+		:layingDate ?layingDate ;
+		:layingHasLayingBody ?layingBody ;
+		:layingHasLayingPerson ?layingPerson ;
+		:businessItemHasBusinessItemWebLink ?businessItemWebLink .
+
+	?procedure
+		a :Procedure ;
+		:procedureName ?procedureName .
+
+	?layingBody
+		a :LayingBody, :Group ;
+		:groupName ?groupName .
+
+	?layingPerson
+	    a :Person ;
+	    :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        :memberHasMemberImage ?personImage .
+
+    ?personImage
+         a :MemberImage .
+}
+WHERE {
+	BIND (@statutory_instrument_paper_id as ?statutoryInstrumentPaper)
+
+	?statutoryInstrumentPaper a :StatutoryInstrumentPaper .
+
+	OPTIONAL { ?statutoryInstrumentPaper :workPackagedThingHasWorkPackagedThingWebLink ?workPackagedThingWebLink . }
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperYear ?statutoryInstrumentPaperYear . }
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperPrefix ?statutoryInstrumentPaperPrefix . }
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperNumber ?statutoryInstrumentPaperNumber . }
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperName ?statutoryInstrumentPaperName . }
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperComingIntoForceNote ?statutoryInstrumentPaperComingIntoForceNote . }
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperComingIntoForceDate ?statutoryInstrumentPaperComingIntoForceDate . }
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperMadeDate ?statutoryInstrumentPaperMadeDate . }
+
+	OPTIONAL {
+		?statutoryInstrumentPaper :statutoryInstrumentPaperFollowsProposedNegativeStatutoryInstrumentPaper ?proposedNegativeStatutoryInstrumentPaper .
+		OPTIONAL { ?proposedNegativeStatutoryInstrumentPaper :proposedNegativeStatutoryInstrumentPaperName ?proposedNegativeStatutoryInstrumentPaperName . }
+	}
+	OPTIONAL {
+		?statutoryInstrumentPaper :workPackagedThingHasWorkPackage ?workPackage .
+
+		OPTIONAL{
+			?workPackage :workPackageHasProcedure ?procedure .
+			?procedure :procedureName ?procedureName .
+		}
+
+		OPTIONAL {
+			?workPackage :workPackageHasBusinessItem ?businessItem .
+			OPTIONAL { ?businessItem :businessItemDate ?businessItemDate . }
+			OPTIONAL { ?businessItem :businessItemHasBusinessItemWebLink ?businessItemWebLink . }
+			OPTIONAL {
+				BIND (:Laying as ?laying)
+
+				?businessItem a ?laying .
+				?businessItem :layingHasLayingBody ?layingBody .
+				OPTIONAL { ?layingBody :groupName ?groupName . }
+				OPTIONAL { ?businessItem :layingDate ?layingDate . }
+				OPTIONAL {
+				    ?businessItem :layingHasLayingPerson ?layingPerson ;
+
+				    OPTIONAL { ?layingPerson :personGivenName ?givenName . }
+                    OPTIONAL { ?layingPerson :personFamilyName ?familyName . }
+                    OPTIONAL { ?layingPerson <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs . }
+                    OPTIONAL { ?layingPerson :memberHasMemberImage ?personImage . }
+				}
+			}
+		}
+	}
+}
