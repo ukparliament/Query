@@ -10,4 +10,4 @@ $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$(
 
 $uri = "https://data-parliament.visualstudio.com/Platform/_apis/git/repositories/Query/pullrequests?api-version=4.1
 
-$body = @{targetRefName = "refs/heads/master"; sourceRefName = "refs/heads/$($newBranch)"; title = $newBranch} | ConvertTo-Json
+$body = @{targetRefName = "refs/heads/master"}
