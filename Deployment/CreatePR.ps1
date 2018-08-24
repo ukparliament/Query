@@ -12,5 +12,5 @@ $uri = "https://data-parliament.visualstudio.com/Platform/_apis/git/repositories
 
 $body = @{targetRefName = "refs/heads/master"; sourceRefName = "refs/heads/$($newBranch)"; title = $newBranch} | ConvertTo-Json
 
-Invoke-RestMethod -Uri $uri -Method Post -ContentType "application/json" -Headers @{Authorization = "Basic $($base64AuthInfo)"} -Body $body
+Invoke-RestMethod -Uri $uri -Method Post -ContentType "application/json" -Headers @{Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN"} -Body $body
 
