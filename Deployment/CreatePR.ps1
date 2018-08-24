@@ -2,7 +2,7 @@ param (
     [string]$branch,
     [string]$token
  )
-
+ 
 $parsedSourceBranch = $branch | ConvertFrom-String -TemplateContent "refs/pull/{PR:pr}/merge"
 $newBranch = "GitHubPullRequest/$($parsedSourceBranch.PR)"
 
