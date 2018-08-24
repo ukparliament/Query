@@ -8,7 +8,7 @@ $newBranch = "GitHubPullRequest/$($parsedSourceBranch.PR)"
 
 $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$($token)"))
 
-$uri = "https://data-parliament.visualstudio.com/Platform/_apis/git/repositories/Query/pullrequests?api-version=4.1"
+$uri = "$($env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI)$env:SYSTEM_TEAMPROJECTID/_apis/git/repositories/Query/pullrequests?api-version=4.1"
 
 $body = @{targetRefName = "refs/heads/master"; sourceRefName = "refs/heads/$($newBranch)"; title = $newBranch} | ConvertTo-Json
 
