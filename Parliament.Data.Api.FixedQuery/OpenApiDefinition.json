@@ -6243,6 +6243,30 @@
         }
       }
     },
+    "/proposed_negative_statutory_instrument_paper_index{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/question_by_id{ext}": {
       "x-type": "single",
       "get": {
@@ -6696,6 +6720,30 @@
             "schema": {
               "type": "string"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/statutory_instrument_paper_index{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
           }
         ],
         "responses": {
