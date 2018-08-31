@@ -1,0 +1,27 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+	?statutoryInstrumentPaper
+		a :StatutoryInstrumentPaper ;
+		:statutoryInstrumentPaperYear ?statutoryInstrumentPaperYear ;
+		:statutoryInstrumentPaperPrefix ?statutoryInstrumentPaperPrefix ;
+		:statutoryInstrumentPaperNumber ?statutoryInstrumentPaperNumber ;
+		:statutoryInstrumentPaperName ?statutoryInstrumentPaperName ;
+		:laidThingHasLaying ?laying .
+	?laying
+		a :Laying ;
+		:layingDate ?layingDate .
+}
+WHERE {
+    ?statutoryInstrumentPaper a :StatutoryInstrumentPaper .
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperYear ?statutoryInstrumentPaperYear . }
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperPrefix ?statutoryInstrumentPaperPrefix . }
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperNumber ?statutoryInstrumentPaperNumber . }
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperName ?statutoryInstrumentPaperName . }
+
+	OPTIONAL {
+		?statutoryInstrumentPaper :laidThingHasLaying ?laying .
+		OPTIONAL { ?laying :layingDate ?layingDate . }
+	}
+}

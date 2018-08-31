@@ -1,0 +1,20 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+	?proposedNegativeStatutoryInstrumentPaper
+		a :ProposedNegativeStatutoryInstrumentPaper ;
+		:proposedNegativeStatutoryInstrumentPaperName ?proposedNegativeStatutoryInstrumentPaperName ;
+		:laidThingHasLaying ?laying .
+	?laying
+		a :Laying ;
+		:layingDate ?layingDate .
+}
+WHERE {
+    ?proposedNegativeStatutoryInstrumentPaper a :ProposedNegativeStatutoryInstrumentPaper .
+	OPTIONAL { ?proposedNegativeStatutoryInstrumentPaper :proposedNegativeStatutoryInstrumentPaperName ?proposedNegativeStatutoryInstrumentPaperName . }
+	OPTIONAL {
+		?proposedNegativeStatutoryInstrumentPaper :laidThingHasLaying ?laying .
+		OPTIONAL { ?laying :layingDate ?layingDate . }
+	}
+}

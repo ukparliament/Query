@@ -3,7 +3,7 @@ PREFIX : @schemaUri
 
 CONSTRUCT {
 	?statutoryInstrumentPaper
-		a :StatutoryInstrumentPaper;
+		a :StatutoryInstrumentPaper ;
 		:statutoryInstrumentPaperYear ?statutoryInstrumentPaperYear ;
 		:statutoryInstrumentPaperPrefix ?statutoryInstrumentPaperPrefix ;
 		:statutoryInstrumentPaperNumber ?statutoryInstrumentPaperNumber ;
