@@ -6208,7 +6208,7 @@
         }
       }
     },
-    "/proposed_negative_statutory_instrument_paper_by_id{ext}": {
+    "/proposed_negative_statutory_instrument_by_id{ext}": {
       "x-type": "single",
       "get": {
         "parameters": [
@@ -6243,7 +6243,7 @@
         }
       }
     },
-    "/proposed_negative_statutory_instrument_paper_index{ext}": {
+    "/proposed_negative_statutory_instrument_index{ext}": {
       "x-type": "list",
       "get": {
         "parameters": [
@@ -6700,7 +6700,7 @@
         }
       }
     },
-    "/statutory_instrument_paper_by_id{ext}": {
+    "/statutory_instrument_by_id{ext}": {
       "x-type": "single",
       "get": {
         "parameters": [
@@ -6735,7 +6735,7 @@
         }
       }
     },
-    "/statutory_instrument_paper_index{ext}": {
+    "/statutory_instrument_index{ext}": {
       "x-type": "list",
       "get": {
         "parameters": [

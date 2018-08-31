@@ -3,7 +3,7 @@ PREFIX : @schemaUri
 
 CONSTRUCT {
 	?proposedNegativeStatutoryInstrumentPaper
-		a :ProposedNegativeStatutoryInstrumentPaper ;
+		a :ProposedNegativeStatutoryInstrumentPaper, :WorkPackagedThing, :LaidThing ;
 		:proposedNegativeStatutoryInstrumentPaperName ?proposedNegativeStatutoryInstrumentPaperName ;
 		:workPackagedThingHasWorkPackagedThingWebLink ?workPackagedThingWebLink ;
 		:proposedNegativeStatutoryInstrumentPaperPrecedesStatutoryInstrumentPaper ?statutoryInstrumentPaper ;
