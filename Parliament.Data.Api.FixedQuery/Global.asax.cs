@@ -76,13 +76,13 @@
                         SparqlWriter = () => new SparqlXmlWriter()
                     },
                     new MimeMapping {
-                        MimeTypes = new[] { "application/json+ld", "application/json" },
+                        MimeTypes = new[] { "application/ld+json", "application/json" },
                         Extensions = new[] { "json", "jsonld" },
                         RdfWriter = () => new FriendlyJsonLdWriter(new FriendlyJsonLDWriterSettings{ BaseUri = Global.InstanceUri, VocabularyUri = Global.SchemaUri }),
                         SparqlWriter = () => new SparqlJsonWriter()
                     },
                     new MimeMapping {
-                        MimeTypes = new[] { "application/json+rdf" },
+                        MimeTypes = new[] { "application/rdf+json" },
                         Extensions = new[] { "rj" },
                         RdfWriter = () => new RdfJsonWriter()
                     },
