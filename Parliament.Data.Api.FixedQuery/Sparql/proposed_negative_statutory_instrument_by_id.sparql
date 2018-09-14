@@ -36,12 +36,7 @@ CONSTRUCT {
     	a :Person ;
     	:personGivenName ?givenName ;
         :personFamilyName ?familyName ;
-        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
-        :memberHasMemberImage ?personImage .
-
-    ?personImage
-        a :MemberImage .
-
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs .
 }
 WHERE {
 	BIND (@proposed_negative_statutory_instrument_paper as ?proposedNegativeStatutoryInstrumentPaper)
@@ -66,7 +61,6 @@ WHERE {
 			OPTIONAL { ?layingPerson :personGivenName ?givenName . }
             OPTIONAL { ?layingPerson :personFamilyName ?familyName . }
             OPTIONAL { ?layingPerson <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs . }
-            OPTIONAL { ?layingPerson :memberHasMemberImage ?personImage . }
         }
 	}
 	OPTIONAL {
