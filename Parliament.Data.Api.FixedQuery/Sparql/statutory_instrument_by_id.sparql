@@ -3,7 +3,7 @@ PREFIX : @schemaUri
 
 CONSTRUCT {
 	?statutoryInstrumentPaper
-		a :StatutoryInstrumentPaper ;
+		a :StatutoryInstrumentPaper, :WorkPackagedThing, :LaidThing ;
 		:statutoryInstrumentPaperYear ?statutoryInstrumentPaperYear ;
 		:statutoryInstrumentPaperPrefix ?statutoryInstrumentPaperPrefix ;
 		:statutoryInstrumentPaperNumber ?statutoryInstrumentPaperNumber ;
@@ -13,6 +13,7 @@ CONSTRUCT {
 		:statutoryInstrumentPaperMadeDate ?statutoryInstrumentPaperMadeDate ;
 		:statutoryInstrumentPaperFollowsProposedNegativeStatutoryInstrumentPaper ?proposedNegativeStatutoryInstrumentPaper ;
 		:workPackagedThingHasWorkPackagedThingWebLink ?workPackagedThingWebLink ;
+		:laidThingHasLaying ?laying ;
 		:workPackagedThingHasWorkPackage ?workPackage .
 
 	?proposedNegativeStatutoryInstrumentPaper
@@ -21,34 +22,27 @@ CONSTRUCT {
 
 	?workPackage
 		a :WorkPackage ;
-		:workPackageHasBusinessItem ?businessItem ;
 		:workPackageHasProcedure ?procedure .
 
-	?businessItem
-		a :BusinessItem, ?laying ;
-		:businessItemDate ?businessItemDate ;
+	?laying
+		a :Laying ;
 		:layingDate ?layingDate ;
 		:layingHasLayingBody ?layingBody ;
-		:layingHasLayingPerson ?layingPerson ;
-		:businessItemHasBusinessItemWebLink ?businessItemWebLink .
+		:layingHasLayingPerson ?layingPerson .
 
 	?procedure
 		a :Procedure ;
 		:procedureName ?procedureName .
 
 	?layingBody
-		a :LayingBody, :Group ;
+		a :Group ;
 		:groupName ?groupName .
 
 	?layingPerson
 	    a :Person ;
 	    :personGivenName ?givenName ;
         :personFamilyName ?familyName ;
-        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
-        :memberHasMemberImage ?personImage .
-
-    ?personImage
-         a :MemberImage .
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs .
 }
 WHERE {
 	BIND (@statutory_instrument_paper_id as ?statutoryInstrumentPaper)
@@ -69,33 +63,24 @@ WHERE {
 		OPTIONAL { ?proposedNegativeStatutoryInstrumentPaper :proposedNegativeStatutoryInstrumentPaperName ?proposedNegativeStatutoryInstrumentPaperName . }
 	}
 	OPTIONAL {
+		?statutoryInstrumentPaper :laidThingHasLaying ?laying .
+		?laying :layingHasLayingBody ?layingBody .
+		OPTIONAL { ?layingBody :groupName ?groupName . }
+		OPTIONAL { ?laying :layingDate ?layingDate . }
+		OPTIONAL {
+			?laying :layingHasLayingPerson ?layingPerson ;
+
+			OPTIONAL { ?layingPerson :personGivenName ?givenName . }
+            OPTIONAL { ?layingPerson :personFamilyName ?familyName . }
+            OPTIONAL { ?layingPerson <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs . }
+        }
+	}
+	OPTIONAL {
 		?statutoryInstrumentPaper :workPackagedThingHasWorkPackage ?workPackage .
 
 		OPTIONAL{
 			?workPackage :workPackageHasProcedure ?procedure .
 			?procedure :procedureName ?procedureName .
-		}
-
-		OPTIONAL {
-			?workPackage :workPackageHasBusinessItem ?businessItem .
-			OPTIONAL { ?businessItem :businessItemDate ?businessItemDate . }
-			OPTIONAL { ?businessItem :businessItemHasBusinessItemWebLink ?businessItemWebLink . }
-			OPTIONAL {
-				BIND (:Laying as ?laying)
-
-				?businessItem a ?laying .
-				?businessItem :layingHasLayingBody ?layingBody .
-				OPTIONAL { ?layingBody :groupName ?groupName . }
-				OPTIONAL { ?businessItem :layingDate ?layingDate . }
-				OPTIONAL {
-				    ?businessItem :layingHasLayingPerson ?layingPerson ;
-
-				    OPTIONAL { ?layingPerson :personGivenName ?givenName . }
-                    OPTIONAL { ?layingPerson :personFamilyName ?familyName . }
-                    OPTIONAL { ?layingPerson <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs . }
-                    OPTIONAL { ?layingPerson :memberHasMemberImage ?personImage . }
-				}
-			}
 		}
 	}
 }
