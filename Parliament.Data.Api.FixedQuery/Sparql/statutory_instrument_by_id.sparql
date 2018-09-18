@@ -45,7 +45,7 @@ CONSTRUCT {
         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs .
 }
 WHERE {
-	BIND (@statutory_instrument_paper_id as ?statutoryInstrumentPaper)
+	BIND (@statutory_instrument_id as ?statutoryInstrumentPaper)
 
 	?statutoryInstrumentPaper a :StatutoryInstrumentPaper .
 
