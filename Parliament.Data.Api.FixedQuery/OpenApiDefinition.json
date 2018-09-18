@@ -6219,7 +6219,7 @@
             "$ref": "#/components/parameters/formatGraph"
           },
           {
-            "name": "proposed_negative_statutory_instrument_paper_id",
+            "name": "proposed_negative_statutory_instrument_id",
             "in": "query",
             "description": "instanceUri",
             "x-type": "instanceUri",
@@ -6711,7 +6711,7 @@
             "$ref": "#/components/parameters/formatGraph"
           },
           {
-            "name": "statutory_instrument_paper_id",
+            "name": "statutory_instrument_id",
             "in": "query",
             "description": "instanceUri",
             "x-type": "instanceUri",
