@@ -198,8 +198,8 @@
                     new[] {"person_photo_index" },
                     new[] {"procedure_by_id?procedure_id=5S6p4YsP" },
                     new[] {"procedure_index" },
-                    new[] {"proprosed_negative_statutory_instrument_by_id?proposed_negative_statutory_instrument_id=Tn1xqHc0"}
-                    new[] {"proposed_negative_statutory_instrument_index"}
+                    new[] {"proprosed_negative_statutory_instrument_by_id?proposed_negative_statutory_instrument_id=Tn1xqHc0"},
+                    new[] {"proposed_negative_statutory_instrument_index"},
                     new[] {"question_by_id?question_id=s7kNrhvX" },
                     new[] {"questions_answeredby_member?member_id=aJ7Os4SE" },
                     new[] {"questions_askedby_member?member_id=aJ7Os4SE" },
