@@ -1,28 +1,18 @@
 PREFIX : @schemaUri
 
 CONSTRUCT {
-    ?group
-        a :Group ;
-        :groupStartDate ?startDate ;
-        :groupName ?groupName .
-    _:x :value ?firstLetter .
+  ?group
+    a :Group;
+    :groupName ?groupName;
+    :groupStartDate ?groupStartDate.
+ }
 
-}
 WHERE {
   { SELECT * WHERE {
-      ?group a :Group .
-      FILTER NOT EXISTS { ?group a :PastGroup . }
-      OPTIONAL { ?group :groupName ?groupName } .
-      OPTIONAL { ?group :groupStartDate ?startDate } .
-      }
+        ?group a :Group.
+  FILTER NOT EXISTS {?group a :PastGroup . }
+  OPTIONAL { ?group :groupName ?groupName . }
+  OPTIONAL { ?group :groupStartDate ?groupStartDate . }
     }
-    UNION {
-            SELECT DISTINCT ?firstLetter
-    WHERE {
-          ?group a :Group .
-          FILTER NOT EXISTS { ?group a :PastGroup . }
-          ?group :groupName ?groupName .
-          BIND(ucase(SUBSTR(?groupName, 1, 1)) as ?firstLetter)
-          }
-    }
-}
+  }
+} 
