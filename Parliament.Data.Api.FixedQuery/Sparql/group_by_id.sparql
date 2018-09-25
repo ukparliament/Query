@@ -2,7 +2,7 @@ PREFIX : @schemaUri
 
 CONSTRUCT {
   ?group
-    a :group;
+    a :Group;
     :groupName ?groupName;
     :groupStartDate ?groupStartDate;
     :groupEndDate ?groupEndDate.
@@ -16,4 +16,4 @@ WHERE {
   OPTIONAL { ?group :groupName ?groupName . }
   OPTIONAL { ?group :groupStartDate ?groupStartDate . }
   OPTIONAL { ?group :groupEndDate ?groupEndDate . }
-} 
+}
