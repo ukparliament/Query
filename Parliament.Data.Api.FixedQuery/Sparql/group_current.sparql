@@ -8,11 +8,9 @@ CONSTRUCT {
  }
 
 WHERE {
-  { SELECT * WHERE {
-        ?group a :Group.
-  FILTER NOT EXISTS {?group a :PastGroup . }
-  OPTIONAL { ?group :groupName ?groupName . }
-  OPTIONAL { ?group :groupStartDate ?groupStartDate . }
-    }
-  }
-} 
+  ?group a :Group.
+FILTER NOT EXISTS {?group a :PastGroup . }
+OPTIONAL { ?group :groupName ?groupName . }
+OPTIONAL { ?group :groupStartDate ?groupStartDate . }
+
+}

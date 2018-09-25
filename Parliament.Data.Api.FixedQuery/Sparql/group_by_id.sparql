@@ -4,7 +4,8 @@ CONSTRUCT {
   ?group
     a :group;
     :groupName ?groupName;
-    :groupStartDate ?groupStartDate.
+    :groupStartDate ?groupStartDate;
+    :groupEndDate ?groupEndDate.
  }
 
 WHERE {
@@ -14,4 +15,5 @@ WHERE {
 
   OPTIONAL { ?group :groupName ?groupName . }
   OPTIONAL { ?group :groupStartDate ?groupStartDate . }
-}
+  OPTIONAL { ?group :groupEndDate ?groupEndDate . }
+} 
