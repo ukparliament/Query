@@ -2,18 +2,36 @@ PREFIX : @schemaUri
 
 CONSTRUCT {
   ?group
-    a :Group;
+    a :Group, ?type;
     :groupName ?groupName;
     :groupStartDate ?groupStartDate;
-    :groupEndDate ?groupEndDate.
+    :groupEndDate ?groupEndDate;
+    :layingBodyHasLaying ?laying.
+
+  ?laying
+    a :Laying;
+    :layingDate ?layingDate;
+    :layingHasLaidThing ?laidThing.
+
+  ?laidThing
+    a :LaidThing;
+  	:laidThingName ?laidThingName.
+
  }
 
 WHERE {
   BIND (@group_id as ?group)
 
   ?group a :Group.
-
+  ?group a ?type.
   OPTIONAL { ?group :groupName ?groupName . }
   OPTIONAL { ?group :groupStartDate ?groupStartDate . }
   OPTIONAL { ?group :groupEndDate ?groupEndDate . }
+  OPTIONAL { ?group :layingBodyHasLaying ?laying .
+
+    OPTIONAL { ?laying :layingDate ?layingDate . }
+    OPTIONAL { ?laying :layingHasLaidThing ?laidThing.
+      OPTIONAL { ?laidThing :laidThingName ?laidThingName . }
+    }
+  }
 }
