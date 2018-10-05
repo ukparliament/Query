@@ -16,7 +16,17 @@ CONSTRUCT {
 
 	?workPackage
 		a :WorkPackage ;
-		:workPackageHasProcedure ?procedure .
+		:workPackageHasProcedure ?procedure ;
+    	:workPackageHasBusinessItem ?businessItem .
+
+  	?businessItem
+    	a :BusinessItem ;
+    	:businessItemDate ?businessItemDate ;
+    	:businessItemHasProcedureStep ?procedureStep .
+
+  	?procedureStep
+    	a :ProcedureStep ;
+    	:procedureStepName ?procedureStepName .
 
 	?laying
 		a :Laying ;
@@ -70,5 +80,12 @@ WHERE {
 			?workPackage :workPackageHasProcedure ?procedure .
 			?procedure :procedureName ?procedureName .
 		}
+    	OPTIONAL {
+      		?workPackage :workPackageHasBusinessItem ?businessItem .
+      		OPTIONAL { ?businessItem :businessItemDate ?businessItemDate . }
+        		BIND (<https://id.parliament.uk/3TPVFlNJ> as ?procedureStep)
+        		?businessItem :businessItemHasProcedureStep ?procedureStep .
+        		OPTIONAL { ?procedureStep :procedureStepName ?procedureStepName . }
+    	}
 	}
 }

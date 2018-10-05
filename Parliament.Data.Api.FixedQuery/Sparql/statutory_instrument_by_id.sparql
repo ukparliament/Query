@@ -22,7 +22,18 @@ CONSTRUCT {
 
 	?workPackage
 		a :WorkPackage ;
-		:workPackageHasProcedure ?procedure .
+		:workPackageHasProcedure ?procedure ;
+    	:workPackageHasBusinessItem ?businessItem .
+
+  	?businessItem
+    	a :BusinessItem ;
+    	:businessItemDate ?businessItemDate ;
+    	:businessItemHasProcedureStep ?procedureStep .
+
+  	?procedureStep
+    	a :ProcedureStep ;
+    	:procedureStepName ?procedureStepName ;
+    	:procedureStepDescription ?procedureStepDescription .
 
 	?laying
 		a :Laying ;
@@ -46,6 +57,7 @@ CONSTRUCT {
 }
 WHERE {
 	BIND (@statutory_instrument_id as ?statutoryInstrumentPaper)
+
 
 	?statutoryInstrumentPaper a :StatutoryInstrumentPaper .
 
@@ -82,5 +94,12 @@ WHERE {
 			?workPackage :workPackageHasProcedure ?procedure .
 			?procedure :procedureName ?procedureName .
 		}
+    	OPTIONAL {
+      		?workPackage :workPackageHasBusinessItem ?businessItem .
+      		OPTIONAL { ?businessItem :businessItemDate ?businessItemDate . }
+        		BIND (<https://id.parliament.uk/g8B3R2Ou> as ?procedureStep)
+        		?businessItem :businessItemHasProcedureStep ?procedureStep .
+        		OPTIONAL { ?procedureStep :procedureStepName ?procedureStepName . }
+    	}
 	}
 }
