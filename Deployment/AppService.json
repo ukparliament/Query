@@ -126,7 +126,7 @@
           "properties": {
             "WEBSITE_NODE_DEFAULT_VERSION": "6.9.1",
             "ApplicationInsightsInstrumentationKey": "[reference(resourceId(subscription().subscriptionId,parameters('operationsResourceGroupName'),'Microsoft.Insights/Components',parameters('applicationInsightsName')),'2014-04-01').InstrumentationKey]",
-            "SparqlEndpoint": "",
+            "SparqlEndpoint": "https://api.parliament.uk/sparql",
             "SubscriptionKey": "",
             "ApiVersion": "",
             "ContentfulDeliveryApiKey": "[parameters('contentfulDeliveryApiKey')]",
