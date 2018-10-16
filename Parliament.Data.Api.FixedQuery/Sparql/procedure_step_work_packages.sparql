@@ -1,0 +1,40 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+  ?procedureStep 
+    a :ProcedureStep ;
+  	:procedureStepName ?procedureStepName ;
+  	:procedureStepDescription ?procedureStepDescription .
+  ?businessItem
+    a :BusinessItem ;
+    :businessItemDate ?businessItemDate .  
+  ?workPackage
+    a :WorkPackage ;
+    :workPackageHasWorkPackagedThing ?workPackagedThing .
+  
+  ?workPackagedThing
+    a :WorkPackagedThing ;
+    :workPackagedThingName ?workPackagedThingName .
+}
+WHERE {
+  BIND(@procedure_step_id AS ?procedureStep)
+  
+  ?procedureStep a :ProcedureStep .
+  OPTIONAL { ?procedureStep :procedureStepName ?procedureStepName . }
+  OPTIONAL { ?procedureStep :procedureStepDescription ?procedureStepDescription . }
+  
+  OPTIONAL {
+    ?procedureStep :procedureStepHasBusinessItem ?businessItem . 
+    OPTIONAL { ?businessItem :businessItemDate ?businessItemDate . }
+    
+    OPTIONAL {
+      ?businessItem :businessItemHasWorkPackage ?workPackage . 
+      
+      OPTIONAL {
+        ?workPackage :workPackageHasWorkPackagedThing ?workPackagedThing .
+        OPTIONAL { ?workPackagedThing :workPackagedThingName ?workPackagedThingName . }
+      }
+    }
+  }
+}

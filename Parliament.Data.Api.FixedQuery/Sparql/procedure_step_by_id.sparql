@@ -1,0 +1,32 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+  ?procedureStep 
+    a :ProcedureStep ;
+  	:procedureStepName ?procedureStepName ;
+  	:procedureStepDescription ?procedureStepDescription .
+  ?businessItem
+    a :BusinessItem ;
+    :businessItemDate ?businessItemDate .  
+  ?house
+    a :House ;
+    :houseName ?houseName .
+}
+WHERE {
+  BIND(@procedure_step_id AS ?procedureStep)
+  
+  ?procedureStep a :ProcedureStep .
+  OPTIONAL { ?procedureStep :procedureStepName ?procedureStepName . }
+  OPTIONAL { ?procedureStep :procedureStepDescription ?procedureStepDescription . }
+  
+  OPTIONAL {
+    ?procedureStep :procedureStepHasBusinessItem ?businessItem . 
+    OPTIONAL { ?businessItem :businessItemDate ?businessItemDate . }
+  }
+  
+  OPTIONAL {
+    ?procedureStep :procedureStepHasHouse ?house .
+    ?house :houseName ?houseName .
+  }
+}
