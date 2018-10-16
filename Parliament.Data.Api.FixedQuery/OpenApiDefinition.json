@@ -6230,7 +6230,7 @@
             "$ref": "#/components/parameters/formatGraph"
           },
           {
-            "name": "procedure_step_by_id",
+            "name": "procedure_step_id",
             "in": "query",
             "description": "instanceUri",
             "x-type": "instanceUri",
@@ -6289,7 +6289,7 @@
             "$ref": "#/components/parameters/formatGraph"
           },
           {
-            "name": "procedure_step_work_packages",
+            "name": "procedure_step_id",
             "in": "query",
             "description": "instanceUri",
             "x-type": "instanceUri",
