@@ -5,14 +5,15 @@ CONSTRUCT {
   ?procedureStep 
     a :ProcedureStep ;
   	:procedureStepName ?procedureStepName ;
-  	:procedureStepDescription ?procedureStepDescription .
+  	:procedureStepDescription ?procedureStepDescription ;
+    :procedureStepHasBusinessItem ?businessItem . 
   ?businessItem
     a :BusinessItem ;
-    :businessItemDate ?businessItemDate .  
+    :businessItemDate ?businessItemDate ;
+    :businessItemHasWorkPackage ?workPackage . 
   ?workPackage
     a :WorkPackage ;
     :workPackageHasWorkPackagedThing ?workPackagedThing .
-  
   ?workPackagedThing
     a :WorkPackagedThing ;
     :workPackagedThingName ?workPackagedThingName .

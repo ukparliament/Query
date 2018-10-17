@@ -5,10 +5,9 @@ CONSTRUCT {
   ?procedureStep 
     a :ProcedureStep ;
   	:procedureStepName ?procedureStepName ;
-  	:procedureStepDescription ?procedureStepDescription .
-  ?businessItem
-    a :BusinessItem ;
-    :businessItemDate ?businessItemDate .  
+  	:procedureStepDescription ?procedureStepDescription ;
+    :procedureStepHasBusinessItem ?businessItem ;
+    :procedureStepHasHouse ?house .
   ?house
     a :House ;
     :houseName ?houseName .
@@ -19,12 +18,6 @@ WHERE {
   ?procedureStep a :ProcedureStep .
   OPTIONAL { ?procedureStep :procedureStepName ?procedureStepName . }
   OPTIONAL { ?procedureStep :procedureStepDescription ?procedureStepDescription . }
-  
-  OPTIONAL {
-    ?procedureStep :procedureStepHasBusinessItem ?businessItem . 
-    OPTIONAL { ?businessItem :businessItemDate ?businessItemDate . }
-  }
-  
   OPTIONAL {
     ?procedureStep :procedureStepHasHouse ?house .
     ?house :houseName ?houseName .
