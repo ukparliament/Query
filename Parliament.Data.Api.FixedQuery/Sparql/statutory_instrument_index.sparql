@@ -8,10 +8,21 @@ CONSTRUCT {
 		:statutoryInstrumentPaperPrefix ?statutoryInstrumentPaperPrefix ;
 		:statutoryInstrumentPaperNumber ?statutoryInstrumentPaperNumber ;
 		:statutoryInstrumentPaperName ?statutoryInstrumentPaperName ;
-		:laidThingHasLaying ?laying .
+		:laidThingHasLaying ?laying ;
+    	:workPackagedThingHasWorkPackage ?workPackage .
 	?laying
 		a :Laying ;
-		:layingDate ?layingDate .
+		:layingDate ?layingDate ;
+    	:layingHasLayingBody ?layingBody .
+  	?layingBody
+    	a :Group ;
+    	:groupName ?groupName .
+  	?workPackage
+    	a :WorkPackage ;
+    	:workPackageHasProcedure ?procedure .
+  	?procedure
+    	a :Procedure ;
+    	:procedureName ?procedureName .
 }
 WHERE {
     ?statutoryInstrumentPaper a :StatutoryInstrumentPaper .
@@ -23,5 +34,16 @@ WHERE {
 	OPTIONAL {
 		?statutoryInstrumentPaper :laidThingHasLaying ?laying .
 		OPTIONAL { ?laying :layingDate ?layingDate . }
+    	OPTIONAL {
+      		?laying :layingHasLayingBody ?layingBody .
+      		OPTIONAL { ?layingBody :groupName ?groupName . }
+    	}
 	}
+  	OPTIONAL {
+    	?statutoryInstrumentPaper :workPackagedThingHasWorkPackage ?workPackage .
+    	OPTIONAL {
+      		?workPackage :workPackageHasProcedure ?procedure .
+      		OPTIONAL { ?procedure :procedureName ?procedureName . }
+    	}
+  	}
 }
