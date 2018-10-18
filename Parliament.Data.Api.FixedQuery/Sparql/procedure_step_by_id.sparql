@@ -5,7 +5,9 @@ CONSTRUCT {
   ?procedureStep 
     a :ProcedureStep ;
   	:procedureStepName ?procedureStepName ;
-  	:procedureStepDescription ?procedureStepDescription .
+  	:procedureStepDescription ?procedureStepDescription ;
+  	:procedureStepHasBusinessItem ?businessItem ;
+  	:procedureStepHasHouse ?house .
   ?businessItem
     a :BusinessItem ;
     :businessItemDate ?businessItemDate .  

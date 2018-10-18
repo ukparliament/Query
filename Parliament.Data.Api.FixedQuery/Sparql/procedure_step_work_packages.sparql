@@ -5,17 +5,21 @@ CONSTRUCT {
   ?procedureStep 
     a :ProcedureStep ;
   	:procedureStepName ?procedureStepName ;
-  	:procedureStepDescription ?procedureStepDescription .
+  	:procedureStepDescription ?procedureStepDescription ;
+  	:procedureStepHasBusinessItem ?businessItem ;
+  	:procedureStepHasHouse ?house .
   ?businessItem
     a :BusinessItem ;
     :businessItemDate ?businessItemDate .  
   ?workPackage
     a :WorkPackage ;
     :workPackageHasWorkPackagedThing ?workPackagedThing .
-  
   ?workPackagedThing
     a :WorkPackagedThing ;
     :workPackagedThingName ?workPackagedThingName .
+  ?house
+    a :House ;
+    :houseName ?houseName .
 }
 WHERE {
   BIND(@procedure_step_id AS ?procedureStep)
@@ -36,5 +40,10 @@ WHERE {
         OPTIONAL { ?workPackagedThing :workPackagedThingName ?workPackagedThingName . }
       }
     }
+  }  
+  
+  OPTIONAL {
+    ?procedureStep :procedureStepHasHouse ?house .
+    ?house :houseName ?houseName .
   }
 }
