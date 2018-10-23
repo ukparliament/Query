@@ -5,18 +5,7 @@ CONSTRUCT {
     a :Group, ?type;
     :groupName ?groupName;
     :groupStartDate ?groupStartDate;
-    :groupEndDate ?groupEndDate;
-    :layingBodyHasLaying ?laying.
-
-  ?laying
-    a :Laying;
-    :layingDate ?layingDate;
-    :layingHasLaidThing ?laidThing.
-
-  ?laidThing
-    a :LaidThing;
-  	:laidThingName ?laidThingName.
-
+    :groupEndDate ?groupEndDate.
  }
 
 WHERE {
@@ -27,11 +16,4 @@ WHERE {
   OPTIONAL { ?group :groupName ?groupName . }
   OPTIONAL { ?group :groupStartDate ?groupStartDate . }
   OPTIONAL { ?group :groupEndDate ?groupEndDate . }
-  OPTIONAL { ?group :layingBodyHasLaying ?laying .
-
-    OPTIONAL { ?laying :layingDate ?layingDate . }
-    OPTIONAL { ?laying :layingHasLaidThing ?laidThing.
-      OPTIONAL { ?laidThing :laidThingName ?laidThingName . }
-    }
-  }
 }
