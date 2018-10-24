@@ -11,7 +11,7 @@ CONSTRUCT {
     .
 
   ?workPackaged
-    a :WorkPackageableThing ;
+    a :WorkPackageableThing, ?class ;
     :workPackageableThingName ?workPackagedThingName ;
     :workPackageableThingHasWorkPackageableThingWebLink ?workPackagedLink ;
     .
@@ -69,6 +69,10 @@ WHERE {
 
   OPTIONAL {
     ?package :workPackageHasWorkPackagedThing ?workPackaged . 
+    
+    ?workPackaged a ?class .
+        
+    FILTER(?class = :StatutoryInstrumentPaper || ?class = :ProposedNegativeStatutoryInstrumentPaper)
 
     OPTIONAL { ?workPackaged :workPackagedThingName ?workPackagedThingName . }
     OPTIONAL { ?workPackaged :workPackagedThingHasWorkPackagedThingWebLink ?workPackagedLink . }
