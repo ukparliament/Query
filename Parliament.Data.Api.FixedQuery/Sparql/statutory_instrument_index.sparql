@@ -4,9 +4,6 @@ PREFIX : @schemaUri
 CONSTRUCT {
 	?statutoryInstrumentPaper
 		a :StatutoryInstrumentPaper, :LaidThing, :WorkPackagedThing ;
-		:statutoryInstrumentPaperYear ?statutoryInstrumentPaperYear ;
-		:statutoryInstrumentPaperPrefix ?statutoryInstrumentPaperPrefix ;
-		:statutoryInstrumentPaperNumber ?statutoryInstrumentPaperNumber ;
 		:statutoryInstrumentPaperName ?statutoryInstrumentPaperName ;
 		:laidThingHasLaying ?laying ;
     	:workPackagedThingHasWorkPackage ?workPackage .
@@ -26,9 +23,7 @@ CONSTRUCT {
 }
 WHERE {
     ?statutoryInstrumentPaper a :StatutoryInstrumentPaper .
-	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperYear ?statutoryInstrumentPaperYear . }
-	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperPrefix ?statutoryInstrumentPaperPrefix . }
-	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperNumber ?statutoryInstrumentPaperNumber . }
+
 	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperName ?statutoryInstrumentPaperName . }
 
 	OPTIONAL {
