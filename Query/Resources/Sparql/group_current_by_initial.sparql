@@ -1,0 +1,35 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    ?group
+        a :Group ;
+        :groupStartDate ?startDate ;
+        :groupName ?groupName .
+
+    [ :value ?firstLetter ]
+}
+WHERE {
+    {
+        SELECT *
+		WHERE {
+            ?group a :Group .
+            FILTER NOT EXISTS { ?group a :PastGroup. }
+            OPTIONAL { ?group :groupName ?groupName } .
+            OPTIONAL { ?group :groupStartDate ?startDate } .
+
+            FILTER STRSTARTS(LCASE(?groupName), LCASE(@initial))
+        }
+    }
+    UNION {
+        SELECT DISTINCT ?firstLetter
+        WHERE {
+            ?s
+                a :Group ;
+                :groupName ?groupName .
+
+            FILTER NOT EXISTS { ?s a :PastGroup. }
+
+            BIND(UCASE(SUBSTR(?groupName, 1, 1)) AS ?firstLetter)
+        }
+    }
+}

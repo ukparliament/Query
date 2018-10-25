@@ -1,0 +1,37 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?house
+        a :House ;
+        :houseName ?houseName .
+    ?party
+        a :Party ;
+        :partyName ?partyName ;
+        :count ?memberCount .
+}
+WHERE {
+    BIND(@house_id AS ?house) # Route parameter
+    ?house :houseName ?houseName .
+    OPTIONAL
+    {
+        SELECT ?party ?partyName (COUNT(DISTINCT ?member) AS ?memberCount)
+        WHERE {
+            BIND(@house_id AS ?house) # Route parameter
+            ?house :houseHasHouseSeat/:houseSeatHasSeatIncumbency ?incumbency .
+            FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
+			FILTER NOT EXISTS {
+				?incumbency :incumbencyHasIncumbencyInterruption ?interruption.
+				FILTER NOT EXISTS {
+					?interruption :endDate ?end.
+				}
+			}
+            ?incumbency :parliamentaryIncumbencyHasMember ?member.
+			?member :partyMemberHasPartyMembership ?membership .
+            ?membership :partyMembershipHasParty ?party .
+            ?party :partyName ?partyName .
+            FILTER NOT EXISTS {
+                ?membership a :PastPartyMembership .
+            }
+        }
+        GROUP BY ?party ?partyName
+    }
+}

@@ -1,0 +1,22 @@
+﻿PREFIX : @schemaUri
+
+CONSTRUCT {
+	?question 
+		a :Question;
+		a :IndexingAndSearchThing;
+        :indexingAndSearchUri ?writtenQuestionUri;
+        :writtenQuestionIndexingAndSearchUin ?writtenQuestionUin;
+	    :questionAskedAt ?questionAskedAt;
+        :questionHeading ?questionHeading;
+		:questionText ?questionText;
+        :questionHasAskingPerson ?questionHasAskingPerson.
+}
+WHERE {
+	?question :indexingAndSearchUri ?writtenQuestionUri.
+	?question :questionHeading ?questionHeading.
+	optional {?question :questionHasAskingPerson ?questionHasAskingPerson.}
+	optional {?question :writtenQuestionIndexingAndSearchUin ?writtenQuestionUin}
+	optional {?question :questionAskedAt ?questionAskedAt}
+	optional {?question :questionText ?questionText}
+	filter contains(lcase(?questionHeading), @lowercase_string)
+}

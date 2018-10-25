@@ -1,0 +1,120 @@
+﻿PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
+PREFIX : @schemaUri
+
+CONSTRUCT{
+    ?constituencyGroup
+        a :ConstituencyGroup ;
+        :constituencyGroupEndDate ?endDate ;
+        :constituencyGroupStartDate ?startDate ;
+        :constituencyGroupName ?name ;
+        :constituencyGroupOnsCode ?onsCode ;
+        :constituencyGroupHasConstituencyArea ?constituencyArea ;
+        admingeo:inEuropeanRegion ?region .
+    ?region
+        a admingeo:EuropeanRegion ;
+        admingeo:gssCode ?regionCode ;
+        skos:prefLabel ?regionName .
+    ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+    ?houseSeat
+        a :HouseSeat ;
+        :houseSeatHasSeatIncumbency ?seatIncumbency .
+    ?seatIncumbency
+        a :SeatIncumbency ;
+        :parliamentaryIncumbencyHasMember ?member ;
+        :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate ;
+        :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate .
+    ?member
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        :memberHasMemberImage ?image ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    ?image
+        a :MemberImage .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+}
+
+WHERE {
+    {	
+        SELECT * WHERE {
+            BIND( @constituency_id AS ?constituencyGroup )
+            SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
+                ?ordnanceSurveyConstituency
+                    admingeo:gssCode ?onsCode ;
+                    a admingeo:WestminsterConstituency .
+                OPTIONAL {
+                    ?ordnanceSurveyConstituency
+                        admingeo:inEuropeanRegion ?region .
+                    ?region
+                        a admingeo:EuropeanRegion ;
+                        admingeo:gssCode ?regionCode ;
+                        skos:prefLabel ?regionName .
+                }
+            }
+            ?constituencyGroup
+                :constituencyGroupName ?name ;
+                :constituencyGroupOnsCode ?onsCode ;
+                :constituencyGroupStartDate ?startDate .
+            OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?endDate . }
+            OPTIONAL {
+                ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+                ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
+                ?seatIncumbency a :SeatIncumbency ;
+                                OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+                OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate . }
+                OPTIONAL {
+                    ?seatIncumbency :parliamentaryIncumbencyHasMember ?member .
+                    OPTIONAL { ?member :personGivenName ?givenName . }
+                    OPTIONAL { ?member :personOtherName ?personOtherName . }
+                    OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+                    OPTIONAL { ?member :memberHasMemberImage ?image . }
+                    OPTIONAL {
+                        ?member :partyMemberHasPartyMembership ?partyMembership .
+                        FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+                        OPTIONAL {
+                            ?partyMembership :partyMembershipHasParty ?party .
+                            OPTIONAL { ?party :partyName ?partyName . }
+                        }
+                    }
+                }
+            }
+        }
+    } UNION {
+        SELECT * WHERE {
+            BIND( @constituency_id AS ?constituencyGroup )
+            ?constituencyGroup
+                :constituencyGroupName ?name ;
+                :constituencyGroupStartDate ?startDate .
+            OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?endDate . }
+            OPTIONAL {
+                ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+                ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
+                ?seatIncumbency a :SeatIncumbency ;
+                                OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+                OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate . }
+                OPTIONAL {
+                    ?seatIncumbency :parliamentaryIncumbencyHasMember ?member .
+                    OPTIONAL { ?member :personGivenName ?givenName . }
+                    OPTIONAL { ?member :personOtherName ?personOtherName . }
+                    OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+                    OPTIONAL { ?member :memberHasMemberImage ?image . }
+                    OPTIONAL {
+                        ?member :partyMemberHasPartyMembership ?partyMembership .
+                        FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+                        OPTIONAL {
+                            ?partyMembership :partyMembershipHasParty ?party .
+                            OPTIONAL { ?party :partyName ?partyName . }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

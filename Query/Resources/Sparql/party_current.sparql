@@ -1,0 +1,30 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?party
+        a :Party ;
+        :partyName ?partyName ;
+        :commonsCount ?commonsCount ;
+        :lordsCount ?lordsCount .
+}
+WHERE {
+    SELECT ?party ?partyName (COUNT(?mp) AS ?commonsCount) (COUNT(?lord) AS ?lordsCount) WHERE {
+        ?incumbency a :ParliamentaryIncumbency .
+		FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
+		FILTER NOT EXISTS {
+			?incumbency :incumbencyHasIncumbencyInterruption ?interruption.
+			FILTER NOT EXISTS {
+				?interruption :endDate ?end.
+			}
+		}
+		?incumbency :parliamentaryIncumbencyHasMember ?person .
+        ?person :partyMemberHasPartyMembership ?partyMembership .
+        FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+        ?partyMembership :partyMembershipHasParty ?party .
+        ?party :partyName ?partyName .
+        OPTIONAL {
+	        ?incumbency a :SeatIncumbency ;
+                	    :parliamentaryIncumbencyHasMember ?mp .
+        }
+    }
+    GROUP BY ?party ?partyName
+}

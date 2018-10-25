@@ -1,0 +1,13 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?formalBody a :FormalBody ;
+        :formalBodyHasFormalBodyMembership ?membership .
+    ?membership a :FormalBodyMembership ;
+        :formalBodyMembershipHasPerson ?person .
+}
+WHERE {
+    BIND(@formal_body_id AS ?formalBody)
+    ?formalBody a :FormalBody ;
+        :formalBodyHasFormalBodyMembership ?membership .
+    ?membership :formalBodyMembershipHasPerson ?person .
+}

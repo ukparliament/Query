@@ -1,0 +1,62 @@
+﻿PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+CONSTRUCT {
+    ?parliament
+        a :ParliamentPeriod ;
+        :parliamentPeriodStartDate ?startDate ;
+        :parliamentPeriodEndDate ?endDate ;
+        :parliamentPeriodNumber ?parliamentNumber ;
+        :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament ;
+    	:parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+    ?house
+        a :House ;
+        :houseName ?houseName .
+}
+WHERE {
+        BIND(@parliament_id AS ?parliament)
+    	BIND(@house_id AS ?house)
+
+    	?house
+        	a :House ;
+         	:houseName ?houseName .
+        ?parliament
+            a :ParliamentPeriod ;
+            :parliamentPeriodStartDate ?startDate ;
+            :parliamentPeriodNumber ?parliamentNumber .
+        OPTIONAL { ?parliament :parliamentPeriodEndDate ?endDate . }
+        OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament . }
+   	    OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
+
+    OPTIONAL {
+        BIND(@party_id AS ?party)
+
+    	?party
+        	a :Party ;
+         	:partyName ?partyName .
+        ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
+        ?seatIncumbency :parliamentaryIncumbencyHasMember ?member ;
+                        :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate ;
+                        :seatIncumbencyHasHouseSeat ?houseSeat .
+        ?houseSeat :houseSeatHasHouse ?house .
+        OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+        ?member :partyMemberHasPartyMembership ?partyMembership .
+        ?partyMembership :partyMembershipHasParty ?party ;
+        				 :partyMembershipStartDate ?partyMembershipStartDate .
+        OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+
+        BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
+        BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
+        BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
+        BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
+
+        BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+        BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
+        FILTER (
+        	(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
+        	(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
+		)
+    }
+}

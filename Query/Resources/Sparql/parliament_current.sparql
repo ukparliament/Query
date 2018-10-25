@@ -1,0 +1,15 @@
+﻿PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+CONSTRUCT {
+    ?parliament
+        a :ParliamentPeriod .
+}
+WHERE {
+    ?parliament
+        a :ParliamentPeriod ;
+        :parliamentPeriodStartDate ?startDate .
+    FILTER NOT EXISTS { ?parliament a :PastParliamentPeriod }
+    BIND(xsd:dateTime(?startDate) AS ?startDateTime)
+    BIND(now() AS ?currentDate)
+    FILTER(?startDateTime < ?currentDate)
+}

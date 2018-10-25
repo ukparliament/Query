@@ -1,0 +1,65 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT{
+    ?constituencyGroup
+        a :ConstituencyGroup ;
+        :constituencyGroupEndDate ?endDate ;
+        :constituencyGroupStartDate ?startDate ;
+        :constituencyGroupName ?name ;
+        :constituencyGroupOnsCode ?onsCode ;
+        :constituencyGroupHasConstituencyArea ?constituencyArea .
+    ?constituencyArea
+        a :ConstituencyArea ;
+        :constituencyAreaLatitude ?latitude ;
+        :constituencyAreaLongitude ?longitude ;
+        :constituencyAreaExtent ?polygon .
+    ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+    ?houseSeat
+        a :HouseSeat ;
+        :houseSeatHasSeatIncumbency ?seatIncumbency .
+    ?seatIncumbency
+        a :SeatIncumbency ;
+        :parliamentaryIncumbencyHasMember ?member ;
+        :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate ;
+        :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate .
+    ?member
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+}
+WHERE {
+    BIND( @constituency_id AS ?constituencyGroup )
+    ?constituencyGroup a :ConstituencyGroup .
+    OPTIONAL { ?constituencyGroup :constituencyGroupEndDate ?endDate . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupStartDate ?startDate . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+    OPTIONAL { ?constituencyGroup :constituencyGroupOnsCode ?onsCode . }
+    OPTIONAL {
+        ?constituencyGroup :constituencyGroupHasConstituencyArea ?constituencyArea .
+        ?constituencyArea a :ConstituencyArea .
+        OPTIONAL { ?constituencyArea :constituencyAreaLatitude ?latitude . }
+        OPTIONAL { ?constituencyArea :constituencyAreaLongitude ?longitude . }
+        OPTIONAL { ?constituencyArea :constituencyAreaExtent ?polygon . }
+    }
+    OPTIONAL {
+        ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+        ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
+        ?seatIncumbency a :SeatIncumbency ;
+        OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyHasMember ?member . }
+        OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+        OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate . }
+        OPTIONAL { ?member :personGivenName ?givenName . }
+        OPTIONAL { ?member :personFamilyName ?familyName . }
+        OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+        OPTIONAL { ?member :partyMemberHasPartyMembership ?partyMembership .}
+        OPTIONAL { ?partyMembership :partyMembershipHasParty ?party . }
+        OPTIONAL { ?party :partyName ?partyName . }
+    }
+}

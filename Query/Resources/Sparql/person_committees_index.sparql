@@ -1,0 +1,62 @@
+PREFIX : @schemaUri
+CONSTRUCT {
+    ?person
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
+        :personHasFormalBodyMembership ?formalBodyMembership .
+    ?formalBodyMembership
+        a :FormalBodyMembership ;
+        :formalBodyMembershipStartDate ?formalBodyMembershipStartDate ;
+        :formalBodyMembershipEndDate ?formalBodyMembershipEndDate ;
+        :formalBodyMembershipHasFormalBody ?formalBody .
+    ?formalBody
+        a :FormalBody ;
+        :formalBodyName ?formalBodyName ;
+        :formalBodyStartDate ?formalBodyStartDate ;
+        :formalBodyEndDate ?formalBodyEndDate .
+    _:x :value ?firstLetter .
+}
+WHERE {
+    {
+        BIND(@person_id AS ?person)
+        ?person a :Person .
+        OPTIONAL { ?person :personGivenName ?givenName } .
+        OPTIONAL { ?person :personOtherNames ?otherName } .
+        OPTIONAL { ?person :personFamilyName ?familyName } .
+        OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+        OPTIONAL { ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs } .
+        OPTIONAL {
+            ?person :personHasFormalBodyMembership ?formalBodyMembership .
+            ?formalBodyMembership
+                a :FormalBodyMembership ;
+                :formalBodyMembershipHasFormalBody ?formalBody .
+            OPTIONAL { ?formalBodyMembership :formalBodyMembershipEndDate ?formalBodyMembershipEndDate } .
+            OPTIONAL { ?formalBodyMembership :formalBodyMembershipStartDate ?formalBodyMembershipStartDate } .
+            ?formalBody
+                a :FormalBody ;
+                :formalBodyName ?formalBodyName ;
+                :formalBodyStartDate ?formalBodyStartDate .
+            OPTIONAL { ?formalBody :formalBodyEndDate ?formalBodyEndDate . }
+        }
+    }
+    UNION
+    {
+        SELECT DISTINCT ?firstLetter
+        WHERE {
+          BIND(@person_id AS ?person)
+          ?person
+              a :Person ;
+              :personHasFormalBodyMembership ?formalBodyMembership .
+          ?formalBodyMembership
+              a :FormalBodyMembership ;
+              :formalBodyMembershipHasFormalBody ?formalBody .
+          ?formalBody
+            a :FormalBody ;
+            :formalBodyName ?formalBodyName .
+          BIND(UCASE(SUBSTR(?formalBodyName, 1, 1)) as ?firstLetter)
+        }
+    }
+}

@@ -1,0 +1,66 @@
+PREFIX : @schemaUri
+CONSTRUCT {
+    ?group
+        a :Group ;
+        :groupName ?groupName ;
+        :formalBodyHasFormalBodyChair ?formalBodyChair .
+    ?formalBodyChair
+        a :FormalBodyChair ;
+        :positionName ?positionName ;
+        :positionHasIncumbency ?incumbency .
+    ?incumbency
+        a :Incumbency ;
+        :incumbencyStartDate ?incumbencyStartDate ;
+        :incumbencyEndDate ?incumbencyEndDate ;
+        :incumbencyHasPerson ?person .
+    ?person
+        a :Person ;
+        :personGivenName ?personGivenName ;
+        :personFamilyName ?personFamilyName ;
+        :personOtherNames ?personOtherNames ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?personDisplayAs ;
+        <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?personListAs ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+}
+WHERE {
+    BIND(@group_id AS ?group)
+    ?group a :Group .
+    FILTER NOT EXISTS { ?group a :PastGroup . }
+    OPTIONAL { ?group :groupName ?groupName } .
+    OPTIONAL {
+        ?group :formalBodyHasFormalBodyChair ?formalBodyChair .
+        ?formalBodyChair a :FormalBodyChair .
+        OPTIONAL { ?formalBodyChair :positionName ?positionName } .
+        OPTIONAL {
+            ?formalBodyChair :positionHasIncumbency ?incumbency .
+            minus {?incumbency a :PastIncumbency}.
+            ?incumbency a :Incumbency .
+            OPTIONAL { ?incumbency :incumbencyStartDate ?incumbencyStartDate } .
+            OPTIONAL { ?incumbency :incumbencyEndDate ?incumbencyEndDate } .
+            OPTIONAL {
+                ?incumbency :incumbencyHasPerson ?person .
+                ?person a :Person .
+                OPTIONAL { ?person :personGivenName ?personGivenName } .
+                OPTIONAL { ?person :personFamilyName ?personFamilyName } .
+                OPTIONAL { ?person :personOtherNames ?personOtherNames } .
+                OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?personDisplayAs } .
+                OPTIONAL { ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?personListAs } .
+                OPTIONAL {
+                    ?person :partyMemberHasPartyMembership ?partyMembership .
+                    ?partyMembership a :PartyMembership .
+                    OPTIONAL {
+                        ?partyMembership :partyMembershipHasParty ?party .
+                        ?party a :Party .
+                        OPTIONAL { ?party :partyName ?partyName } .
+                    }
+                }
+            }
+        }
+    }
+}

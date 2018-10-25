@@ -1,0 +1,115 @@
+﻿PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+CONSTRUCT {
+    ?parliament
+        a :ParliamentPeriod ;
+        :parliamentPeriodStartDate ?startDate ;
+        :parliamentPeriodEndDate ?endDate ;
+        :parliamentPeriodNumber ?parliamentNumber ;
+        :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament ;
+    	:parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament ;
+        :count ?constituencyCount .
+    ?constituencyGroup
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?constituencyGroupName ;
+        :constituencyGroupHasHouseSeat ?houseSeat .
+    ?houseSeat
+        a :HouseSeat ;
+        :houseSeatHasSeatIncumbency ?seatIncumbency .
+    ?seatIncumbency
+        a :SeatIncumbency ;
+        :parliamentaryIncumbencyHasMember ?person ;
+        :parliamentaryIncumbencyStartDate ?incStartDate ;
+        :parliamentaryIncumbencyEndDate ?incEndDate .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party ;
+        :partyMembershipStartDate ?pmStartDate ;
+        :partyMembershipEndDate ?partyMembershipEndDate .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+    ?person
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        :memberHasMemberImage ?image ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    ?image
+        a :MemberImage .
+_:x :value ?firstLetter .
+}
+WHERE {
+    { SELECT * WHERE {
+    BIND(@parliament_id AS ?parliament)
+        ?parliament
+            a :ParliamentPeriod ;
+            :parliamentPeriodStartDate ?startDate ;
+            :parliamentPeriodNumber ?parliamentNumber .
+        OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament . }
+   	    OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
+        OPTIONAL { ?parliament :parliamentPeriodEndDate ?endDate . }
+        OPTIONAL {
+            ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
+            ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat ;
+                            :parliamentaryIncumbencyHasMember ?person ;
+                            :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate .
+            OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+            ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+            ?constituencyGroup :constituencyGroupName ?constituencyGroupName .
+
+            ?person :partyMemberHasPartyMembership ?partyMembership.
+        	?partyMembership :partyMembershipHasParty ?party ;
+                         	:partyMembershipStartDate ?partyMembershipStartDate.
+        	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+
+            BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
+        	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
+        	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
+        	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
+
+        	BIND(COALESCE(?pmEndDateTime, now()) AS ?pmEndDate)
+        	BIND(COALESCE(?incEndDateTime, now()) AS ?incEndDate)
+        	FILTER(
+        		(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
+        		(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
+			)
+            ?party :partyName ?partyName .
+
+            OPTIONAL { ?person :personGivenName ?givenName . }
+            OPTIONAL { ?person :personFamilyName ?familyName . }
+            OPTIONAL { ?person :memberHasMemberImage ?image . }
+            OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+            ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+        }
+      }
+    }
+    UNION {
+        SELECT ?parliament (COUNT(DISTINCT(?constituencyGroup)) AS ?constituencyCount) WHERE {
+            BIND(@parliament_id AS ?parliament)
+
+			?parliament a :ParliamentPeriod .
+            OPTIONAL {
+                ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
+                ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
+                ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+            }
+        }
+        GROUP BY ?parliament
+    }
+    UNION {
+      SELECT DISTINCT ?firstLetter WHERE {
+        BIND(@parliament_id AS ?parliament)
+
+        ?parliament a :ParliamentPeriod ;
+                    :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
+        ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
+        ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+        ?constituencyGroup :constituencyGroupName ?constituencyGroupName .
+
+          BIND(ucase(SUBSTR(?constituencyGroupName, 1, 1)) as ?firstLetter)
+        }
+    }
+}

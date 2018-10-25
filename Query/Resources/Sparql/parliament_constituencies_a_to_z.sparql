@@ -1,0 +1,16 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+  _:x :value ?firstLetter .
+}
+WHERE {
+    SELECT DISTINCT ?firstLetter WHERE {
+        BIND(@parliament_id AS ?parliament)
+
+        ?parliament a :ParliamentPeriod ;
+                    :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
+        ?seatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
+        ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+        ?constituencyGroup :constituencyGroupName ?constituencyGroupName .
+        BIND(ucase(SUBSTR(?constituencyGroupName, 1, 1)) as ?firstLetter)
+    }
+}

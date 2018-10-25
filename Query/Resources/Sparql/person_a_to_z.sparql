@@ -1,0 +1,11 @@
+﻿PREFIX :@schemaUri
+CONSTRUCT {
+    [ :value ?firstLetter ]
+}
+WHERE {
+    SELECT DISTINCT ?firstLetter WHERE {
+        ?s a :Person .
+        ?s <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+        BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
+    }
+}

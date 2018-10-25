@@ -1,0 +1,33 @@
+﻿PREFIX : @schemaUri
+
+CONSTRUCT {
+    [ :value ?firstLetter ] .
+    @house_id
+        a :House ;
+        :houseName ?houseName .
+    @party_id
+        a :Party ;
+        :partyName ?partyName .
+}
+WHERE {
+    SELECT DISTINCT ?houseName ?partyName ?firstLetter
+    WHERE {
+        BIND(@house_id AS ?house)
+        BIND(@party_id AS ?party)
+
+        ?house
+            :houseName ?houseName .
+        ?party
+            :partyName ?partyName .
+        ?person
+            a :Member ;
+            <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
+            :partyMemberHasPartyMembership ?partyMembership .
+        ?partyMembership :partyMembershipHasParty ?party .
+        ?incumbency :parliamentaryIncumbencyHasMember ?person .
+        ?incumbency :seatIncumbencyHasHouseSeat ?seat .
+        ?seat :houseSeatHasHouse ?house .
+
+        BIND(UCASE(SUBSTR(?listAs, 1, 1)) AS ?firstLetter)
+    }
+}

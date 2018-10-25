@@ -1,0 +1,33 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?person a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        :memberHasMemberImage ?image .
+    ?image
+        a :MemberImage .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipStartDate ?partyMembershipStartDate ;
+        :partyMembershipEndDate ?partyMembershipEndDate ;
+        :partyMembershipHasParty ?party .
+}
+WHERE {
+    BIND(@person_id AS ?person)
+    ?person a :Person .
+    OPTIONAL { ?person :personGivenName ?givenName } .
+    OPTIONAL { ?person :personFamilyName ?familyName } .
+    OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+    OPTIONAL { ?person :memberHasMemberImage ?image } .
+    OPTIONAL {
+        ?person :partyMemberHasPartyMembership ?partyMembership .
+        ?partyMembership :partyMembershipHasParty ?party .
+        ?partyMembership :partyMembershipStartDate ?partyMembershipStartDate .
+        OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+        ?party :partyName ?partyName .
+    }
+}

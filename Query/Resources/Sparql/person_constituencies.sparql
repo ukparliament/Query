@@ -1,0 +1,52 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?person
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        :memberHasMemberImage ?image .
+    ?image
+        a :MemberImage .
+    ?constituency
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?constituencyName ;
+        :constituencyGroupStartDate ?constituencyStartDate ;
+        :constituencyGroupEndDate ?constituencyEndDate .
+    ?seat
+        a :HouseSeat ;
+        :houseSeatHasConstituencyGroup ?constituency ;
+		:houseSeatHasHouse ?house ;
+	.
+	?house 
+		a :House ;
+		:houseName ?houseName ;
+	.
+    ?seatIncumbency
+        a :SeatIncumbency ;
+        :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate ;
+        :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate ;
+        :seatIncumbencyHasHouseSeat ?seat ;
+	.
+}
+WHERE {
+    BIND(@person_id AS ?person)
+    ?person a :Person .
+    OPTIONAL { ?person :personGivenName ?givenName } .
+    OPTIONAL { ?person :personFamilyName ?familyName } .
+    OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+    OPTIONAL { ?person :memberHasMemberImage ?image } .
+    OPTIONAL {
+        ?person :memberHasParliamentaryIncumbency ?seatIncumbency .
+        ?seatIncumbency a :SeatIncumbency .
+        ?seatIncumbency :seatIncumbencyHasHouseSeat ?seat .
+		?seat :houseSeatHasHouse ?house .
+		?house :houseName ?houseName .
+        ?seat :houseSeatHasConstituencyGroup ?constituency .
+        OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+        ?seatIncumbency :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate .
+        ?constituency :constituencyGroupName ?constituencyName .
+        ?constituency :constituencyGroupStartDate ?constituencyStartDate .
+        OPTIONAL { ?constituency :constituencyGroupEndDate ?constituencyEndDate . }
+    }
+}

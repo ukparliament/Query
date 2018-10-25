@@ -1,0 +1,44 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?party
+        a :Party ;
+        :partyName ?partyName ;
+        :commonsCount ?commonsCount ;
+        :lordsCount ?lordsCount .
+    _:x :value ?firstLetter .
+}
+WHERE {
+    { SELECT ?party ?partyName (COUNT(?mp) AS ?commonsCount) (COUNT(?lord) AS ?lordsCount) WHERE {
+        ?party
+            a :Party ;
+            :partyHasPartyMembership ?partyMembership ;
+            :partyName ?partyName .
+        OPTIONAL {
+            ?partyMembership :partyMembershipHasPartyMember ?person .
+            FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+            ?person :memberHasParliamentaryIncumbency ?incumbency .
+			FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
+			FILTER NOT EXISTS {
+				?incumbency :incumbencyHasIncumbencyInterruption ?interruption.
+				FILTER NOT EXISTS {
+					?interruption :endDate ?end.
+				}
+			}
+			OPTIONAL {
+			    ?incumbency a :SeatIncumbency ;
+                			:parliamentaryIncumbencyHasMember ?mp .
+            }
+        }
+      }
+      GROUP BY ?party ?partyName
+   }
+   UNION {
+        SELECT DISTINCT ?firstLetter WHERE {
+	        ?s a :Party ;
+                :partyHasPartyMembership ?partyMembership ;
+            	:partyName ?partyName .
+
+          	BIND(ucase(SUBSTR(?partyName, 1, 1)) as ?firstLetter)
+         }
+   }
+}

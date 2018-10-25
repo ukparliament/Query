@@ -1,0 +1,31 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+	 ?house
+        a :House ;
+        :houseName ?houseName .
+     ?parliament
+         a :ParliamentPeriod ;
+         :parliamentPeriodStartDate ?parliamentStartDate ;
+         :parliamentPeriodEndDate ?parliamentEndDate ;
+         :parliamentPeriodNumber ?parliamentNumber ;
+         :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament ;
+    	 :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament .
+}
+WHERE {
+    BIND(@parliament_id AS ?parliament)
+    ?parliament
+        a :ParliamentPeriod ;
+        :parliamentPeriodStartDate ?parliamentStartDate ;
+        :parliamentPeriodNumber ?parliamentNumber .
+    OPTIONAL { ?parliament :parliamentPeriodEndDate ?parliamentEndDate . }
+    OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament . }
+    OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
+
+    OPTIONAL {
+        ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
+        ?seatIncumbency :parliamentaryIncumbencyHasMember ?person ;
+                        :seatIncumbencyHasHouseSeat ?houseSeat .
+        ?houseSeat :houseSeatHasHouse ?house .
+        ?house :houseName ?houseName .
+    }
+}

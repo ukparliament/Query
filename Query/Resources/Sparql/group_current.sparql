@@ -1,0 +1,16 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+  ?group
+    a :Group;
+    :groupName ?groupName;
+    :groupStartDate ?groupStartDate.
+ }
+
+WHERE {
+  ?group a :Group.
+FILTER NOT EXISTS {?group a :PastGroup . }
+OPTIONAL { ?group :groupName ?groupName . }
+OPTIONAL { ?group :groupStartDate ?groupStartDate . }
+
+}

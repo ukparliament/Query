@@ -1,0 +1,11 @@
+PREFIX : @schemaUri
+
+SELECT ?otherClass (COUNT(DISTINCT ?instance) as ?count)
+WHERE {
+	bind (@class as ?class)
+	?instance a ?class.
+	?instance a ?otherClass.
+	filter (!isBlank(?otherClass))
+}
+GROUP BY ?otherClass
+ORDER BY DESC(?count)

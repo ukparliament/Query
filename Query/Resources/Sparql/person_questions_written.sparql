@@ -1,0 +1,96 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    ?askingPerson
+        a :Person ;
+        :personGivenName ?askingPersonGivenName ;
+        :personOtherNames ?askingPersonOtherNames ;
+        :personFamilyName ?askingPersonFamilyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
+        :askingPersonHasQuestion ?question ;
+        :memberHasMemberImage ?askingMemberImage ;
+    .
+    ?askingMemberImage
+        a :MemberImage ;
+    .
+    ?question
+        a :Question ;
+        :questionAskedAt ?questionAskedAt ;
+        :questionHasAnsweringBodyAllocation ?answeringBodyAllocation ;
+        :indexingAndSearchUri ?idmsUri ;
+        :questionHeading ?questionHeading ;
+        :questionHasAnswer ?answer ;
+    .
+    ?answer
+        a :Answer ;
+    .
+    ?answeringBodyAllocation
+        a :AnsweringBodyAllocation ;
+        :answeringBodyAllocationHasAnsweringBody ?answeringBody ;
+    .
+    ?answeringBody
+        a :Group ;
+        :groupName ?groupName ;
+    .
+    ?answeringBody2
+        a :Group ;
+        :groupName ?groupName ;
+    .
+}
+WHERE {
+    BIND(@person_id AS ?askingPerson)
+
+    ?askingPerson a :Person .
+
+    OPTIONAL { ?askingPerson :personGivenName ?askingPersonGivenName . }
+    OPTIONAL { ?askingPerson :personFamilyName ?askingPersonFamilyName . }
+    OPTIONAL { ?askingPerson :personOtherNames ?askingPersonOtherNames . }
+    OPTIONAL { ?askingPerson <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs . }
+    OPTIONAL { ?askingPerson <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs . }
+    OPTIONAL {
+        ?askingPerson :memberHasMemberImage ?askingMemberImage .
+        ?askingMemberImage a :MemberImage .
+    }
+
+    OPTIONAL {
+        {
+            SELECT ?question ?questionAskedAt
+            WHERE {
+                BIND(@person_id AS ?askingPerson)
+
+                ?askingPerson :askingPersonHasQuestion ?question .
+                ?question :indexingAndSearchUri ?idmsUri .
+
+                OPTIONAL { ?question :questionAskedAt ?questionAskedAt . }
+            }
+            ORDER BY DESC(?questionAskedAt)
+            LIMIT 50
+            OFFSET 0
+        }
+
+        OPTIONAL { ?question :questionHeading ?questionHeading . }
+        OPTIONAL {
+            ?question :questionHasAnsweringBodyAllocation ?answeringBodyAllocation .
+            ?answeringBodyAllocation
+                a :AnsweringBodyAllocation ;
+                :answeringBodyAllocationHasAnsweringBody ?answeringBody ;
+            .
+            ?answeringBody a :Group .
+
+            OPTIONAL { ?answeringBody :groupName ?groupName . }
+        }
+        OPTIONAL {
+            ?question :questionHasAnswer ?answer .
+            ?answer
+                a :Answer ;
+                a ?class ;
+                :answerGivenDate ?answerGivenDate ;
+                :answerHasAnsweringBody ?answeringBody2 .
+                ?answeringBody2 a :Group ;
+            .
+
+            OPTIONAL { ?answeringBody2 :groupName ?groupName . }
+        }
+    }
+}

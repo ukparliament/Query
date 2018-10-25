@@ -1,0 +1,15 @@
+﻿PREFIX ex: <http://example.com/>
+PREFIX : @schemaUri
+CONSTRUCT {
+	?class ex:classHasExternalIdentifier ?externalIdentifierSubclasses
+}
+WHERE {
+	SELECT DISTINCT ?class ?externalIdentifierSubclasses
+	WHERE
+	{
+		BIND(@class as ?class)
+		?instance a ?class.
+		?instance :externalIdentifier ?id.
+		?instance ?externalIdentifierSubclasses ?id.
+	}
+}

@@ -1,0 +1,221 @@
+﻿PREFIX id: <https://id.parliament.uk/>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+	id:WorkPac1
+		a :WorkPackage;
+		:workPackageName "An Example of an Affirmative SI Work Package" ;
+		:workPackageHasProcedure id:AffirmSI ;
+		:workPackageHasBusinessItem id:BusItem1, id:BusItem2, id:BusItem3, id:BusItem4, id:BusItem5, id:BusItem6 ;
+	.
+
+	id:AffirmSI
+		a :Procedure;
+		:procedureName "Made Affirmative" ;
+	.
+
+	id:1AFu55Hs
+		a :House;
+		:houseName "House of Commons" ;
+	.
+
+	id:WkUWUBMx
+		a :House;
+		:houseName "House of Lords" ;
+	.
+
+	id:BusItem1
+		a :BusinessItem, :Laying ;
+		:layingDate "2018-04-18+00:00"^^<http://www.w3.org/2001/XMLSchema#date> ;
+		:businessItemHasProcedureStep id:LayInCom ;
+	.
+
+	id:BusItem2
+		a :BusinessItem, :Laying ;
+		:layingDate "2018-04-18+00:00"^^<http://www.w3.org/2001/XMLSchema#date> ;
+		:businessItemHasProcedureStep id:LayInLor ;
+	.
+
+	id:BusItem3
+		a :BusinessItem ;
+		:businessItemHasProcedureStep id:JCSICons ;
+	.
+
+	id:BusItem4
+		a :BusinessItem ;
+		:layingDate "2018-05-01+00:00"^^<http://www.w3.org/2001/XMLSchema#date> ;
+		:businessItemHasProcedureStep id:SLSCCons ;
+	.
+
+	id:BusItem5
+		a :BusinessItem ;
+		:layingDate "2018-05-02+00:00"^^<http://www.w3.org/2001/XMLSchema#date> ;
+		:businessItemHasProcedureStep id:EVELCons ;
+	.
+
+	id:BusItem6
+		a :BusinessItem ;
+		:businessItemHasProcedureStep id:SLSCCler ;
+	.
+
+	id:Route002
+		a :AllowedProcedureRoute, :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:JCSICons ;
+	.
+
+	id:Route003
+		a :AllowedProcedureRoute, :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:CInForce ;
+	.
+
+	id:Route004
+		a :AllowedProcedureRoute, :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:ComAppMo ;
+	.
+
+	id:Route005
+		a :CausedProcedureRoute, :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:JCSICons ;
+	.
+
+	id:Route006
+		a :CausedProcedureRoute, :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:SLSCCons ;
+	.
+
+	id:Route007
+		a :AllowedProcedureRoute, :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:SOSusMot ;
+	.
+
+	id:Route008
+		a :PrecludedProcedureRoute, :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:SCSICons ;
+	.
+
+	id:Route009
+		a :PrecludedProcedureRoute, :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:LayInLor ;
+	.
+
+	id:Route010
+		a :CausedProcedureRoute, :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:SLSCCler ;
+	.
+
+	id:Route011
+		a :CausedProcedureRoute, :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:JCSICler ;
+	.
+
+	id:Route012
+		a :AllowedProcedureRoute, :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:EVELCons ;
+	.
+
+	id:Route013
+		a :AllowedProcedureRoute, :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:ComDbate ;
+	.
+
+	id:Route014
+		a :AllowedProcedureRoute, :ProcedureRoute ;
+		:procedureRouteIsToProcedureStep id:LorAppMo ;
+	.
+
+	id:CInForce
+		a :ProcedureStep ;
+		:procedureStepName "Coming into force after being laid" ;
+		:procedureStepColloquialName "Coming into force after being laid" ;
+	.
+
+	id:ComAppMo
+		a :ProcedureStep ;
+		:procedureStepName "Commons approval motion" ;
+		:procedureStepColloquialName  "Commons approval motion" ;
+		:procedureStepHasHouse id:1AFu55Hs;
+	.
+
+	id:LayInCom
+		a :ProcedureStep ;
+		:procedureStepName "Laying into Commons" ;
+		:procedureStepColloquialName "Laying of papers" ;
+		:procedureStepHasHouse id:1AFu55Hs;
+		:procedureStepAllowsProcedureRoute id:Route001, id:Route002, id:Route003, id:Route004, id:Route012 ;
+	.
+
+	id:LayInLor
+		a :ProcedureStep ;
+		:procedureStepName "Laying into Lords" ;
+		:procedureStepColloquialName "Laying of papers" ;
+		:procedureStepHasHouse id:WkUWUBMx;
+		:procedureStepCausesProcedureRoute id:Route005, id:Route006;
+		:procedureStepAllowsProcedureRoute id:Route007 ;
+		:procedureStepPrecludesProcedureRoute id:Route008, id:Route009 ;
+	.
+
+	id:JCSICons
+		a :ProcedureStep ;
+		:procedureStepName "JCSI consideration" ;
+		:procedureStepColloquialName "JCSI consideration" ;
+		:procedureStepHasHouse id:1AFu55Hs, id:WkUWUBMx ;
+		:procedureStepCausesProcedureRoute id:Route011 ;
+	.
+
+	id:SLSCCons
+		a :ProcedureStep ;
+		:procedureStepName "SLSC consideration" ;
+		:procedureStepColloquialName "Consideration by Secondary Legislation Scrutiny Committee" ;
+		:procedureStepHasHouse id:1AFu55Hs, id:WkUWUBMx ;
+		:procedureStepAllowsProcedureRoute id:Route010 ;
+	.
+
+	id:SOSusMot
+		a :ProcedureStep ;
+		:procedureStepName "SO suspension motion" ;
+		:procedureStepColloquialName  "SO suspension motion" ;
+		:procedureStepHasHouse id:WkUWUBMx ;
+	.
+
+	id:SLSCCler
+		a :ProcedureStep ;
+		:procedureStepName "SLSC cleared" ;
+		:procedureStepColloquialName  "Approval by Secondary Legistation Scrutiny Committee" ;
+		:procedureStepHasHouse id:1AFu55Hs ;
+		:procedureStepAllowsProcedureRoute id:Route014;
+	.
+
+	id:JCSICler
+		a :ProcedureStep ;
+		:procedureStepName "JCSI cleared" ;
+		:procedureStepColloquialName  "Approval by the Joint Committee on Statutory Instruments" ;
+		:procedureStepHasHouse id:1AFu55Hs, id:WkUWUBMx ;
+	.
+
+	id:EVELCons
+		a :ProcedureStep ;
+		:procedureStepName "EVEL consideration" ;
+		:procedureStepColloquialName  "EVEL consideration" ;
+		:procedureStepHasHouse id:1AFu55Hs ;
+		:procedureStepAllowsProcedureRoute id:Route013 ;
+	.
+
+	id:ComDbate
+		a :ProcedureStep ;
+		:procedureStepName "Commons chamber debate" ;
+		:procedureStepColloquialName  "Debate in the House of Commons chamber" ;
+		:procedureStepHasHouse id:1AFu55Hs ;
+	.
+
+	id:LorAppMo
+		a :ProcedureStep ;
+		:procedureStepName "Lords approval motion tabled" ;
+		:procedureStepColloquialName  "Approval motion tabled in the House of Lords" ;
+		:procedureStepHasHouse id:WkUWUBMx ;
+	.
+
+	}
+WHERE {
+BIND (@work_package_id as ?workPackage)
+
+}

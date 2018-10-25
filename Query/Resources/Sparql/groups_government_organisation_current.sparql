@@ -1,0 +1,26 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    ?governmentOrganisation
+        a :GovRegisterGovernmentOrganisation ;
+        :groupStartDate ?startDate ;
+        :groupName ?groupName .
+    _:x :value ?firstLetter .
+}
+WHERE {
+      { SELECT * WHERE {
+        ?governmentOrganisation a :GovRegisterGovernmentOrganisation .
+        FILTER NOT EXISTS { ?governmentOrganisation a :PastGroup . }
+        OPTIONAL { ?governmentOrganisation :groupName ?groupName } .
+        OPTIONAL { ?governmentOrganisation :groupStartDate ?startDate } .
+      }
+      }
+      UNION {
+            SELECT DISTINCT ?firstLetter WHERE {
+            ?governmentOrganisation a :GovRegisterGovernmentOrganisation .
+            FILTER NOT EXISTS { ?governmentOrganisation a :PastGroup . }
+            ?governmentOrganisation :groupName ?groupName .
+            BIND(ucase(SUBSTR(?groupName, 1, 1)) as ?firstLetter)
+            }
+      }
+}

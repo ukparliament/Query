@@ -1,0 +1,47 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?party
+        a :Party ;
+        :partyName ?partyName ;
+    	:count ?memberCount .
+    ?parliament
+        a :ParliamentPeriod ;
+        :parliamentPeriodStartDate ?parliamentPeriodStartDate ;
+        :parliamentPeriodEndDate ?parliamentPeriodEndDate .
+    ?speaker
+        a :Person .
+}
+WHERE {
+    { SELECT ?party ?partyName (COUNT(?member) AS ?memberCount) WHERE {
+    ?party a :Party ;
+        :partyName ?partyName ;
+    	:partyHasPartyMembership ?partyMembership .
+        FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+        ?partyMembership :partyMembershipHasPartyMember ?member .
+        ?member :memberHasParliamentaryIncumbency ?seatIncumbency .
+        ?seatIncumbency a :SeatIncumbency .
+		?seatIncumbency :seatIncumbencyHasHouseSeat ?seat.
+		?seat :houseSeatHasHouse ?house.
+		?house :houseName "House of Commons".
+        FILTER NOT EXISTS { ?seatIncumbency a :PastParliamentaryIncumbency . }
+	}
+    GROUP BY ?party ?partyName
+}
+    UNION {
+        SELECT * WHERE {
+            ?parliament a :ParliamentPeriod ;
+   			    :parliamentPeriodStartDate ?parliamentPeriodStartDate ;
+                OPTIONAL { ?parliament :parliamentPeriodEndDate ?parliamentPeriodEndDate . }
+        }
+        ORDER BY DESC(?parliamentPeriodStartDate)
+        LIMIT 3
+    }
+    UNION {
+        SELECT ?speaker WHERE {
+            ?speaker :partyMemberHasPartyMembership ?partyMembership .
+            FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+            ?partyMembership :partyMembershipHasParty ?party .
+            ?party :partyName "Speaker" .
+        }
+    }
+}

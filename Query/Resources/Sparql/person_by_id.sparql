@@ -1,0 +1,232 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?person
+        a :Person ;
+        :personDateOfBirth ?dateOfBirth ;
+        :personGivenName ?givenName ;
+        :personOtherNames ?otherName ;
+        :personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitle ;
+        :memberHasMemberImage ?image ;
+        :partyMemberHasPartyMembership ?partyMembership ;
+        :memberHasParliamentaryIncumbency ?incumbency ;
+        :personHasFormalBodyMembership ?formalBodyMembership ;
+        :governmentPersonHasGovernmentIncumbency ?governmentIncumbency ;
+        :oppositionPersonHasOppositionIncumbency ?oppositionIncumbency ;
+        :personPimsId ?pimsId ;
+        :memberMnisId ?mnisId ;
+        :personHasGenderIdentity ?genderIdentity ;
+        :personHasPersonalWebLink ?personalWebLink ;
+        :personHasTwitterWebLink ?twitterWebLink ;
+        :personHasFacebookWebLink ?facebookWebLink ;
+    .
+    ?genderIdentity
+        a :GenderIdentity ;
+        :genderIdentityHasGender ?gender ;
+    .
+    ?gender
+        a :Gender ;
+        :genderName ?genderName ;
+    .
+    ?image
+        a :MemberImage ;
+    .
+    ?contactPoint
+        a :ContactPoint ;
+        :email ?email ;
+        :phoneNumber ?phoneNumber ;
+        :contactPointHasPostalAddress ?postalAddress ;
+    .
+    ?postalAddress
+        a :PostalAddress ;
+        :addressLine1 ?addressLine1 ;
+        :addressLine2 ?addressLine2 ;
+        :addressLine3 ?addressLine3 ;
+        :addressLine4 ?addressLine4 ;
+        :addressLine5 ?addressLine5 ;
+        :faxNumber ?faxNumber ;
+        :postCode ?postCode ;
+    .
+    ?constituency
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?constituencyName ;
+        :constituencyGroupStartDate ?constituencyStartDate ;
+        :constituencyGroupEndDate ?constituencyEndDate ;
+    .
+    ?seatIncumbency
+        a :SeatIncumbency ;
+        :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate ;
+        :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate ;
+        :seatIncumbencyHasHouseSeat ?seat ;
+        :parliamentaryIncumbencyHasContactPoint ?contactPoint ;
+    .
+    ?seat
+        a :HouseSeat ;
+        :houseSeatHasConstituencyGroup ?constituency ;
+        :houseSeatHasHouse ?house ;
+    .
+    ?party
+        a :Party ;
+        :partyName ?partyName ;
+    .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipStartDate ?partyMembershipStartDate ;
+        :partyMembershipEndDate ?partyMembershipEndDate ;
+        :partyMembershipHasParty ?party ;
+    .
+    ?house
+        a :House ;
+        :houseName ?houseName ;
+    .
+    ?formalBodyMembership
+        a :FormalBodyMembership ;
+        :formalBodyMembershipStartDate ?formalBodyMembershipStartDate ;
+        :formalBodyMembershipEndDate ?formalBodyMembershipEndDate ;
+        :formalBodyMembershipHasFormalBody ?formalBody ;
+    .
+    ?formalBody
+        a :FormalBody ;
+        :formalBodyName ?formalBodyName ;
+    .
+    ?governmentIncumbency
+        a :GovernmentIncumbency ;
+        :incumbencyStartDate ?incumbencyStartDate ;
+        :incumbencyEndDate ?incumbencyEndDate ;
+        :governmentIncumbencyHasGovernmentPosition ?governmentPosition ;
+    .
+    ?governmentPosition
+        a :GovernmentPosition ;
+        :positionName ?positionName ;
+    .
+    ?oppositionIncumbency
+        a :OppositionIncumbency ;
+        :incumbencyStartDate ?incumbencyStartDate ;
+        :incumbencyEndDate ?incumbencyEndDate ;
+        :oppositionIncumbencyHasOppositionPosition ?oppositionPosition ;
+    .
+    ?oppositionPosition
+        a :OppositionPosition ;
+        :positionName ?positionName ;
+    .
+}
+WHERE {
+    BIND(@person_id AS ?person)
+
+    ?person a :Person .
+
+    OPTIONAL { ?person :personGivenName ?givenName . }
+    OPTIONAL { ?person :personOtherNames ?otherName . }
+    OPTIONAL { ?person :personFamilyName ?familyName . }
+    OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs . }
+    OPTIONAL { ?person <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitle . }
+    OPTIONAL { ?person :memberHasMemberImage ?image . }
+    OPTIONAL {
+        ?person :personHasGenderIdentity ?genderIdentity .
+        ?genderIdentity a :GenderIdentity .
+
+        OPTIONAL {
+            ?genderIdentity :genderIdentityHasGender ?gender .
+            ?gender a :Gender .
+
+            OPTIONAL { ?gender :genderName ?genderName . }
+        }
+    }
+    OPTIONAL {
+        ?person :memberHasParliamentaryIncumbency ?incumbency .
+        ?incumbency a :SeatIncumbency .
+
+        OPTIONAL {
+            BIND(?incumbency AS ?seatIncumbency)
+
+            ?seatIncumbency
+                :seatIncumbencyHasHouseSeat ?seat ;
+                :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate .
+            ?seat :houseSeatHasHouse ?house.
+            ?house :houseName ?houseName .
+
+            OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+            OPTIONAL {
+                ?seat :houseSeatHasConstituencyGroup ?constituency .
+                ?constituency
+                    :constituencyGroupName ?constituencyName ;
+                    :constituencyGroupStartDate ?constituencyStartDate .
+
+                OPTIONAL { ?constituency :constituencyGroupEndDate ?constituencyEndDate . }
+            }
+        }
+        OPTIONAL {
+            ?incumbency :parliamentaryIncumbencyHasContactPoint ?contactPoint .
+
+            OPTIONAL { ?contactPoint :phoneNumber ?phoneNumber . }
+            OPTIONAL { ?contactPoint :email ?email . }
+            OPTIONAL {
+                ?contactPoint :contactPointHasPostalAddress ?postalAddress .
+
+                OPTIONAL { ?postalAddress :addressLine1 ?addressLine1 . }
+                OPTIONAL { ?postalAddress :addressLine2 ?addressLine2 . }
+                OPTIONAL { ?postalAddress :addressLine3 ?addressLine3 . }
+                OPTIONAL { ?postalAddress :addressLine4 ?addressLine4 . }
+                OPTIONAL { ?postalAddress :addressLine5 ?addressLine5 . }
+                OPTIONAL { ?postalAddress :faxNumber ?faxNumber . }
+                OPTIONAL { ?postalAddress :postCode ?postCode . }
+            }
+        }
+    }
+    OPTIONAL {
+        ?person :partyMemberHasPartyMembership ?partyMembership .
+        ?partyMembership
+            :partyMembershipHasParty ?party ;
+            :partyMembershipStartDate ?partyMembershipStartDate .
+        ?party :partyName ?partyName .
+
+        OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+    }
+    OPTIONAL {
+        ?person :personHasFormalBodyMembership ?formalBodyMembership .
+        ?formalBodyMembership
+            :formalBodyMembershipStartDate ?formalBodyMembershipStartDate ;
+            :formalBodyMembershipHasFormalBody ?formalBody .
+        ?formalBody :formalBodyName ?formalBodyName .
+
+        OPTIONAL { ?formalBodyMembership :formalBodyMembershipEndDate ?formalBodyMembershipEndDate . }
+    }
+    OPTIONAL {
+        ?person :governmentPersonHasGovernmentIncumbency ?governmentIncumbency .
+        ?governmentIncumbency
+            :incumbencyStartDate ?incumbencyStartDate ;
+            :governmentIncumbencyHasGovernmentPosition ?governmentPosition .
+        ?governmentPosition :positionName ?positionName .
+
+        OPTIONAL { ?governmentIncumbency :incumbencyEndDate ?incumbencyEndDate . }
+
+    }
+    OPTIONAL {
+        ?person :oppositionPersonHasOppositionIncumbency ?oppositionIncumbency .
+        ?oppositionIncumbency
+            :incumbencyStartDate ?incumbencyStartDate ;
+            :oppositionIncumbencyHasOppositionPosition ?oppositionPosition .
+        ?oppositionPosition :positionName ?positionName .
+
+        OPTIONAL { ?oppositionIncumbency :incumbencyEndDate ?incumbencyEndDate . }
+    }
+    OPTIONAL { ?person :personPimsId ?pimsId . }
+    OPTIONAL { ?person :memberMnisId ?mnisId . }
+    OPTIONAL {
+        ?person :personHasPersonWebLink ?twitterWebLink .
+
+        FILTER REGEX(STR(?twitterWebLink), "twitter") .
+    }
+    OPTIONAL {
+        ?person :personHasPersonWebLink ?facebookWebLink .
+
+        FILTER REGEX(STR(?facebookWebLink), "facebook") .
+    }
+    OPTIONAL {
+        ?person :personHasPersonWebLink ?personalWebLink .
+
+        FILTER (!REGEX(STR(?personalWebLink), "facebook")) .
+        FILTER (!REGEX(STR(?personalWebLink), "twitter")) .
+    }
+}

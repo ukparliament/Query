@@ -1,0 +1,41 @@
+﻿PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX : @schemaUri
+
+SELECT *
+WHERE {
+    VALUES ?subject {
+        @id
+    }
+
+    {
+        ?subject a :Person .
+
+        {
+            SELECT ?subject ?label
+            WHERE {
+                # Must require this because all the other three are optional
+                ?subject a :Person .
+
+                OPTIONAL { ?subject :personGivenName ?given . }
+                OPTIONAL { ?subject :personOtherNames ?other . }
+                OPTIONAL { ?subject :personFamilyName ?family . }
+
+                BIND(CONCAT(COALESCE(CONCAT(?given, " "), ""), COALESCE(CONCAT(?other, " "), ""), COALESCE(CONCAT(?family), "")) AS ?label)
+            }
+        }
+    }
+    UNION
+    {
+        FILTER NOT EXISTS { ?subject a :Person . }
+        
+        {
+            SELECT ?subject (GROUP_CONCAT(?rdfsLabel) AS ?label)
+            WHERE {
+                ?subject rdfs:label ?rdfsLabel .
+            }
+            GROUP BY ?subject
+        } 
+    }
+
+    FILTER(?label != "")
+}

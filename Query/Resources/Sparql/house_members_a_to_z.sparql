@@ -1,0 +1,32 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    _:x :value ?firstLetter .
+    ?house
+    	a :House ;
+    	:houseName ?houseName .
+}
+WHERE {
+	{
+	    SELECT DISTINCT ?firstLetter
+	    WHERE {
+	        BIND(@house_id AS ?house)
+	        ?house
+	            a :House ;
+	            :houseName ?houseName .
+	        ?person
+	            a :Member ;
+	            <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+	        ?incumbency :parliamentaryIncumbencyHasMember ?person .
+	        ?incumbency :seatIncumbencyHasHouseSeat ?seat .
+	        ?seat :houseSeatHasHouse ?house .
+	        BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
+    	}
+	}
+	UNION
+	{
+		BIND(@house_id AS ?house)
+        ?house
+            a :House ;
+            :houseName ?houseName .
+	}
+}

@@ -1,0 +1,15 @@
+﻿PREFIX : @schemaUri
+
+SELECT (?constituency as ?Constituency) (?constituencyName as ?ConstituencyName)
+WHERE {
+	?constituency a :ConstituencyGroup.
+	minus {?constituency :endDate ?constituencyEnd.}
+	?constituency :name ?constituencyName.
+	?constituency :constituencyGroupHasHouseSeat ?seat.
+	minus {
+		?seat :houseSeatHasSeatIncumbency ?incum.
+		minus {
+			?incum :endDate ?incumEnd.
+		}
+	}
+}

@@ -1,0 +1,16 @@
+﻿PREFIX : @schemaUri
+
+CONSTRUCT {
+    [ :value ?firstLetter ]
+}
+WHERE {
+    SELECT DISTINCT ?firstLetter
+    WHERE {
+        ?s
+            a :ConstituencyGroup ;
+            :constituencyGroupName ?constituencyName ;
+        .
+
+        BIND(UCASE(SUBSTR(?constituencyName, 1, 1)) AS ?firstLetter)
+    }
+}

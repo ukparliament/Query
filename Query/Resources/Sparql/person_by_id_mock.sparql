@@ -1,0 +1,123 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?person <http://id.ukpds.org/schema/personHasFormalBodyMembership> <http://id.ukpds.org/JCORBTRADECOMMITTEEMEMBERSHIP> .
+    <http://id.ukpds.org/JCORBTRADECOMMITTEEMEMBERSHIP> <http://id.ukpds.org/schema/formalBodyMembershipHasFormalBody> <http://id.ukpds.org/TRADECOMMITTEE> .
+    <http://id.ukpds.org/JCORBTRADECOMMITTEEMEMBERSHIP> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.ukpds.org/schema/FormalBodyMembership> .
+    <http://id.ukpds.org/JCORBTRADECOMMITTEEMEMBERSHIP> <http://id.ukpds.org/schema/formalBodyMembershipStartDate> "1991-06-08"^^<http://www.w3.org/2001/XMLSchema#date> .
+    <http://id.ukpds.org/JCORBTRADECOMMITTEEMEMBERSHIP> <http://id.ukpds.org/schema/formalBodyMembershipEndDate> "2001-06-08"^^<http://www.w3.org/2001/XMLSchema#date> .
+    <http://id.ukpds.org/TRADECOMMITTEE> <http://id.ukpds.org/schema/formalBodyName> "Trade Committee" .
+    <http://id.ukpds.org/TRADECOMMITTEE> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.ukpds.org/schema/FormalBody> .
+    
+    ?person <http://id.ukpds.org/schema/memberHasExOfficioMembership> <http://id.ukpds.org/JCORBJOBSCOMMITTEEMEMBERSHIP> .
+    <http://id.ukpds.org/JCORBJOBSCOMMITTEEMEMBERSHIP> <http://id.ukpds.org/schema/formalBodyMembershipHasFormalBody> <http://id.ukpds.org/TRADECOMMITTEE> .
+    <http://id.ukpds.org/JCORBJOBSCOMMITTEEMEMBERSHIP> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.ukpds.org/schema/FormalBodyMembership> .
+    <http://id.ukpds.org/JCORBJOBSCOMMITTEEMEMBERSHIP> <http://id.ukpds.org/schema/formalBodyMembershipStartDate> "1998-06-08"^^<http://www.w3.org/2001/XMLSchema#date> .
+    <http://id.ukpds.org/JCORBJOBSCOMMITTEEMEMBERSHIP> <http://id.ukpds.org/schema/formalBodyMembershipEndDate> "2012-06-08"^^<http://www.w3.org/2001/XMLSchema#date> .
+    <http://id.ukpds.org/JOBSCOMMITTEE> <http://id.ukpds.org/schema/formalBodyName> "Jobs Committee" .
+    <http://id.ukpds.org/JOBSCOMMITTEE> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.ukpds.org/schema/FormalBody> .
+
+    ?person
+        a :Person ;
+        :personDateOfBirth ?dateOfBirth ;
+        :personGivenName ?givenName ;
+        :personOtherNames ?otherName ;
+        :personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitle ;
+        :memberHasMemberImage ?image ;
+        :partyMemberHasPartyMembership ?partyMembership ;
+        :memberHasParliamentaryIncumbency ?incumbency .
+    ?image
+        a :MemberImage .
+    ?contactPoint
+        a :ContactPoint ;
+        :email ?email ;
+        :phoneNumber ?phoneNumber ;
+        :contactPointHasPostalAddress ?postalAddress .
+    ?postalAddress
+        a :PostalAddress ;
+        :addressLine1 ?addressLine1 ;
+        :addressLine2 ?addressLine2 ;
+        :addressLine3 ?addressLine3 ;
+        :addressLine4 ?addressLine4 ;
+        :addressLine5 ?addressLine5 ;
+        :faxNumber ?faxNumber ;
+        :postCode ?postCode .
+    ?constituency
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?constituencyName ;
+        :constituencyGroupStartDate ?constituencyStartDate ;
+        :constituencyGroupEndDate ?constituencyEndDate .
+    ?seatIncumbency
+        a :SeatIncumbency ;
+        :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate ;
+        :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate ;
+        :seatIncumbencyHasHouseSeat ?seat ;
+        :parliamentaryIncumbencyHasContactPoint ?contactPoint .
+    ?seat
+        a :HouseSeat ;
+        :houseSeatHasConstituencyGroup ?constituency ;
+        :houseSeatHasHouse ?house2 .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipStartDate ?partyMembershipStartDate ;
+        :partyMembershipEndDate ?partyMembershipEndDate ;
+        :partyMembershipHasParty ?party .
+    ?house1
+        a :House ;
+        :houseName ?houseName1 .
+    ?house2
+        a :House ;
+        :houseName ?houseName2 .
+}
+WHERE {
+    BIND(@person_id AS ?person)
+    ?person a :Person .
+    OPTIONAL { ?person :personGivenName ?givenName } .
+    OPTIONAL { ?person :personOtherNames ?otherName } .
+    OPTIONAL { ?person :personFamilyName ?familyName } .
+    OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+    OPTIONAL { ?person <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitle } .
+    OPTIONAL { ?person :memberHasMemberImage ?image } .
+    OPTIONAL {
+        ?person :memberHasParliamentaryIncumbency ?incumbency .
+        OPTIONAL {
+            ?incumbency a :SeatIncumbency .
+            BIND(?incumbency AS ?seatIncumbency)
+            ?seatIncumbency :seatIncumbencyHasHouseSeat ?seat .
+            ?seat :houseSeatHasConstituencyGroup ?constituency .
+            ?seat :houseSeatHasHouse ?house2 .
+            ?house2 :houseName ?houseName2 .
+            ?constituency :constituencyGroupName ?constituencyName .
+            ?constituency :constituencyGroupStartDate ?constituencyStartDate .
+            OPTIONAL { ?constituency :constituencyGroupEndDate ?constituencyEndDate . }
+            ?seatIncumbency :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate .
+            OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+        }
+        OPTIONAL {
+            ?incumbency :parliamentaryIncumbencyHasContactPoint ?contactPoint .
+            OPTIONAL { ?contactPoint :phoneNumber ?phoneNumber . }
+            OPTIONAL { ?contactPoint :email ?email . }
+            OPTIONAL {
+                ?contactPoint :contactPointHasPostalAddress ?postalAddress .
+                OPTIONAL { ?postalAddress :addressLine1 ?addressLine1 . }
+                OPTIONAL { ?postalAddress :addressLine2 ?addressLine2 . }
+                OPTIONAL { ?postalAddress :addressLine3 ?addressLine3 . }
+                OPTIONAL { ?postalAddress :addressLine4 ?addressLine4 . }
+                OPTIONAL { ?postalAddress :addressLine5 ?addressLine5 . }
+                OPTIONAL { ?postalAddress :faxNumber ?faxNumber . }
+                OPTIONAL { ?postalAddress :postCode ?postCode . }
+            }
+        }
+    }
+    OPTIONAL {
+        ?person :partyMemberHasPartyMembership ?partyMembership .
+        ?partyMembership :partyMembershipHasParty ?party .
+        ?partyMembership :partyMembershipStartDate ?partyMembershipStartDate .
+        OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+        ?party :partyName ?partyName .
+    }
+}

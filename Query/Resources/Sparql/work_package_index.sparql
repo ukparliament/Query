@@ -1,0 +1,45 @@
+﻿PREFIX ex: <https://example.com/>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+	#used old model, TODO: replace names as per new model
+    ?package
+        a :WorkPackage ;
+        :workPackageHasProcedure ?procedure ;
+        :workPackageHasWorkPackageableThing ?workPackaged ;
+        ex:oldestBusinessItemDate ?date ;
+    .
+
+    ?workPackaged 
+        a :WorkPackageableThing ;
+        :workPackageableThingName ?workPackagedThingName ;
+        :workPackageableThingHasWorkPackage ?package ;
+    .
+
+    ?procedure
+        a :Procedure ;
+        :procedureName ?procedureName ;
+    .
+}
+WHERE {
+    ?package :workPackageHasProcedure ?procedure .
+    ?procedure :procedureName ?procedureName .
+
+    # Date (if any) of oldest business item in package
+    {
+        SELECT ?package (MIN(?itemDate) AS ?date)
+        WHERE {
+            ?item :businessItemHasWorkPackage ?package .
+
+            OPTIONAL { ?item :businessItemDate ?itemDate . }
+        }
+        GROUP BY ?package
+    }
+
+    OPTIONAL { 
+        ?workPackaged
+            :workPackagedThingHasWorkPackage ?package ;
+            :workPackagedThingName ?workPackagedThingName ;
+        .
+    }
+}

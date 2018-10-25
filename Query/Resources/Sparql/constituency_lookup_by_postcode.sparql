@@ -1,0 +1,109 @@
+﻿PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    ?constituencyGroup
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?constituencyGroupName ;
+        :constituencyGroupHasHouseSeat ?houseSeat ;
+    .
+
+    ?houseSeat
+        a :HouseSeat ;
+        :houseSeatHasConstituencyGroup ?constituencyGroup ;
+        :houseSeatHasHouse ?house ;
+    .
+
+    ?house
+        a :House ;
+        :houseName ?houseName ;
+    .
+
+    ?seatIncumbency
+        a :SeatIncumbency ;
+        :parliamentaryIncumbencyStartDate ?incStartDate ;
+        :parliamentaryIncumbencyEndDate ?incEndDate ;
+        :seatIncumbencyHasHouseSeat ?houseSeat ;
+    .
+
+    ?member
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        :memberHasMemberImage ?image ;
+        :memberHasParliamentaryIncumbency ?seatIncumbency ;
+        :partyMemberHasPartyMembership ?partyMembership ;
+    .
+
+    ?image
+        a :MemberImage ;
+    .
+
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party ;
+        :partyMembershipStartDate ?pmStartDate ;
+        :partyMembershipEndDate ?pmEndDate ;
+    .
+
+    ?party
+        a :Party ;
+        :partyName ?partyName ;
+    .
+
+}
+WHERE {
+    BIND(STRDT(CONCAT("Point(", @longitude, " ", @latitude, ")"), geo:wktLiteral) As ?point)
+
+    ?constituencyArea
+        a :ConstituencyArea ;
+        :constituencyAreaExtent ?constituencyAreaExtent ;
+        :constituencyAreaHasConstituencyGroup ?constituencyGroup ;
+    .
+
+    FILTER(geof:sfWithin(?point, ?constituencyAreaExtent))
+
+    ?constituencyGroup :constituencyGroupName ?constituencyGroupName .
+
+    OPTIONAL {
+        ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+
+        ?houseSeat
+            :houseSeatHasSeatIncumbency ?seatIncumbency ;
+            :houseSeatHasHouse ?house ;
+        .
+
+        ?house :houseName ?houseName .
+
+        FILTER NOT EXISTS { ?seatIncumbency a :PastParliamentaryIncumbency . }
+
+        ?seatIncumbency :parliamentaryIncumbencyStartDate ?incStartDate .
+
+        OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?incEndDate . }
+
+        OPTIONAL {
+            ?seatIncumbency :parliamentaryIncumbencyHasMember ?member .
+
+            OPTIONAL { ?member :personGivenName ?givenName . }
+            OPTIONAL { ?member :personFamilyName ?familyName . }
+            OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs . }
+            OPTIONAL { ?member :memberHasMemberImage ?image . }
+
+            OPTIONAL {
+                ?member :partyMemberHasPartyMembership ?partyMembership .
+
+                FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+
+                ?partyMembership
+                    :partyMembershipHasParty ?party ;
+                    :partyMembershipStartDate ?pmStartDate .
+
+                OPTIONAL { ?partyMembership :partyMembershipEndDate ?pmEndDate . }
+
+                ?party :partyName ?partyName .
+            }
+        }
+    }
+}

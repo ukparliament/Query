@@ -1,0 +1,32 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?contactPoint
+        a :ContactPoint ;
+        :email ?email ;
+        :phoneNumber ?phoneNumber ;
+        :faxNumber ?faxNumber ;
+        :contactPointHasPostalAddress ?postalAddress .
+    ?postalAddress 
+        a :PostalAddress ;
+        :postCode ?postCode ;
+        :addressLine1 ?addressLine1 ;
+        :addressLine2 ?addressLine2 ;
+        :addressLine3 ?addressLine3 ;
+        :addressLine4 ?addressLine4 ;
+        :addressLine5 ?addressLine5 .
+}
+WHERE {
+    ?contactPoint a :ContactPoint .
+    OPTIONAL{ ?contactPoint :email ?email . }
+    OPTIONAL{ ?contactPoint :phoneNumber ?phoneNumber . }
+    OPTIONAL{ ?contactPoint :faxNumber ?faxNumber . }
+    OPTIONAL{
+        ?contactPoint :contactPointHasPostalAddress ?postalAddress .
+        OPTIONAL{ ?postalAddress :postCode ?postCode . }
+        OPTIONAL{ ?postalAddress :addressLine1 ?addressLine1 . }
+        OPTIONAL{ ?postalAddress :addressLine2 ?addressLine2 . }
+        OPTIONAL{ ?postalAddress :addressLine3 ?addressLine3 . }
+        OPTIONAL{ ?postalAddress :addressLine4 ?addressLine4 . }
+        OPTIONAL{ ?postalAddress :addressLine5 ?addressLine5 . }
+    }
+}

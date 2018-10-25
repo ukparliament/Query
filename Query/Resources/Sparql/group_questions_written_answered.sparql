@@ -1,0 +1,49 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    ?answeringBody
+        a :AnsweringBody ;
+        :groupName ?groupName ;
+        :answeringBodyHasAnswer ?answer ;
+    .
+    ?answer
+        a :Answer ;
+        :answerGivenDate ?answerGivenDate ;
+        :answerHasQuestion ?question ;
+    .
+    ?question
+        a :Question ;
+        :questionHeading ?questionHeading ;
+    .
+}
+WHERE {
+    BIND(@group_id AS ?answeringBody)
+
+    ?answeringBody
+        a :AnsweringBody ;
+        :groupName ?groupName ;
+    .
+
+    OPTIONAL {
+        {
+            SELECT ?answer ?answerGivenDate
+            WHERE {
+                BIND(@group_id AS ?answeringBody)
+
+                ?answeringBody :answeringBodyHasAnswer ?answer .
+
+                OPTIONAL { ?answer :answerGivenDate ?answerGivenDate . }
+            }
+            ORDER BY DESC(?answerGivenDate)
+            LIMIT 50
+            OFFSET 0
+        }
+
+        ?answer
+            a :Answer ;
+            :answerHasQuestion ?question .
+        ?question a :Question .
+
+        OPTIONAL { ?question :questionHeading ?questionHeading . }
+    }
+}

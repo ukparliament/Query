@@ -1,0 +1,55 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?house
+        a :House ;
+        :houseName ?houseName .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+    ?party :count ?currentMemberCount .
+}
+WHERE {
+    {
+        SELECT *
+        WHERE {
+            BIND(@house_id AS ?house)
+            ?house :houseName ?houseName .
+            OPTIONAL {
+                BIND(@party_id AS ?party)
+                ?person
+                	a :Member ;
+                	:partyMemberHasPartyMembership ?partyMembership .
+                ?partyMembership :partyMembershipHasParty ?party .
+                ?party :partyName ?partyName .
+                ?incumbency :parliamentaryIncumbencyHasMember ?person .
+                ?incumbency :seatIncumbencyHasHouseSeat ?seat .
+                ?seat :houseSeatHasHouse ?house .
+        	}
+        }
+    }
+    UNION {
+    	SELECT ?party (COUNT(?currentMember) AS ?currentMemberCount)
+        WHERE {
+        	BIND(@house_id AS ?house)
+            BIND(@party_id AS ?party)
+            ?house a :House .
+            ?party a :Party .
+            OPTIONAL {
+            	?party :partyHasPartyMembership ?partyMembership .
+                FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+                ?partyMembership :partyMembershipHasPartyMember ?currentMember .
+                ?currentMember :memberHasParliamentaryIncumbency ?incumbency .
+				FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
+				FILTER NOT EXISTS {
+					?incumbency :incumbencyHasIncumbencyInterruption ?interruption.
+					FILTER NOT EXISTS {
+						?interruption :endDate ?end.
+					}
+				}
+				?incumbency :seatIncumbencyHasHouseSeat ?seat .
+				?seat :houseSeatHasHouse ?house .
+        	}
+        }
+        GROUP BY ?party
+    }
+}

@@ -1,0 +1,26 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?previousParliament
+        a :ParliamentPeriod .
+}
+WHERE {
+    {
+        ?parliament a :ParliamentPeriod .
+        FILTER NOT EXISTS { ?parliament a :PastParliamentPeriod }
+        ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament .
+
+    }
+    UNION {
+        ?parliament a :ParliamentPeriod .
+        {
+            SELECT (max(?parliamentPeriodEndDate) AS ?maxEndDate)
+            WHERE {
+                ?parliament
+                    a :ParliamentPeriod ;
+                    :parliamentPeriodEndDate ?parliamentPeriodEndDate .
+            }
+   		}
+        ?parliament :parliamentPeriodEndDate ?maxEndDate .
+        BIND(?parliament AS ?previousParliament)
+    }
+}

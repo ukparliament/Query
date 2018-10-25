@@ -1,0 +1,228 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    ?group
+        a :Group ;
+        a ?class ;
+        :groupName ?groupName ;
+        :groupStartDate ?groupStartDate ;
+        :formalBodyHasParentFormalBody ?parentformalBody ;
+        :formalBodyHasChildFormalBody ?childformalBody ;
+        :formalBodyRemit ?bodyRemit ;
+        :formalBodyHasLeadHouse ?leadHouse ;
+        a :FormalBody ;
+        :formalBodyName ?formalBodyName ;
+        :formalBodyStartDate ?formalbodystartDate ;
+        :formalBodyHasContactPoint ?formalbodycontactpoint ;
+        :formalBodyHasFormalBodyMembership ?formalBodyMembership ;
+        :formalBodyHasHouse ?house ;
+        a ?parliamentaryCommittee ;
+        a ?selectCommittee ;
+        :formalBodyHasFormalBodyChair ?bodyChair ;
+        :memberCount ?memberCount ;
+    .
+    ?formalBodyMembership
+        a :FormalBodyMembership ;
+        :formalBodyMembershipHasPerson ?formalBodyPerson ;
+    .
+    ?formalbodycontactpoint
+        a :ContactPoint ;
+        :email ?email ;
+        :phoneNumber ?phoneNumber ;
+    .
+    ?house
+        a :House ;
+        :houseName ?houseName ;
+        :houseHasContactPoint  ?contactpoint ;
+    .
+    ?postalAddress
+        a :PostalAddress ;
+        :addressLine1 ?address1 ;
+        :addressLine2 ?address2 ;
+        :addressLine3 ?address3 ;
+        :addressLine4 ?address4 ;
+        :addressLine5 ?address5 ;
+        :postCode ?postCode ;
+    .
+    ?formalBodyPerson
+        a :Person ;
+        :personGivenName ?formalBodyPersonGivenName ;
+        :personFamilyName ?formalBodyPersonFamilyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?formalBodyPersonDisplayAs ;
+        <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?formalBodyPersonListAs ;
+        :memberHasMemberImage ?image ;
+        :memberHasParliamentaryIncumbency ?parlIncumbency ;
+        :partyMemberHasPartyMembership ?partyMembership ;
+        :personHasFormalBodyMembership ?formalBodyMembership ;
+        :memberHasExOfficioMembership ?exOfficioMembership  ;
+        :memberHasAlternateMembership ?alternateMembership ;
+    .
+    ?image
+        a :MemberImage ;
+    .
+    ?parlIncumbency
+        a :SeatIncumbency ;
+        :seatIncumbencyHasHouseSeat ?houseSeat ;
+        :parliamentaryIncumbencyStartDate ?parlincumbencyStartDate ;
+        :parliamentaryIncumbencyEndDate ?parlIncumbencyEndDate ;
+    .
+    ?houseSeat
+        a :HouseSeat ;
+        :houseSeatHasConstituencyGroup ?constituencyGroup ;
+        :houseSeatHasHouse ?house ;
+    .
+    ?constituencyGroup
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?constituencyGroupName ;
+    .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party ;
+    .
+    ?party
+        a :Party ;
+        :partyName ?partyName ;
+    .
+    ?bodyChair
+        a :Position ;
+        :positionHasIncumbency ?bodyChairIncumbency ;
+    .
+    ?bodyChairIncumbency
+        a :Incumbency ;
+        :incumbencyStartDate ?bodyChairIncumbencystartDate ;
+        :incumbencyHasPerson ?formalBodyChairperson ;
+    .
+    _:x :value ?firstLetter .
+}
+WHERE {
+    {
+        SELECT *
+        WHERE {
+            BIND(@group_id AS ?group)
+
+            ?group a :Group, ?class .
+
+            OPTIONAL {
+                ?group
+                    :groupName ?groupName ;
+                    :groupStartDate ?groupStartDate ;
+                .
+                OPTIONAL { ?group :formalBodyHasParentFormalBody ?parentformalBody . }
+                OPTIONAL { ?group :formalBodyHasChildFormalBody ?childformalBody . }
+                OPTIONAL { ?group :formalBodyRemit ?bodyRemit . }
+            }
+
+            OPTIONAL {
+                OPTIONAL {
+                    ?group :formalBodyHasLeadHouse ?leadHouse .
+
+                    BIND (?leadHouse AS ?house)
+                }
+
+                ?group
+                    a :FormalBody;
+                    :formalBodyName ?formalBodyName ;
+                    :formalBodyStartDate ?formalbodystartDate ;
+                    :formalBodyHasHouse ?house ;
+                .
+
+                ?house
+                    a :House ;
+                    :houseName ?houseName ;
+                    :houseHasContactPoint  ?contactpoint ;
+                .
+
+                OPTIONAL {
+                    ?group :formalBodyHasFormalBodyMembership ?formalBodyMembership .
+
+                    OPTIONAL {
+                        BIND(:ExOfficioMembership AS ?exOfficioMembership)
+                        ?formalBodyMembership a ?exOfficioMembership .
+                    }
+
+                    OPTIONAL {
+                        BIND(:AlternateMembership AS ?alternateMembership)
+                        ?formalBodyMembership a ?alternateMembership .
+                    }
+
+                    OPTIONAL {
+                        BIND(:ParliamentaryCommittee AS ?parliamentaryCommittee)
+                        ?group a ?parliamentaryCommittee .
+                    }
+
+                    OPTIONAL {
+                        BIND(:SelectCommittee AS ?selectCommittee)
+                        ?group a ?selectCommittee .
+                    }
+
+                    ?formalBodyMembership :formalBodyMembershipHasPerson ?formalBodyPerson .
+
+                    OPTIONAL {
+                        ?formalBodyPerson a :Person .
+
+                        OPTIONAL { ?formalBodyPerson :personFamilyName ?formalBodyPersonFamilyName . }
+                        OPTIONAL { ?formalBodyPerson :personGivenName ?formalBodyPersonGivenName . }
+                        OPTIONAL { ?formalBodyPerson <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?formalBodyPersonDisplayAs . }
+                        OPTIONAL { ?formalBodyPerson <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?formalBodyPersonListAs . }
+                        OPTIONAL { ?formalBodyPerson :personHasFormalBodyMembership ?formalBodyMembership . }
+                        OPTIONAL { ?formalBodyPerson :memberHasExOfficioMembership ?exOfficioMembership . }
+                        OPTIONAL { ?formalBodyPerson :memberHasAlternateMembership ?alternateMembership . }
+                        OPTIONAL { ?formalBodyPerson :memberHasMemberImage ?image . }
+
+                        OPTIONAL {
+                            ?formalBodyPerson :memberHasParliamentaryIncumbency ?parlIncumbency .
+                            ?parlIncumbency
+                                a :SeatIncumbency ;
+                                :seatIncumbencyHasHouseSeat ?houseSeat ;
+                                :parliamentaryIncumbencyStartDate ?parlincumbencyStartDate ;
+                            .
+                            OPTIONAL { ?parlIncumbency :parliamentaryIncumbencyEndDate ?parlIncumbencyEndDate } .
+                            OPTIONAL { ?houseSeat :houseSeatHasHouse ?house } .
+                            OPTIONAL {
+                                ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+                                ?constituencyGroup
+                                    a :ConstituencyGroup ;
+                                    :constituencyGroupName ?constituencyGroupName .
+
+                                FILTER NOT EXISTS { ?constituencyGroup :constituencyGroupEndDate ?constituencygroupEndDate . }
+                            }
+                        }
+
+                        OPTIONAL {
+                            ?formalBodyPerson :partyMemberHasPartyMembership ?partyMembership .
+                            ?partyMembership
+                                a :PartyMembership ;
+                                :partyMembershipHasParty ?party .
+                            ?party
+                                a :Party ;
+                                :partyName ?partyName .
+                        }
+                    }
+                }
+
+                OPTIONAL {
+                    ?group :formalBodyHasFormalBodyChair ?bodyChair .
+                    ?bodyChair :positionHasIncumbency ?bodyChairIncumbency .
+                    ?bodyChairIncumbency
+                        :incumbencyStartDate ?bodyChairIncumbencystartDate ;
+                        :incumbencyHasPerson ?formalBodyChairperson ;
+                    .
+                }
+            }
+        }
+    }
+    UNION {
+        SELECT DISTINCT ?firstLetter
+        WHERE {
+            BIND(@group_id AS ?group)
+
+            ?group :formalBodyHasFormalBodyMembership ?formalBodyMembership .
+
+            ?formalBodyMembership :formalBodyMembershipHasPerson ?formalBodyPerson .
+
+            ?formalBodyPerson <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?formalBodyPersonListAs .
+
+            BIND(UCASE(SUBSTR(?formalBodyPersonListAs, 1, 1)) AS ?firstLetter)
+        }
+    }
+}

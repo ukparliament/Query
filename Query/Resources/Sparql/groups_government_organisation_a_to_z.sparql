@@ -1,0 +1,15 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    [ :value ?firstLetter ]
+}
+WHERE {
+    SELECT DISTINCT ?firstLetter
+    WHERE {
+        ?s
+            a :GovRegisterGovernmentOrganisation ;
+            :groupName ?groupName .
+
+        BIND(UCASE(SUBSTR(?groupName, 1, 1)) AS ?firstLetter)
+    }
+}

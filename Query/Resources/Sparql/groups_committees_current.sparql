@@ -1,0 +1,56 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    ?committee
+        a ?class ;
+        :groupStartDate ?startDate ;
+        :groupName ?committeeName ;
+    .
+
+    [ :value ?firstLetter ]
+}
+WHERE {
+    {
+        SELECT *
+        WHERE {
+            ?committee
+                a :ParliamentaryCommittee ;
+                a ?class ;
+            .
+
+            OPTIONAL { ?committee :groupName ?committeeName . }
+            OPTIONAL { ?committee :groupStartDate ?startDate . }
+            FILTER NOT EXISTS { ?committee :groupEndDate ?endDate . }
+        }
+    }
+    UNION {
+        SELECT *
+        WHERE {
+            ?committee
+                a :StatutoryCommittee ;
+                a ?class ;
+            .
+
+            OPTIONAL { ?committee :groupName ?committeeName . }
+            OPTIONAL { ?committee :groupStartDate ?startDate . }
+            FILTER NOT EXISTS { ?committee :groupEndDate ?endDate . }
+        }
+    }
+    UNION {
+        SELECT DISTINCT ?firstLetter
+        WHERE {
+            {
+                ?committee a :ParliamentaryCommittee .
+                ?committee :groupName ?committeeName .
+                FILTER NOT EXISTS { ?committee :groupEndDate ?endDate . }
+                BIND(UCASE(SUBSTR(?committeeName, 1, 1)) AS ?firstLetter)
+            }
+            UNION {
+                ?committee a :StatutoryCommittee .
+                ?committee :groupName ?committeeName .
+                FILTER NOT EXISTS { ?committee :groupEndDate ?endDate . }
+                BIND(UCASE(SUBSTR(?committeeName, 1, 1)) AS ?firstLetter)
+            }
+        }
+    }
+}

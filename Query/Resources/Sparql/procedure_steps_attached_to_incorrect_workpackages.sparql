@@ -1,0 +1,20 @@
+PREFIX : @schemaUri
+
+# find all business items that actualise steps which are not from a route attached to the procedure which the work package is subject to
+
+SELECT ?businessItem ?procedureStepName ?house ?procedureStep ?workPackage ?workPackagedThingName ?procedureName ?workPackageProcedure ?procedureRoute 
+WHERE 
+
+{
+	?businessItem :businessItemHasWorkPackage ?workPackage.
+	?workPackage :workPackageHasProcedure ?workPackageProcedure .
+	?workPackageProcedure :procedureName ?procedureName .
+	?workPackage :workPackageHasWorkPackagedThing/:workPackagedThingName ?workPackagedThingName.
+	?businessItem :businessItemHasProcedureStep ?procedureStep.
+	OPTIONAL {?procedureStep :procedureStepHasHouse/:name ?house}
+	?procedureStep :procedureStepName ?procedureStepName.
+	FILTER NOT EXISTS {
+		?procedureStep :procedureStepIsFromProcedureRoute ?procedureRoute.
+		?procedureRoute :procedureRouteHasProcedure ?workPackageProcedure.
+	}
+}

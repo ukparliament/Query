@@ -1,0 +1,28 @@
+﻿PREFIX : @schemaUri
+
+CONSTRUCT {
+	?question 
+		a :Question;
+		a :IndexingAndSearchThing;
+        :indexingAndSearchUri ?writtenQuestionUri;
+        :writtenQuestionIndexingAndSearchUin ?writtenQuestionUin;
+	    :questionAskedAt ?questionAskedAt;
+        :questionHeading ?questionHeading;
+		:questionText ?questionText;
+        :questionHasAskingPerson ?questionHasAskingPerson;
+		:questionHasAnswer ?questionHasAnswer.
+	?questionHasAnswer
+		a :Answer;
+		:answerHasAnsweringPerson ?answeringPerson.
+}
+WHERE {
+	bind(@member_id AS ?answeringPerson)
+	?question :indexingAndSearchUri ?writtenQuestionUri.
+	?question :questionHasAnswer ?questionHasAnswer.
+	?questionHasAnswer :answerHasAnsweringPerson ?answeringPerson.
+	optional {?question :questionHasAskingPerson ?questionHasAskingPerson.}
+	optional {?question :writtenQuestionIndexingAndSearchUin ?writtenQuestionUin}
+	optional {?question :questionAskedAt ?questionAskedAt}
+	optional {?question :questionHeading ?questionHeading}
+	optional {?question :questionText ?questionText}
+}

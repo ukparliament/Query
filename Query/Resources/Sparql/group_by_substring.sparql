@@ -1,0 +1,14 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    ?group
+        a :Group ;
+        :groupName ?groupName .
+}
+WHERE {
+    ?group
+        a :Group ;
+        :groupName ?groupName .
+
+    FILTER CONTAINS(LCASE(?groupName), LCASE(@substring))
+}

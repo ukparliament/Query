@@ -1,0 +1,42 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+	?proposedNegativeStatutoryInstrumentPaper
+		a :ProposedNegativeStatutoryInstrumentPaper, :LaidThing, :WorkPackagedThing ;
+		:proposedNegativeStatutoryInstrumentPaperName ?proposedNegativeStatutoryInstrumentPaperName ;
+		:laidThingHasLaying ?laying ;
+    	:workPackagedThingHasWorkPackage ?workPackage .
+	?laying
+		a :Laying ;
+		:layingDate ?layingDate ;
+    	:layingHasLayingBody ?layingBody .
+    ?layingBody
+    	a :Group ;
+    	:groupName ?groupName .
+  	?workPackage
+    	a :WorkPackage ;
+    	:workPackageHasProcedure ?procedure .
+  	?procedure
+    	a :Procedure ;
+    	:procedureName ?procedureName .
+}
+WHERE {
+    ?proposedNegativeStatutoryInstrumentPaper a :ProposedNegativeStatutoryInstrumentPaper .
+	OPTIONAL { ?proposedNegativeStatutoryInstrumentPaper :proposedNegativeStatutoryInstrumentPaperName ?proposedNegativeStatutoryInstrumentPaperName . }
+	OPTIONAL {
+		?proposedNegativeStatutoryInstrumentPaper :laidThingHasLaying ?laying .
+		OPTIONAL { ?laying :layingDate ?layingDate . }
+        OPTIONAL {
+          ?laying :layingHasLayingBody ?layingBody .
+          OPTIONAL { ?layingBody :groupName ?groupName . }
+        }
+	}
+  	  OPTIONAL {
+    	?proposedNegativeStatutoryInstrumentPaper :workPackagedThingHasWorkPackage ?workPackage .
+    	OPTIONAL {
+      		?workPackage :workPackageHasProcedure ?procedure .
+      		OPTIONAL { ?procedure :procedureName ?procedureName . }
+    	}
+  	}
+}

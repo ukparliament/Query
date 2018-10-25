@@ -1,0 +1,15 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    ?s a :Group .
+}
+WHERE {
+    BIND(@property AS ?property)
+    BIND(@value AS ?value)
+
+    ?s
+        a :Group ;
+        ?property ?actualValue .
+
+        FILTER(STR(?actualValue) = ?value)
+}

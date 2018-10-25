@@ -1,0 +1,12 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?house
+        a :House ;
+        :houseName ?houseName .
+}
+WHERE {
+    BIND(@house_id AS ?house)
+    ?house
+        a :House ;
+        :houseName ?houseName .
+}

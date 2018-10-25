@@ -1,0 +1,56 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?constituencyGroup
+        a :ConstituencyGroup ;
+        :constituencyGroupHasHouseSeat ?houseSeat ;
+        :constituencyGroupName ?name .
+    ?houseSeat
+        a :HouseSeat ;
+        :houseSeatHasSeatIncumbency ?incumbency .
+    ?incumbency
+        a :SeatIncumbency ;
+        :parliamentaryIncumbencyHasContactPoint ?contactPoint .
+    ?contactPoint
+        a :ContactPoint ;
+        :email ?email ;
+        :phoneNumber ?phoneNumber ;
+        :faxNumber ?faxNumber ;
+        :contactForm ?contactForm ;
+        :contactPointHasPostalAddress ?postalAddress .
+    ?postalAddress
+        a :PostalAddress ;
+        :postCode ?postCode ;
+        :addressLine1 ?addressLine1 ;
+        :addressLine2 ?addressLine2 ;
+        :addressLine3 ?addressLine3 ;
+        :addressLine4 ?addressLine4 ;
+        :addressLine5 ?addressLine5 .
+}
+WHERE {
+    BIND(@constituency_id AS ?constituencyGroup )
+    ?constituencyGroup a :ConstituencyGroup .
+    OPTIONAL {
+        ?constituencyGroup :constituencyGroupHasHouseSeat ?houseSeat .
+        OPTIONAL {
+            ?houseSeat :houseSeatHasSeatIncumbency ?incumbency .
+            FILTER NOT EXISTS { ?incumbency a :PastParliamentaryIncumbency . }
+            OPTIONAL {
+                ?incumbency :parliamentaryIncumbencyHasContactPoint ?contactPoint .
+                OPTIONAL{ ?contactPoint :email ?email . }
+                OPTIONAL{ ?contactPoint :phoneNumber ?phoneNumber . }
+                OPTIONAL{ ?contactPoint :faxNumber ?faxNumber . }
+                OPTIONAL{ ?contactPoint :contactForm ?contactForm . }
+                OPTIONAL{
+        			?contactPoint :contactPointHasPostalAddress ?postalAddress .
+                    OPTIONAL{ ?postalAddress :postCode ?postCode . }
+                    OPTIONAL{ ?postalAddress :addressLine1 ?addressLine1 . }
+                    OPTIONAL{ ?postalAddress :addressLine2 ?addressLine2 . }
+                    OPTIONAL{ ?postalAddress :addressLine3 ?addressLine3 . }
+                    OPTIONAL{ ?postalAddress :addressLine4 ?addressLine4 . }
+                    OPTIONAL{ ?postalAddress :addressLine5 ?addressLine5 . }
+            	}
+        	}
+    	}
+	}
+    OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+}

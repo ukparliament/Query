@@ -1,0 +1,10 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    ?previousParliament
+        a :ParliamentPeriod .
+}
+WHERE {
+    BIND(@parliament_id AS ?parliament)
+
+    ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament .
+}

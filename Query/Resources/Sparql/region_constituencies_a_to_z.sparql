@@ -1,0 +1,44 @@
+﻿PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    ?region
+        a admingeo:EuropeanRegion ;
+        admingeo:gssCode ?regionCode ;
+        skos:prefLabel ?regionName .
+    _:x :value ?firstLetter .
+}
+WHERE {
+    {
+        SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
+            BIND (@region_code AS ?regionCode)
+
+            ?region
+                a admingeo:EuropeanRegion ;
+                admingeo:gssCode ?regionCode ;
+                skos:prefLabel ?regionName ;
+                admingeo:westminsterConstituency/admingeo:gssCode ?onsCode.
+        }
+    }
+    UNION {
+        SELECT DISTINCT ?firstLetter
+        WHERE {
+            SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
+                BIND (@region_code AS ?regionCode)
+
+                ?region
+                    a admingeo:EuropeanRegion ;
+                    admingeo:gssCode ?regionCode ;
+                    admingeo:westminsterConstituency/admingeo:gssCode ?onsCode.
+            }
+
+            ?constituency
+                a :ConstituencyGroup ;
+                :onsCode ?onsCode;
+                :constituencyGroupName ?constituencyName .
+
+            BIND(UCASE(SUBSTR(?constituencyName, 1, 1)) AS ?firstLetter)
+        }
+    }
+}

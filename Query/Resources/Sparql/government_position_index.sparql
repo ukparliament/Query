@@ -1,0 +1,14 @@
+﻿PREFIX : @schemaUri
+SELECT * WHERE {
+	?person_uri :governmentPersonHasGovernmentIncumbency ?incumbency_uri.
+	OPTIONAL { ?person_uri :personGivenName ?person_given_name }
+	OPTIONAL { ?person_uri :personFamilyName ?person_family_name }
+	OPTIONAL { ?person_uri <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?person_label }
+	OPTIONAL { ?person_uri :memberMnisId ?person_mnis_member_id }
+	?incumbency_uri 
+		:startDate ?incumbency_start;
+		:governmentIncumbencyHasGovernmentPosition ?government_position_uri;
+	.
+	OPTIONAL { ?incumbency_uri :endDate ?incumbency_end }
+	OPTIONAL { ?government_position_uri :name ?government_position_name }
+}

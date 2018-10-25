@@ -1,0 +1,14 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT {
+    [ :value ?firstLetter ]
+}
+WHERE {
+    SELECT DISTINCT ?firstLetter
+    WHERE {
+        ?s
+            a :Party ;
+           :partyHasPartyMembership ?partyMembership ;
+           :partyName ?partyName .
+        BIND(ucase(SUBSTR(?partyName, 1, 1)) as ?firstLetter)
+    }
+}

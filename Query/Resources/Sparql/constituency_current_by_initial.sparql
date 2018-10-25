@@ -1,0 +1,58 @@
+﻿PREFIX : @schemaUri
+CONSTRUCT{
+    ?constituencyGroup
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?name ;
+        :constituencyGroupHasHouseSeat ?seat .
+    ?seat
+        a :HouseSeat ;
+        :houseSeatHasSeatIncumbency ?seatIncumbency .
+    ?seatIncumbency
+        a :SeatIncumbency ;
+        :parliamentaryIncumbencyHasMember ?member .
+    ?member
+		a :Person ;
+		:personGivenName ?givenName ;
+		:personFamilyName ?familyName ;
+		<http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+		:partyMemberHasPartyMembership ?partyMembership .
+     ?partyMembership
+		a :PartyMembership ;
+		:partyMembershipHasParty ?party .
+     ?party
+		a :Party ;
+		:partyName ?partyName .
+    _:x :value ?firstLetter .
+}
+WHERE {
+    { SELECT * WHERE {
+        ?constituencyGroup a :ConstituencyGroup .
+        FILTER NOT EXISTS { ?constituencyGroup a :PastConstituencyGroup . }
+        OPTIONAL { ?constituencyGroup :constituencyGroupName ?name . }
+        OPTIONAL {
+            ?constituencyGroup :constituencyGroupHasHouseSeat ?seat .
+            ?seat :houseSeatHasSeatIncumbency ?seatIncumbency .
+            FILTER NOT EXISTS { ?seatIncumbency a :PastParliamentaryIncumbency . }
+            ?seatIncumbency :parliamentaryIncumbencyHasMember ?member .
+            OPTIONAL { ?member :personGivenName ?givenName . }
+            OPTIONAL { ?member :personFamilyName ?familyName . }
+            OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+            ?member :partyMemberHasPartyMembership ?partyMembership .
+            FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+            ?partyMembership :partyMembershipHasParty ?party .
+            ?party :partyName ?partyName .
+        }
+        FILTER STRSTARTS(LCASE(?name), LCASE(@initial))
+      }
+    }
+    UNION {
+        SELECT DISTINCT ?firstLetter
+		WHERE {
+			?s a :ConstituencyGroup.
+			FILTER NOT EXISTS { ?s a :PastConstituencyGroup. }
+			?s :constituencyGroupName ?constituencyName.
+
+           BIND(UCASE(SUBSTR(?constituencyName, 1, 1)) AS ?firstLetter)
+        }
+    }
+}

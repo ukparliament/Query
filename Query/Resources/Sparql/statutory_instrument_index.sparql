@@ -1,0 +1,44 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+	?statutoryInstrumentPaper
+		a :StatutoryInstrumentPaper, :LaidThing, :WorkPackagedThing ;
+		:statutoryInstrumentPaperName ?statutoryInstrumentPaperName ;
+		:laidThingHasLaying ?laying ;
+    	:workPackagedThingHasWorkPackage ?workPackage .
+	?laying
+		a :Laying ;
+		:layingDate ?layingDate ;
+    	:layingHasLayingBody ?layingBody .
+  	?layingBody
+    	a :Group ;
+    	:groupName ?groupName .
+  	?workPackage
+    	a :WorkPackage ;
+    	:workPackageHasProcedure ?procedure .
+  	?procedure
+    	a :Procedure ;
+    	:procedureName ?procedureName .
+}
+WHERE {
+    ?statutoryInstrumentPaper a :StatutoryInstrumentPaper .
+
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperName ?statutoryInstrumentPaperName . }
+
+	OPTIONAL {
+		?statutoryInstrumentPaper :laidThingHasLaying ?laying .
+		OPTIONAL { ?laying :layingDate ?layingDate . }
+    	OPTIONAL {
+      		?laying :layingHasLayingBody ?layingBody .
+      		OPTIONAL { ?layingBody :groupName ?groupName . }
+    	}
+	}
+  	OPTIONAL {
+    	?statutoryInstrumentPaper :workPackagedThingHasWorkPackage ?workPackage .
+    	OPTIONAL {
+      		?workPackage :workPackageHasProcedure ?procedure .
+      		OPTIONAL { ?procedure :procedureName ?procedureName . }
+    	}
+  	}
+}

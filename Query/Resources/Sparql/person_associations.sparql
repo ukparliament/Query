@@ -1,0 +1,127 @@
+﻿PREFIX : @schemaUri
+
+CONSTRUCT {
+    ?person
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personOtherNames ?otherName ;
+        :personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitle ;
+        :memberHasMemberImage ?image ;
+        :partyMemberHasPartyMembership ?partyMembership ;
+        :memberHasParliamentaryIncumbency ?incumbency ;
+        :personHasFormalBodyMembership ?formalBodyMembership ;
+        :governmentPersonHasGovernmentIncumbency ?governmentIncumbency ;
+        :oppositionPersonHasOppositionIncumbency ?oppositionIncumbency .
+    ?image
+        a :MemberImage .
+    ?constituency
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?constituencyName ;
+        :constituencyGroupStartDate ?constituencyStartDate ;
+        :constituencyGroupEndDate ?constituencyEndDate .
+    ?seatIncumbency
+        a :SeatIncumbency ;
+        :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate ;
+        :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate ;
+        :seatIncumbencyHasHouseSeat ?seat ;
+        :parliamentaryIncumbencyHasContactPoint ?contactPoint .
+    ?seat
+        a :HouseSeat ;
+        :houseSeatHasConstituencyGroup ?constituency ;
+        :houseSeatHasHouse ?house .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipStartDate ?partyMembershipStartDate ;
+        :partyMembershipEndDate ?partyMembershipEndDate ;
+        :partyMembershipHasParty ?party .
+    ?house
+        a :House ;
+        :houseName ?houseName.
+    ?formalBodyMembership
+        a :FormalBodyMembership ;
+        :formalBodyMembershipStartDate ?formalBodyMembershipStartDate ;
+        :formalBodyMembershipEndDate ?formalBodyMembershipEndDate ;
+        :formalBodyMembershipHasFormalBody ?formalBody .
+    ?formalBody
+        a :FormalBody ;
+        :formalBodyName ?formalBodyName .
+    ?governmentIncumbency
+        a :GovernmentIncumbency ;
+        :incumbencyStartDate ?incumbencyStartDate ;
+        :incumbencyEndDate ?incumbencyEndDate ;
+        :governmentIncumbencyHasGovernmentPosition ?governmentPosition .
+    ?governmentPosition
+        a :GovernmentPosition ;
+        :positionName ?positionName .
+    ?oppositionIncumbency
+        a :OppositionIncumbency ;
+        :incumbencyStartDate ?incumbencyStartDate ;
+        :incumbencyEndDate ?incumbencyEndDate ;
+        :oppositionIncumbencyHasOppositionPosition ?oppositionPosition .
+    ?oppositionPosition
+        a :OppositionPosition ;
+        :positionName ?positionName .
+}
+WHERE {
+    BIND(@person_id AS ?person)
+
+    ?person a :Person .
+    OPTIONAL { ?person :personGivenName ?givenName . }
+    OPTIONAL { ?person :personOtherNames ?otherName . }
+    OPTIONAL { ?person :personFamilyName ?familyName . }
+    OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs . }
+    OPTIONAL { ?person <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitle . }
+    OPTIONAL { ?person :memberHasMemberImage ?image . }
+    OPTIONAL {
+        ?person :memberHasParliamentaryIncumbency ?incumbency .
+        ?incumbency a :SeatIncumbency .
+        OPTIONAL {
+            BIND(?incumbency AS ?seatIncumbency)
+
+            ?seatIncumbency :seatIncumbencyHasHouseSeat ?seat .
+            ?seat :houseSeatHasHouse ?house.
+            ?house :houseName ?houseName .
+            ?seatIncumbency :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate .
+            OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+            OPTIONAL {
+                ?seat :houseSeatHasConstituencyGroup ?constituency .
+                ?constituency :constituencyGroupName ?constituencyName .
+                ?constituency :constituencyGroupStartDate ?constituencyStartDate .
+                OPTIONAL { ?constituency :constituencyGroupEndDate ?constituencyEndDate . }
+            }
+        }
+    }
+    OPTIONAL {
+        ?person :partyMemberHasPartyMembership ?partyMembership .
+        ?partyMembership :partyMembershipHasParty ?party .
+        ?partyMembership :partyMembershipStartDate ?partyMembershipStartDate .
+        OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+        ?party :partyName ?partyName .
+    }
+    OPTIONAL {
+        ?person :personHasFormalBodyMembership ?formalBodyMembership .
+        ?formalBodyMembership :formalBodyMembershipStartDate ?formalBodyMembershipStartDate .
+        OPTIONAL { ?formalBodyMembership :formalBodyMembershipEndDate ?formalBodyMembershipEndDate . }
+        ?formalBodyMembership :formalBodyMembershipHasFormalBody ?formalBody .
+        ?formalBody :formalBodyName ?formalBodyName .
+    }
+    OPTIONAL {
+        ?person :governmentPersonHasGovernmentIncumbency ?governmentIncumbency .
+        ?governmentIncumbency :incumbencyStartDate ?incumbencyStartDate .
+        OPTIONAL { ?governmentIncumbency :incumbencyEndDate ?incumbencyEndDate . }
+        ?governmentIncumbency :governmentIncumbencyHasGovernmentPosition ?governmentPosition .
+        ?governmentPosition :positionName ?positionName .
+    }
+    OPTIONAL {
+        ?person :oppositionPersonHasOppositionIncumbency ?oppositionIncumbency .
+        ?oppositionIncumbency :incumbencyStartDate ?incumbencyStartDate .
+        OPTIONAL { ?oppositionIncumbency :incumbencyEndDate ?incumbencyEndDate . }
+        ?oppositionIncumbency :oppositionIncumbencyHasOppositionPosition ?oppositionPosition .
+        ?oppositionPosition :positionName ?positionName .
+    }
+}

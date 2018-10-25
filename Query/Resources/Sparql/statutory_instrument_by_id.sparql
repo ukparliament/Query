@@ -1,0 +1,105 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+	?statutoryInstrumentPaper
+		a :StatutoryInstrumentPaper, :WorkPackagedThing, :LaidThing ;
+		:statutoryInstrumentPaperYear ?statutoryInstrumentPaperYear ;
+		:statutoryInstrumentPaperPrefix ?statutoryInstrumentPaperPrefix ;
+		:statutoryInstrumentPaperNumber ?statutoryInstrumentPaperNumber ;
+		:statutoryInstrumentPaperName ?statutoryInstrumentPaperName ;
+		:statutoryInstrumentPaperComingIntoForceNote ?statutoryInstrumentPaperComingIntoForceNote ;
+		:statutoryInstrumentPaperComingIntoForceDate ?statutoryInstrumentPaperComingIntoForceDate ;
+		:statutoryInstrumentPaperMadeDate ?statutoryInstrumentPaperMadeDate ;
+		:statutoryInstrumentPaperFollowsProposedNegativeStatutoryInstrumentPaper ?proposedNegativeStatutoryInstrumentPaper ;
+		:workPackagedThingHasWorkPackagedThingWebLink ?workPackagedThingWebLink ;
+		:laidThingHasLaying ?laying ;
+		:workPackagedThingHasWorkPackage ?workPackage .
+
+	?proposedNegativeStatutoryInstrumentPaper
+		a :ProposedNegativeStatutoryInstrumentPaper ;
+		:proposedNegativeStatutoryInstrumentPaperName ?proposedNegativeStatutoryInstrumentPaperName .
+
+	?workPackage
+		a :WorkPackage ;
+		:workPackageHasProcedure ?procedure ;
+    	:workPackageHasBusinessItem ?businessItem .
+
+  	?businessItem
+    	a :BusinessItem ;
+    	:businessItemDate ?businessItemDate ;
+    	:businessItemHasProcedureStep ?procedureStep .
+
+  	?procedureStep
+    	a :ProcedureStep ;
+    	:procedureStepName ?procedureStepName ;
+    	:procedureStepDescription ?procedureStepDescription .
+
+	?laying
+		a :Laying ;
+		:layingDate ?layingDate ;
+		:layingHasLayingBody ?layingBody ;
+		:layingHasLayingPerson ?layingPerson .
+
+	?procedure
+		a :Procedure ;
+		:procedureName ?procedureName .
+
+	?layingBody
+		a :Group ;
+		:groupName ?groupName .
+
+	?layingPerson
+	    a :Person ;
+	    :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs .
+}
+WHERE {
+	BIND (@statutory_instrument_id as ?statutoryInstrumentPaper)
+
+
+	?statutoryInstrumentPaper a :StatutoryInstrumentPaper .
+
+	OPTIONAL { ?statutoryInstrumentPaper :workPackagedThingHasWorkPackagedThingWebLink ?workPackagedThingWebLink . }
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperYear ?statutoryInstrumentPaperYear . }
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperPrefix ?statutoryInstrumentPaperPrefix . }
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperNumber ?statutoryInstrumentPaperNumber . }
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperName ?statutoryInstrumentPaperName . }
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperComingIntoForceNote ?statutoryInstrumentPaperComingIntoForceNote . }
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperComingIntoForceDate ?statutoryInstrumentPaperComingIntoForceDate . }
+	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperMadeDate ?statutoryInstrumentPaperMadeDate . }
+
+	OPTIONAL {
+		?statutoryInstrumentPaper :statutoryInstrumentPaperFollowsProposedNegativeStatutoryInstrumentPaper ?proposedNegativeStatutoryInstrumentPaper .
+		OPTIONAL { ?proposedNegativeStatutoryInstrumentPaper :proposedNegativeStatutoryInstrumentPaperName ?proposedNegativeStatutoryInstrumentPaperName . }
+	}
+	OPTIONAL {
+		?statutoryInstrumentPaper :laidThingHasLaying ?laying .
+		?laying :layingHasLayingBody ?layingBody .
+		OPTIONAL { ?layingBody :groupName ?groupName . }
+		OPTIONAL { ?laying :layingDate ?layingDate . }
+		OPTIONAL {
+			?laying :layingHasLayingPerson ?layingPerson ;
+
+			OPTIONAL { ?layingPerson :personGivenName ?givenName . }
+            OPTIONAL { ?layingPerson :personFamilyName ?familyName . }
+            OPTIONAL { ?layingPerson <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs . }
+        }
+	}
+	OPTIONAL {
+		?statutoryInstrumentPaper :workPackagedThingHasWorkPackage ?workPackage .
+
+		OPTIONAL{
+			?workPackage :workPackageHasProcedure ?procedure .
+			?procedure :procedureName ?procedureName .
+		}
+    	OPTIONAL {
+      		?workPackage :workPackageHasBusinessItem ?businessItem .
+      		OPTIONAL { ?businessItem :businessItemDate ?businessItemDate . }
+        		BIND (<https://id.parliament.uk/g8B3R2Ou> as ?procedureStep)
+        		?businessItem :businessItemHasProcedureStep ?procedureStep .
+        		OPTIONAL { ?procedureStep :procedureStepName ?procedureStepName . }
+    	}
+	}
+}

@@ -1,0 +1,17 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    [ :value ?firstLetter ]
+}
+WHERE {
+    SELECT DISTINCT ?firstLetter
+    WHERE {
+        ?s
+			a :Group ;
+			:groupName ?groupName .
+
+        FILTER NOT EXISTS { ?s a :PastGroup . }
+
+        BIND(UCASE(SUBSTR(?groupName, 1, 1)) AS ?firstLetter)
+    }
+}

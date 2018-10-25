@@ -1,0 +1,177 @@
+﻿PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+CONSTRUCT {
+    ?person
+        a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        :memberHasMemberImage ?image ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
+        :memberHasParliamentaryIncumbency ?seatIncumbency ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    ?image
+        a :MemberImage .
+    ?seatIncumbency
+        a :SeatIncumbency ;
+        :seatIncumbencyHasHouseSeat ?houseSeat ;
+        :parliamentaryIncumbencyStartDate ?incStartDate ;
+        :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate .
+    ?houseSeat
+        a :HouseSeat ;
+        :houseSeatHasHouse ?house ;
+        :houseSeatHasConstituencyGroup ?constituencyGroup .
+   ?constituencyGroup
+        a :ConstituencyGroup;
+        :constituencyGroupName ?constituencyName .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party ;
+        :partyMembershipStartDate ?pmStartDate ;
+        :partyMembershipEndDate ?partyMembershipEndDate .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+     ?parliament
+         a :ParliamentPeriod ;
+         :parliamentPeriodStartDate ?parliamentStartDate ;
+         :parliamentPeriodEndDate ?parliamentEndDate ;
+         :parliamentPeriodNumber ?parliamentNumber ;
+         :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament ;
+    	 :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament ;
+         :count ?memberCount .
+    ?house
+        a :House ;
+        :houseName ?houseName .
+    _:x :value ?firstLetter .
+}
+WHERE {
+    { SELECT * WHERE {
+        BIND(@parliament_id AS ?parliament)
+        BIND(@party_id AS ?party)
+    	BIND(@house_id AS ?house)
+
+    	?party
+        	a :Party ;
+         	:partyName ?partyName .
+        ?parliament
+            a :ParliamentPeriod ;
+            :parliamentPeriodStartDate ?parliamentStartDate ;
+            :parliamentPeriodNumber ?parliamentNumber .
+    	?house
+        	a :House ;
+         	:houseName ?houseName .
+        OPTIONAL { ?parliament :parliamentPeriodEndDate ?parliamentEndDate . }
+        OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyFollowingParliamentPeriod ?nextParliament . }
+   	    OPTIONAL { ?parliament :parliamentPeriodHasImmediatelyPreviousParliamentPeriod ?previousParliament . }
+
+    OPTIONAL {
+        ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
+        ?seatIncumbency :parliamentaryIncumbencyHasMember ?person ;
+                        :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate ;
+                        :seatIncumbencyHasHouseSeat ?houseSeat .
+        ?houseSeat :houseSeatHasHouse ?house ;
+        OPTIONAL {
+            ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup .
+            ?constituencyGroup :constituencyGroupName ?constituencyName .
+        }
+        OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+        ?person :partyMemberHasPartyMembership ?partyMembership .
+        ?partyMembership :partyMembershipHasParty ?party ;
+        				 :partyMembershipStartDate ?partyMembershipStartDate .
+        OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+
+        BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
+        BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
+        BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
+        BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
+
+        BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+        BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
+        FILTER (
+        	(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
+        	(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
+		)
+        OPTIONAL { ?person :personGivenName ?givenName . }
+        OPTIONAL { ?person :personFamilyName ?familyName . }
+        OPTIONAL { ?person :memberHasMemberImage ?image . }
+        OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+        ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+
+        FILTER STRSTARTS(LCASE(?listAs), LCASE(@initial))
+      }
+    }
+   }
+   UNION {
+		SELECT ?parliament (COUNT(DISTINCT(?person)) AS ?memberCount) WHERE {
+        BIND(@parliament_id AS ?parliament)
+        BIND(@party_id AS ?party)
+    	BIND(@house_id AS ?house)
+
+        ?parliament a :ParliamentPeriod .
+        ?house a :House .
+        ?party a :Party .
+        OPTIONAL {
+            ?parliament :parliamentPeriodHasSeatIncumbency ?seatIncumbency .
+         	?seatIncumbency :parliamentaryIncumbencyHasMember ?person ;
+                          	:seatIncumbencyHasHouseSeat ?houseSeat ;
+                            :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate .
+            OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+            ?houseSeat :houseSeatHasHouse ?house .
+            ?person :partyMemberHasPartyMembership ?partyMembership .
+        	?partyMembership :partyMembershipHasParty ?party ;
+        				 	:partyMembershipStartDate ?partyMembershipStartDate .
+        	OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+
+			BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
+        	BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
+        	BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
+        	BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
+
+        	BIND(COALESCE(?pmEndDateTime,now()) AS ?pmEndDate)
+        	BIND(COALESCE(?incEndDateTime,now()) AS ?incEndDate)
+        	FILTER (
+        		(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
+        		(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
+			)
+        }
+      }
+    GROUP BY ?parliament
+    }
+    UNION {
+        SELECT DISTINCT ?firstLetter WHERE {
+        BIND(@parliament_id AS ?parliament)
+        BIND(@party_id AS ?party)
+    	BIND(@house_id AS ?house)
+
+        ?party a :Party.
+        ?house a :House.
+        ?parliament a :ParliamentPeriod ;
+        			:parliamentPeriodHasSeatIncumbency ?seatIncumbency.
+        ?seatIncumbency :parliamentaryIncumbencyHasMember ?person ;
+                        :seatIncumbencyHasHouseSeat ?houseSeat;
+            			:parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate.
+        OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+        ?houseSeat :houseSeatHasHouse ?house.
+        ?person :partyMemberHasPartyMembership ?partyMembership.
+        ?partyMembership :partyMembershipHasParty ?party ;
+                         :partyMembershipStartDate ?partyMembershipStartDate.
+        OPTIONAL { ?partyMembership :partyMembershipEndDate ?partyMembershipEndDate . }
+
+		BIND(xsd:dateTime(?partyMembershipEndDate) AS ?pmEndDateTime)
+        BIND(xsd:dateTime(?seatIncumbencyEndDate) AS ?incEndDateTime)
+        BIND(xsd:dateTime(?seatIncumbencyStartDate) AS ?incStartDate)
+        BIND(xsd:dateTime(?partyMembershipStartDate) AS ?pmStartDate)
+
+        BIND(COALESCE(?pmEndDateTime, now()) AS ?pmEndDate)
+        BIND(COALESCE(?incEndDateTime, now()) AS ?incEndDate)
+        FILTER(
+        	(?pmStartDate <= ?incStartDate && ?pmEndDate > ?incStartDate) ||
+        	(?pmStartDate >= ?incStartDate && ?pmStartDate < ?incEndDate)
+		)
+
+        ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+        BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
+        }
+    }
+}

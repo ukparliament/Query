@@ -1,0 +1,207 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    ?question
+        a :Question ;
+        :questionText ?questionText ;
+        :questionAskedAt ?questionAskedAt ;
+        :questionHasAskingPerson ?askingPerson ;
+        :questionHasAnsweringBodyAllocation ?answeringBodyAllocation ;
+        :indexingAndSearchUri ?idmsUri ;
+        :questionHeading ?questionHeading ;
+        :questionHasAnswer ?answer ;
+    .
+    ?answer
+        a :Answer ;
+        a ?class ;
+        :answerText ?answerText ;
+        :answerGivenDate ?answerGivenDate ;
+        :answerHasAnsweringPerson ?answeringPerson ;
+    .
+    ?answeringPerson
+        a :Person ;
+        :personGivenName ?answeringPersonGivenName ;
+        :personOtherNames ?answeringPersonOtherNames ;
+        :personFamilyName ?answeringPersonFamilyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAsAnsweringPerson ;
+        <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitleAnsweringPerson ;
+        :governmentPersonHasGovernmentIncumbency ?answeringPersonGovernmentIncumbency ;
+        :memberHasMemberImage ?answeringMemberImage ;
+    .
+    ?answeringMemberImage
+        a :MemberImage ;
+    .
+    ?answeringPersonGovernmentIncumbency
+        a :GovernmentIncumbency ;
+        :incumbencyStartDate ?answeringPersonIncumbencyStartDate ;
+        :incumbencyEndDate ?answeringPersonIncumbencyEndDate ;
+        :governmentIncumbencyHasGovernmentPosition ?governmentPosition ;
+    .
+    ?governmentPosition
+        a :GovernmentPosition ;
+        :positionName ?positionName ;
+    .
+    ?answeringBodyAllocation
+        a :AnsweringBodyAllocation ;
+        :answeringBodyAllocationHasAnsweringBody ?answeringBody ;
+    .
+    ?answeringBody
+        a :Group ;
+        :groupName ?groupName ;
+        :governmentOrganisationGovRegisterId ?governmentOrganisationGovRegisterId ;
+    .
+    ?askingPerson
+        a :Person ;
+        :personGivenName ?askingPersonGivenName ;
+        :personOtherNames ?askingPersonOtherNames ;
+        :personFamilyName ?askingPersonFamilyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAsAskingPerson ;
+        <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitleAskingPerson ;
+        :memberHasParliamentaryIncumbency ?askingPersonSeatIncumbency ;
+        :memberHasMemberImage ?askingMemberImage ;
+    .
+    ?askingMemberImage
+        a :MemberImage ;
+    .
+    ?askingPersonSeatIncumbency
+        a :SeatIncumbency ;
+        :parliamentaryIncumbencyStartDate ?askingPersonIncumbencyStartDate ;
+        :parliamentaryIncumbencyEndDate ?askingPersonIncumbencyEndDate ;
+        :seatIncumbencyHasHouseSeat ?houseSeat ;
+    .
+    ?houseSeat
+        a :HouseSeat ;
+        :houseSeatHasHouse ?house ;
+        :houseSeatHasConstituencyGroup ?constituencyGroup ;
+    .
+    ?house
+        a :House ;
+        :houseName ?houseName ;
+    .
+    ?constituencyGroup
+        a :ConstituencyGroup ;
+        :constituencyGroupName ?constituencyGroupName ;
+    .
+}
+WHERE {
+    BIND(@question_id AS ?question)
+
+    ?question
+        a :Question ;
+        :questionText ?questionText ;
+        :indexingAndSearchUri ?idmsUri .
+
+    OPTIONAL { ?question :questionAskedAt ?questionAskedAt . }
+    OPTIONAL { ?question :questionHeading ?questionHeading . }
+    OPTIONAL {
+            ?question :questionHasAnsweringBodyAllocation ?answeringBodyAllocation .
+            ?answeringBodyAllocation
+                a :AnsweringBodyAllocation ;
+                :answeringBodyAllocationHasAnsweringBody ?answeringBody .
+            ?answeringBody a :Group .
+
+            OPTIONAL { ?answeringBody :groupName ?groupName . }
+    }
+    OPTIONAL {
+        ?question :questionHasAskingPerson ?askingPerson .
+        ?askingPerson a :Person .
+
+        OPTIONAL { ?askingPerson :personGivenName ?askingPersonGivenName . }
+        OPTIONAL { ?askingPerson :personFamilyName ?askingPersonFamilyName . }
+        OPTIONAL { ?askingPerson :personOtherNames ?askingPersonOtherNames . }
+        OPTIONAL { ?askingPerson <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAsAskingPerson . }
+        OPTIONAL { ?askingPerson <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitleAskingPerson . }
+        OPTIONAL {
+            ?askingPerson :memberHasMemberImage ?askingMemberImage .
+            ?askingMemberImage a :MemberImage .
+        }
+        OPTIONAL {
+            ?askingPerson :memberHasParliamentaryIncumbency ?askingPersonSeatIncumbency .
+            ?askingPersonSeatIncumbency
+                a :SeatIncumbency ;
+                :parliamentaryIncumbencyStartDate ?askingPersonIncumbencyStartDate .
+
+            OPTIONAL { ?askingPersonSeatIncumbency :parliamentaryIncumbencyEndDate ?askingPersonIncumbencyEndDate. }
+
+            BIND(xsd:dateTime(?questionAskedAt) AS ?questionAskedAt2)
+            BIND(xsd:dateTime(?askingPersonIncumbencyEndDate) AS ?askingPersonIncumbencyEndDate2)
+            BIND(xsd:dateTime(?askingPersonIncumbencyStartDate) AS ?askingPersonIncumbencyStartDate2)
+            BIND(COALESCE(?askingPersonIncumbencyEndDate2, now()) AS ?askingPersonIncumbencyEndDate3)
+
+            FILTER (?askingPersonIncumbencyEndDate3 > ?questionAskedAt2 && ?askingPersonIncumbencyStartDate2 <= ?questionAskedAt2)
+
+            ?askingPersonSeatIncumbency :seatIncumbencyHasHouseSeat ?houseSeat .
+            ?houseSeat
+                a :HouseSeat ;
+                :houseSeatHasHouse ?house .
+            ?house
+                a :House ;
+                :houseName ?houseName .
+
+            OPTIONAL {
+                ?houseSeat :houseSeatHasConstituencyGroup ?constituencyGroup.
+                ?constituencyGroup
+                    a :ConstituencyGroup ;
+                    :constituencyGroupName ?constituencyGroupName .
+            }
+        }
+    }
+    OPTIONAL {
+        ?question :questionHasAnswer ?answer .
+        ?answer
+            a :Answer ;
+            a ?class ;
+            :answerText ?answerText ;
+            :answerGivenDate ?answerGivenDate ;
+            :answerHasAnsweringBody ?answeringBody2 ;
+            :answerHasAnsweringPerson ?answeringPerson .
+        ?answeringBody2 a :Group .
+        ?answeringPerson a :Person .
+
+        OPTIONAL {
+            ?answeringPerson :governmentPersonHasGovernmentIncumbency ?answeringPersonGovernmentIncumbency .
+
+            OPTIONAL {
+                ?answeringBody2 :governmentOrganisationGovRegisterId ?governmentOrganisationGovRegisterId .
+                ?answeringPerson :governmentPersonHasGovernmentIncumbency ?answeringPersonGovernmentIncumbency2 .
+                ?answeringPersonGovernmentIncumbency2
+                    a :GovernmentIncumbency ;
+                    :governmentIncumbencyHasGovernmentPosition ?governmentPosition2 .
+                ?governmentPosition2
+                    a :GovernmentPosition ;
+                    :positionHasGroup ?answeringBody2 .
+                ?answeringBody2
+                    a :Group ;
+                    :governmentOrganisationGovRegisterId ?governmentOrganisationGovRegisterId .
+            }
+
+            ?answeringPersonGovernmentIncumbency
+                a :GovernmentIncumbency ;
+                :governmentIncumbencyHasGovernmentPosition ?governmentPosition ;
+                :incumbencyStartDate ?answeringPersonIncumbencyStartDate .
+            ?governmentPosition
+                a :GovernmentPosition ;
+                :positionName ?positionName .
+
+            OPTIONAL { ?answeringPersonGovernmentIncumbency :incumbencyEndDate ?answeringPersonIncumbencyEndDate. }
+
+            BIND(xsd:dateTime(?answerGivenDate) AS ?answerGivenDate2)
+            BIND(xsd:dateTime(?answeringPersonIncumbencyEndDate) AS ?answeringPersonIncumbencyEndDate2)
+            BIND(xsd:dateTime(?answeringPersonIncumbencyStartDate) AS ?answeringPersonIncumbencyStartDate2)
+            BIND(COALESCE(?answeringPersonIncumbencyEndDate2,now()) AS ?answeringPersonIncumbencyEndDate3)
+
+            FILTER (?answeringPersonIncumbencyEndDate3 > ?answerGivenDate2 && ?answeringPersonIncumbencyStartDate2 <= ?answerGivenDate2)
+        }
+
+        OPTIONAL { ?answeringPerson :personGivenName ?answeringPersonGivenName . }
+        OPTIONAL { ?answeringPerson :personFamilyName ?answeringPersonFamilyName . }
+        OPTIONAL { ?answeringPerson :personOtherNames ?answeringPersonOtherNames . }
+        OPTIONAL { ?answeringPerson <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAsAnsweringPerson . }
+        OPTIONAL { ?answeringPerson <http://example.com/D79B0BAC513C4A9A87C9D5AFF1FC632F> ?fullTitleAnsweringPerson . }
+        OPTIONAL {
+            ?answeringPerson :memberHasMemberImage ?answeringMemberImage .
+            ?answeringMemberImage a :MemberImage .
+        }
+    }
+}

@@ -1,0 +1,59 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+  ?procedureStep 
+    a :ProcedureStep ;
+  	:procedureStepName ?procedureStepName ;
+  	:procedureStepDescription ?procedureStepDescription ;
+  	:procedureStepHasBusinessItem ?businessItem ;
+  	:procedureStepHasHouse ?house .
+  ?businessItem
+    a :BusinessItem ;
+    :businessItemDate ?businessItemDate ;
+    :businessItemHasWorkPackage ?workPackage .  
+  ?workPackage
+    a :WorkPackage ;
+    :workPackageHasWorkPackagedThing ?workPackagedThing ;
+    :workPackageHasProcedure ?procedure .
+  ?workPackagedThing
+    a :WorkPackagedThing ;
+    :workPackagedThingName ?workPackagedThingName .
+  ?house
+    a :House ;
+    :houseName ?houseName .
+  ?procedure
+    a :Procedure ;
+    :procedureName ?procedureName .
+}
+WHERE {
+  BIND(@procedure_step_id AS ?procedureStep)
+  
+  ?procedureStep a :ProcedureStep .
+  OPTIONAL { ?procedureStep :procedureStepName ?procedureStepName . }
+  OPTIONAL { ?procedureStep :procedureStepDescription ?procedureStepDescription . }
+  
+  OPTIONAL {
+    ?procedureStep :procedureStepHasBusinessItem ?businessItem . 
+    OPTIONAL { ?businessItem :businessItemDate ?businessItemDate . }
+    
+    OPTIONAL {
+      ?businessItem :businessItemHasWorkPackage ?workPackage .
+
+      OPTIONAL {
+        ?workPackage :workPackageHasProcedure ?procedure .
+        OPTIONAL { ?procedure :procedureName ?procedureName . }
+      } 
+      
+      OPTIONAL {
+        ?workPackage :workPackageHasWorkPackagedThing ?workPackagedThing .
+        OPTIONAL { ?workPackagedThing :workPackagedThingName ?workPackagedThingName . }
+      }
+    }
+  }  
+  
+  OPTIONAL {
+    ?procedureStep :procedureStepHasHouse ?house .
+    ?house :houseName ?houseName .
+  }
+}

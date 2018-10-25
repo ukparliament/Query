@@ -1,0 +1,104 @@
+﻿PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    ?region
+        a admingeo:EuropeanRegion ;
+        admingeo:gssCode ?regionCode ;
+        skos:prefLabel ?regionName ;
+        :count ?count .
+    ?constituency
+        a :ConstituencyGroup;
+        :constituencyGroupName ?constituencyName ;
+        :constituencyGroupHasHouseSeat ?houseSeat .
+    ?houseSeat
+        a :HouseSeat ;
+        :houseSeatHasSeatIncumbency ?seatIncumbency .
+        ?seatIncumbency a :SeatIncumbency ;
+        :parliamentaryIncumbencyHasMember ?member .
+    ?member
+    a :Person ;
+        :personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+        :partyMemberHasPartyMembership ?partyMembership .
+    ?partyMembership
+        a :PartyMembership ;
+        :partyMembershipHasParty ?party .
+    ?party
+        a :Party ;
+        :partyName ?partyName .
+    _:x :value ?firstLetter .
+}
+WHERE {
+    {
+        SELECT *
+        WHERE {
+            SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
+                {
+                    SELECT ?region (COUNT(?constituency) AS ?count)
+                    WHERE {
+                        BIND (@region_code AS ?regionCode)
+
+                        ?region
+                            a admingeo:EuropeanRegion ;
+                            admingeo:gssCode ?regionCode ;
+                            admingeo:westminsterConstituency ?constituency .
+                    }
+                    GROUP BY ?region
+                }
+
+                ?region
+                    a admingeo:EuropeanRegion ;
+                        admingeo:gssCode ?regionCode ;
+                        skos:prefLabel ?regionName ;
+                        admingeo:westminsterConstituency/admingeo:gssCode ?onsCode.
+            }
+
+            ?constituency
+                :onsCode ?onsCode;
+                :constituencyGroupName ?constituencyName ;
+                :constituencyGroupHasHouseSeat ?houseSeat .
+            ?houseSeat :houseSeatHasSeatIncumbency ?seatIncumbency .
+            ?seatIncumbency a :SeatIncumbency .
+            FILTER NOT EXISTS { ?seatIncumbency :parliamentaryIncumbencyEndDate ?seatIncumbencyEndDate . }
+            OPTIONAL { ?seatIncumbency :parliamentaryIncumbencyStartDate ?seatIncumbencyStartDate . }
+            OPTIONAL {
+                ?seatIncumbency :parliamentaryIncumbencyHasMember ?member .
+                OPTIONAL { ?member :personGivenName ?givenName . }
+                OPTIONAL { ?member :personFamilyName ?familyName . }
+                OPTIONAL { ?member <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs . }
+                OPTIONAL {
+                    ?member :partyMemberHasPartyMembership ?partyMembership .
+                    FILTER NOT EXISTS { ?partyMembership a :PastPartyMembership . }
+                    OPTIONAL {
+                        ?partyMembership :partyMembershipHasParty ?party .
+                        OPTIONAL { ?party :partyName ?partyName . }
+                    }
+                }
+            }
+            FILTER STRSTARTS(LCASE(?constituencyName), LCASE(@initial))
+        }
+    }
+    UNION {
+        SELECT DISTINCT ?firstLetter
+        WHERE {
+            SERVICE <http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql> {
+                BIND (@region_code AS ?regionCode)
+
+                ?region
+                    a admingeo:EuropeanRegion ;
+                    admingeo:gssCode ?regionCode ;
+                    admingeo:westminsterConstituency/admingeo:gssCode ?onsCode.
+            }
+
+            ?constituency
+                a :ConstituencyGroup ;
+                :onsCode ?onsCode;
+                :constituencyGroupName ?constituencyName .
+
+            BIND(UCASE(SUBSTR(?constituencyName, 1, 1)) AS ?firstLetter)
+        }
+    }
+}

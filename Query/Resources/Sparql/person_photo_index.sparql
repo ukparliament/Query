@@ -1,0 +1,11 @@
+﻿PREFIX : @schemaUri
+SELECT * 
+WHERE {
+    ?person a :Person .
+	?person :memberHasMemberImage ?image .
+    OPTIONAL { ?person :personGivenName ?givenName } .
+    OPTIONAL { ?person :personFamilyName ?familyName } .
+    OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+	OPTIONAL { ?person :memberMnisId ?mnisId } .
+}   
+

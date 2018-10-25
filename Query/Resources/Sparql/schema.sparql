@@ -1,0 +1,16 @@
+﻿PREFIX : <https://id.parliament.uk/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+CONSTRUCT {
+	:schema ?ontologyProperty ?ontologyValue .
+
+	?ontologyResource ?resourceProperty ?resourceValue .
+}
+FROM <http://www.ontotext.com/explicit>
+WHERE {
+	:schema ?ontologyProperty ?ontologyValue .
+
+	?ontologyResource
+		?resourceProperty ?resourceValue ;
+		rdfs:isDefinedBy :schema .
+}

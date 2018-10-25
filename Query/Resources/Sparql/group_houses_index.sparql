@@ -1,0 +1,45 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    ?group
+        a :Group ;
+        :groupName ?groupName ;
+        :formalBodyHasHouse ?house .
+    ?house
+        a :House ;
+        :houseName ?houseName .
+
+    [ :value ?firstLetter ]
+}
+WHERE {
+    {
+        BIND(@group_id AS ?group)
+
+        ?group a :Group .
+        OPTIONAL { ?group :groupName ?groupName } .
+        OPTIONAL {
+            ?group :formalBodyHasHouse ?house .
+            ?house
+                a :House ;
+                :houseName ?houseName .
+        }
+    }
+    UNION {
+        SELECT DISTINCT ?firstLetter
+        WHERE {
+            BIND(@group_id AS ?group)
+
+            ?group
+                a :Group ;
+                :groupName ?groupName .
+            OPTIONAL {
+                ?group :formalBodyHasHouse ?house .
+                ?house
+                    a :House ;
+                    :houseName ?houseName .
+            }
+
+            BIND(UCASE(SUBSTR(?houseName, 1, 1)) AS ?firstLetter)
+        }
+    }
+}
