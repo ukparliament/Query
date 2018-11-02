@@ -1,0 +1,48 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    ?workPackage
+    	a :WorkPackage ;
+    	:workPackageHasWorkPackagedThing ?workPackagedThing .
+    ?workPackagedThing
+    	a :WorkPackagedThing, :LaidThing ;
+    	:workPackagedThingName ?workPackagedThingName ;
+    	:laidThingHasLaying ?laying .
+  	?laying
+    	a :Laying ;
+    	:layingDate ?layingDate .
+  	?procedure
+    	a :Procedure ;
+    	:procedureName ?procedureName .
+}
+WHERE {
+  {
+    SELECT ?workPackage WHERE {
+      BIND(id:u5AUJb2q AS ?procedureStep1)
+      BIND(id:hN1EDPLv AS ?procedureStep2)
+      
+      ?workPackage a :WorkPackage .
+  	
+      FILTER NOT EXISTS { ?workPackage :workPackageHasBusinessItem/:businessItemHasProcedureStep ?procedureStep1 . }
+      FILTER NOT EXISTS { ?workPackage :workPackageHasBusinessItem/:businessItemHasProcedureStep ?procedureStep2 . }
+    }
+  }	 
+    OPTIONAL {
+      ?workPackage :workPackageHasWorkPackagedThing ?workPackagedThing .
+      
+      OPTIONAL { ?workPackagedThing :workPackagedThingName ?workPackagedThingName . }
+      OPTIONAL {
+      	?workPackagedThing a :LaidThing ;
+      					:laidThingHasLaying ?laying .
+      	?laying :layingDate ?layingDate .
+      }
+    
+      OPTIONAL {
+      	?workPackage :workPackageHasProcedure ?procedure .
+      
+      OPTIONAL {
+        ?procedure :procedureName ?procedureName . }
+    	}
+    }  
+}

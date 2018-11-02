@@ -1,0 +1,36 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+  ?statutoryInstrumentPaper 
+    	a :ProposedNegativeStatutoryInstrumentPaper ;
+    	:proposedNegativeStatutoryInstrumentPaperName ?proposedNegativeStatutoryInstrumentPaperName ;
+    	:laidThingHasLaying ?laying . 	
+  ?workPackage
+    	a :WorkPackage ;
+  		:workPackageHasWorkPackagedThing ?statutoryInstrumentPaper .
+  ?laying
+    	a :Laying ;
+  		:layingDate ?layingDate .
+}
+WHERE {
+  {
+    SELECT ?workPackage ?statutoryInstrumentPaper WHERE {
+      BIND(id:u5AUJb2q AS ?procedureStep1)
+      BIND(id:hN1EDPLv AS ?procedureStep2)
+      
+  	  ?statutoryInstrumentPaper 
+  	    a :ProposedNegativeStatutoryInstrumentPaper ;
+  		:workPackagedThingHasWorkPackage ?workPackage .
+  	
+      FILTER NOT EXISTS { ?workPackage :workPackageHasBusinessItem/:businessItemHasProcedureStep ?procedureStep1 . }
+      FILTER NOT EXISTS { ?workPackage :workPackageHasBusinessItem/:businessItemHasProcedureStep ?procedureStep2 . }
+    }
+  }	
+
+  OPTIONAL { ?statutoryInstrumentPaper :proposedNegativeStatutoryInstrumentPaperName ?proposedNegativeStatutoryInstrumentPaperName . }
+  OPTIONAL { 
+    ?statutoryInstrumentPaper :laidThingHasLaying ?laying . 
+  	?laying :layingDate ?layingDate . 
+  	}
+}
