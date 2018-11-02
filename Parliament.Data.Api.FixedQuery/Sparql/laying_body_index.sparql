@@ -1,0 +1,17 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+  ?group
+    a :Group, :LayingBody ;
+    :groupName ?groupName ;
+    :groupStartDate ?groupStartDate ;
+    :groupEndDate ?groupEndDate .
+ }
+WHERE {
+  ?group a :LayingBody.
+  
+  OPTIONAL { ?group :groupName ?groupName . }
+  OPTIONAL { ?group :groupStartDate ?groupStartDate . }
+  OPTIONAL { ?group :groupEndDate ?groupEndDate . }
+} 
