@@ -40,6 +40,8 @@
             var query = new SparqlParameterizedString(queryString);
 
             query.SetUri("schemaUri", new Uri("http://example.com"));
+            query.SetUri("instanceUri", new Uri("http://example.com"));
+
             OpenApiParameter[] parameters = Resources.GetSparqlParameters(endpoint).ToArray();
             if (parameters.Any())
             {

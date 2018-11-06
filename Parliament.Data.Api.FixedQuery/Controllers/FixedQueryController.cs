@@ -53,6 +53,8 @@
             EndpointType endpointType = Resources.GetEndpointType(endpoint);
 
             query.SetUri("schemaUri", Global.SchemaUri);
+            query.SetUri("instanceUri", Global.InstanceUri);
+
 
             IEnumerable<OpenApiParameter> parameters = Resources.GetSparqlParameters(endpoint);
             if ((parameters != null) && (parameters.Any()))
