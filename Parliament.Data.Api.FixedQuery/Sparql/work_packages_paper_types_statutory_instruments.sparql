@@ -1,0 +1,24 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : @schemaUri
+
+CONSTRUCT {
+  ?workPackagedThing 
+    	a :WorkPackagedThing ;
+    	:workPackagedThingName ?workPackagedThingName ;
+    	:laidThingHasLaying ?laying . 	
+  ?workPackage
+    	a :WorkPackage ;
+  		:workPackageHasWorkPackagedThing ?workPackagedThing .
+  ?laying
+    	a :Laying ;
+  		:layingDate ?layingDate .
+}
+WHERE {
+  ?workPackagedThing a :StatutoryInstrumentPaper ;
+  					:workPackagedThingHasWorkPackage ?workPackage .
+  OPTIONAL { ?workPackagedThing :workPackagedThingName ?workPackagedThingName . }
+  OPTIONAL { 
+    ?workPackagedThing :laidThingHasLaying ?laying . 
+  	?laying :layingDate ?layingDate . 
+  }
+}
