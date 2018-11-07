@@ -4,7 +4,8 @@ PREFIX id: @instanceUri
 CONSTRUCT {
     ?workPackage
     	a :WorkPackage ;
-    	:workPackageHasWorkPackagedThing ?workPackagedThing .
+    	:workPackageHasWorkPackagedThing ?workPackagedThing ;
+    	:workPackageHasProcedure ?procedure .
     ?workPackagedThing
     	a :WorkPackagedThing, :LaidThing ;
     	:workPackagedThingName ?workPackagedThingName ;
