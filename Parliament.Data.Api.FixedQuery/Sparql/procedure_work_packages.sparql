@@ -1,0 +1,38 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+  ?procedure
+    a :Procedure ;
+    :procedureName ?procedureName ;
+    :procedureHasWorkPackage ?workPackage .
+  ?workPackage
+    a :WorkPackage ;
+    :workPackageHasWorkPackagedThing ?workPackagedThing .
+  ?workPackagedThing
+    a :WorkPackagedThing ;
+    :workPackagedThingName ?workPackagedThingName ;
+    :laidThingHasLaying ?laying .
+  ?laying
+	a :Laying ;
+    :layingDate ?layingDate .
+}
+WHERE {
+  BIND(@procedure_id as ?procedure)
+  
+  ?procedure :procedureName ?procedureName .
+  
+  OPTIONAL {
+    ?procedure :procedureHasWorkPackage ?workPackage .
+    
+    OPTIONAL {
+     ?workPackage :workPackageHasWorkPackagedThing ?workPackagedThing .
+     ?workPackagedThing :workPackagedThingName ?workPackagedThingName . 
+      
+      OPTIONAL {
+        ?workPackagedThing :laidThingHasLaying ?laying .
+        
+        OPTIONAL { ?laying :layingDate ?layingDate . }
+      }
+    }
+  }
+}

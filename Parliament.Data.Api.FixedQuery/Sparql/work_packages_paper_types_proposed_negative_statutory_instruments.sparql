@@ -7,10 +7,14 @@ CONSTRUCT {
     	:laidThingHasLaying ?laying . 	
   ?workPackage
     	a :WorkPackage ;
-  		:workPackageHasWorkPackagedThing ?workPackagedThing .
+  		:workPackageHasWorkPackagedThing ?workPackagedThing ;
+  		:workPackageHasProcedure ?procedure .
   ?laying
     	a :Laying ;
   		:layingDate ?layingDate .
+  ?procedure
+        a :Procedure ;
+        :procedureName ?procedureName .
 }
 WHERE {
   ?workPackagedThing a :ProposedNegativeStatutoryInstrumentPaper ;
@@ -19,5 +23,12 @@ WHERE {
   OPTIONAL { 
     ?workPackagedThing :laidThingHasLaying ?laying . 
   	?laying :layingDate ?layingDate . 
+  }
+  
+  OPTIONAL {
+    ?workPackage :workPackageHasProcedure ?procedure .
+    
+  OPTIONAL {
+    ?procedure :procedureName ?procedureName . }
   }
 }

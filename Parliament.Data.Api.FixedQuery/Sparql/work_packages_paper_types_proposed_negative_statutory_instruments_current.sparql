@@ -1,37 +1,45 @@
 PREFIX : @schemaUri
 PREFIX id: @instanceUri
 
-
 CONSTRUCT {
-  ?statutoryInstrumentPaper 
-    	a :ProposedNegativeStatutoryInstrumentPaper ;
-    	:proposedNegativeStatutoryInstrumentPaperName ?proposedNegativeStatutoryInstrumentPaperName ;
+  ?workPackagedThing 
+    	a :WorkPackagedThing ;
+    	:workPackagedThingName ?workPackagedThingName ;
     	:laidThingHasLaying ?laying . 	
   ?workPackage
     	a :WorkPackage ;
-  		:workPackageHasWorkPackagedThing ?statutoryInstrumentPaper .
+  		:workPackageHasWorkPackagedThing ?workPackagedThing ;
+  		:workPackageHasProcedure ?procedure .
   ?laying
     	a :Laying ;
   		:layingDate ?layingDate .
+  ?procedure
+        a :Procedure ;
+        :procedureName ?procedureName .
 }
 WHERE {
-  {
-    SELECT ?workPackage ?statutoryInstrumentPaper WHERE {
+    {
+    SELECT ?workPackage ?workPackagedThing WHERE {
       BIND(id:u5AUJb2q AS ?procedureStep1)
       BIND(id:hN1EDPLv AS ?procedureStep2)
       
-  	  ?statutoryInstrumentPaper 
-  	    a :ProposedNegativeStatutoryInstrumentPaper ;
-  		:workPackagedThingHasWorkPackage ?workPackage .
+      ?workPackagedThing a :ProposedNegativeStatutoryInstrumentPaper ;
+  						:workPackagedThingHasWorkPackage ?workPackage .
   	
       FILTER NOT EXISTS { ?workPackage :workPackageHasBusinessItem/:businessItemHasProcedureStep ?procedureStep1 . }
       FILTER NOT EXISTS { ?workPackage :workPackageHasBusinessItem/:businessItemHasProcedureStep ?procedureStep2 . }
     }
   }	
-
-  OPTIONAL { ?statutoryInstrumentPaper :proposedNegativeStatutoryInstrumentPaperName ?proposedNegativeStatutoryInstrumentPaperName . }
+  OPTIONAL { ?workPackagedThing :workPackagedThingName ?workPackagedThingName . }
   OPTIONAL { 
-    ?statutoryInstrumentPaper :laidThingHasLaying ?laying . 
+    ?workPackagedThing :laidThingHasLaying ?laying . 
   	?laying :layingDate ?layingDate . 
-  	}
+  }
+  
+  OPTIONAL {
+    ?workPackage :workPackageHasProcedure ?procedure .
+    
+  OPTIONAL {
+    ?procedure :procedureName ?procedureName . }
+  }
 }

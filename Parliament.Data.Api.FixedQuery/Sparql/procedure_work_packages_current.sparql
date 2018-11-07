@@ -1,0 +1,45 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+  ?procedure
+    a :Procedure ;
+    :procedureName ?procedureName ;
+    :procedureHasWorkPackage ?workPackage .
+  ?workPackage
+    a :WorkPackage ;
+    :workPackageHasWorkPackagedThing ?workPackagedThing .
+  ?workPackagedThing
+    a :WorkPackagedThing ;
+    :workPackagedThingName ?workPackagedThingName ;
+    :laidThingHasLaying ?laying .
+  ?laying
+	a :Laying ;
+    :layingDate ?layingDate .
+}
+WHERE {
+    {
+    SELECT ?procedure ?procedureName ?workPackage WHERE {
+      BIND(id:u5AUJb2q AS ?procedureStep1)
+      BIND(id:hN1EDPLv AS ?procedureStep2)
+      BIND(@procedure_id as ?procedure)
+  
+  	  ?procedure :procedureName ?procedureName .
+      
+      ?procedure :procedureHasWorkPackage ?workPackage .
+  	
+      FILTER NOT EXISTS { ?workPackage :workPackageHasBusinessItem/:businessItemHasProcedureStep ?procedureStep1 . }
+      FILTER NOT EXISTS { ?workPackage :workPackageHasBusinessItem/:businessItemHasProcedureStep ?procedureStep2 . }
+    }
+  }	 
+  
+    OPTIONAL {
+     ?workPackage :workPackageHasWorkPackagedThing ?workPackagedThing .
+     ?workPackagedThing :workPackagedThingName ?workPackagedThingName . 
+      
+      OPTIONAL {
+        ?workPackagedThing :laidThingHasLaying ?laying .
+        
+        OPTIONAL { ?laying :layingDate ?layingDate . }
+      }
+    }
+}
