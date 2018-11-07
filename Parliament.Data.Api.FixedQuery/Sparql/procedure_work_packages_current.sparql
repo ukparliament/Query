@@ -1,4 +1,6 @@
 PREFIX : @schemaUri
+PREFIX id: @instanceUri
+
 
 CONSTRUCT {
   ?procedure

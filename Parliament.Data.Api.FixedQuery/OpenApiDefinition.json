@@ -6405,6 +6405,17 @@
           },
           {
             "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "procedure_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "5S6p4YsP",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -6429,6 +6440,17 @@
           },
           {
             "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "procedure_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "5S6p4YsP",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
