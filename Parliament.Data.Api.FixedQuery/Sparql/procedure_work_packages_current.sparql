@@ -1,7 +1,6 @@
 PREFIX : @schemaUri
 PREFIX id: @instanceUri
 
-
 CONSTRUCT {
   ?procedure
     a :Procedure ;
@@ -26,8 +25,7 @@ WHERE {
       BIND(@procedure_id as ?procedure)
   
   	  ?procedure :procedureName ?procedureName .
-      
-      ?procedure :procedureHasWorkPackage ?workPackage .
+                 :procedureHasWorkPackage ?workPackage .
   	
       FILTER NOT EXISTS { ?workPackage :workPackageHasBusinessItem/:businessItemHasProcedureStep ?procedureStep1 . }
       FILTER NOT EXISTS { ?workPackage :workPackageHasBusinessItem/:businessItemHasProcedureStep ?procedureStep2 . }
