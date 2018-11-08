@@ -9,12 +9,12 @@ CONSTRUCT {
   	:procedureStepHasBusinessItem ?businessItem .
   ?businessItem
     a :BusinessItem ;
-    :businessItemDate ?businessItemDate ;
-    :businessItemHasWorkPackage ?workPackage .  
+    :businessItemDate ?businessItemDate .
   ?workPackage
     a :WorkPackage ;
     :workPackageHasWorkPackagedThing ?workPackagedThing ;
-    :workPackageHasProcedure ?procedure .
+    :workPackageHasProcedure ?procedure ;
+    :workPackageHasBusinessItem ?businessItem .
   ?workPackagedThing
     a :WorkPackagedThing ;
     :workPackagedThingName ?workPackagedThingName .
