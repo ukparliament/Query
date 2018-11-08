@@ -24,7 +24,7 @@ WHERE {
       BIND(id:hN1EDPLv AS ?procedureStep2)
       BIND(@procedure_id as ?procedure)
   
-  	  ?procedure :procedureName ?procedureName .
+  	  ?procedure :procedureName ?procedureName ;
                  :procedureHasWorkPackage ?workPackage .
   	
       FILTER NOT EXISTS { ?workPackage :workPackageHasBusinessItem/:businessItemHasProcedureStep ?procedureStep1 . }
