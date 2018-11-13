@@ -31,21 +31,23 @@ WHERE {
   OPTIONAL { ?procedureStep :procedureStepName ?procedureStepName . }
   OPTIONAL { ?procedureStep :procedureStepDescription ?procedureStepDescription . }
   
-  ?procedureStep :procedureStepHasBusinessItem ?businessItem .
-  ?businessItem :businessItemHasWorkPackage ?workPackage .
-  
-  OPTIONAL { ?businessItem :businessItemDate ?businessItemDate . }
-
-  FILTER NOT EXISTS { ?workPackage :workPackageHasBusinessItem/:businessItemHasProcedureStep ?concludingStep1 . }
-  FILTER NOT EXISTS { ?workPackage :workPackageHasBusinessItem/:businessItemHasProcedureStep ?concludingStep2 . }
-
   OPTIONAL {
-    ?workPackage :workPackageHasProcedure ?procedure .
-    OPTIONAL { ?procedure :procedureName ?procedureName . }
-  } 
+    ?procedureStep :procedureStepHasBusinessItem ?businessItem .
+    ?businessItem :businessItemHasWorkPackage ?workPackage .
+    
+    OPTIONAL { ?businessItem :businessItemDate ?businessItemDate . }
   
-  OPTIONAL {
-    ?workPackage :workPackageHasWorkPackagedThing ?workPackagedThing .
-    OPTIONAL { ?workPackagedThing :workPackagedThingName ?workPackagedThingName . }
+    FILTER NOT EXISTS { ?workPackage :workPackageHasBusinessItem/:businessItemHasProcedureStep ?concludingStep1 . }
+    FILTER NOT EXISTS { ?workPackage :workPackageHasBusinessItem/:businessItemHasProcedureStep ?concludingStep2 . }
+  
+    OPTIONAL {
+      ?workPackage :workPackageHasProcedure ?procedure .
+      OPTIONAL { ?procedure :procedureName ?procedureName . }
+    } 
+    
+    OPTIONAL {
+      ?workPackage :workPackageHasWorkPackagedThing ?workPackagedThing .
+      OPTIONAL { ?workPackagedThing :workPackagedThingName ?workPackagedThingName . }
+    }
   }
 }
