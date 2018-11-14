@@ -1478,7 +1478,77 @@
         }
       }
     },
-    "/group_layings_index{ext}": {
+    "/group_laid_papers_index{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "group_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "XouN12Ow",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/group_laid_papers_paper_type_proposed_negative_statutory_instruments{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "group_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "XouN12Ow",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/group_laid_papers_paper_type_statutory_instruments{ext}": {
       "x-type": "list",
       "get": {
         "parameters": [
