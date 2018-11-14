@@ -26,10 +26,9 @@ WHERE {
   OPTIONAL { ?group :layingBodyHasLaying ?laying .
     OPTIONAL { ?laying :layingDate ?layingDate . }
     
-    OPTIONAL { ?laying :layingHasLaidThing ?laidThing .
-    	?laidThing a :StatutoryInstrumentPaper .
+    ?laying :layingHasLaidThing ?laidThing .
+    ?laidThing a :StatutoryInstrumentPaper .
      
-      OPTIONAL { ?laidThing :laidThingName ?laidThingName . }
-    }
+    OPTIONAL { ?laidThing :laidThingName ?laidThingName . }
   }
 }

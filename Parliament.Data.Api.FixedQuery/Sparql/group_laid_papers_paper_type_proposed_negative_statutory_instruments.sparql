@@ -1,0 +1,34 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+  ?group
+    a :Group, :LayingBody ;
+    :groupName ?groupName ;
+  	:layingBodyHasLaying ?laying .
+  
+  ?laying
+    a :Laying;
+    :layingDate ?layingDate .
+  
+  ?laidThing
+    a :LaidThing, :ProposedNegativeStatutoryInstrumentPaper ;
+    :laidThingName ?laidThingName ;
+    :laidThingHasLaying ?laying .
+ }
+
+WHERE {
+  BIND (@group_id as ?group)
+  
+  ?group a :LayingBody . 
+
+  OPTIONAL { ?group :groupName ?groupName . }
+  
+  OPTIONAL { ?group :layingBodyHasLaying ?laying .
+    OPTIONAL { ?laying :layingDate ?layingDate . }
+    
+    ?laying :layingHasLaidThing ?laidThing .
+    ?laidThing a :ProposedNegativeStatutoryInstrumentPaper .
+     
+    OPTIONAL { ?laidThing :laidThingName ?laidThingName . }
+  }
+}
