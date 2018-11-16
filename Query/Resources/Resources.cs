@@ -1,32 +1,40 @@
 ﻿namespace Query
 {
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using System.Xml.Linq;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.OpenApi.Any;
+    using Microsoft.OpenApi.Exceptions;
+    using Microsoft.OpenApi.Models;
+    using Microsoft.OpenApi.Readers;
 
     public static class Resources
     {
-        public static JObject OpenApiDocument
+        public static OpenApiDocument OpenApiDocument
         {
             get
             {
-                using (var stream = Resources.GetStream("Search.Resources.OpenApiDocumentTemplate.json"))
+                using (var stream = Resources.GetStream("Query.Resources.OpenApiDocumentTemplate.json"))
                 {
-                    using (var reader = new StreamReader(stream))
-                    {
-                        using (var jsonReader = new JsonTextReader(reader))
-                        {
-                            dynamic document = JObject.Load(jsonReader);
-                            //document.components.responses.searchResponse.content = new JObject(Configuration.Mappings.Select(m => new JProperty(m.MediaType, new JObject())));
-                            //document.paths["/query.{extension}"].get.parameters[0].schema["enum"] = new JArray(Configuration.Mappings.Select(m => m.Extension));
+                    var reader = new OpenApiStreamReader();
+                    var document = reader.Read(stream, out var diagnostic);
 
-                            return document;
-                        }
+                    if (diagnostic.Errors.Any())
+                    {
+                        throw new OpenApiException(diagnostic.Errors.First().Message);
                     }
+
+                    var graphMappings = Configuration.QueryMappings.Where(m => !(m.rdfWriter is null) || !(m.storeWriter is null));
+                    var nonGraphMappings = Configuration.QueryMappings.Where(m => !(m.sparqlWriter is null));
+
+                    document.Components.Responses["graphResponse"].Content = graphMappings.SelectMany(m => m.MediaTypes).ToDictionary(m => m, m => new OpenApiMediaType());
+                    document.Components.Responses["nonGraphResponse"].Content = nonGraphMappings.SelectMany(m => m.MediaTypes).ToDictionary(m => m, m => new OpenApiMediaType());
+                    document.Components.Parameters["formatGraph"].Schema.Enum = graphMappings.SelectMany(m => m.MediaTypes.Select(e => new OpenApiString(e) as IOpenApiAny)).ToList();
+                    document.Components.Parameters["formatNonGraph"].Schema.Enum = nonGraphMappings.SelectMany(m => m.MediaTypes.Select(e => new OpenApiString(e) as IOpenApiAny)).ToList();
+                    document.Components.Parameters["fileExtensionGraph"].Schema.Enum = graphMappings.SelectMany(m => m.Extensions.Select(e => new OpenApiString($".{e}") as IOpenApiAny)).ToList();
+                    document.Components.Parameters["fileExtensionNonGraph"].Schema.Enum = nonGraphMappings.SelectMany(m => m.Extensions.Select(e => new OpenApiString($".{e}") as IOpenApiAny)).ToList();
+
+                    return document;
                 }
             }
         }

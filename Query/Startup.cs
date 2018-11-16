@@ -2,18 +2,22 @@
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Rewrite;
+    using Microsoft.AspNetCore.Routing;
     using Microsoft.Extensions.DependencyInjection;
+    using Swashbuckle.AspNetCore.SwaggerUI;
 
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddSingleton(typeof(IEngine), Type.GetType(this.configuration.Engine));
+
+            services.AddMvc(Startup.SetupMvc);
+            services.Configure<RouteOptions>(Startup.ConfigureRouteOptions);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -21,10 +25,42 @@
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Run(async (context) =>
+            app.UseRewriter(new RewriteOptions().AddRewrite("^$", "swagger/index.html", false).AddRewrite("^(swagger|favicon)(.+)$", "swagger/$1$2", true));
+            app.UseMvc();
+            app.UseSwaggerUI(Startup.ConfigureSwaggerUI);
+        }
+
+        private static void SetupMvc(MvcOptions mvc)
+        {
+            mvc.RespectBrowserAcceptHeader = true;
+
+            //mvc.OutputFormatters.Insert(0, new DescriptionFormatter());
+
+            foreach (var mapping in Configuration.QueryMappings)
             {
-                await context.Response.WriteAsync("Hello World!");
-            });
+                //mvc.OutputFormatters.Insert(0, new FeedFormatter(mapping.MediaType, mapping.writeMethod));
+                //mvc.FormatterMappings.SetMediaTypeMappingForFormat(mapping.Extension, mapping.MediaType);
+                //mvc.FormatterMappings.SetMediaTypeMappingForFormat(mapping.MediaType, mapping.MediaType);
+            }
+
+            foreach (var mapping in Configuration.OpenApiMappings)
+            {
+                mvc.OutputFormatters.Insert(0, new OpenApiFormatter(mapping.MediaType, mapping.WriterType));
+                mvc.FormatterMappings.SetMediaTypeMappingForFormat(mapping.Extension, mapping.MediaType);
+                mvc.FormatterMappings.SetMediaTypeMappingForFormat(mapping.MediaType, mapping.MediaType);
+            }
+        }
+
+        private static void ConfigureRouteOptions(RouteOptions routes)
+        {
+            //routes.ConstraintMap.Add("query", typeof(QueryExtensionConstraint));
+            routes.ConstraintMap.Add("openapi", typeof(OpenApiExtensionConstraint));
+        }
+
+        private static void ConfigureSwaggerUI(SwaggerUIOptions swaggerUI)
+        {
+            swaggerUI.DocumentTitle = "UK Parliament Search Service";
+            swaggerUI.SwaggerEndpoint("./openapi", "live");
         }
     }
 }

@@ -13,11 +13,12 @@
     <PackageReference Include="dotNetRDF" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
+    <ProjectReference Include="..\FriendlyHierarchy\FriendlyHierarchy.csproj" />
   </ItemGroup>
 
 </Project>

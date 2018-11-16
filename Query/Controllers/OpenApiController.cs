@@ -1,12 +1,14 @@
 ﻿namespace Query
 {
     using Microsoft.AspNetCore.Mvc;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.OpenApi.Models;
 
     public class OpenApiController : Controller
     {
-        [HttpGet("openapi.json")]
-        public JObject Get()
+        [HttpGet("openapi")]
+        [HttpGet("openapi.{format:openapi}")]
+        [FormatFilter]
+        public OpenApiDocument Get()
         {
             return Resources.OpenApiDocument;
         }
