@@ -11,13 +11,22 @@ CONSTRUCT {
     :layingDate ?layingDate .
   
   ?laidThing
-    a :LaidThing, :StatutoryInstrumentPaper ;
+    a :LaidThing, :WorkPackagedThing, :StatutoryInstrumentPaper ;
     :laidThingName ?laidThingName ;
-    :laidThingHasLaying ?laying .
+    :laidThingHasLaying ?laying ;
+    :workPackagedThingHasWorkPackage ?workPackage .
+  
+  ?workPackage
+    a :WorkPackage ;
+    :workPackageHasProcedure ?procedure .
+  
+  ?procedure
+    a :Procedure ;
+    :procedureName ?procedureName .
  }
 
 WHERE {
-  BIND (@group_id as ?group)
+  BIND (@group_id AS ?group)
   
   ?group a :LayingBody . 
 
@@ -30,5 +39,11 @@ WHERE {
     ?laidThing a :StatutoryInstrumentPaper .
      
     OPTIONAL { ?laidThing :laidThingName ?laidThingName . }
+    
+    OPTIONAL {
+      ?laidThing :workPackagedThingHasWorkPackage ?workPackage .
+      ?workPackage :workPackageHasProcedure ?procedure .
+      ?procedure :procedureName ?procedureName .
+    }
   }
 }
