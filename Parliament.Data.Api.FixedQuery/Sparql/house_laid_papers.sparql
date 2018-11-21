@@ -1,0 +1,59 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+  ?house
+    a :House ;
+  	:houseName ?houseName .
+  ?laying
+    a :Laying ;
+    :layingDate ?layingDate ;
+    :layingHasLayingBody ?layingBody .
+  ?layingBody
+    a :Group ;
+    :groupName ?groupName .
+  ?laidThing
+    a :LaidThing, :WorkPackagedThing, ?class ;
+    :laidThingName ?laidThingName ;
+    :laidThingHasLaying ?laying ;
+    :workPackagedThingHasWorkPackage ?workPackage .
+  ?workPackage
+    a :WorkPackage ;
+    :workPackageHasProcedure ?procedure .
+  ?procedure
+    a :Procedure ;
+    :procedureName ?procedureName .
+}
+WHERE {
+  BIND(@house_id AS ?house)
+  
+  ?house a :House ;
+  		:houseName ?houseName .
+  
+  OPTIONAL {
+    ?house :houseHasProcedureStep ?procedureStep .
+    ?procedureStep :procedureStepHasBusinessItem ?laying .
+    ?laying a :Laying .
+    
+    OPTIONAL { ?laying :layingDate ?layingDate . }
+    
+    OPTIONAL {
+      ?laying :layingHasLayingBody ?layingBody . 
+      ?layingBody :groupName ?groupName .
+    }
+    
+    OPTIONAL {
+      ?laying :layingHasLaidThing ?laidThing .
+      
+      ?laidThing a ?class .
+      FILTER(?class = :StatutoryInstrumentPaper || ?class = :ProposedNegativeStatutoryInstrumentPaper)
+      
+      OPTIONAL { ?laidThing :laidThingName ?laidThingName . }
+      
+      OPTIONAL {
+        ?laidThing :workPackagedThingHasWorkPackage ?workPackage .
+        ?workPackage :workPackageHasProcedure ?procedure .
+        ?procedure :procedureName ?procedureName .
+      }
+    }
+  }
+}

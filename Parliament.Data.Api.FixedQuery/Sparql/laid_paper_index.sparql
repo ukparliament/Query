@@ -1,0 +1,46 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+  ?laying
+    a :Laying, :BusinessItem ;
+    :layingDate ?layingDate ;
+    :layingHasLaidThing ?laidThing ;
+    :businessItemHasProcedureStep ?procedureStep ;
+    :businessItemHasWorkPackage ?workPackage .
+  ?procedureStep
+    a :ProcedureStep ;
+  	:procedureStepHasHouse ?house .
+  ?house
+    a :House ;
+    :houseName ?houseName .
+  ?laidThing
+    a :LaidThing, ?class ;
+    :laidThingName ?laidThingName .
+  ?workPackage
+    a :WorkPackage ;
+    :workPackageHasProcedure ?procedure .
+  ?procedure
+    a :Procedure ;
+    :procedureName ?procedureName .
+}
+WHERE {
+  ?laying a :Laying ;
+  		  :layingDate ?layingDate .
+  OPTIONAL {
+    ?laying :layingHasLaidThing ?laidThing .
+    ?laidThing a ?class .
+    FILTER(?class = :StatutoryInstrumentPaper || ?class = :ProposedNegativeStatutoryInstrumentPaper)
+    
+    ?laidThing :laidThingName ?laidThingName .
+  }
+  OPTIONAL {
+    ?laying :businessItemHasProcedureStep ?procedureStep .
+    ?procedureStep :procedureStepHasHouse ?house .
+    ?house :houseName ?houseName .
+  }
+  OPTIONAL {
+    ?laying :businessItemHasWorkPackage ?workPackage .
+    ?workPackage :workPackageHasProcedure ?procedure .
+    ?procedure :procedureName ?procedureName .
+  }
+}
