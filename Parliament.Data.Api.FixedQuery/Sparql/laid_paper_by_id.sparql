@@ -31,7 +31,7 @@ WHERE {
   OPTIONAL {
     ?laying :layingHasLaidThing ?laidThing .
     ?laidThing a ?class .
-    FILTER(?class = :StatutoryInstrumentPaper || :ProposedNegativeStatutoryInstrumentPaper)
+    FILTER(?class = :StatutoryInstrumentPaper || ?class = :ProposedNegativeStatutoryInstrumentPaper)
     
     ?laidThing :laidThingName ?laidThingName .
   }
