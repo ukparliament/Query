@@ -5,10 +5,15 @@ CONSTRUCT {
     a :House ;
   	:houseName ?houseName .
   ?laying
-    a :BusinessItem, :Laying ;
-    :layingDate ?layingDate .
+    a :Laying ;
+    :layingDate ?layingDate ;
+    :layingHasLayingBody ?layingBody .
+  ?layingBody
+    a :Group ;
+    :groupName ?groupName .
   ?laidThing
-    a :LaidThing, :workPackagedThing, ?class ;
+    a :LaidThing, :WorkPackagedThing, ?class ;
+    :laidThingName ?laidThingName ;
     :laidThingHasLaying ?laying ;
     :workPackagedThingHasWorkPackage ?workPackage .
   ?workPackage
@@ -32,9 +37,17 @@ WHERE {
     OPTIONAL { ?laying :layingDate ?layingDate . }
     
     OPTIONAL {
+      ?laying :layingHasLayingBody ?layingBody . 
+      ?layingBody :groupName ?groupName .
+    }
+    
+    OPTIONAL {
       ?laying :layingHasLaidThing ?laidThing .
+      
       ?laidThing a ?class .
-      FILTER(?class = :StatutoryInstrumentPaper || :ProposedNegativeStatutoryInstrumentPaper)
+      FILTER(?class = :StatutoryInstrumentPaper || ?class = :ProposedNegativeStatutoryInstrumentPaper)
+      
+      OPTIONAL { ?laidThing :laidThingName ?laidThingName . }
       
       OPTIONAL {
         ?laidThing :workPackagedThingHasWorkPackage ?workPackage .
