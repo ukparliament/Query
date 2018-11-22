@@ -3,7 +3,7 @@ PREFIX : @schemaUri
 CONSTRUCT {
 	?statutoryInstrumentPaper
 		a :StatutoryInstrumentPaper, :LaidThing, :WorkPackagedThing ;
-		:statutoryInstrumentPaperName ?statutoryInstrumentPaperName ;
+		:laidThingName ?laidThingName ;
 		:laidThingHasLaying ?laying ;
     	:workPackagedThingHasWorkPackage ?workPackage .
 	?laying
@@ -23,7 +23,7 @@ CONSTRUCT {
 WHERE {
     ?statutoryInstrumentPaper a :StatutoryInstrumentPaper .
 
-	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperName ?statutoryInstrumentPaperName . }
+	OPTIONAL { ?statutoryInstrumentPaper :laidThingName ?laidThingName . }
 
 	OPTIONAL {
 		?statutoryInstrumentPaper :laidThingHasLaying ?laying .
