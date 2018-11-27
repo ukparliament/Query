@@ -48,16 +48,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Contentful\Contentful.csproj">
-      <Project>{f731b8a2-eb33-4b09-9fcd-9308fde343fa}</Project>
-      <Name>Contentful</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FriendlyHierarchy\FriendlyHierarchy.csproj">
-      <Project>{042aaa55-9b7b-4c75-aa9d-7c53f193677e}</Project>
-      <Name>FriendlyHierarchy</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="dotNetRDF, Version=2.1.0.0, Culture=neutral, PublicKeyToken=6055ffe4c97cc780, processorArchitecture=MSIL">
       <HintPath>..\packages\dotNetRDF.2.1.0\lib\net40\dotNetRDF.dll</HintPath>
     </Reference>
@@ -186,38 +176,38 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompressedContent.cs" />
-    <Compile Include="CompressionHandler.cs" />
-    <Compile Include="Compressor.cs" />
-    <Compile Include="Controllers\OpenApiDefinitionController.cs" />
-    <Compile Include="DeflateCompressor.cs" />
-    <Compile Include="GraphDBSparqlEndpoint.cs" />
-    <Compile Include="GzipCompressor.cs" />
-    <Compile Include="HtmlResourceRedirectHandler.cs" />
-    <Compile Include="HtmlWriter.cs" />
-    <Compile Include="MimeMapping.cs" />
-    <Compile Include="NotAcceptablePayloadHandler.cs" />
-    <Compile Include="Controllers\BadRequestController.cs" />
-    <Compile Include="Controllers\Configuration\BadRequestControllerConfigurationAttribute.cs" />
-    <Compile Include="Controllers\Configuration\FixedQueryControllerConfigurationAttribute.cs" />
-    <Compile Include="Controllers\Configuration\DefaultMethodSelector.cs" />
-    <Compile Include="EndpointConstraint.cs" />
-    <Compile Include="Models\QueryWrapper.cs" />
-    <Compile Include="Models\EndpointType.cs" />
-    <Compile Include="Models\ParameterType.cs" />
-    <Compile Include="HardCoded.cs" />
-    <Compile Include="Controllers\FixedQueryController.cs" />
-    <Compile Include="Controllers\SparqlController.cs" />
-    <Compile Include="Controllers\HelpController.cs" />
-    <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Global.asax.cs">
+    <None Include="CompressedContent.cs" />
+    <None Include="CompressionHandler.cs" />
+    <None Include="Compressor.cs" />
+    <None Include="Controllers\OpenApiDefinitionController.cs" />
+    <None Include="DeflateCompressor.cs" />
+    <None Include="GraphDBSparqlEndpoint.cs" />
+    <None Include="GzipCompressor.cs" />
+    <None Include="HtmlResourceRedirectHandler.cs" />
+    <None Include="HtmlWriter.cs" />
+    <None Include="MimeMapping.cs" />
+    <None Include="NotAcceptablePayloadHandler.cs" />
+    <None Include="Controllers\BadRequestController.cs" />
+    <None Include="Controllers\Configuration\BadRequestControllerConfigurationAttribute.cs" />
+    <None Include="Controllers\Configuration\FixedQueryControllerConfigurationAttribute.cs" />
+    <None Include="Controllers\Configuration\DefaultMethodSelector.cs" />
+    <None Include="EndpointConstraint.cs" />
+    <None Include="Models\QueryWrapper.cs" />
+    <None Include="Models\EndpointType.cs" />
+    <None Include="Models\ParameterType.cs" />
+    <None Include="HardCoded.cs" />
+    <None Include="Controllers\FixedQueryController.cs" />
+    <None Include="Controllers\SparqlController.cs" />
+    <None Include="Controllers\HelpController.cs" />
+    <None Include="Controllers\BaseController.cs" />
+    <None Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="GraphFormatter.cs" />
-    <Compile Include="HttpErrorJsonFormatter.cs" />
-    <Compile Include="HttpErrorXmlFormatter.cs" />
+    </None>
+    <None Include="GraphFormatter.cs" />
+    <None Include="HttpErrorJsonFormatter.cs" />
+    <None Include="HttpErrorXmlFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources.cs" />
+    <None Include="Resources.cs" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

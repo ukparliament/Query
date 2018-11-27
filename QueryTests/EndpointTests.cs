@@ -3,8 +3,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using Microsoft.OpenApi.Models;
-    using Microsoft.OpenApi.Readers;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Query;
 
@@ -30,22 +28,23 @@
 
         [TestMethod]
         [DynamicData(nameof(Endpoints))]
-        public void EndpointsHaveImplementation(string endpointName)
+        public void EndpointHasImplementation(string endpointName)
         {
             var key = endpointName
                 .Remove(endpointName.Length - 5, 5)
                 .Remove(0, 1);
-            OpenApiPathItem endpoint = Resources.GetApiPathItem(key);
-            EndpointType endpointType = Resources.GetEndpointType(endpoint);
+
+            var endpoint = Resources.OpenApiDocument.Paths[key];
+            var endpointType = Resources.GetXType<EndpointType>(endpoint);
 
             if (endpointType == EndpointType.HardCoded)
             {
                 var method = typeof(HardCoded).GetMethod(key, BindingFlags.Public | BindingFlags.Static);
-                Assert.IsNotNull(method, "Method {0} missing", endpointName);
+                Assert.IsNotNull(method, "Public static method {0} missing on class HardCoded", endpointName);
 
                 var parameters = method.GetParameters();
                 Assert.AreEqual(1, parameters.Length, "Hard-coded endpoint methods must have a single parameter.");
-                Assert.AreEqual(typeof(Dictionary<string, string>), parameters.Single().ParameterType, "Hard-coded endpoint method parameter must be a Dictionary<string, string>.");
+                Assert.IsInstanceOfType(parameters.Single(), typeof(Dictionary<string, string>), "Hard-coded endpoint method parameter must be a Dictionary<string, string>.");
             }
             else
             {
@@ -63,18 +62,14 @@
         [TestMethod]
         public void EndpointsJsonIsValid()
         {
-            OpenApiDocument document = Resources.OpenApiDocument;
-            OpenApiDiagnostic diagnostic = Resources.ApiDiagnostic;
-
-            Assert.IsFalse(diagnostic.Errors.Any(), string.Join(",", diagnostic.Errors));
+            var document = Resources.OpenApiDocument;
         }
 
         [TestMethod]
         [DynamicData(nameof(SparqlFileNames))]
         public void ImplementationHasEndpoint(string sparqlName)
         {
-            OpenApiPathItem pathItem = Resources.GetApiPathItem(sparqlName);
-            Assert.IsNotNull(pathItem);
+            Assert.IsNotNull(Resources.OpenApiDocument.Paths[sparqlName]);
         }
     }
 }

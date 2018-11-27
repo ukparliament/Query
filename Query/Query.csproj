@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Contentful\Contentful.csproj" />
     <ProjectReference Include="..\FriendlyHierarchy\FriendlyHierarchy.csproj" />
   </ItemGroup>
 

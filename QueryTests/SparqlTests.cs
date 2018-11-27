@@ -28,8 +28,8 @@
             var key = endpointName
                 .Remove(endpointName.Length - 5, 5)
                 .Remove(0, 1);
-            OpenApiPathItem endpoint = Resources.GetApiPathItem(key);
-            EndpointType endpointType = Resources.GetEndpointType(endpoint);
+            var endpoint = Resources.OpenApiDocument.Paths[key];
+            var endpointType = Resources.GetXType<EndpointType>(endpoint);
 
             if (endpointType == EndpointType.HardCoded)
             {
@@ -40,14 +40,14 @@
             var query = new SparqlParameterizedString(queryString);
 
             query.SetUri("schemaUri", new Uri("http://example.com"));
-            OpenApiParameter[] parameters = Resources.GetSparqlParameters(endpoint).ToArray();
+            var parameters = Resources.GetSparqlParameters(endpoint).ToArray();
             if (parameters.Any())
             {
                 var values = parameters.ToDictionary(
                     parameter => parameter.Name,
                     parameter =>
                     {
-                        switch (Resources.GetParameterType(parameter))
+                        switch (Resources.GetXType<ParameterType>(parameter))
                         {
                             case ParameterType.Uri:
                                 return "http://example.com";
@@ -56,7 +56,7 @@
                         }
                     });
 
-                FixedQueryController.SetParameters(query, parameters, values);
+                QueryController.SetParameters(query, parameters, values);
             }
 
             var validator = new SparqlQueryValidator();
