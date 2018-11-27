@@ -1,0 +1,10 @@
+PREFIX : @schemaUri
+PREFIX id: @instanceUri
+
+SELECT ?mnisId ?imageUri
+WHERE {
+	?member 
+		:memberMnisId ?mnisId ;
+		:imageSubjectHasImage ?imageUri ;
+	.
+}
