@@ -1,48 +1,63 @@
 PREFIX : @schemaUri
 
 CONSTRUCT {
+
   ?laying
-    a :Laying, :BusinessItem ;
+    a :Laying ;
     :layingDate ?layingDate ;
     :layingHasLaidThing ?laidThing ;
+    :layingHasLayingBody ?layingBody ;
     :businessItemHasProcedureStep ?procedureStep ;
-    :businessItemHasWorkPackage ?workPackage .
-  ?procedureStep
-    a :ProcedureStep ;
-  	:procedureStepHasHouse ?house .
-  ?house
-    a :House ;
-    :houseName ?houseName .
+    :businessItemHasBusinessItemWebLink ?businessItemWebLink .
+
   ?laidThing
-    a :LaidThing, ?class ;
-    :laidThingName ?laidThingName .
+    a :LaidThing, ?laidThingType ;
+    :laidThingName ?laidThingName ;
+    :workPackagedThingHasWorkPackage ?workPackage .
+
   ?workPackage
     a :WorkPackage ;
+    :workPackageName ?workPackageName ;
     :workPackageHasProcedure ?procedure .
+
   ?procedure
     a :Procedure ;
     :procedureName ?procedureName .
+
+  ?layingBody
+    a :LayingBody, :Group ;
+    :groupName ?groupName .
+
+  ?procedureStep
+    a :ProcedureStep ;
+    :procedureStepName ?procedureStepName .
+
 }
 WHERE {
-  BIND(@laid_paper_id AS ?laying)
-  
-  ?laying a :Laying ;
-  		  :layingDate ?layingDate .
+	BIND (@laid_paper_id as ?laying)
+
+  ?laying a :Laying .
+ 	OPTIONAL { ?laying :layingDate ?layingDate . }
   OPTIONAL {
     ?laying :layingHasLaidThing ?laidThing .
-    ?laidThing a ?class .
-    FILTER(?class = :StatutoryInstrumentPaper || ?class = :ProposedNegativeStatutoryInstrumentPaper)
-    
+    ?laidThing a ?laidThingType.
     ?laidThing :laidThingName ?laidThingName .
+
+    OPTIONAL {
+      ?laidThing :workPackagedThingHasWorkPackage ?workPackage .
+     	OPTIONAL {
+        ?workPackage :workPackageHasProcedure ?procedure .
+				?procedure :procedureName ?procedureName .
+      }
+    }
+	}
+  OPTIONAL {
+    ?laying :layingHasLayingBody ?layingBody .
+    ?layingBody :groupName ?groupName .
   }
   OPTIONAL {
     ?laying :businessItemHasProcedureStep ?procedureStep .
-    ?procedureStep :procedureStepHasHouse ?house .
-    ?house :houseName ?houseName .
+    ?procedureStep :procedureStepName ?procedureStepName .
   }
-  OPTIONAL {
-    ?laying :businessItemHasWorkPackage ?workPackage .
-    ?workPackage :workPackageHasProcedure ?procedure .
-    ?procedure :procedureName ?procedureName .
-  }
+  OPTIONAL { ?laying :businessItemHasBusinessItemWebLink ?businessItemWebLink . }
 }
