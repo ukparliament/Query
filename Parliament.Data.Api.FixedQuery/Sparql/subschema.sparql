@@ -1,0 +1,9 @@
+﻿PREFIX :<https://id.parliament.uk/schema/>
+
+DESCRIBE ?resource
+FROM <http://www.ontotext.com/explicit>
+WHERE {
+  VALUES ?resource {
+    @ids
+  }
+}

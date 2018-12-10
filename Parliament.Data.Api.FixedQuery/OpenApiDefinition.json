@@ -7181,6 +7181,55 @@
         }
       }
     },
+    "/subschema{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "description": "Comma delimited list of local identifiers to get schema information for",
+            "x-type": "schemaUris",
+            "required": true,
+            "example": "Procedure,ProcedureRoute,ProcedureStep",
+            "examples": {
+              "relative single": {
+                "value": "Procedure"
+              },
+              "relative multiple": {
+                "value": "Procedure,ProcedureRoute,ProcedureStep"
+              },
+              "absolute single": {
+                "value": "https://id.parliament.uk/schema/Procedure"
+              },
+              "absolute multiple": {
+                "value": "https://id.parliament.uk/schema/Procedure,https://id.parliament.uk/schema/ProcedureRoute,https://id.parliament.uk/schema/ProcedureStep"
+              }
+            },
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/statutory_instrument_by_id{ext}": {
       "x-type": "single",
       "get": {

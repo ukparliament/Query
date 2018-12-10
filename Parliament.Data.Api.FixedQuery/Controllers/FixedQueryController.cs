@@ -1,8 +1,5 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
-    using Microsoft.ApplicationInsights;
-    using Microsoft.OpenApi.Any;
-    using Microsoft.OpenApi.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -11,6 +8,9 @@
     using System.Reflection;
     using System.Web.Http;
     using System.Web.Http.Description;
+    using Microsoft.ApplicationInsights;
+    using Microsoft.OpenApi.Any;
+    using Microsoft.OpenApi.Models;
     using VDS.RDF;
     using VDS.RDF.Query;
     using VDS.RDF.Writing.Formatting;
@@ -33,7 +33,7 @@
         private static object Execute(string name, Dictionary<string, string> values)
         {
             var endpoint = Resources.GetApiPathItem(name);
-            EndpointType endpointType = Resources.GetEndpointType(endpoint);
+            var endpointType = Resources.GetEndpointType(endpoint);
 
             if (endpointType == EndpointType.HardCoded)
             {
@@ -50,13 +50,13 @@
             var endpoint = Resources.GetApiPathItem(name);
             var queryString = Resources.GetSparql(name);
             var query = new SparqlParameterizedString(queryString);
-            EndpointType endpointType = Resources.GetEndpointType(endpoint);
+            var endpointType = Resources.GetEndpointType(endpoint);
 
             query.SetUri("schemaUri", Global.SchemaUri);
             query.SetUri("instanceUri", Global.InstanceUri);
 
 
-            IEnumerable<OpenApiParameter> parameters = Resources.GetSparqlParameters(endpoint);
+            var parameters = Resources.GetSparqlParameters(endpoint);
             if ((parameters != null) && (parameters.Any()))
             {
                 FixedQueryController.SetParameters(query, parameters, values);
@@ -135,11 +135,15 @@
                         break;
 
                     case ParameterType.InstanceUris:
-                        FixedQueryController.SetUris(query, name, value);
+                        FixedQueryController.SetUris(query, name, value, Global.InstanceUri);
                         break;
 
                     case ParameterType.SchemaUri:
                         query.SetUri(name, new Uri(Global.SchemaUri, value));
+                        break;
+
+                    case ParameterType.SchemaUris:
+                        FixedQueryController.SetUris(query, name, value, Global.SchemaUri);
                         break;
 
                     case ParameterType.Literal:
@@ -149,14 +153,14 @@
             }
         }
 
-        private static void SetUris(SparqlParameterizedString query, string name, string value)
+        private static void SetUris(SparqlParameterizedString query, string name, string value, Uri baseUri)
         {
             var formatter = new SparqlFormatter();
             var factory = new NodeFactory();
 
             Func<string, string> format = instanceId =>
             {
-                var uri = new Uri(Global.InstanceUri, instanceId);
+                var uri = new Uri(baseUri, instanceId);
                 var node = factory.CreateUriNode(uri);
 
                 return formatter.Format(node);
