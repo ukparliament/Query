@@ -25,9 +25,9 @@ CONSTRUCT {
 }
 WHERE {
 
-	BIND (@work_packaged_thing_id as ?workPackagedThing)
+	BIND (@proposed_negative_statutory_instrument_id as ?workPackagedThing)
 
-	?workPackagedThing a :WorkPackagedThing .
+	?workPackagedThing a :ProposedNegativeStatutoryInstrumentPaper .
 
 	OPTIONAL { ?workPackagedThing :workPackagedThingName ?workPackagedThingName . }
   	OPTIONAL { ?workPackagedThing :laidThingHasLaying ?laying .

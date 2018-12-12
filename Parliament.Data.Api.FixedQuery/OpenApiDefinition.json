@@ -6759,7 +6759,7 @@
             "$ref": "#/components/parameters/formatGraph"
           },
           {
-            "name": "work_packaged_thing_id",
+            "name": "proposed_negative_statutory_instrument_id",
             "in": "query",
             "description": "instanceUri",
             "x-type": "instanceUri",
@@ -7335,7 +7335,7 @@
             "$ref": "#/components/parameters/formatGraph"
           },
           {
-            "name": "work_packaged_thing_id",
+            "name": "statutory_instrument_id",
             "in": "query",
             "description": "instanceUri",
             "x-type": "instanceUri",
