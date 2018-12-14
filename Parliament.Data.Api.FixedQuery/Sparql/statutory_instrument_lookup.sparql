@@ -1,13 +1,13 @@
 PREFIX : @schemaUri
 
 CONSTRUCT {
-    ?s a :StatutoryInstrumentPaper .
+    ?statutoryInstrumentPaper a :StatutoryInstrumentPaper .
 }
 WHERE {
     BIND(@property AS ?property)
     BIND(@value AS ?value)
 
-    ?s
+    ?statutoryInstrumentPaper
         a :StatutoryInstrumentPaper ;
         ?property ?actualValue .
 
