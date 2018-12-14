@@ -1,0 +1,15 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    ?s a :StatutoryInstrumentPaper .
+}
+WHERE {
+    BIND(@property AS ?property)
+    BIND(@value AS ?value)
+
+    ?s
+        a :StatutoryInstrumentPaper ;
+        ?property ?actualValue .
+
+        FILTER(STR(?actualValue) = ?value)
+}
