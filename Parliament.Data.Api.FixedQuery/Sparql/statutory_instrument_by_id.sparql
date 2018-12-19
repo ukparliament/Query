@@ -6,7 +6,7 @@ CONSTRUCT {
 		:statutoryInstrumentPaperYear ?statutoryInstrumentPaperYear ;
 		:statutoryInstrumentPaperPrefix ?statutoryInstrumentPaperPrefix ;
 		:statutoryInstrumentPaperNumber ?statutoryInstrumentPaperNumber ;
-		:statutoryInstrumentPaperName ?statutoryInstrumentPaperName ;
+		:laidThingName ?laidThingName ;
 		:statutoryInstrumentPaperComingIntoForceNote ?statutoryInstrumentPaperComingIntoForceNote ;
 		:statutoryInstrumentPaperComingIntoForceDate ?statutoryInstrumentPaperComingIntoForceDate ;
 		:statutoryInstrumentPaperMadeDate ?statutoryInstrumentPaperMadeDate ;
@@ -64,7 +64,7 @@ WHERE {
 	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperYear ?statutoryInstrumentPaperYear . }
 	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperPrefix ?statutoryInstrumentPaperPrefix . }
 	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperNumber ?statutoryInstrumentPaperNumber . }
-	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperName ?statutoryInstrumentPaperName . }
+	OPTIONAL { ?laidThing :laidThingName ?laidThingName . }
 	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperComingIntoForceNote ?statutoryInstrumentPaperComingIntoForceNote . }
 	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperComingIntoForceDate ?statutoryInstrumentPaperComingIntoForceDate . }
 	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperMadeDate ?statutoryInstrumentPaperMadeDate . }
