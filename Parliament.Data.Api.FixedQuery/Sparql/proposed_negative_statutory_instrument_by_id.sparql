@@ -53,7 +53,7 @@ WHERE {
 	?proposedNegativeStatutoryInstrumentPaper a :ProposedNegativeStatutoryInstrumentPaper .
 
 	OPTIONAL { ?proposedNegativeStatutoryInstrumentPaper :workPackagedThingHasWorkPackagedThingWebLink ?workPackagedThingWebLink . }
-	OPTIONAL { ?laidThing :laidThingName ?laidThingName . }
+	OPTIONAL { ?proposedNegativeStatutoryInstrumentPaper :laidThingName ?laidThingName . }
 
 	OPTIONAL {
 		?proposedNegativeStatutoryInstrumentPaper :proposedNegativeStatutoryInstrumentPaperPrecedesStatutoryInstrumentPaper ?statutoryInstrumentPaper .

@@ -64,7 +64,7 @@ WHERE {
 	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperYear ?statutoryInstrumentPaperYear . }
 	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperPrefix ?statutoryInstrumentPaperPrefix . }
 	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperNumber ?statutoryInstrumentPaperNumber . }
-	OPTIONAL { ?laidThing :laidThingName ?laidThingName . }
+	OPTIONAL { ?statutoryInstrumentPaper :laidThingName ?laidThingName . }
 	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperComingIntoForceNote ?statutoryInstrumentPaperComingIntoForceNote . }
 	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperComingIntoForceDate ?statutoryInstrumentPaperComingIntoForceDate . }
 	OPTIONAL { ?statutoryInstrumentPaper :statutoryInstrumentPaperMadeDate ?statutoryInstrumentPaperMadeDate . }
