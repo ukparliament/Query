@@ -7462,7 +7462,7 @@
             "$ref": "#/components/parameters/formatGraph"
           },
           {
-            "name": "limit_amount",
+            "name": "limit",
             "in": "query",
             "description": "literal",
             "x-type": "literal",
@@ -7473,7 +7473,7 @@
             }
           },
           {
-            "name": "offset_amount",
+            "name": "offset",
             "in": "query",
             "description": "literal",
             "x-type": "literal",
