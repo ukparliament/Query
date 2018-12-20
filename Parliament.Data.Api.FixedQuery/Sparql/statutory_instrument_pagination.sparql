@@ -1,0 +1,61 @@
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX id: <https://id.parliament.uk/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+CONSTRUCT {
+	?statutoryInstrumentPaper
+		a :StatutoryInstrumentPaper, :LaidThing, :WorkPackagedThing ;
+		:laidThingName ?laidThingName ;
+		:laidThingHasLaying ?laying ;
+    	:workPackagedThingHasWorkPackage ?workPackage .
+	?laying
+		a :Laying ;
+		:layingDate ?layingDate ;
+    	:layingHasLayingBody ?layingBody .
+  	?layingBody
+    	a :Group ;
+    	:groupName ?groupName .
+  	?workPackage
+    	a :WorkPackage ;
+    	:workPackageHasProcedure ?procedure .
+  	?procedure
+    	a :Procedure ;
+    	:procedureName ?procedureName .
+  
+  	_:x :count ?siCount .
+}
+WHERE { 
+  {
+    SELECT * WHERE {
+      ?statutoryInstrumentPaper a :StatutoryInstrumentPaper .   
+      
+  	  OPTIONAL { ?statutoryInstrumentPaper :laidThingName ?laidThingName . }
+      ?statutoryInstrumentPaper :laidThingHasLaying ?laying.
+
+      ?laying :businessItemHasProcedureStep ?procedureStep .
+      ?procedureStep :procedureStepHasHouse id:1AFu55Hs .
+	  OPTIONAL { ?laying :layingDate ?layingDate . }
+     
+      OPTIONAL {
+        ?laying :layingHasLayingBody ?layingBody .
+        OPTIONAL { ?layingBody :groupName ?groupName . }
+      }
+      
+      OPTIONAL {
+        ?statutoryInstrumentPaper :workPackagedThingHasWorkPackage ?workPackage .
+        OPTIONAL {
+          ?workPackage :workPackageHasProcedure ?procedure .
+          OPTIONAL { ?procedure :procedureName ?procedureName . }
+        }
+  	  }  
+    }
+    ORDER BY DESC(?layingDate) ASC(?laidThingName)
+    LIMIT @limit OFFSET @offset
+  }
+  UNION
+    {
+    SELECT (COUNT(?statutoryInstrumentPaper) AS ?siCount) WHERE {
+    	?statutoryInstrumentPaper a :StatutoryInstrumentPaper .
+  	}
+   }
+}
