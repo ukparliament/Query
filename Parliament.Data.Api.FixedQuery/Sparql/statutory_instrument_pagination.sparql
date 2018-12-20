@@ -26,9 +26,6 @@ CONSTRUCT {
 }
 WHERE { 
   {
-    BIND(@limit_amount AS ?limit_amount)
-    BIND(@offset_amount AS ?offset_amount)
-    
     SELECT * WHERE {
       ?statutoryInstrumentPaper a :StatutoryInstrumentPaper .   
       
@@ -53,7 +50,7 @@ WHERE {
   	  }  
     }
     ORDER BY DESC(?layingDate) ASC(?laidThingName)
-    LIMIT ?limit_amount OFFSET ?offset_amount
+    LIMIT @limit OFFSET @offset
   }
   UNION
     {
