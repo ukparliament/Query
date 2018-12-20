@@ -7451,6 +7451,52 @@
         }
       }
     },
+    "/statutory_instrument_pagination{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "limit_amount",
+            "in": "query",
+            "description": "literal",
+            "x-type": "literal",
+            "required": true,
+            "example": "10",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset_amount",
+            "in": "query",
+            "description": "literal",
+            "x-type": "literal",
+            "required": true,
+            "example": "20",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/vacant_constituency_index{ext}": {
       "x-type": "list",
       "get": {
