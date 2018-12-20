@@ -41,8 +41,6 @@
 
             query.SetUri("schemaUri", new Uri("http://example.com"));
             query.SetUri("instanceUri", new Uri("http://example.com"));
-            query.SetLiteral("limit", 1);
-            query.SetLiteral("offset", 1);
 
             OpenApiParameter[] parameters = Resources.GetSparqlParameters(endpoint).ToArray();
             if (parameters.Any())
@@ -55,6 +53,11 @@
                         {
                             case ParameterType.Uri:
                                 return "http://example.com";
+                            case ParameterType.Literal:
+                                if (parameter?.Example?.GetType() == typeof(Microsoft.OpenApi.Any.OpenApiInteger))
+                                    return "0";
+                                else
+                                    return "EXAMPLE";
                             default:
                                 return "EXAMPLE";
                         }

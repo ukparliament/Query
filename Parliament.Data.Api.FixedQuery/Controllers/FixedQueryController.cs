@@ -1,5 +1,8 @@
 ﻿namespace Parliament.Data.Api.FixedQuery.Controllers
 {
+    using Microsoft.ApplicationInsights;
+    using Microsoft.OpenApi.Any;
+    using Microsoft.OpenApi.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -8,9 +11,6 @@
     using System.Reflection;
     using System.Web.Http;
     using System.Web.Http.Description;
-    using Microsoft.ApplicationInsights;
-    using Microsoft.OpenApi.Any;
-    using Microsoft.OpenApi.Models;
     using VDS.RDF;
     using VDS.RDF.Query;
     using VDS.RDF.Writing.Formatting;
@@ -147,7 +147,11 @@
                         break;
 
                     case ParameterType.Literal:
-                        query.SetLiteral(name, value);
+                        Uri literalKind = Resources.GetLiteralParameterType(parameterDefinition);
+                        if (literalKind != null)
+                            query.SetLiteral(name, value, literalKind);
+                        else
+                            query.SetLiteral(name, value);
                         break;
                 }
             }

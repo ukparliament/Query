@@ -31,7 +31,7 @@
                     using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(OpenApiDefinitionResourceName))
                     {
                         apiDiagnostic = new OpenApiDiagnostic();
-                        openApiDefinition = new OpenApiStreamReader().Read(stream, out apiDiagnostic);                        
+                        openApiDefinition = new OpenApiStreamReader().Read(stream, out apiDiagnostic);
                     }
                 return openApiDefinition;
             }
@@ -68,6 +68,14 @@
             return (ParameterType)Enum.Parse(typeof(ParameterType), xType, true);
         }
 
+        public static Uri GetLiteralParameterType(OpenApiParameter openApiParameter)
+        {
+            if ((openApiParameter.Extensions.ContainsKey("x-literal-type")) &&
+                (Uri.TryCreate(((OpenApiString)openApiParameter.Extensions["x-literal-type"])?.Value, UriKind.Absolute, out Uri literalKind)))
+                return literalKind;
+            else
+                return null;
+        }
         public static IEnumerable<OpenApiParameter> GetSparqlParameters(OpenApiPathItem openApiPath)
         {
             return openApiPath.Operations[OperationType.Get].Parameters
