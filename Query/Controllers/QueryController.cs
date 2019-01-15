@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Reflection;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.OpenApi.Models;
     using VDS.RDF;
     using VDS.RDF.Query;
@@ -13,9 +14,26 @@
 
     public class QueryController : ControllerBase
     {
+        private readonly IConfiguration configuration;
+
+        public QueryController(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+        }
+
+        [HttpGet("{name}")]
+        [HttpGet("{name}.{format:query}")]
+        [FormatFilter]
+        public object Get(string name)
+        {
+            var parameters = this.Request.Query.ToDictionary(parameter => parameter.Key, parameter => parameter.Value.ToString());
+
+            return Execute(name, parameters);
+        }
+
         private object Execute(string name, Dictionary<string, string> values)
         {
-            var endpoint = Resources.OpenApiDocument.Paths[name];
+            var endpoint = Resources.OpenApiDocument.Paths[$"/{name}{{ext}}"];
             var endpointType = Resources.GetXType<EndpointType>(endpoint);
 
             if (endpointType == EndpointType.HardCoded)
@@ -30,7 +48,7 @@
 
         internal static object ExecuteNamedSparql(string name, Dictionary<string, string> values)
         {
-            var endpoint = Resources.OpenApiDocument.Paths[name];
+            var endpoint = Resources.OpenApiDocument.Paths[$"/{name}{{ext}}"];
             var queryString = Resources.GetSparql(name);
             var query = new SparqlParameterizedString(queryString);
             var endpointType = Resources.GetXType<EndpointType>(endpoint);
@@ -59,11 +77,6 @@
                 default:
                     throw new Exception($"unknown query type {type}");
             }
-        }
-
-        private IActionResult CreateResponse(object result)
-        {
-            return this.Ok(result);
         }
 
         private IActionResult ExecuteHardCoded(string name, Dictionary<string, string> values)
@@ -158,7 +171,7 @@
             var endpoint = (SparqlRemoteEndpoint)null;
             if (string.IsNullOrWhiteSpace(endpointUri))
             {
-                endpoint = new GraphDBSparqlEndpoint();
+                endpoint = new GraphDBSparqlEndpoint(this.configuration);
             }
             else
             {

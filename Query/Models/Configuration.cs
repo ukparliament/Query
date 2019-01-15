@@ -16,7 +16,7 @@
             (new[] { "text/turtle" }, new[] { "ttl" }, () => new CompressingTurtleWriter(), null, null),
             (new[] { "application/sparql-results+xml" }, new[] { "srx" }, null, () => new SparqlXmlWriter(), null),
             (new[] { "application/sparql-results+json" }, new[] { "srj" }, null, () => new SparqlJsonWriter(), null),
-            (new[] { "text/csv" }, new[] { "vsc" }, () => new CsvWriter(), () => new SparqlCsvWriter(), () => new CsvStoreWriter()),
+            (new[] { "text/csv" }, new[] { "csv" }, () => new CsvWriter(), () => new SparqlCsvWriter(), () => new CsvStoreWriter()),
             (new[] { "text/tab-separated-values" }, new[] { "tsv" }, () => new TsvWriter(), () => new SparqlTsvWriter(), () => new TsvStoreWriter()),
             (new[] { "text/html", "application/xhtml+xml" }, new[] { "html", "htm", "xhtml" }, () => new HtmlWriter(), () => new SparqlHtmlWriter(), null),
             (new[] { "text/vnd.graphviz" }, new[] { "gv", "dot" }, () => new GraphVizWriter() { CollapseLiterals = false }, null, null),

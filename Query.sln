@@ -22,11 +22,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QueryTests", "QueryTests\Qu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contentful", "Contentful\Contentful.csproj", "{CDE725F2-C221-4DA0-B683-EB45FEB7A78E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendlyHierarchy", "FriendlyHierarchy\FriendlyHierarchy.csproj", "{153D3CAF-F833-4FBC-95EA-7BD753AE210D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FriendlyHierarchy", "FriendlyHierarchy\FriendlyHierarchy.csproj", "{153D3CAF-F833-4FBC-95EA-7BD753AE210D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendlyHierarchyTests", "FriendlyHierarchyTests\FriendlyHierarchyTests.csproj", "{4B0E1E53-49FD-4940-A2B1-C65374224368}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FriendlyHierarchyTests", "FriendlyHierarchyTests\FriendlyHierarchyTests.csproj", "{4B0E1E53-49FD-4940-A2B1-C65374224368}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parliament.Data.Api.FixedQuery", "Parliament.Data.Api.FixedQuery\Parliament.Data.Api.FixedQuery.csproj", "{9A3F675D-DF8E-4405-A59B-6E1E668E305B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewQuery", "NewQuery\NewQuery.csproj", "{00183593-6A24-4E50-B9D1-6E378715DE5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +60,10 @@ Global
 		{9A3F675D-DF8E-4405-A59B-6E1E668E305B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A3F675D-DF8E-4405-A59B-6E1E668E305B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A3F675D-DF8E-4405-A59B-6E1E668E305B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00183593-6A24-4E50-B9D1-6E378715DE5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00183593-6A24-4E50-B9D1-6E378715DE5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00183593-6A24-4E50-B9D1-6E378715DE5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00183593-6A24-4E50-B9D1-6E378715DE5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

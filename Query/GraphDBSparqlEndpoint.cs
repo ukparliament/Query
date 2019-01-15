@@ -3,17 +3,19 @@
     using System;
     using System.Configuration;
     using System.Net;
+    using Microsoft.Extensions.Configuration;
     using VDS.RDF.Query;
 
     public class GraphDBSparqlEndpoint : SparqlRemoteEndpoint
     {
-        private static readonly string sparqlEndpoint = ConfigurationManager.AppSettings["SparqlEndpoint"];
+        private readonly IConfiguration configuration;
         private static readonly string apiVersion = ConfigurationManager.AppSettings["ApiVersion"];
         private static readonly string subscriptionKey = ConfigurationManager.AppSettings["SubscriptionKey"];
-        private static readonly Uri endpoint = new Uri(sparqlEndpoint);
 
-        public GraphDBSparqlEndpoint() : base(endpoint)
+        public GraphDBSparqlEndpoint(IConfiguration configuration) : base(new Uri(configuration["SparqlEndpoint"]))
         {
+            this.configuration = configuration;
+
             this.ResultsAcceptHeader = "application/sparql-results+json";
         }
 
