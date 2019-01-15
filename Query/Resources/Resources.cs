@@ -14,33 +14,39 @@
     public static class Resources
     {
         private const string BaseName = "Query.Resources";
+        private static OpenApiDocument openApiDocument;
 
         public static OpenApiDocument OpenApiDocument
         {
             get
             {
-                using (var stream = Resources.GetStream($"{BaseName}.OpenApiDocumentTemplate.json"))
+                if (Resources.openApiDocument is null)
                 {
-                    var reader = new OpenApiStreamReader();
-                    var document = reader.Read(stream, out var diagnostic);
-
-                    if (diagnostic.Errors.Any())
+                    using (var stream = Resources.GetStream($"{BaseName}.OpenApiDocumentTemplate.json"))
                     {
-                        throw new OpenApiException(diagnostic.Errors.First().Message);
+                        var reader = new OpenApiStreamReader();
+                        var document = reader.Read(stream, out var diagnostic);
+
+                        if (diagnostic.Errors.Any())
+                        {
+                            throw new OpenApiException(diagnostic.Errors.First().Message);
+                        }
+
+                        var graphMappings = Configuration.QueryMappings.Where(m => !(m.rdfWriter is null) || !(m.storeWriter is null));
+                        var nonGraphMappings = Configuration.QueryMappings.Where(m => !(m.sparqlWriter is null));
+
+                        document.Components.Responses["graphResponse"].Content = graphMappings.SelectMany(m => m.MediaTypes).ToDictionary(m => m, m => new OpenApiMediaType());
+                        document.Components.Responses["nonGraphResponse"].Content = nonGraphMappings.SelectMany(m => m.MediaTypes).ToDictionary(m => m, m => new OpenApiMediaType());
+                        document.Components.Parameters["formatGraph"].Schema.Enum = graphMappings.SelectMany(m => m.MediaTypes.Select(e => new OpenApiString(e) as IOpenApiAny)).ToList();
+                        document.Components.Parameters["formatNonGraph"].Schema.Enum = nonGraphMappings.SelectMany(m => m.MediaTypes.Select(e => new OpenApiString(e) as IOpenApiAny)).ToList();
+                        document.Components.Parameters["fileExtensionGraph"].Schema.Enum = graphMappings.SelectMany(m => m.Extensions.Select(e => new OpenApiString($".{e}") as IOpenApiAny)).ToList();
+                        document.Components.Parameters["fileExtensionNonGraph"].Schema.Enum = nonGraphMappings.SelectMany(m => m.Extensions.Select(e => new OpenApiString($".{e}") as IOpenApiAny)).ToList();
+
+                        Resources.openApiDocument = document;
                     }
-
-                    var graphMappings = Configuration.QueryMappings.Where(m => !(m.rdfWriter is null) || !(m.storeWriter is null));
-                    var nonGraphMappings = Configuration.QueryMappings.Where(m => !(m.sparqlWriter is null));
-
-                    document.Components.Responses["graphResponse"].Content = graphMappings.SelectMany(m => m.MediaTypes).ToDictionary(m => m, m => new OpenApiMediaType());
-                    document.Components.Responses["nonGraphResponse"].Content = nonGraphMappings.SelectMany(m => m.MediaTypes).ToDictionary(m => m, m => new OpenApiMediaType());
-                    document.Components.Parameters["formatGraph"].Schema.Enum = graphMappings.SelectMany(m => m.MediaTypes.Select(e => new OpenApiString(e) as IOpenApiAny)).ToList();
-                    document.Components.Parameters["formatNonGraph"].Schema.Enum = nonGraphMappings.SelectMany(m => m.MediaTypes.Select(e => new OpenApiString(e) as IOpenApiAny)).ToList();
-                    document.Components.Parameters["fileExtensionGraph"].Schema.Enum = graphMappings.SelectMany(m => m.Extensions.Select(e => new OpenApiString($".{e}") as IOpenApiAny)).ToList();
-                    document.Components.Parameters["fileExtensionNonGraph"].Schema.Enum = nonGraphMappings.SelectMany(m => m.Extensions.Select(e => new OpenApiString($".{e}") as IOpenApiAny)).ToList();
-
-                    return document;
                 }
+
+                return Resources.openApiDocument;
             }
         }
 

@@ -34,7 +34,7 @@
                 .Remove(endpointName.Length - 5, 5)
                 .Remove(0, 1);
 
-            var endpoint = Resources.OpenApiDocument.Paths[key];
+            var endpoint = Resources.OpenApiDocument.Paths[endpointName];
             var endpointType = Resources.GetXType<EndpointType>(endpoint);
 
             if (endpointType == EndpointType.HardCoded)
@@ -44,7 +44,7 @@
 
                 var parameters = method.GetParameters();
                 Assert.AreEqual(1, parameters.Length, "Hard-coded endpoint methods must have a single parameter.");
-                Assert.IsInstanceOfType(parameters.Single(), typeof(Dictionary<string, string>), "Hard-coded endpoint method parameter must be a Dictionary<string, string>.");
+                Assert.AreEqual(parameters.Single().ParameterType, typeof(Dictionary<string, string>), "Hard-coded endpoint method parameter must be a Dictionary<string, string>.");
             }
             else
             {
@@ -69,7 +69,7 @@
         [DynamicData(nameof(SparqlFileNames))]
         public void ImplementationHasEndpoint(string sparqlName)
         {
-            Assert.IsNotNull(Resources.OpenApiDocument.Paths[sparqlName]);
+            Assert.IsNotNull(Resources.OpenApiDocument.Paths[$"/{sparqlName}{{ext}}"]);
         }
     }
 }

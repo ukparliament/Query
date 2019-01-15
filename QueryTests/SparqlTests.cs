@@ -28,7 +28,7 @@
             var key = endpointName
                 .Remove(endpointName.Length - 5, 5)
                 .Remove(0, 1);
-            var endpoint = Resources.OpenApiDocument.Paths[key];
+            var endpoint = Resources.OpenApiDocument.Paths[endpointName];
             var endpointType = Resources.GetXType<EndpointType>(endpoint);
 
             if (endpointType == EndpointType.HardCoded)

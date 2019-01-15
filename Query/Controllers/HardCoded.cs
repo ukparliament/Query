@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
+    using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
     using VDS.RDF;
     using VDS.RDF.Ontology;
@@ -11,9 +12,9 @@
     using VDS.RDF.Query;
 
     // TODO: Eliminate
-    public class HardCoded : QueryController
+    public static class HardCoded
     {
-        public object constituency_lookup_by_postcode(Dictionary<string, string> values)
+        public static object constituency_lookup_by_postcode(Dictionary<string, string> values)
         {
             var postcode = values["postcode"];
 
@@ -30,10 +31,10 @@
             query.SetLiteral("longitude", longitude);
             query.SetLiteral("latitude", latitude);
 
-            return this.ExecuteSingle(query);
+            return QueryController.ExecuteSingle(query);
         }
 
-        public object work_package_by_id(Dictionary<string, string> values)
+        public static object work_package_by_id(Dictionary<string, string> values)
         {
             var workPackageId = values["work_package_id"];
             var workPackageUri = new Uri(Configuration.InstanceUri, workPackageId);
@@ -42,7 +43,7 @@
             query.SetUri("schemaUri", Configuration.SchemaUri);
             query.SetUri("work_package_id", workPackageUri);
 
-            var graph = this.ExecuteSingle(query) as IGraph;
+            var graph = QueryController.ExecuteSingle(query) as IGraph;
             graph.NamespaceMap.AddNamespace("ex", new Uri("https://example.com/"));
 
             var rootSteps = graph.GetTriplesWithPredicateObject(graph.CreateUriNode("rdf:type"), graph.CreateUriNode("ex:Root")).Select(t => t.Subject as IUriNode);
@@ -56,7 +57,7 @@
             return graph;
         }
 
-        private void iterate(IUriNode step, int distance, HashSet<IUriNode> seen)
+        private static void iterate(IUriNode step, int distance, HashSet<IUriNode> seen)
         {
             if (seen.Add(step))
             {
@@ -71,30 +72,29 @@
             }
         }
 
-
         #region Contentful
-        public object webarticle_by_id(Dictionary<string, string> values)
+        public static object webarticle_by_id(Dictionary<string, string> values)
         {
             var webarticle_id = values["webarticle_id"];
 
             var uri = new Uri(Configuration.InstanceUri, webarticle_id).AbsoluteUri;
-            var articleExists = this.ExecuteNamedSparql("exists", new Dictionary<string, string> { { "uri", uri } }) as SparqlResultSet;
+            var articleExists = QueryController.ExecuteNamedSparql("exists", new Dictionary<string, string> { { "uri", uri } }) as SparqlResultSet;
             if (!articleExists.Result)
             {
-                return this.NotFound();
+                return new NotFoundResult();
             }
 
             try
             {
-                return this.Ok(Contentful.Engine.GetArticle(webarticle_id));
+                return new ObjectResult(Contentful.Engine.GetArticle(webarticle_id));
             }
             catch (Contentful.EntryNotFoundException)
             {
-                return this.NotFound();
+                return new NotFoundResult();
             }
         }
 
-        public object concept_by_id(Dictionary<string, string> values)
+        public static object concept_by_id(Dictionary<string, string> values)
         {
             //var uri = new Uri(BaseController.Instance, topic_id).AbsoluteUri;
             // var articleExists = FixedQueryController.ExecuteNamedSparql("exists", new Dictionary<string, string> { { "uri", uri } }) as SparqlResultSet;
@@ -111,11 +111,11 @@
             }
             catch (Contentful.EntryNotFoundException)
             {
-                return this.NotFound();
+                return new NotFoundResult();
             }
         }
 
-        public object concept_index(Dictionary<string, string> values)
+        public static object concept_index(Dictionary<string, string> values)
         {
             //var uri = new Uri(BaseController.Instance, topic_id).AbsoluteUri;
             // var articleExists = FixedQueryController.ExecuteNamedSparql("exists", new Dictionary<string, string> { { "uri", uri } }) as SparqlResultSet;
@@ -130,11 +130,11 @@
             }
             catch (Contentful.EntryNotFoundException)
             {
-                return this.NotFound();
+                return new NotFoundResult();
             }
         }
 
-        public object collection_index(Dictionary<string, string> values)
+        public static object collection_index(Dictionary<string, string> values)
         {
             try
             {
@@ -146,7 +146,7 @@
             }
         }
 
-        public object collection_by_id(Dictionary<string, string> values)
+        public static object collection_by_id(Dictionary<string, string> values)
         {
             var collection_id = values["collection_id"];
 
@@ -156,16 +156,16 @@
             }
             catch (Contentful.EntryNotFoundException)
             {
-                return this.NotFound();
+                return new NotFoundResult();
             }
         }
         #endregion
 
-        public object with_schema(Dictionary<string, string> values)
+        public static object with_schema(Dictionary<string, string> values)
         {
             // Run the original query
             var endpoint_name = values["endpoint_name"];
-            var originalGraph = this.ExecuteNamedSparql(endpoint_name, values) as IGraph;
+            var originalGraph = QueryController.ExecuteNamedSparql(endpoint_name, values) as IGraph;
 
             // Collect types and predicates from the result of the original query
             // and get ontology information about them.
@@ -194,7 +194,7 @@ WHERE {
     FILTER(?resourceProperty != owl:inverseOf)
 }".Replace("@ontologyResources", ontologyResources);
 
-            var ontologyGraph = this.ExecuteList(new SparqlParameterizedString(ontologyQuery)) as IGraph;
+            var ontologyGraph = QueryController.ExecuteList(new SparqlParameterizedString(ontologyQuery)) as IGraph;
 
             // Collect classes from across both the result of the original query and the ontology generated for it
             // (could be types from the original, classes from the ontology or domains and ranges from the ontology)
@@ -217,7 +217,7 @@ WHERE {
 	?class rdfs:subClassOf ?superClass .
 }".Replace("@classResources", classResources);
 
-            var subClassGraph = this.ExecuteList(new SparqlParameterizedString(subClassQuery)) as IGraph;
+            var subClassGraph = QueryController.ExecuteList(new SparqlParameterizedString(subClassQuery)) as IGraph;
 
             // The result is all three graphs above merged.
             var resultGraph = new Graph();
@@ -227,7 +227,7 @@ WHERE {
             return resultGraph;
         }
 
-        private void GetCoordinates(string postcode, string externalQueryString, out string latitude, out string longitude)
+        private static void GetCoordinates(string postcode, string externalQueryString, out string latitude, out string longitude)
         {
             if (postcode.StartsWith("BT"))
             {
@@ -252,7 +252,7 @@ WHERE {
             {
                 var externalQuery = new SparqlParameterizedString(externalQueryString);
                 externalQuery.SetUri("postcode", new Uri(new Uri("http://data.ordnancesurvey.co.uk/id/postcodeunit/"), postcode));
-                var externalResults = this.ExecuteList(externalQuery, "http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql") as IGraph;
+                var externalResults = QueryController.ExecuteList(externalQuery, "http://data.ordnancesurvey.co.uk/datasets/os-linked-data/apis/sparql") as IGraph;
 
                 if (externalResults.Triples.Any())
                 {

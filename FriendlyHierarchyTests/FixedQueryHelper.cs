@@ -1,13 +1,12 @@
 ﻿namespace FriendlyHierarchyTests
 {
-    using Newtonsoft.Json;
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
+    using Newtonsoft.Json;
     using VDS.RDF;
     using VDS.RDF.Parsing;
 
@@ -19,7 +18,7 @@
         private static Uri fixedQueryEndpoint;
         private static TimeSpan aiHours;
 
-        public static IDictionary Properties
+        public static IDictionary<string, object> Properties
         {
             set
             {
@@ -225,7 +224,7 @@
             return g;
         }
 
-        private async static Task<aiResponse> QueryAI()
+        private static async Task<aiResponse> QueryAI()
         {
             var period = System.Xml.XmlConvert.ToString(aiHours);
             var aiApi = $"https://api.applicationinsights.io/v1/apps/{aiApp}/query?timespan={period}";
@@ -251,19 +250,19 @@
 
     }
 
-    class aiResponse
+    internal class aiResponse
     {
         public table[] tables;
     }
 
-    class table
+    internal class table
     {
         public string name;
         public column[] columns;
         public string[][] rows;
     }
 
-    class column
+    internal class column
     {
         public string name;
         public string type;
