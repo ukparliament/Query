@@ -171,7 +171,7 @@
             var endpoint = (SparqlRemoteEndpoint)null;
             if (string.IsNullOrWhiteSpace(endpointUri))
             {
-                endpoint = new GraphDBSparqlEndpoint(this.configuration);
+                //endpoint = new GraphDBSparqlEndpoint(this.configuration);
             }
             else
             {

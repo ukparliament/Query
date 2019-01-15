@@ -1,14 +1,26 @@
 ﻿namespace NewQuery
 {
-    using System;
     using System.Collections.Generic;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
-    public class QueryService : IQueryService
+    internal class QueryService : IQueryService
     {
-        public virtual IActionResult Execute(string name, IDictionary<string, string> parameters)
+        private readonly IDictionary<string, string> endpoints;
+
+        internal QueryService()
         {
-            throw new NotImplementedException();
+            this.endpoints = new Dictionary<string, string> { { "a", "A" } };
+        }
+
+        public virtual IActionResult Execute(string name, IQueryCollection parameters)
+        {
+            if (!this.endpoints.ContainsKey(name))
+            {
+                return new BadRequestResult();
+            }
+
+            return new OkObjectResult(this.endpoints[name]);
         }
     }
 }

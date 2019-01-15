@@ -1,13 +1,30 @@
 ﻿namespace NewQuery
 {
-    using System.Collections.Generic;
+    using System.Reflection;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
-    public class HardcodedQueryService : QueryService
+    internal class HardcodedQueryService : QueryService
     {
-        public override IActionResult Execute(string name, IDictionary<string, string> parameters)
+        private delegate IActionResult Action(IQueryCollection parameters);
+
+        public override IActionResult Execute(string name, IQueryCollection parameters)
         {
-            return base.Execute(name, parameters);
+            var method = typeof(HardcodedQueryService).GetMethod(name, BindingFlags.Instance | BindingFlags.NonPublic);
+
+            if (method is null)
+            {
+                return base.Execute(name, parameters);
+            }
+            
+            var actionMethod = (Action)method.CreateDelegate(typeof(Action), this);
+
+            return actionMethod(parameters);
+        }
+
+        private IActionResult b(IQueryCollection parameters)
+        {
+            return new OkObjectResult("B");
         }
     }
 }

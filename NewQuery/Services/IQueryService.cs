@@ -1,10 +1,10 @@
 ﻿namespace NewQuery
 {
-    using System.Collections.Generic;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     public interface IQueryService
     {
-        IActionResult Execute(string name, IDictionary<string, string> parameters);
+        IActionResult Execute(string name, IQueryCollection parameters);
     }
 }
