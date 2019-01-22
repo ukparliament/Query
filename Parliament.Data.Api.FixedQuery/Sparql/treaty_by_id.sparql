@@ -70,12 +70,5 @@ WHERE {
 			?workPackage :workPackageHasProcedure ?procedure .
 			?procedure :procedureName ?procedureName .
 		}
-    	OPTIONAL {
-      		?workPackage :workPackageHasBusinessItem ?businessItem .
-      		OPTIONAL { ?businessItem :businessItemDate ?businessItemDate . }
-        		BIND (<https://id.parliament.uk/3TPVFlNJ> as ?procedureStep)
-        		?businessItem :businessItemHasProcedureStep ?procedureStep .
-        		OPTIONAL { ?procedureStep :procedureStepName ?procedureStepName . }
-    	}
 	}
 }
