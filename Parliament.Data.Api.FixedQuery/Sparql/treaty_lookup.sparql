@@ -1,0 +1,15 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+    ?treaty a :Treaty .
+}
+WHERE {
+    BIND(@property AS ?property)
+    BIND(@value AS ?value)
+
+    ?treaty
+        a :Treaty ;
+        ?property ?actualValue .
+
+        FILTER(STR(?actualValue) = ?value)
+}

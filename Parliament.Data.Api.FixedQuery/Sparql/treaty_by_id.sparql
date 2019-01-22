@@ -1,0 +1,81 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+	?treaty
+		a :Treaty, :WorkPackagedThing, :LaidThing ;
+		:laidThingName ?laidThingName ;
+		:workPackagedThingHasWorkPackagedThingWebLink ?workPackagedThingWebLink ;
+		:laidThingHasLaying ?laying ;
+		:workPackagedThingHasWorkPackage ?workPackage .
+
+	?workPackage
+		a :WorkPackage ;
+		:workPackageHasProcedure ?procedure ;
+    	:workPackageHasBusinessItem ?businessItem .
+
+  	?businessItem
+    	a :BusinessItem ;
+    	:businessItemDate ?businessItemDate ;
+    	:businessItemHasProcedureStep ?procedureStep .
+
+  	?procedureStep
+    	a :ProcedureStep ;
+    	:procedureStepName ?procedureStepName .
+
+	?laying
+		a :Laying ;
+		:layingDate ?layingDate ;
+		:layingHasLayingBody ?layingBody ;
+		:layingHasLayingPerson ?layingPerson .
+
+	?procedure
+		a :Procedure ;
+		:procedureName ?procedureName .
+
+	?layingBody
+		a :Group ;
+		:groupName ?groupName .
+
+	?layingPerson
+    	a :Person ;
+    	:personGivenName ?givenName ;
+        :personFamilyName ?familyName ;
+        <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs .
+}
+WHERE {
+	BIND (@treaty_id as ?treaty)
+
+	?treaty a :Treaty .
+
+	OPTIONAL { ?treaty :workPackagedThingHasWorkPackagedThingWebLink ?workPackagedThingWebLink . }
+	OPTIONAL { ?treaty :laidThingName ?laidThingName . }
+
+	OPTIONAL {
+		?treaty :laidThingHasLaying ?laying .
+		?laying :layingHasLayingBody ?layingBody .
+		OPTIONAL { ?layingBody :groupName ?groupName . }
+		OPTIONAL { ?laying :layingDate ?layingDate . }
+		OPTIONAL {
+			?laying :layingHasLayingPerson ?layingPerson ;
+
+			OPTIONAL { ?layingPerson :personGivenName ?givenName . }
+            OPTIONAL { ?layingPerson :personFamilyName ?familyName . }
+            OPTIONAL { ?layingPerson <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs . }
+        }
+	}
+	OPTIONAL {
+		?treaty :workPackagedThingHasWorkPackage ?workPackage .
+
+		OPTIONAL{
+			?workPackage :workPackageHasProcedure ?procedure .
+			?procedure :procedureName ?procedureName .
+		}
+    	OPTIONAL {
+      		?workPackage :workPackageHasBusinessItem ?businessItem .
+      		OPTIONAL { ?businessItem :businessItemDate ?businessItemDate . }
+        		BIND (<https://id.parliament.uk/3TPVFlNJ> as ?procedureStep)
+        		?businessItem :businessItemHasProcedureStep ?procedureStep .
+        		OPTIONAL { ?procedureStep :procedureStepName ?procedureStepName . }
+    	}
+	}
+}

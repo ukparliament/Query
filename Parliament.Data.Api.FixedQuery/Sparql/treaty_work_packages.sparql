@@ -1,0 +1,38 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+	?workPackagedThing
+		a :WorkPackagedThing;
+    	:workPackagedThingName ?workPackagedThingName ;
+		:workPackagedThingHasWorkPackage ?workPackage ;
+   		:laidThingHasLaying ?laying .
+
+	?workPackage
+    	a :WorkPackage ;
+    	:workPackageHasWorkPackagedThing ?workPackagedThing ;
+    	:workPackageHasProcedure ?procedure .
+
+  	?procedure
+    	a :Procedure ;
+    	:procedureName ?procedureName .
+
+  	?laying
+    	a :Laying ;
+    	:layingDate ?layingDate .
+}
+WHERE {
+
+	BIND (@treaty_id as ?workPackagedThing)
+
+	?workPackagedThing a :Treaty .
+
+	OPTIONAL { ?workPackagedThing :workPackagedThingName ?workPackagedThingName . }
+  	OPTIONAL { ?workPackagedThing :laidThingHasLaying ?laying .
+    	OPTIONAL { ?laying :layingDate ?layingDate . }
+  	}
+	OPTIONAL { ?workPackagedThing :workPackagedThingHasWorkPackage ?workPackage .
+    	OPTIONAL { ?workPackage :workPackageHasProcedure ?procedure .
+     		OPTIONAL { ?procedure :procedureName ?procedureName . }
+    	}
+	}
+}

@@ -1,0 +1,41 @@
+PREFIX : @schemaUri
+
+CONSTRUCT {
+	?treaty
+		a :Treaty, :LaidThing, :WorkPackagedThing ;
+		:laidThingName ?laidThingName ;
+		:laidThingHasLaying ?laying ;
+    	:workPackagedThingHasWorkPackage ?workPackage .
+	?laying
+		a :Laying ;
+		:layingDate ?layingDate ;
+    	:layingHasLayingBody ?layingBody .
+    ?layingBody
+    	a :Group ;
+    	:groupName ?groupName .
+  	?workPackage
+    	a :WorkPackage ;
+    	:workPackageHasProcedure ?procedure .
+  	?procedure
+    	a :Procedure ;
+    	:procedureName ?procedureName .
+}
+WHERE {
+    ?treaty a :Treaty .
+	OPTIONAL { ?treaty :laidThingName ?laidThingName . }
+	OPTIONAL {
+		?treaty :laidThingHasLaying ?laying .
+		OPTIONAL { ?laying :layingDate ?layingDate . }
+        OPTIONAL {
+          ?laying :layingHasLayingBody ?layingBody .
+          OPTIONAL { ?layingBody :groupName ?groupName . }
+        }
+	}
+  	  OPTIONAL {
+    	?treaty :workPackagedThingHasWorkPackage ?workPackage .
+    	OPTIONAL {
+      		?workPackage :workPackageHasProcedure ?procedure .
+      		OPTIONAL { ?procedure :procedureName ?procedureName . }
+    	}
+  	}
+}

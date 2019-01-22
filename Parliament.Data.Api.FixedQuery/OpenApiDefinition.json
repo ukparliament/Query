@@ -1583,6 +1583,41 @@
         }
       }
     },
+    "/group_laid_papers_paper_type_treaties{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "group_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "XouN12Ow",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/group_lookup{ext}": {
       "x-type": "single",
       "get": {
@@ -7499,6 +7534,146 @@
         }
       }
     },
+    "/treaty_by_id{ext}": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "treaty_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "gzoa2qc8",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/treaty_index{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/treaty_lookup{ext}": {
+      "x-type": "single",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "property",
+            "in": "query",
+            "description": "schemaUri",
+            "x-type": "schemaUri",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "description": "literal",
+            "x-type": "literal",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
+    "/treaty_work_packages{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "statutory_instrument_id",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "gzoa2qc8",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
     "/vacant_constituency_index{ext}": {
       "x-type": "list",
       "get": {
@@ -7841,6 +8016,30 @@
           }
         }
       }
-    }
+    },
+    "/work_packages_paper_types_treaties{ext}": {
+      "x-type": "list",
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/fileExtensionGraph"
+          },
+          {
+            "$ref": "#/components/parameters/formatGraph"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/graphResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/notAcceptable"
+          }
+        }
+      }
+    },
   }
 }
