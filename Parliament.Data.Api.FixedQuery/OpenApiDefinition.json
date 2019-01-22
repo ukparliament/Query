@@ -7650,7 +7650,7 @@
             "$ref": "#/components/parameters/formatGraph"
           },
           {
-            "name": "statutory_instrument_id",
+            "name": "treaty_id",
             "in": "query",
             "description": "instanceUri",
             "x-type": "instanceUri",
