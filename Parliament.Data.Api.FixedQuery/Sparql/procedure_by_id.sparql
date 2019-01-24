@@ -3,10 +3,13 @@ PREFIX : @schemaUri
 CONSTRUCT {
     ?procedure
         a :Procedure ;
-        :procedureName ?procedureName .
+        :procedureName ?procedureName ;
+        :procedureDescription ?procedureDescription .
 }
 WHERE {
     BIND (@procedure_id AS ?procedure)
 
     ?procedure :procedureName ?procedureName .
+    
+    OPTIONAL { ?procedure :procedureDescription ?procedureDescription . }
 }
