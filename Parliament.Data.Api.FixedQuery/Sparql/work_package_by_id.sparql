@@ -72,80 +72,82 @@ WHERE {
     
     ?workPackaged a ?class .
         
-    FILTER(?class = :StatutoryInstrumentPaper || ?class = :ProposedNegativeStatutoryInstrumentPaper)
+    FILTER(?class = :StatutoryInstrumentPaper || ?class = :ProposedNegativeStatutoryInstrumentPaper || ?class = :Treaty)
 
     OPTIONAL { ?workPackaged :workPackagedThingName ?workPackagedThingName . }
     OPTIONAL { ?workPackaged :workPackagedThingHasWorkPackagedThingWebLink ?workPackagedLink . }
   }
-
-  {
-    ?enablingStep :procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
-
-    ?possibleRoute :procedureRouteHasProcedure ?procedure .
-    ?possibleRoute :procedureRouteIsFromProcedureStep ?enablingStep .
-    ?possibleRoute :procedureRouteIsToProcedureStep ?possibleStep .
-
-    ?possibleStep :procedureStepName ?possibleName .
-
-    OPTIONAL {
-      ?possibleStep :procedureStepHasHouse ?possibleHouse .
-      ?possibleHouse :houseName ?possibleHouseName .
-    }
-
-    FILTER NOT EXISTS {
-      ?possibleStep :procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
-    }
-
-    FILTER NOT EXISTS {
-      ?precludingRoute :procedureRouteHasProcedure ?procedure .
-      ?precludingRoute :procedureRouteIsToProcedureStep ?possibleStep .
-      ?precludingRoute :precludedProcedureRouteIsPrecludedByProcedureStep/:procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
-    }
-
-    FILTER NOT EXISTS {
-      ?requiringRoute :procedureRouteHasProcedure ?procedure .
-      ?requiringRoute :requiredProcedureRouteIsRequiredByProcedureStep ?possibleStep .
-
-      FILTER NOT EXISTS {
-        ?requiringRoute :procedureRouteIsToProcedureStep/:procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+  
+  OPTIONAL {
+      {
+        ?enablingStep :procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+    
+        ?possibleRoute :procedureRouteHasProcedure ?procedure .
+        ?possibleRoute :procedureRouteIsFromProcedureStep ?enablingStep .
+        ?possibleRoute :procedureRouteIsToProcedureStep ?possibleStep .
+    
+        ?possibleStep :procedureStepName ?possibleName .
+    
+        OPTIONAL {
+          ?possibleStep :procedureStepHasHouse ?possibleHouse .
+          ?possibleHouse :houseName ?possibleHouseName .
+        }
+    
+        FILTER NOT EXISTS {
+          ?possibleStep :procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+        }
+    
+        FILTER NOT EXISTS {
+          ?precludingRoute :procedureRouteHasProcedure ?procedure .
+          ?precludingRoute :procedureRouteIsToProcedureStep ?possibleStep .
+          ?precludingRoute :precludedProcedureRouteIsPrecludedByProcedureStep/:procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+        }
+    
+        FILTER NOT EXISTS {
+          ?requiringRoute :procedureRouteHasProcedure ?procedure .
+          ?requiringRoute :requiredProcedureRouteIsRequiredByProcedureStep ?possibleStep .
+    
+          FILTER NOT EXISTS {
+            ?requiringRoute :procedureRouteIsToProcedureStep/:procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+          }
+        }
       }
-    }
-  }
-  UNION 
-  {
-    ?item :businessItemHasWorkPackage ?package .
-
-    OPTIONAL { ?item :businessItemDate ?itemDate }
-    OPTIONAL { ?item :businessItemHasBusinessItemWebLink ?itemLink }
-
-    ?step :procedureStepHasBusinessItem ?item .
-    ?step :procedureStepName ?stepName .
-
-    OPTIONAL {
-      ?step :procedureStepHasHouse ?house .
-      ?house :houseName ?houseName .
-    }
-
-    OPTIONAL {
-      ?actualizedRoute :procedureRouteHasProcedure ?procedure .
-      ?actualizedRoute :causedProcedureRouteIsCausedByProcedureStep|:allowedProcedureRouteIsAllowedByProcedureStep ?step .
-      ?actualizedRoute :procedureRouteIsToProcedureStep ?otherStep .
-
-      ?otherStep :procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
-
-      FILTER (?otherStep != ?step)
-    }
-  }
-  UNION 
-  {
-    ?rootStep :procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
-
-    OPTIONAL {
-      ?higherRoute :procedureRouteHasProcedure ?procedure .
-      ?higherRoute (:causedProcedureRouteIsCausedByProcedureStep|:allowedProcedureRouteIsAllowedByProcedureStep)/:procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
-      ?higherRoute :procedureRouteIsToProcedureStep ?rootStep .
-    }
-
-    FILTER(!BOUND(?higherRoute))
+      UNION 
+      {
+        ?item :businessItemHasWorkPackage ?package .
+    
+        OPTIONAL { ?item :businessItemDate ?itemDate }
+        OPTIONAL { ?item :businessItemHasBusinessItemWebLink ?itemLink }
+    
+        ?step :procedureStepHasBusinessItem ?item .
+        ?step :procedureStepName ?stepName .
+    
+        OPTIONAL {
+          ?step :procedureStepHasHouse ?house .
+          ?house :houseName ?houseName .
+        }
+    
+        OPTIONAL {
+          ?actualizedRoute :procedureRouteHasProcedure ?procedure .
+          ?actualizedRoute :causedProcedureRouteIsCausedByProcedureStep|:allowedProcedureRouteIsAllowedByProcedureStep ?step .
+          ?actualizedRoute :procedureRouteIsToProcedureStep ?otherStep .
+    
+          ?otherStep :procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+    
+          FILTER (?otherStep != ?step)
+        }
+      }
+      UNION 
+      {
+        ?rootStep :procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+    
+        OPTIONAL {
+          ?higherRoute :procedureRouteHasProcedure ?procedure .
+          ?higherRoute (:causedProcedureRouteIsCausedByProcedureStep|:allowedProcedureRouteIsAllowedByProcedureStep)/:procedureStepHasBusinessItem/:businessItemHasWorkPackage ?package .
+          ?higherRoute :procedureRouteIsToProcedureStep ?rootStep .
+        }
+    
+        FILTER(!BOUND(?higherRoute))
+      }
   }
 }
