@@ -26,6 +26,7 @@ WHERE {
     ?procedure :procedureName ?procedureName .
 
     # Date (if any) of oldest business item in package
+    OPTIONAL
     {
         SELECT ?package (MIN(?itemDate) AS ?date)
         WHERE {
