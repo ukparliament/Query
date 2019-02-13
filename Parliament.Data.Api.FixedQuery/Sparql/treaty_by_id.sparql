@@ -4,6 +4,8 @@ CONSTRUCT {
 	?treaty
 		a :Treaty, :WorkPackagedThing, :LaidThing ;
 		:laidThingName ?laidThingName ;
+		:treatyPrefix ?treatyPrefix ;
+		:treatyNumber ?treatyNumber ;
 		:workPackagedThingHasWorkPackagedThingWebLink ?workPackagedThingWebLink ;
 		:laidThingHasLaying ?laying ;
 		:workPackagedThingHasWorkPackage ?workPackage .
@@ -49,6 +51,8 @@ WHERE {
 
 	OPTIONAL { ?treaty :workPackagedThingHasWorkPackagedThingWebLink ?workPackagedThingWebLink . }
 	OPTIONAL { ?treaty :laidThingName ?laidThingName . }
+	OPTIONAL { ?treaty :treatyPrefix ?treatyPrefix . }
+	OPTIONAL { ?treaty :treatyNumber ?treatyNumber . }
 
 	OPTIONAL {
 		?treaty :laidThingHasLaying ?laying .
