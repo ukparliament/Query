@@ -4,11 +4,16 @@ CONSTRUCT {
 	?treaty
 		a :Treaty, :WorkPackagedThing, :LaidThing ;
 		:laidThingName ?laidThingName ;
-		:treatyPrefix ?treatyPrefix ;
-		:treatyNumber ?treatyNumber ;
+		:treatyCommandPaperPrefix ?treatyCommandPaperPrefix ;
+		:treatyCommandPaperNumber ?treatyCommandPaperNumber ;
+		:treatyComingIntoForceNote ?treatyComingIntoForceNote ;
+		:treatyComingIntoForceDate ?treatyComingIntoForceDate ;
 		:workPackagedThingHasWorkPackagedThingWebLink ?workPackagedThingWebLink ;
 		:laidThingHasLaying ?laying ;
-		:workPackagedThingHasWorkPackage ?workPackage .
+		:workPackagedThingHasWorkPackage ?workPackage ;
+		:treatyHasLeadGovernmentOrganisation ?leadGovernmentOrganisation ;
+		:treatyHasSeriesMembership ?seriesMembership ;
+	.
 
 	?workPackage
 		a :WorkPackage ;
@@ -36,8 +41,17 @@ CONSTRUCT {
 
 	?layingBody
 		a :Group ;
-		:groupName ?groupName .
+		:groupName ?layingBodyName .
 
+	?leadGovernmentOrganisation
+		a :Group ;
+		:groupName ?leadGovernmentOrganisationName .
+
+	?seriesMembership
+		a ?seriesMembershipType ;
+		:seriesItemCitation ?seriesItemCitation
+	.
+	
 	?layingPerson
     	a :Person ;
     	:personGivenName ?givenName ;
@@ -51,22 +65,35 @@ WHERE {
 
 	OPTIONAL { ?treaty :workPackagedThingHasWorkPackagedThingWebLink ?workPackagedThingWebLink . }
 	OPTIONAL { ?treaty :laidThingName ?laidThingName . }
-	OPTIONAL { ?treaty :treatyPrefix ?treatyPrefix . }
-	OPTIONAL { ?treaty :treatyNumber ?treatyNumber . }
+	OPTIONAL { ?treaty :treatyCommandPaperPrefix ?treatyCommandPaperPrefix . }
+	OPTIONAL { ?treaty :treatyCommandPaperNumber ?treatyCommandPaperNumber . }
+	OPTIONAL { ?treaty :treatyComingIntoForceNote ?treatyComingIntoForceNote . }
+	OPTIONAL { ?treaty :treatyComingIntoForceDate ?treatyComingIntoForceDate . }
 
 	OPTIONAL {
 		?treaty :laidThingHasLaying ?laying .
 		?laying :layingHasLayingBody ?layingBody .
-		OPTIONAL { ?layingBody :groupName ?groupName . }
+		OPTIONAL { ?layingBody :groupName ?layingBodyName . }
 		OPTIONAL { ?laying :layingDate ?layingDate . }
 		OPTIONAL {
 			?laying :layingHasLayingPerson ?layingPerson ;
-
 			OPTIONAL { ?layingPerson :personGivenName ?givenName . }
             OPTIONAL { ?layingPerson :personFamilyName ?familyName . }
             OPTIONAL { ?layingPerson <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs . }
         }
 	}
+
+	OPTIONAL {
+		?treaty :treatyHasLeadGovernmentOrganisation ?leadGovernmentOrganisation.
+		OPTIONAL { ?leadGovernmentOrganisation :groupName ?leadGovernmentOrganisationName }
+	}
+
+	OPTIONAL {
+		?treaty :treatyHasSeriesMembership ?seriesMembership.
+		?seriesMembership a ?seriesMembershipType.
+		OPTIONAL { ?seriesMembership :seriesItemCitation ?seriesItemCitation }
+	}
+
 	OPTIONAL {
 		?treaty :workPackagedThingHasWorkPackage ?workPackage .
 
