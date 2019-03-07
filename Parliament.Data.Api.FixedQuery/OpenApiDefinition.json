@@ -138,7 +138,7 @@
         }
       }
     },
-    "/transclusion{ext}": {
+    "/transclusion2{ext}": {
       "x-type": "list",
       "get": {
         "parameters": [
