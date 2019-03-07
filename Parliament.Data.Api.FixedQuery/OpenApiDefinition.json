@@ -139,7 +139,7 @@
       }
     },
     "/transclusion{ext}": {
-      "x-type": "single",
+      "x-type": "list",
       "get": {
         "parameters": [
           {
