@@ -1,11 +1,48 @@
-PREFIX : @schemaUri
+PREFIX : <https://transclusionPOC/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-SELECT ?otherClass (COUNT(DISTINCT ?instance) as ?count)
-WHERE {
-	bind (@class as ?class)
-	?instance a ?class.
-	?instance a ?otherClass.
-	filter (!isBlank(?otherClass))
+CONSTRUCT{
+    ?pageSubject 
+        :isPageSubject true;
+        ?actualProperty1 ?pageFirstOrderObject.
+    ?actualProperty1 :label ?label1.
+    
+    ?pageFirstOrderObject ?actualProperty2 ?pageSecondOrderObject.
+    ?actualProperty2 :label ?label2.
+
+    ?pageSecondOrderObject ?actualProperty3 ?pageThirdOrderObject.
+    ?actualProperty3 :label ?label3.
+
+    ?pageThirdOrderObject ?actualProperty4 ?pageFourthOrderObject.
+    ?actualProperty4 :label ?label4.
 }
-GROUP BY ?otherClass
-ORDER BY DESC(?count)
+WHERE {
+	BIND(@class AS ?pageSubject)
+    ?pageSubject a ?mainClass. 
+	?pagePropertyClass :pagePropertyHasMainClass ?mainClass	.
+    OPTIONAL { 
+        ?pageSubject ?pagePropertyClass ?pageFirstOrderObject.
+        ?pageSubject ?actualProperty1 ?pageFirstOrderObject.
+        MINUS {?actualProperty1 a :PageContentProperty}
+        OPTIONAL {?actualProperty1 :label ?label1.}
+        OPTIONAL {
+            ?pageFirstOrderObject ?pagePropertyClass ?pageSecondOrderObject.
+            ?pageFirstOrderObject ?actualProperty2 ?pageSecondOrderObject.
+            MINUS {?actualProperty2 a :PageContentProperty}
+            OPTIONAL {?actualProperty2 :label ?label2.}
+            OPTIONAL {
+                ?pageSecondOrderObject ?pagePropertyClass ?pageThirdOrderObject.
+                ?pageSecondOrderObject ?actualProperty3 ?pageThirdOrderObject.
+                MINUS {?actualProperty3 a :PageContentProperty}
+                OPTIONAL {?actualProperty3 :label ?label3.}
+                OPTIONAL {
+                    ?pageThirdOrderObject ?pagePropertyClass ?pageFourthOrderObject.
+                    ?pageThirdOrderObject ?actualProperty4 ?pageFourthOrderObject.
+                    MINUS {?actualProperty4 a :PageContentProperty}
+                    OPTIONAL {?actualProperty4 :label ?label4.}
+                }
+            }
+        }
+    }
+}
