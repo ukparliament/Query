@@ -19,7 +19,7 @@ CONSTRUCT{
     ?actualProperty4 :label ?label4.
 }
 WHERE {
-	BIND(@id AS ?pageSubject)
+	BIND(@subject_id AS ?pageSubject)
     ?pageSubject a ?mainClass. 
 	?pagePropertyClass :pagePropertyHasMainClass ?mainClass	.
     OPTIONAL { 

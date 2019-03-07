@@ -149,7 +149,7 @@
             "$ref": "#/components/parameters/formatGraph"
           },
           {
-            "name": "id",
+            "name": "subject_id",
             "in": "query",
             "description": "instanceUri",
             "x-type": "instanceUri",
