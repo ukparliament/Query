@@ -19,7 +19,6 @@ CONSTRUCT{
 }
 WHERE {
 	BIND(@subject_id AS ?pageSubject)
-
     ?pageSubject a ?mainClass. 
 	?pagePropertyClass :pagePropertyHasMainClass ?mainClass	.
     OPTIONAL { 
