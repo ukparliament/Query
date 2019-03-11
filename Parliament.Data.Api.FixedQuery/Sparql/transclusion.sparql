@@ -1,5 +1,5 @@
-PREFIX : <https://transclusionPOC/>
-PREFIX id: <https://id.transclusionPOC/>
+PREFIX : <https://transclusionpoc/>
+PREFIX id: <https://id.transclusionpoc/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
@@ -19,7 +19,7 @@ CONSTRUCT{
     ?actualProperty4 :label ?label4.
 }
 WHERE {
-	BIND(id:Chris AS ?pageSubject)
+	BIND(@subject AS ?pageSubject)
     ?pageSubject a ?mainClass. 
 	?pagePropertyClass :pagePropertyHasMainClass ?mainClass	.
     OPTIONAL { 

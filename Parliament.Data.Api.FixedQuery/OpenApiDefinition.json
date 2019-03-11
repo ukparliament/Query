@@ -147,8 +147,18 @@
           },
           {
             "$ref": "#/components/parameters/formatGraph"
+          },
+          {
+            "name": "subject",
+            "in": "query",
+            "description": "instanceUri",
+            "x-type": "instanceUri",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
           }
-
         ],
         "responses": {
           "200": {
