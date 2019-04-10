@@ -115,6 +115,7 @@ WHERE {
       UNION 
       {
         ?item :businessItemHasWorkPackage ?package .
+		?package :workPackageHasProcedure ?procedure .
     
         OPTIONAL { ?item :businessItemDate ?itemDate }
         OPTIONAL { ?item :businessItemHasBusinessItemWebLink ?itemLink }
