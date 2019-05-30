@@ -62,7 +62,6 @@ CONSTRUCT {
         :houseName ?houseName .
 }
 WHERE {
-    BIND(@treaty_id as ?treaty)
     ?treaty
         a :Treaty ;
         :treatyName ?treatyName ;
