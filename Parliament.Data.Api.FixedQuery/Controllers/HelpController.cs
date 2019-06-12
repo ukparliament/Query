@@ -181,6 +181,7 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
 <html>
     <head>
         <meta charset='utf-8'>
+        <base href='{HttpContext.Current.Request.Url.Scheme}://{HttpContext.Current.Request.Url.Host}/query/'>
     </head>
     <body>
         <ul>{string.Join(string.Empty, from link in links select $"<li><a href='{link}'>{link}</a></li>")}</ul>
