@@ -28,10 +28,10 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
                 { "Vale of Glamorgan", "AEyWGYaP" },
                 { "Labour", "LEYIBvV9" },
                 { "Yeovil Lib Dems Contact", "wk1atnfh" },
-                { "56th Parliament", "b0t56VVL"},
-                { "Treasury Committee", "cLjFRjRt"},
-                { "How to submit a written question online","8MHJ9zSp"},
-                { "Oral questions", "yDYJSViV"}
+                { "56th Parliament", "b0t56VVL" },
+                { "Treasury Committee", "cLjFRjRt" },
+                { "How to submit a written question online", "8MHJ9zSp" },
+                { "Oral questions", "yDYJSViV" }
             };
 
             var links = new string[] {
@@ -55,7 +55,6 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
 
                 // MemberIndex route exists on person controller
                 this.Url.Route("WithoutExtension", new { name = "member_index" }),
-
                 this.Url.Route("WithoutExtension", new { name = "member_by_initial", initial = "y" }),
                 this.Url.Route("WithoutExtension", new { name = "member_current" }),
                 this.Url.Route("WithoutExtension", new { name = "member_current_by_initial", initial = "z" }),
@@ -160,21 +159,25 @@ namespace Parliament.Data.Api.FixedQuery.Controllers
                 this.Url.Route("WithoutExtension", new { name = "region_constituencies_a_to_z", region_code = "E15000001" }),
                 this.Url.Route("WithoutExtension", new { name = "region_constituencies_by_initial", region_code = "E15000001", initial = "h" }),
 
+                this.Url.Route("WithoutExtension", new { name = "treaty" }),
+                this.Url.Route("WithoutExtension", new { name = "treaty_by_id", treaty_id = "p4J3kpGD" }),
+
                 this.Url.Route("WithoutExtension", new { name = "formal_body_index" }),
                 this.Url.Route("WithoutExtension", new { name = "formal_body_by_id", formal_body_id = helpIds["Treasury Committee"] }),
                 this.Url.Route("WithoutExtension", new { name = "formal_body_membership", formal_body_id = helpIds["Treasury Committee"] }),
 
                 this.Url.Route("WithoutExtension", new { name = "person_by_mnis_id", person_mnis_id = "185" }),
                 this.Url.Route("WithoutExtension", new { name = "constituency_current_by_proximity_to_point", border_range = "10", centre_point_range = "20", latitude = "51.496130", longitude = "-0.125718" }),
-                this.Url.Route("WithoutExtension", new { name = "webarticle_by_id", webarticle_id = helpIds["How to submit a written question online"]}),
-                this.Url.Route("WithoutExtension", new { name = "concept_by_id", concept_id = helpIds["Oral questions"]}),
-                this.Url.Route("WithoutExtension", new { name = "concept_index"})
+                this.Url.Route("WithoutExtension", new { name = "webarticle_by_id", webarticle_id = helpIds["How to submit a written question online"] }),
+
+                this.Url.Route("WithoutExtension", new { name = "concept_index" }),
+                this.Url.Route("WithoutExtension", new { name = "concept_by_id", concept_id = helpIds["Oral questions"] })
             } as IEnumerable<string>;
 
             // Make links relative, remove application virtual path (in this case, a trailing forward slash).
             links = from link in links select HttpUtility.UrlDecode(link).Substring(this.Configuration.VirtualPathRoot.Length);
 
-            var response = Request.CreateResponse();
+            var response = this.Request.CreateResponse();
 
             response.Content = new StringContent($@"
 <!DOCTYPE html>
